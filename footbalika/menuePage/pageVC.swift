@@ -11,6 +11,7 @@ import UIKit
 class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewControllerDelegate  {
     
     
+    
     let pageVC3 = UIPageControl()
     lazy var VCArr : [UIViewController] = {
         
@@ -46,6 +47,7 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("Initialize")
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollFunction(notification:)), name: Notification.Name("scrollToPage"), object: nil)
         
         self.pageVC3.backgroundColor = UIColor.init(red: 243/255, green: 243/255, blue: 244/255, alpha: 1.0)
