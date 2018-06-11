@@ -53,6 +53,7 @@ class matchViewController: UIViewController {
         eliminateCupLabel.AttributesOutLine(font: iPadfonts, title: "جام حذفی", strokeWidth: -4.0)
         startLabelForeGround.text =  "شروع بازی"
         startLabelForeGround.font = iPadfonts
+            
         }
         
         self.startLabelForeGround.minimumScaleFactor = 0.5
@@ -63,6 +64,7 @@ class matchViewController: UIViewController {
         self.startLabelForeGround.adjustsFontSizeToFitWidth = true
         self.friendlyLabel.adjustsFontSizeToFitWidth = true
         self.eliminateCupLabel.adjustsFontSizeToFitWidth = true
+
 
         // Do any additional setup after loading the view.
     }

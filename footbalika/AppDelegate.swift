@@ -16,6 +16,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        if UIDevice().userInterfaceIdiom == .phone {
+            if UIScreen.main.nativeBounds.height == 2436 {
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                let storyBoard = UIStoryboard(name: "iPhoneX", bundle: nil)
+                
+                let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+                self.window?.rootViewController = viewController
+                self.window?.makeKeyAndVisible()
+                
+            } else {
+                self.window = UIWindow(frame: UIScreen.main.bounds)
+                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+                
+                let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+                self.window?.rootViewController = viewController
+                self.window?.makeKeyAndVisible()
+            }
+            
+        } else {
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            let storyBoard = UIStoryboard(name: "iPad", bundle: nil)
+            
+            let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+            self.window?.rootViewController = viewController
+            self.window?.makeKeyAndVisible()
+        }
         return true
     }
 
@@ -40,7 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
 }
 

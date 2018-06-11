@@ -36,11 +36,17 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         }
     }
     
+    
+    var indexOfCurrentPage = 2
     @objc func scrollFunction(notification: Notification){
         if let index = notification.userInfo?["pageIndex"] as? Int {
-            setViewControllers([VCArr[index]], direction: .forward, animated: true, completion: nil)
+            if indexOfCurrentPage < index {
+                setViewControllers([VCArr[index]], direction: .forward, animated: true, completion: nil)
+            } else {
+                setViewControllers([VCArr[index]], direction: .reverse, animated: true, completion: nil)
+            }
+            indexOfCurrentPage = index
         }
-        
     }
     
     override func viewDidLoad() {
@@ -69,10 +75,10 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
             setViewControllers([firstVC] , direction: .reverse , animated: true, completion: nil)
         }
         
-        setViewControllers([VCArr[2]], direction: .forward, animated: true, completion: nil)
-//        let pageIndexDict:[String: Int] = ["pageIndex": 2]
-//        NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-//        NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
+        setViewControllers([VCArr[2]], direction: .reverse, animated: false, completion: nil)
+        setViewControllers([VCArr[2]], direction: .forward, animated: false , completion: nil)
+
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -133,6 +139,7 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         let pageIndexDict:[String: Int] = ["button": viewControllerIndex]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         
+
         return VCArr[nextIndex]
     }
     
@@ -148,6 +155,8 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         
         return firstViewControllerIndex
     }
+    
+    
 }
 
 

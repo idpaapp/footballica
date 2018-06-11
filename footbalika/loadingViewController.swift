@@ -7,8 +7,7 @@
 //
 
 import UIKit
-
-//let StrokeFonts : StrokeFont! = StrokeFont()
+import SQLite3
 
 class loadingViewController: UIViewController {
     
@@ -43,21 +42,52 @@ class loadingViewController: UIViewController {
     
     var fonts = UIFont(name: "DPA_Game", size: 20)!
     var iPadFonts = UIFont(name: "DPA_Game", size: 35)!
+    
+    let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 
+    @objc func dataBase() {
+        if launchedBefore  {
+            print("Not first launch.")
+            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent("Assets.sqlite")
+            var db: OpaquePointer?
+            if sqlite3_open(fileURL.path , &db) != SQLITE_OK {
+                print("error opening database")
+            } else {
+                print(fileURL.path)
+                print("Ok")
+            }
+            
+        } else {
+            print("First launch, setting UserDefault.")
+            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                .appendingPathComponent("Assets.sqlite")
+            var db: OpaquePointer?
+            if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
+                print("error opening database")
+            } else {
+                print("Ok")
+            }
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+            
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-                    
-//            if let viewController = UIStoryboard(name: "iPhoneX", bundle: nil).instantiateViewController(withIdentifier: "loadingViewController") as? loadingViewController {
-//                if let navigator = navigationController {
-//                    navigator.pushViewController(viewController, animated: true)
-//                }
-//            }
-
-
+        
+        dataBase()
         
         
-//        loadingProgressLabel.attributedText = NSMutableAttributedString(string: "Test me i have color.", attributes: strokeTextAttributes)
-
+        //            if let viewController = UIStoryboard(name: "iPhoneX", bundle: nil).instantiateViewController(withIdentifier: "loadingViewController") as? loadingViewController {
+        //                if let navigator = navigationController {
+        //                    navigator.pushViewController(viewController, animated: true)
+        //                }
+        //            }
+        
+        
+        
         
         ballTimer = Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(ballProgressing), userInfo: nil, repeats: true)
         
@@ -77,9 +107,9 @@ class loadingViewController: UIViewController {
             currentProgress = currentProgress + 0.01
             self.loadingProgress.progress = currentProgress
             if UIDevice().userInterfaceIdiom == .phone {
-            self.loadingProgressLabel.AttributesOutLine(font: fonts , title: "\(Int(currentProgress * 100))%", strokeWidth: -6.0)
+                self.loadingProgressLabel.AttributesOutLine(font: fonts , title: "\(Int(currentProgress * 100))%", strokeWidth: -6.0)
             } else {
-            self.loadingProgressLabel.AttributesOutLine(font: iPadFonts , title: "\(Int(currentProgress * 100))%", strokeWidth: -6.0)
+                self.loadingProgressLabel.AttributesOutLine(font: iPadFonts , title: "\(Int(currentProgress * 100))%", strokeWidth: -6.0)
             }
         }
     }

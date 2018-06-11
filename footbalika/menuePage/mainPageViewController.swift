@@ -38,6 +38,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollFunction(notification:)), name: Notification.Name("selectButtonPage"), object: nil)
