@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 @IBDesignable class RoundButton: UIButton {
     
@@ -26,8 +27,10 @@ import UIKit
             self.transform = CGAffineTransform.identity
         })
     }
-    
+        
+    let playingSound = soundPlay()
     @objc func buttonUpAndDown(_ sender: UIButton) {
+        playingSound.playClick()
         UIView.animate(withDuration: 0.5, animations: {
             self.transform = CGAffineTransform(scaleX: 0.95, y: 0.95)
         }, completion : { (finish)  in

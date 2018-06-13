@@ -33,9 +33,12 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         cell.storeImage.image = UIImage(named : "\(storeImages[indexPath.item])")
         if UIDevice().userInterfaceIdiom == .phone {
         cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(storeTitles[indexPath.item])", strokeWidth: -4.0)
+        cell.storeLabelForeGround.font = iPhonefonts
         } else {
             cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(storeTitles[indexPath.item])", strokeWidth: -4.0)
+            cell.storeLabelForeGround.font = iPadfonts
         }
+        cell.storeLabelForeGround.text = "\(storeTitles[indexPath.item])"
         
         return cell
     }

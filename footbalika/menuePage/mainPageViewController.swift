@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class mainPageViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
@@ -36,16 +37,19 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     
     var rotateTimer : Timer!
     
+    let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
+    let playingMusic = musicPlay()
+
     override func viewDidLoad() {
         super.viewDidLoad()
     
-        
+        if playMenuMusic == true {
+            playingMusic.playMusic()
+        } else {
+            
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollFunction(notification:)), name: Notification.Name("selectButtonPage"), object: nil)
-        
-//        let pageIndexDict:[String: Int] = ["pageIndex": selectedItem]
-//        NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-//        NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         
         self.menuButtonsCV.selectItem(at: IndexPath(item: 2, section: 0), animated: true, scrollPosition: UICollectionViewScrollPosition.centeredVertically)
         // Do any additional setup after loading the view.
@@ -68,6 +72,8 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
         // Dispose of any resources that can be recreated.
     }
     
+    let playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
+    let playingSound = soundPlay()
     var selectedItem = 2
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.view.isUserInteractionEnabled = false
@@ -79,6 +85,9 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
             //            self.menuButtonsCV.layoutIfNeeded()
             //            self.menuButtonsCV.layoutAttributesForItem(at: indexPath)
         }
+        if playgameSounds == true {
+            playingSound.playClick()
+        } else {}
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
             self.view.isUserInteractionEnabled = true
         })

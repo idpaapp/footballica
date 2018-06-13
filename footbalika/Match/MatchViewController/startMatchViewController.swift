@@ -43,7 +43,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        if UIDevice().userInterfaceIdiom == .phone {
+            return 90
+        } else {
+            return 130
+        }
     }
     
 

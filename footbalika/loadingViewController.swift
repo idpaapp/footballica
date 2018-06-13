@@ -20,7 +20,7 @@ class loadingViewController: UIViewController {
     var timer : Timer!
     var ballTimer : Timer!
     var currentProgress = Float()
-    
+    var AppVersion = String()
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -44,10 +44,13 @@ class loadingViewController: UIViewController {
     var iPadFonts = UIFont(name: "DPA_Game", size: 35)!
     
     let launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+    let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
+    let playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
+    let alerts = UserDefaults.standard.bool(forKey: "alerts")
 
     @objc func dataBase() {
         if launchedBefore  {
-            print("Not first launch.")
+//            print("Not first launch.")
             let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             .appendingPathComponent("Assets.sqlite")
             var db: OpaquePointer?
@@ -55,40 +58,40 @@ class loadingViewController: UIViewController {
                 print("error opening database")
             } else {
                 print(fileURL.path)
-                print("Ok")
+//                print("Ok")
             }
             
         } else {
-            print("First launch, setting UserDefault.")
+//            print("First launch, setting UserDefault.")
             let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
                 .appendingPathComponent("Assets.sqlite")
             var db: OpaquePointer?
             if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
                 print("error opening database")
             } else {
-                print("Ok")
+//                print("Ok")
             }
             UserDefaults.standard.set(true, forKey: "launchedBefore")
-            
+            UserDefaults.standard.set(true, forKey: "menuMusic")
+            UserDefaults.standard.set(true, forKey: "gameSounds")
         }
         
     }
+    
+    
+    func versionCheck() {
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            print("version : \(version)")
+            AppVersion = version
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         dataBase()
-        
-        
-        //            if let viewController = UIStoryboard(name: "iPhoneX", bundle: nil).instantiateViewController(withIdentifier: "loadingViewController") as? loadingViewController {
-        //                if let navigator = navigationController {
-        //                    navigator.pushViewController(viewController, animated: true)
-        //                }
-        //            }
-        
-        
-        
-        
+        versionCheck()
         ballTimer = Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(ballProgressing), userInfo: nil, repeats: true)
         
         self.mainProgressBackGround.layer.cornerRadius = 5

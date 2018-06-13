@@ -77,7 +77,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         if UIDevice().userInterfaceIdiom == .phone {
         return 180
         } else {
-        return 350
+        return 250
         }
     }
     

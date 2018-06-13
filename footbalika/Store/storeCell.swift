@@ -12,11 +12,14 @@ class storeCell: UICollectionViewCell {
     
     @IBOutlet weak var storeLabel: UILabel!
     @IBOutlet weak var storeImage: UIImageView!
+    @IBOutlet weak var storeLabelForeGround: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         self.storeLabel.minimumScaleFactor = 0.5
         self.storeLabel.adjustsFontSizeToFitWidth = true
+        self.storeLabelForeGround.minimumScaleFactor = 0.5
+    self.storeLabelForeGround.adjustsFontSizeToFitWidth = true
     }
     
 }

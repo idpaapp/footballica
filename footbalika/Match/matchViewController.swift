@@ -39,6 +39,7 @@ class matchViewController: UIViewController {
     var fonts = UIFont(name: "DPA_Game", size: 20)!
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
+    var menuState = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         if UIDevice().userInterfaceIdiom == .phone  {
@@ -71,8 +72,7 @@ class matchViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-//        scrollPageViewController(index: 2)
-//        menuButtonChanged(index: 2)
+
         let pageIndexDict:[String: Int] = ["button": 2]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
@@ -80,8 +80,17 @@ class matchViewController: UIViewController {
     }
     
     @IBAction func achievements(_ sender: RoundButton) {
+        self.menuState = "Achievements"
         self.performSegue(withIdentifier: "achievement", sender: self)
     }
+    
+    @IBAction func setting(_ sender: RoundButton) {
+        self.menuState = "Settings"
+        self.performSegue(withIdentifier: "achievement", sender: self)
+    }
+    
+    
+    
     
     @IBAction func eliminateCupAction(_ sender: RoundButton) {
         scrollPageViewController(index: 1)
@@ -92,7 +101,11 @@ class matchViewController: UIViewController {
         self.performSegue(withIdentifier: "startingMatch", sender: self)
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vC = segue.destination as? menuViewController {
+            vC.menuState = self.menuState
+        }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
