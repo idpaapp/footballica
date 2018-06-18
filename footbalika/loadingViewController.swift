@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import SQLite3
+import RealmSwift
 
 class loadingViewController: UIViewController {
     
@@ -21,6 +21,7 @@ class loadingViewController: UIViewController {
     var ballTimer : Timer!
     var currentProgress = Float()
     var AppVersion = String()
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -47,37 +48,6 @@ class loadingViewController: UIViewController {
     let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
     let playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
     let alerts = UserDefaults.standard.bool(forKey: "alerts")
-
-    @objc func dataBase() {
-        if launchedBefore  {
-//            print("Not first launch.")
-            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            .appendingPathComponent("Assets.sqlite")
-            var db: OpaquePointer?
-            if sqlite3_open(fileURL.path , &db) != SQLITE_OK {
-                print("error opening database")
-            } else {
-                print(fileURL.path)
-//                print("Ok")
-            }
-            
-        } else {
-//            print("First launch, setting UserDefault.")
-            let fileURL = try! FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-                .appendingPathComponent("Assets.sqlite")
-            var db: OpaquePointer?
-            if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
-                print("error opening database")
-            } else {
-//                print("Ok")
-            }
-            UserDefaults.standard.set(true, forKey: "launchedBefore")
-            UserDefaults.standard.set(true, forKey: "menuMusic")
-            UserDefaults.standard.set(true, forKey: "gameSounds")
-        }
-        
-    }
-    
     
     func versionCheck() {
         if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
@@ -87,11 +57,123 @@ class loadingViewController: UIViewController {
     }
     
     
+    var loadGameData : gameDataModel.Response? = nil;
+    
+    var gameTypesID = [Int]()
+    var gameTypesTitle = [String]()
+    var gameTypesImg_logo = [String]()
+    var existingIDs = [Int]()
+    var existingTitles = [String]()
+    var writetblMatchTypes = readAndWritetblMatchTypes()
+    @objc func gameData() {
+        
+        PubProc.HandleDataBase.readJson(wsName: "ws_loadGameData", JSONStr: "{'matchID':'0'}") { data, error in
+            
+            if data != nil {
+                
+                print(data ?? "")
+                
+                do {
+                    self.loadGameData = try JSONDecoder().decode(gameDataModel.Response.self , from : data!)
+                    print((self.loadGameData?.response?.userXps[0].level!)!)
+                    print((self.loadGameData?.status!)!)
+                    print((self.loadGameData?.response?.gameTypes[0].id!)!)
+                    print((self.loadGameData?.response?.giftRewards?.change_name!)!)
+                    DispatchQueue.main.async {
+                    for i in 0...(self.loadGameData?.response?.gameTypes.count)! - 1 {
+                        let gametID = Int((self.loadGameData?.response?.gameTypes[i].id!)!)
+                        self.gameTypesID.append(gametID!)
+                        self.gameTypesTitle.append((self.loadGameData?.response?.gameTypes[i].title!)!)
+                    self.gameTypesImg_logo.append((self.loadGameData?.response?.gameTypes[i].img_logo!)!)
+                        self.writetblMatchTypes.writeToDBtblMatchTypes(gameTypesID: self.gameTypesID[i], gameTypesTitle: self.gameTypesTitle[i], gameTypesImg_logo: self.gameTypesImg_logo[i])
+
+                    }
+                        
+//                    self.writeToDBtblMatchTypes()
+                    }
+                } catch {
+                    print(error)
+                }
+            } else {
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            
+            }.resume()
+    }
+    
+    func writeToDBtblMatchTypes() {
+        DispatchQueue.main.async {
+            if self.tblMatchTypesArray.count != 0 {
+                print(self.tblMatchTypesArray.count)
+                    for i in 0...self.tblMatchTypesArray.count - 1 {
+                        let item = self.tblMatchTypesArray[i]
+                        self.existingIDs.append(item.id)
+                        self.existingTitles.append(item.title)
+                        print(item.img_logo)
+                    }
+//                    print(self.existingIDs)
+//                    print(self.existingTitles)
+//                    print(self.gameTypesID)
+
+                let a = self.existingIDs
+                let b = self.gameTypesID
+                let result = zip(a, b).enumerated().filter() {
+                    $1.0 == $1.1
+                    }.map{$0.0}
+                print(result)
+            
+            } else {
+                do {
+                    for i in 0...self.gameTypesID.count - 1 {
+                    let realms = try! Realm()
+                    try realms.write({
+                            let TblMatchTypes = tblMatchTypes()
+                            TblMatchTypes.id = self.gameTypesID[i]
+                            print(TblMatchTypes.id)
+                            print(self.gameTypesID[i])
+                            TblMatchTypes.title = self.gameTypesTitle[i]
+                            TblMatchTypes.img_logo = self.gameTypesImg_logo[i]
+                        realms.add(TblMatchTypes, update: false)
+                        print(" variable stored.")
+                        print(self.tblMatchTypesArray.count)
+                    })
+                    }
+                }catch let error {
+                    print(error)
+                }
+        }
+        }
+    }
+    
+    var realm : Realm!
+    var tblMatchTypesArray : Results<tblMatchTypes> {
+        get {
+            return realm.objects(tblMatchTypes.self)
+        }
+        
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        dataBase()
+
+        realm = try! Realm()
+        gameData()
         versionCheck()
+        
+        if self.launchedBefore  {
+
+        } else {
+
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+            UserDefaults.standard.set(true, forKey: "menuMusic")
+            UserDefaults.standard.set(true, forKey: "gameSounds")
+            
+            
+        }
+        
         ballTimer = Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(ballProgressing), userInfo: nil, repeats: true)
         
         self.mainProgressBackGround.layer.cornerRadius = 5
@@ -99,13 +181,23 @@ class loadingViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(progressing), userInfo: nil, repeats: true)
         self.loadingProgress.progress = 0
         self.loadingProgressLabel.text = "۰٪"
+        if launchedBefore  {
+//            print("Not first launch.")
+            
+        } else {
+            
+//            print("First launch, setting UserDefault.")
+            UserDefaults.standard.set(true, forKey: "launchedBefore")
+            UserDefaults.standard.set(true, forKey: "menuMusic")
+            UserDefaults.standard.set(true, forKey: "gameSounds")
+        }
     }
-    
+  
     @objc func progressing() {
         if currentProgress > 1.0 {
             timer.invalidate()
             ballTimer.invalidate()
-            self.performSegue(withIdentifier: "showMainMenu", sender: self)
+//            self.performSegue(withIdentifier: "showMainMenu", sender: self)
         } else {
             currentProgress = currentProgress + 0.01
             self.loadingProgress.progress = currentProgress
