@@ -88,7 +88,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
         if playgameSounds == true {
             playingSound.playClick()
         } else {}
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
             self.view.isUserInteractionEnabled = true
         })
     }

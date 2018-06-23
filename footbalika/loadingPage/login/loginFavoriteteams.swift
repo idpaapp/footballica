@@ -8,7 +8,6 @@
 
 import Foundation
 
-//favoriteteams
 import Foundation
 public class loginFavoriteteams {
     public struct favoriteteams : Decodable {

@@ -9,7 +9,7 @@
 import Foundation
 
 public class login {
-    var res : loginStructure.Response? = nil;
+    static var res : loginStructure.Response? = nil;
     public func loging(userid : String) {
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false'}") { data, error in
             DispatchQueue.main.async {
@@ -20,16 +20,18 @@ public class login {
 
                 do {
                     
-                    self.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                    login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
 //                    print((self.res?.response?.mainInfo?.badge_name!)!)
                     
                     let nc = NotificationCenter.default
                     nc.post(name: Notification.Name("updateProgress"), object: nil)
-
+                    loadShop.init().loadingShop(userid: userid)
                 } catch {
+                    self.loging(userid: userid)
                     print(error)
                 }
             } else {
+                self.loging(userid: userid)
                 print("Error Connection")
                 print(error as Any)
                 // handle error

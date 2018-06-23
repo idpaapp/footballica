@@ -52,7 +52,6 @@ class loadingViewController: UIViewController {
         }
     }
     
-    
     var loadGameData : gameDataModel.Response? = nil;
     var writetblMatchTypes = readAndWritetblMatchTypes()
     var writeChargeTypes = readAndWritetblChargeTypes()
@@ -114,9 +113,8 @@ class loadingViewController: UIViewController {
                 print("Error Connection")
                 print(error as Any)
                 // handle error
+                }
             }
-            }
-            
             }.resume()
     }
 
@@ -127,13 +125,13 @@ class loadingViewController: UIViewController {
     var playMenuMusic = Bool()
     var playgameSounds = Bool()
     var alerts = Bool()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let nc = NotificationCenter.default
 
         nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
 
-        
         realm = try! Realm()
         gameData()
         versionCheck()
@@ -163,13 +161,12 @@ class loadingViewController: UIViewController {
 //        timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(progressing), userInfo: nil, repeats: true)
         self.loadingProgress.progress = 0
         self.loadingProgressLabel.text = "۰٪"
-
     }
     public var endProgress = Float()
     @objc public func progressing() {
         
         DispatchQueue.main.async {
-            if self.currentProgress > 1.0 {
+            if self.currentProgress >= 0.6 {
                 self.timer.invalidate()
                 self.ballTimer.invalidate()
             self.performSegue(withIdentifier: "showMainMenu", sender: self)
