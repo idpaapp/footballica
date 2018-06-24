@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class matchViewController: UIViewController {
 
@@ -15,6 +16,17 @@ class matchViewController: UIViewController {
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var friendlyLabel: UILabel!
     @IBOutlet weak var eliminateCupLabel: UILabel!
+    
+    @IBOutlet weak var mainCupImage: UIImageView!
+    
+    @IBOutlet weak var avatar: UIImageView!
+    @IBOutlet weak var cup: UILabel!
+    @IBOutlet weak var level: UILabel!
+    @IBOutlet weak var xp: UILabel!
+    @IBOutlet weak var money: UILabel!
+    @IBOutlet weak var coin: UILabel!
+    @IBOutlet weak var xpProgress: UIProgressView!
+    @IBOutlet weak var xpProgressBackGround: UIView!
     
     @IBAction func addMoney(_ sender: UIButton) {
         scrollPageViewController(index: 4)
@@ -36,24 +48,44 @@ class matchViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
     }
     
-    var fonts = UIFont(name: "DPA_Game", size: 20)!
-    var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
+//     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
+//     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
     var menuState = String()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        level.text = (login.res?.response?.mainInfo?.level)!
+        money.text = (login.res?.response?.mainInfo?.cashs)!
+        xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
+        coin.text = (login.res?.response?.mainInfo?.coins)!
+        xp.minimumScaleFactor = 0.5
+        xp.adjustsFontSizeToFitWidth = true
+        xp.alpha = 0.0
+        xpProgressBackGround.layer.cornerRadius  = 3
+        profileName.text = (login.res?.response?.mainInfo?.username)!
+        cup.text = (login.res?.response?.mainInfo?.cups)!
+        self.xpProgress.progress = 0.0
+        let urlAvatar = "http://volcan.ir/adelica/images/avatars/\((login.res?.response?.mainInfo?.avatar)!)"
+        let urlsurlAvatar = URL(string: urlAvatar)
+        avatar.kf.setImage(with: urlsurlAvatar ,options:[.transition(ImageTransition.fade(0.5))])
+        
+        let url = "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)"
+        
+        let urls = URL(string: url)
+        mainCupImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
         if UIDevice().userInterfaceIdiom == .phone  {
-        startLabel.AttributesOutLine(font: fonts, title: "شروع بازی", strokeWidth: 6.0)
+        startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
         friendlyLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "دوستانه", strokeWidth: -4.0)
         eliminateCupLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "جام حذفی", strokeWidth: -4.0)
         startLabelForeGround.text =  "شروع بازی"
-        startLabelForeGround.font = fonts
+        startLabelForeGround.font = fonts.init().iPhonefonts
         } else {
-        startLabel.AttributesOutLine(font: iPadfonts, title: "شروع بازی", strokeWidth: -4.0)
-        friendlyLabel.AttributesOutLine(font: iPadfonts, title: "دوستانه", strokeWidth: -4.0)
-        eliminateCupLabel.AttributesOutLine(font: iPadfonts, title: "جام حذفی", strokeWidth: -4.0)
+        startLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "شروع بازی", strokeWidth: -4.0)
+        friendlyLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "دوستانه", strokeWidth: -4.0)
+        eliminateCupLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "جام حذفی", strokeWidth: -4.0)
         startLabelForeGround.text =  "شروع بازی"
-        startLabelForeGround.font = iPadfonts
+        startLabelForeGround.font = fonts.init().iPadfonts
             
         }
         
@@ -65,18 +97,22 @@ class matchViewController: UIViewController {
         self.startLabelForeGround.adjustsFontSizeToFitWidth = true
         self.friendlyLabel.adjustsFontSizeToFitWidth = true
         self.eliminateCupLabel.adjustsFontSizeToFitWidth = true
-
-
-        // Do any additional setup after loading the view.
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-
         let pageIndexDict:[String: Int] = ["button": 2]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-
+        self.xpProgress.progress = 0.0
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                self.xp.alpha = 1.0                
+            })
+        UIView.animate(withDuration: 1.0, animations: { () -> Void in
+            self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
+        })
+        }
     }
     
     @IBAction func achievements(_ sender: RoundButton) {
@@ -105,6 +141,14 @@ class matchViewController: UIViewController {
         if let vC = segue.destination as? menuViewController {
             vC.menuState = self.menuState
         }
+    }
+    
+    @IBAction func showLeagus(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "leagueShow", sender: self)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.xp.alpha = 0.0
     }
     
     override func didReceiveMemoryWarning() {

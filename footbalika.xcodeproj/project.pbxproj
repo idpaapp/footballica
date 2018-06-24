@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5C2AC1AF20CFA3F10029F8CA /* menu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C2AC1AE20CFA3F10029F8CA /* menu.mp3 */; };
 		5C2AC1B120CFA76D0029F8CA /* click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C2AC1B020CFA76C0029F8CA /* click.mp3 */; };
+		5C2AEF4F20DE715B00C5EEA6 /* leaguesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2AEF4E20DE715B00C5EEA6 /* leaguesViewController.swift */; };
+		5C2AEF5120DE73AF00C5EEA6 /* leagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2AEF5020DE73AF00C5EEA6 /* leagueCell.swift */; };
 		5C34C91720CFD6CF0095B968 /* achievementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C34C91620CFD6CF0095B968 /* achievementsViewController.swift */; };
 		5C43CC2720D772D900E25F57 /* tblMatchTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C43CC2620D772D900E25F57 /* tblMatchTypes.swift */; };
 		5C4E36E120D911AE00B1DAB0 /* loginnots_achv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4E36E020D911AE00B1DAB0 /* loginnots_achv.swift */; };
@@ -81,6 +83,8 @@
 /* Begin PBXFileReference section */
 		5C2AC1AE20CFA3F10029F8CA /* menu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = menu.mp3; sourceTree = "<group>"; };
 		5C2AC1B020CFA76C0029F8CA /* click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = click.mp3; sourceTree = "<group>"; };
+		5C2AEF4E20DE715B00C5EEA6 /* leaguesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = leaguesViewController.swift; sourceTree = "<group>"; };
+		5C2AEF5020DE73AF00C5EEA6 /* leagueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = leagueCell.swift; sourceTree = "<group>"; };
 		5C34C91620CFD6CF0095B968 /* achievementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = achievementsViewController.swift; sourceTree = "<group>"; };
 		5C43CC2620D772D900E25F57 /* tblMatchTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tblMatchTypes.swift; sourceTree = "<group>"; };
 		5C4E36E020D911AE00B1DAB0 /* loginnots_achv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginnots_achv.swift; sourceTree = "<group>"; };
@@ -190,6 +194,15 @@
 			path = StoryBoard;
 			sourceTree = "<group>";
 		};
+		5C2AEF4D20DE714100C5EEA6 /* leagues */ = {
+			isa = PBXGroup;
+			children = (
+				5C2AEF4E20DE715B00C5EEA6 /* leaguesViewController.swift */,
+				5C2AEF5020DE73AF00C5EEA6 /* leagueCell.swift */,
+			);
+			path = leagues;
+			sourceTree = "<group>";
+		};
 		5C2B690620CD2B11001DA19E /* Match */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +211,7 @@
 				5C6ED3D320CFEA6F005DF73F /* BallThumb.swift */,
 				5C6ED3D520CFF5A8005DF73F /* settingsCell.swift */,
 				5CADF1E020D0DFC8001A24FD /* googleEntranceCell.swift */,
+				5C2AEF4D20DE714100C5EEA6 /* leagues */,
 				5C202D9220CE5B64008FA1AB /* Achevements */,
 				5C84D53320CD07CE00A9DC67 /* MatchViewController */,
 			);
@@ -542,11 +556,13 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-footbalika/Pods-footbalika-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 			);
@@ -596,6 +612,7 @@
 				5CAEEFFC20D648FD00514842 /* giftRewards.swift in Sources */,
 				5CBB992720DE095300C17884 /* loadShopStructure.swift in Sources */,
 				5C9FFCEB20D8E811007A11C0 /* tblStadiums.swift in Sources */,
+				5C2AEF5120DE73AF00C5EEA6 /* leagueCell.swift in Sources */,
 				5CAEEFF420D647B600514842 /* gameLeagues.swift in Sources */,
 				5CBB993220DE1D8400C17884 /* loadingAchievementsStructure.swift in Sources */,
 				5C765C2520D7B36E0026539E /* readAndWritetblMatchTypes.swift in Sources */,
@@ -622,6 +639,7 @@
 				5CAEEFEE20D6404B00514842 /* gameDataModel.swift in Sources */,
 				5C34C91720CFD6CF0095B968 /* achievementsViewController.swift in Sources */,
 				5C6ED3D420CFEA6F005DF73F /* BallThumb.swift in Sources */,
+				5C2AEF4F20DE715B00C5EEA6 /* leaguesViewController.swift in Sources */,
 				5CAEEFF820D6486A00514842 /* stadiumData.swift in Sources */,
 				5C84D51B20CCFF9B00A9DC67 /* StoreViewController.swift in Sources */,
 				5CAEEFF220D646BC00514842 /* gameRewards.swift in Sources */,

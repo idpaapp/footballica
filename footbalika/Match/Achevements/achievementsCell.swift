@@ -29,6 +29,8 @@ class achievementsCell: UITableViewCell {
         self.bg2.layer.cornerRadius = 10
         self.bg3.layer.cornerRadius = 10
         self.progressBarBackGroundView.layer.cornerRadius = 3
+        self.achievementDesc.adjustsFontSizeToFitWidth = true
+        self.achievementDesc.minimumScaleFactor = 0.5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

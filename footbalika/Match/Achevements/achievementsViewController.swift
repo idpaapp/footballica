@@ -55,21 +55,36 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var achievementsTitles = [String]()
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return achievementCount
+        if pageState == "Achievements" {
+        return (loadingAchievements.res?.response?.count)!
+        } else {
+          return achievementCount
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if pageState == "Achievements" {
         let cell = tableView.dequeueReusableCell(withIdentifier: "achievementsCell", for: indexPath) as! achievementsCell
+            
+//            print((loadingAchievements.res?.response?[indexPath.row].level_gain_reward!)!)
+//            print((loadingAchievements.res?.response?[indexPath.row].cash_reward!)!)
+//            print((loadingAchievements.res?.response?[indexPath.row].coin_reward!)!)
+//            print((loadingAchievements.res?.response?[indexPath.row].progress!)!)
+
+            cell.coinLabel.text = (loadingAchievements.res?.response?[indexPath.row].coin_reward!)!
+            cell.moneyLabel.text = (loadingAchievements.res?.response?[indexPath.row].cash_reward!)!
+
         if UIDevice().userInterfaceIdiom == .phone {
-            cell.progressTitle.AttributesOutLine(font: iPhonefonts, title: "5/10", strokeWidth: -3.0)
-            cell.acievementTitle.AttributesOutLine(font: iPhonefonts, title: achievementsTitles[indexPath.row], strokeWidth: -4.0)
+            cell.progressTitle.AttributesOutLine(font: iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
+            cell.acievementTitle.AttributesOutLine(font: iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -4.0)
         } else {
-            cell.progressTitle.AttributesOutLine(font: iPadfonts, title: "5/10", strokeWidth: -3.0)
-            cell.acievementTitle.AttributesOutLine(font: iPadfonts, title: achievementsTitles[indexPath.row], strokeWidth: -4.0)
+            cell.progressTitle.AttributesOutLine(font: iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
+            cell.acievementTitle.AttributesOutLine(font: iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -4.0)
         }
-        cell.achievementDesc.text = "تو بازی همه رو ببر "
-        cell.achievementProgress.progress = achievementsProgress[indexPath.row]
+        cell.achievementDesc.text = "\((loadingAchievements.res?.response?[indexPath.row].describtion!)!)"
+            let progressAchievement = (Float((loadingAchievements.res?.response?[indexPath.row].progress)!)!) / 10.0
+            print("progress\(progressAchievement)")
+        cell.achievementProgress.progress = progressAchievement
         return cell
             
         } else {
@@ -129,7 +144,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         if sender.tag == 1 {
             playingMusic.playMusic()
         }
-        
         UIView.performWithoutAnimation {
             self.achievementsTV.reloadData()
         }

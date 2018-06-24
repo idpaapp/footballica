@@ -10,6 +10,11 @@ import Foundation
 import UIKit
 import AVFoundation
 
+public class fonts {
+    public var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
+    public var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
+}
+
 extension UILabel {
     public func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
         let strokeTextAttributes: [NSAttributedStringKey: Any] = [.strokeColor: UIColor.black, .foregroundColor: UIColor.white, .strokeWidth : strokeWidth , .strikethroughColor : UIColor.white , .font: font]

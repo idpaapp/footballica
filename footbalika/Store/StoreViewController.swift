@@ -13,11 +13,27 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
 
     @IBOutlet weak var storeCV: UICollectionView!
     
+    @IBOutlet weak var coins: UILabel!
+    @IBOutlet weak var money: UILabel!
+    @IBOutlet weak var xp: UILabel!
+    @IBOutlet weak var level: UILabel!
+    @IBOutlet weak var xpProgress: UIProgressView!
+    @IBOutlet weak var xpProgressBackGround: UIView!
+    
+    
     var storeImages = ["coin" , "money" , "ball" , "avatar"]
     var storeTitles = ["سکه" , "پول" , "استادیوم" , "آواتار"]
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        level.text = (login.res?.response?.mainInfo?.level)!
+        money.text = (login.res?.response?.mainInfo?.cashs)!
+        xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
+        coins.text = (login.res?.response?.mainInfo?.coins)!
+        xpProgress.progress = Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!
+        self.xp.alpha = 0.0
+        self.xpProgressBackGround.layer.cornerRadius = 3
+        xp.minimumScaleFactor = 0.5
+        xp.adjustsFontSizeToFitWidth = true
     }
 
     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
@@ -61,11 +77,26 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.xp.alpha = 0.0
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         let pageIndexDict:[String: Int] = ["button": 4]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
+        
+        self.xpProgress.progress = 0.0
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                self.xp.alpha = 1.0
+            })
+            UIView.animate(withDuration: 1.0, animations: { () -> Void in
+                self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
+
+            })
+        }
     }
 }
