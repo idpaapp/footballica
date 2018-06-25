@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 import AVFoundation
 
+public class centerScreen {
+    public var centerScreens = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+}
+
 public class fonts {
     public var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     public var iPadfonts = UIFont(name: "DPA_Game", size: 30)!

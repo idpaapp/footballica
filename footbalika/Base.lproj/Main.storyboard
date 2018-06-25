@@ -334,6 +334,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxK-pS-4Vb" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="66" width="56" height="56"/>
                                         <state key="normal" image="ic_gift" backgroundImage="dark_btn_large"/>
+                                        <connections>
+                                            <action selector="gifts:" destination="eVy-0W-4xt" eventType="touchUpInside" id="BjJ-JR-Pop"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJe-Fz-2Sw" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="132" width="56" height="56"/>
@@ -705,6 +708,7 @@
                         <segue destination="xiR-pr-c03" kind="presentation" identifier="achievement" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="uy9-ug-KDx"/>
                         <segue destination="boW-v1-c97" kind="presentation" identifier="startingMatch" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="N21-7O-RH3"/>
                         <segue destination="F3Z-Hl-jab" kind="presentation" identifier="leagueShow" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="MQl-2G-2Vg"/>
+                        <segue destination="rZL-t8-5eQ" kind="presentation" identifier="giftsAndCharges" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="4Sq-nf-ez1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3z-yo-Xeu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1118,6 +1122,21 @@
             </objects>
             <point key="canvasLocation" x="1902" y="1317"/>
         </scene>
+        <!--Gifts And Charges View Controller-->
+        <scene sceneID="HbI-AU-ZY4">
+            <objects>
+                <viewController restorationIdentifier="giftsAndChargesViewController" storyboardIdentifier="giftsAndChargesViewController" modalTransitionStyle="crossDissolve" id="rZL-t8-5eQ" customClass="giftsAndChargesViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IRj-Xu-Z3Q">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="tLd-UP-QFd"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AAa-oe-2ac" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2838" y="1316"/>
+        </scene>
         <!--Leagues View Controller-->
         <scene sceneID="gsx-t6-SvH">
             <objects>
@@ -1223,7 +1242,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hgN-wU-YqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2837.5999999999999" y="1315.5922038980511"/>
+            <point key="canvasLocation" x="3668" y="562"/>
         </scene>
         <!--Games List-->
         <scene sceneID="Kqa-C7-dwe">
@@ -1880,13 +1899,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIi-PW-2FK">
-                                        <rect key="frame" x="144" y="11" width="45.5" height="27"/>
+                                        <rect key="frame" x="144.5" y="11" width="45.5" height="27"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KiX-V4-VZ3">
-                                        <rect key="frame" x="144" y="11" width="45.5" height="27"/>
+                                        <rect key="frame" x="144.5" y="11" width="45.5" height="27"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>

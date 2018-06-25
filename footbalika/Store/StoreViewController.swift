@@ -30,7 +30,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
         coins.text = (login.res?.response?.mainInfo?.coins)!
         xpProgress.progress = Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!
-        self.xp.alpha = 0.0
         self.xpProgressBackGround.layer.cornerRadius = 3
         xp.minimumScaleFactor = 0.5
         xp.adjustsFontSizeToFitWidth = true
@@ -78,9 +77,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        self.xp.alpha = 0.0
-    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -90,10 +86,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         
         self.xpProgress.progress = 0.0
         DispatchQueue.main.async {
+
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                self.xp.alpha = 1.0
-            })
-            UIView.animate(withDuration: 1.0, animations: { () -> Void in
                 self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
 
             })
