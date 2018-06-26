@@ -330,6 +330,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gg-JI-3Ln" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
                                         <state key="normal" image="ic_charge" backgroundImage="dark_btn_large"/>
+                                        <connections>
+                                            <action selector="gameCharge:" destination="eVy-0W-4xt" eventType="touchUpInside" id="r0a-47-gF7"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bxK-pS-4Vb" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="66" width="56" height="56"/>
@@ -502,6 +505,9 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K48-iA-vwa" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="66" width="56" height="56"/>
                                         <state key="normal" image="ic_questions" backgroundImage="dark_btn_large"/>
+                                        <connections>
+                                            <action selector="questionsBank:" destination="eVy-0W-4xt" eventType="touchUpInside" id="oBK-nb-i62"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QcF-s7-H9N" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="132" width="56" height="56"/>
@@ -709,6 +715,7 @@
                         <segue destination="boW-v1-c97" kind="presentation" identifier="startingMatch" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="N21-7O-RH3"/>
                         <segue destination="F3Z-Hl-jab" kind="presentation" identifier="leagueShow" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="MQl-2G-2Vg"/>
                         <segue destination="rZL-t8-5eQ" kind="presentation" identifier="giftsAndCharges" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="4Sq-nf-ez1"/>
+                        <segue destination="fuF-wP-gKN" kind="presentation" identifier="alert" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="LfF-cD-YKj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3z-yo-Xeu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1122,6 +1129,21 @@
             </objects>
             <point key="canvasLocation" x="1902" y="1317"/>
         </scene>
+        <!--Menu Alert View Controller-->
+        <scene sceneID="iod-O4-49j">
+            <objects>
+                <viewController id="fuF-wP-gKN" customClass="menuAlertViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1St-8u-xsT">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="6mo-N4-xIX"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vm8-oR-Ijo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2838" y="1298"/>
+        </scene>
         <!--Gifts And Charges View Controller-->
         <scene sceneID="HbI-AU-ZY4">
             <objects>
@@ -1135,7 +1157,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AAa-oe-2ac" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2838" y="1316"/>
+            <point key="canvasLocation" x="3710" y="1298"/>
         </scene>
         <!--Leagues View Controller-->
         <scene sceneID="gsx-t6-SvH">
@@ -2037,14 +2059,14 @@
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="ZVM-T6-7os">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="101" height="20"/>
                                                                                     <subviews>
-                                                                                        <progressView opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" verticalHuggingPriority="750" progress="0.5" progressImage="insideAchievementsProgress" translatesAutoresizingMaskIntoConstraints="NO" id="r4I-gf-PQ3">
+                                                                                        <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" verticalHuggingPriority="750" progress="0.5" progressImage="insideAchievementsProgress" translatesAutoresizingMaskIntoConstraints="NO" id="r4I-gf-PQ3">
                                                                                             <rect key="frame" x="0.0" y="0.0" width="101" height="20"/>
                                                                                             <color key="trackTintColor" red="0.3921568627" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                         </progressView>
                                                                                     </subviews>
                                                                                 </stackView>
                                                                             </subviews>
-                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="trailing" secondItem="ZVM-T6-7os" secondAttribute="trailing" id="Ozx-LN-M6j"/>
                                                                                 <constraint firstItem="ZVM-T6-7os" firstAttribute="leading" secondItem="drp-pR-Iqy" secondAttribute="leading" id="WRY-so-MFY"/>

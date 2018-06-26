@@ -83,6 +83,10 @@
 		5CBB993720DE23F500C17884 /* loadMassagesStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBB993620DE23F500C17884 /* loadMassagesStructure.swift */; };
 		5CBB993A20DE25A100C17884 /* loadingSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBB993920DE25A100C17884 /* loadingSetting.swift */; };
 		5CBB993C20DE25BF00C17884 /* loadingSettingStructure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBB993B20DE25BF00C17884 /* loadingSettingStructure.swift */; };
+		5CC4045220E2074300EC97FF /* gameCharges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC4045120E2074300EC97FF /* gameCharges.swift */; };
+		5CC4045520E2222300EC97FF /* menuAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC4045420E2222300EC97FF /* menuAlertViewController.swift */; };
+		5CC4045920E2223F00EC97FF /* menuAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CC4045820E2223F00EC97FF /* menuAlert.xib */; };
+		5CC4045B20E22EC100EC97FF /* menuAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC4045A20E22EC100EC97FF /* menuAlert.swift */; };
 		8C48964F5A4FD60E6D718F91 /* Pods_footbalika.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92AE449EB012E59CD33A9860 /* Pods_footbalika.framework */; };
 /* End PBXBuildFile section */
 
@@ -165,6 +169,10 @@
 		5CBB993620DE23F500C17884 /* loadMassagesStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadMassagesStructure.swift; sourceTree = "<group>"; };
 		5CBB993920DE25A100C17884 /* loadingSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadingSetting.swift; sourceTree = "<group>"; };
 		5CBB993B20DE25BF00C17884 /* loadingSettingStructure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadingSettingStructure.swift; sourceTree = "<group>"; };
+		5CC4045120E2074300EC97FF /* gameCharges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameCharges.swift; sourceTree = "<group>"; };
+		5CC4045420E2222300EC97FF /* menuAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuAlertViewController.swift; sourceTree = "<group>"; };
+		5CC4045820E2223F00EC97FF /* menuAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = menuAlert.xib; sourceTree = "<group>"; };
+		5CC4045A20E22EC100EC97FF /* menuAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuAlert.swift; sourceTree = "<group>"; };
 		708CCABC5FECE0274167520F /* Pods-footbalika.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-footbalika.debug.xcconfig"; path = "Pods/Target Support Files/Pods-footbalika/Pods-footbalika.debug.xcconfig"; sourceTree = "<group>"; };
 		7515AA704A7F5C6185BED045 /* Pods-footbalika.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-footbalika.release.xcconfig"; path = "Pods/Target Support Files/Pods-footbalika/Pods-footbalika.release.xcconfig"; sourceTree = "<group>"; };
 		92AE449EB012E59CD33A9860 /* Pods_footbalika.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_footbalika.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +231,7 @@
 				5C6ED3D320CFEA6F005DF73F /* BallThumb.swift */,
 				5C6ED3D520CFF5A8005DF73F /* settingsCell.swift */,
 				5CADF1E020D0DFC8001A24FD /* googleEntranceCell.swift */,
+				5CC4045320E2220F00EC97FF /* menuAlert */,
 				5CA52BF520E0BF8F00A58AFF /* giftsAndCharges */,
 				5C2AEF4D20DE714100C5EEA6 /* leagues */,
 				5C202D9220CE5B64008FA1AB /* Achevements */,
@@ -268,8 +277,6 @@
 			children = (
 				5CA52BF120E0B10800A58AFF /* menuCell.swift */,
 				5CA52BF220E0B10800A58AFF /* menuCell.xib */,
-				5C6F537F20E0A8D90037748F /* menuView.swift */,
-				5C6F538120E0A8F10037748F /* menuView.xib */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -403,6 +410,9 @@
 			children = (
 				5CA52BF620E0BFB000A58AFF /* giftsAndChargesViewController.swift */,
 				5CA52BF820E0CE8700A58AFF /* gift.swift */,
+				5CC4045120E2074300EC97FF /* gameCharges.swift */,
+				5C6F537F20E0A8D90037748F /* menuView.swift */,
+				5C6F538120E0A8F10037748F /* menuView.xib */,
 			);
 			path = giftsAndCharges;
 			sourceTree = "<group>";
@@ -492,6 +502,16 @@
 			path = Groups;
 			sourceTree = "<group>";
 		};
+		5CC4045320E2220F00EC97FF /* menuAlert */ = {
+			isa = PBXGroup;
+			children = (
+				5CC4045420E2222300EC97FF /* menuAlertViewController.swift */,
+				5CC4045820E2223F00EC97FF /* menuAlert.xib */,
+				5CC4045A20E22EC100EC97FF /* menuAlert.swift */,
+			);
+			path = menuAlert;
+			sourceTree = "<group>";
+		};
 		69D45CE03C3BA27097DC9141 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -572,6 +592,7 @@
 				5C2AC1AF20CFA3F10029F8CA /* menu.mp3 in Resources */,
 				5C84D50620CCFD7700A9DC67 /* BTrafcBd.ttf in Resources */,
 				5C84D4FE20CCFD2700A9DC67 /* LaunchScreen.storyboard in Resources */,
+				5CC4045920E2223F00EC97FF /* menuAlert.xib in Resources */,
 				5C84D4FB20CCFD2700A9DC67 /* Assets.xcassets in Resources */,
 				5C84D50E20CCFED500A9DC67 /* iPad.storyboard in Resources */,
 				5C2AC1B120CFA76D0029F8CA /* click.mp3 in Resources */,
@@ -644,6 +665,7 @@
 				5C84D53020CD000D00A9DC67 /* GroupsViewController.swift in Sources */,
 				5C9FFCDE20D8D674007A11C0 /* WritetblShop.swift in Sources */,
 				5CBB993A20DE25A100C17884 /* loadingSetting.swift in Sources */,
+				5CC4045520E2222300EC97FF /* menuAlertViewController.swift in Sources */,
 				5C84D52420CCFFE600A9DC67 /* startMatchCell.swift in Sources */,
 				5C9FFCED20D8E82B007A11C0 /* readAndWritetblStadiums.swift in Sources */,
 				5CAEEFFC20D648FD00514842 /* giftRewards.swift in Sources */,
@@ -676,6 +698,7 @@
 				5CBB992920DE0AA000C17884 /* loadShopItems.swift in Sources */,
 				5CAEEFEE20D6404B00514842 /* gameDataModel.swift in Sources */,
 				5C34C91720CFD6CF0095B968 /* achievementsViewController.swift in Sources */,
+				5CC4045B20E22EC100EC97FF /* menuAlert.swift in Sources */,
 				5C6ED3D420CFEA6F005DF73F /* BallThumb.swift in Sources */,
 				5C2AEF4F20DE715B00C5EEA6 /* leaguesViewController.swift in Sources */,
 				5CAEEFF820D6486A00514842 /* stadiumData.swift in Sources */,
@@ -691,6 +714,7 @@
 				5C84D4F420CCFD2500A9DC67 /* AppDelegate.swift in Sources */,
 				5C84D52E20CCFFFF00A9DC67 /* GamesList.swift in Sources */,
 				5C84D50F20CCFED500A9DC67 /* loadingViewController.swift in Sources */,
+				5CC4045220E2074300EC97FF /* gameCharges.swift in Sources */,
 				5CA52BF920E0CE8700A58AFF /* gift.swift in Sources */,
 				5C6F538020E0A8D90037748F /* menuView.swift in Sources */,
 				5C6ED3D620CFF5A8005DF73F /* settingsCell.swift in Sources */,

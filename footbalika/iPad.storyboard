@@ -92,6 +92,21 @@
             </objects>
             <point key="canvasLocation" x="1901.3671874999998" y="-185.79795021961931"/>
         </scene>
+        <!--Menu Alert View Controller-->
+        <scene sceneID="2PG-XI-huF">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" id="YT8-mk-GpV" customClass="menuAlertViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IyV-gm-aDV">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="ADh-b0-NTl"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2KU-o4-qLI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2769" y="-284"/>
+        </scene>
         <!--Loading View Controller-->
         <scene sceneID="GBG-MF-eLC">
             <objects>
@@ -321,18 +336,24 @@
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="iih-Cf-gMd">
-                                <rect key="frame" x="55" y="345.5" width="136.5" height="459.5"/>
+                                <rect key="frame" x="55" y="323" width="97.5" height="342.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qoO-4a-O2F" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="136.5" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="97.5" height="97.5"/>
                                         <state key="normal" image="ic_charge" backgroundImage="dark_btn_large"/>
+                                        <connections>
+                                            <action selector="gameCharge:" destination="ADq-9m-JBE" eventType="touchUpInside" id="Y5W-kg-wJh"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GVg-yi-df2" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="161.5" width="136.5" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="122.5" width="97.5" height="97.5"/>
                                         <state key="normal" image="ic_gift" backgroundImage="dark_btn_large"/>
+                                        <connections>
+                                            <action selector="gifts:" destination="ADq-9m-JBE" eventType="touchUpInside" id="6Yb-Xl-cFS"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fk4-mK-ID4" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="323" width="136.5" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="245" width="97.5" height="97.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Fk4-mK-ID4" secondAttribute="height" multiplier="1:1" id="PUk-tf-6WT"/>
                                         </constraints>
@@ -436,7 +457,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pSw-dI-Kph" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="70" y="129" width="136.5" height="136.5"/>
+                                <rect key="frame" x="70" y="129" width="114" height="114"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="pSw-dI-Kph" secondAttribute="height" multiplier="1:1" id="I1p-hz-5aa"/>
                                 </constraints>
@@ -446,55 +467,58 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dark_btn_wide" translatesAutoresizingMaskIntoConstraints="NO" id="1SS-A8-a7B">
-                                <rect key="frame" x="226.5" y="129" width="667.5" height="136.5"/>
+                                <rect key="frame" x="204" y="129" width="690" height="114"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="USt-2l-51A" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="770" y="115.5" width="164" height="164"/>
+                                <rect key="frame" x="797" y="117.5" width="137" height="137.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="USt-2l-51A" secondAttribute="height" multiplier="1:1" id="MN3-O6-8R4"/>
                                 </constraints>
                                 <state key="normal" image="dark_btn_rounded_large"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="DDd-Z4-09W">
-                                <rect key="frame" x="780" y="125.5" width="144" height="144"/>
+                                <rect key="frame" x="807" y="127.5" width="117" height="117.5"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="مهمان" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ro6-2A-YCr">
-                                <rect key="frame" x="236.5" y="139" width="523.5" height="34"/>
+                                <rect key="frame" x="214" y="139" width="573" height="28.5"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="23"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="label_back_dark" translatesAutoresizingMaskIntoConstraints="NO" id="E0Y-HT-AFa">
-                                <rect key="frame" x="577.5" y="197.5" width="167" height="68"/>
+                                <rect key="frame" x="598.5" y="186.5" width="173" height="56.5"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cup" translatesAutoresizingMaskIntoConstraints="NO" id="Ofm-o7-bSN">
-                                <rect key="frame" x="692" y="197.5" width="68" height="68"/>
+                                <rect key="frame" x="730.5" y="186.5" width="56.5" height="56.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Ofm-o7-bSN" secondAttribute="height" multiplier="1:1" id="Ssb-1Q-D20"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRq-mk-7BZ">
-                                <rect key="frame" x="577.5" y="197.5" width="104.5" height="68"/>
+                                <rect key="frame" x="598.5" y="186.5" width="122" height="56.5"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="25"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="xSs-pp-g8C">
-                                <rect key="frame" x="832.5" y="345.5" width="136.5" height="459.5"/>
+                                <rect key="frame" x="871" y="323" width="98" height="342.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wdq-uA-O6z" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="136.5" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="98" height="97.5"/>
                                         <state key="normal" image="ic_quests" backgroundImage="dark_btn_large"/>
                                         <connections>
                                             <action selector="achievements:" destination="ADq-9m-JBE" eventType="touchUpInside" id="pMr-es-hJM"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BxP-da-sjY" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="161.5" width="136.5" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="122.5" width="98" height="97.5"/>
                                         <state key="normal" image="ic_questions" backgroundImage="dark_btn_large"/>
+                                        <connections>
+                                            <action selector="questionsBank:" destination="ADq-9m-JBE" eventType="touchUpInside" id="bpz-Su-Oik"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ln-KX-pFI" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="323" width="136.5" height="136.5"/>
+                                        <rect key="frame" x="0.0" y="245" width="98" height="97.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="9Ln-KX-pFI" secondAttribute="height" multiplier="1:1" id="eII-0w-UAk"/>
                                         </constraints>
@@ -503,13 +527,13 @@
                                 </subviews>
                             </stackView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="leader_board" translatesAutoresizingMaskIntoConstraints="NO" id="6ha-Vp-rze">
-                                <rect key="frame" x="311" y="374" width="402" height="402.5"/>
+                                <rect key="frame" x="362.5" y="344" width="299" height="300"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="6ha-Vp-rze" secondAttribute="height" multiplier="1:1" id="Os7-Xv-PVc"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90W-mx-Xat" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="190.5" y="806.5" width="643.5" height="136.5"/>
+                                <rect key="frame" x="272.5" y="674" width="479.5" height="98"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                 <state key="normal" image="action_back_btn"/>
                                 <connections>
@@ -517,47 +541,47 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="شروع" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EIX-DD-DGr">
-                                <rect key="frame" x="190.5" y="806.5" width="643.5" height="126.5"/>
+                                <rect key="frame" x="272.5" y="674" width="479.5" height="88"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SSk-u9-SAq">
-                                <rect key="frame" x="190.5" y="948" width="643.5" height="137"/>
+                                <rect key="frame" x="272.5" y="777" width="479.5" height="98.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NlD-ch-7M9" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="319.5" height="137"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="237.5" height="98.5"/>
                                         <state key="normal" image="alter_action_back_btn"/>
                                         <connections>
                                             <action selector="eliminateCupAction:" destination="ADq-9m-JBE" eventType="touchUpInside" id="4BO-jz-gv9"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wL0-Mq-GzU" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="324.5" y="0.0" width="319" height="137"/>
+                                        <rect key="frame" x="242.5" y="0.0" width="237" height="98.5"/>
                                         <state key="normal" image="alter_action_back_btn"/>
                                     </button>
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="دوستانه" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="adm-2v-Jtr">
-                                <rect key="frame" x="514.5" y="948" width="319" height="127"/>
+                                <rect key="frame" x="514.5" y="777" width="237" height="88.5"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="جام حذفی" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yMC-kt-P9r">
-                                <rect key="frame" x="190" y="948" width="319.5" height="127"/>
+                                <rect key="frame" x="272" y="777" width="237.5" height="88.5"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dND-Qh-etn">
-                                <rect key="frame" x="190.5" y="806.5" width="643.5" height="126.5"/>
+                                <rect key="frame" x="272.5" y="674" width="479.5" height="88"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jBx-uB-3Bd">
-                                <rect key="frame" x="311" y="374" width="402" height="402.5"/>
+                                <rect key="frame" x="362.5" y="344" width="299" height="300"/>
                                 <connections>
                                     <action selector="showLeagus:" destination="ADq-9m-JBE" eventType="touchUpInside" id="tjo-vv-lAP"/>
                                 </connections>
@@ -583,7 +607,7 @@
                             <constraint firstItem="xSs-pp-g8C" firstAttribute="top" secondItem="pSw-dI-Kph" secondAttribute="bottom" constant="80" id="CPd-N6-P9A"/>
                             <constraint firstItem="Ro6-2A-YCr" firstAttribute="height" secondItem="1SS-A8-a7B" secondAttribute="height" multiplier="1:4" id="CuA-Zi-RFp"/>
                             <constraint firstItem="USt-2l-51A" firstAttribute="leading" secondItem="Ofm-o7-bSN" secondAttribute="trailing" constant="10" id="Ebd-Kr-ZDp"/>
-                            <constraint firstItem="pSw-dI-Kph" firstAttribute="height" secondItem="MdV-kg-2MY" secondAttribute="height" multiplier="1:10" id="FKW-BP-9Jp"/>
+                            <constraint firstItem="pSw-dI-Kph" firstAttribute="height" secondItem="MdV-kg-2MY" secondAttribute="height" multiplier="1:12" id="FKW-BP-9Jp"/>
                             <constraint firstItem="MdV-kg-2MY" firstAttribute="leading" secondItem="X6T-gO-oEf" secondAttribute="leading" id="Fge-hq-rVj"/>
                             <constraint firstItem="Ro6-2A-YCr" firstAttribute="top" secondItem="1SS-A8-a7B" secondAttribute="top" constant="10" id="Gha-gZ-SUc"/>
                             <constraint firstItem="90W-mx-Xat" firstAttribute="centerX" secondItem="PJH-qg-mLr" secondAttribute="centerX" id="Gln-nN-q6j"/>
@@ -629,7 +653,7 @@
                             <constraint firstItem="adm-2v-Jtr" firstAttribute="leading" secondItem="wL0-Mq-GzU" secondAttribute="leading" id="aVa-hl-MIw"/>
                             <constraint firstItem="PAt-ap-s2W" firstAttribute="leading" secondItem="Vir-9y-uE3" secondAttribute="trailing" constant="15" id="aac-LY-fii"/>
                             <constraint firstItem="MdV-kg-2MY" firstAttribute="trailing" secondItem="X6T-gO-oEf" secondAttribute="trailing" id="bCC-iw-hKf"/>
-                            <constraint firstItem="qoO-4a-O2F" firstAttribute="height" secondItem="pSw-dI-Kph" secondAttribute="height" multiplier="1:1" id="cDZ-mu-5ak"/>
+                            <constraint firstItem="qoO-4a-O2F" firstAttribute="height" secondItem="pSw-dI-Kph" secondAttribute="height" multiplier="6:7" id="cDZ-mu-5ak"/>
                             <constraint firstItem="qRq-mk-7BZ" firstAttribute="top" secondItem="E0Y-HT-AFa" secondAttribute="top" id="cnM-50-ka2"/>
                             <constraint firstItem="dND-Qh-etn" firstAttribute="width" secondItem="EIX-DD-DGr" secondAttribute="width" id="cth-e6-TCP"/>
                             <constraint firstItem="Snk-Ga-NZ9" firstAttribute="width" secondItem="Snk-Ga-NZ9" secondAttribute="height" multiplier="1:1" id="cup-Tu-RTy"/>
@@ -701,6 +725,8 @@
                         <segue destination="Tdr-Cw-Ss4" kind="presentation" identifier="achievement" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="c6x-BE-tcg"/>
                         <segue destination="fYU-Yi-9aa" kind="presentation" identifier="startingMatch" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="j04-CM-umL"/>
                         <segue destination="Xe1-ct-c7V" kind="presentation" identifier="leagueShow" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="ifa-jE-h1c"/>
+                        <segue destination="ug0-0l-cMO" kind="presentation" identifier="giftsAndCharges" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="2Y8-vw-asD"/>
+                        <segue destination="YT8-mk-GpV" kind="presentation" identifier="alert" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="2s5-tN-LOO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hYg-45-yot" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1508,14 +1534,14 @@
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="TIH-dk-Bdc">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="479" height="40"/>
                                                                                     <subviews>
-                                                                                        <progressView opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" verticalHuggingPriority="750" progress="0.5" progressImage="insideAchievementsProgress" translatesAutoresizingMaskIntoConstraints="NO" id="eJT-sx-FOz">
+                                                                                        <progressView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" verticalHuggingPriority="750" progress="0.5" progressImage="insideAchievementsProgress" translatesAutoresizingMaskIntoConstraints="NO" id="eJT-sx-FOz">
                                                                                             <rect key="frame" x="0.0" y="0.0" width="479" height="40"/>
                                                                                             <color key="trackTintColor" red="0.3921568627" green="0.3921568627" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                         </progressView>
                                                                                     </subviews>
                                                                                 </stackView>
                                                                             </subviews>
-                                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="trailing" secondItem="TIH-dk-Bdc" secondAttribute="trailing" id="3xp-Ba-SwQ"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="TIH-dk-Bdc" secondAttribute="bottom" id="HV5-r9-ZiQ"/>
@@ -1853,7 +1879,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KjD-Lv-8IT" customClass="GradientView" customModule="footbalika" customModuleProvider="target">
-                                                    <rect key="frame" x="1" y="28" width="1002" height="71"/>
+                                                    <rect key="frame" x="10" y="28" width="984" height="71"/>
                                                     <color key="backgroundColor" red="0.3803921569" green="0.48627450979999998" blue="0.60392156860000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1862,10 +1888,10 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="biV-TW-tSU" customClass="GradientView" customModule="footbalika" customModuleProvider="target">
-                                                    <rect key="frame" x="1" y="30" width="1002" height="99"/>
+                                                    <rect key="frame" x="10" y="30" width="984" height="99"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="dhF-Tm-3Td">
-                                                            <rect key="frame" x="767" y="35" width="215" height="50"/>
+                                                            <rect key="frame" x="749" y="35" width="215" height="50"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_green_ball" translatesAutoresizingMaskIntoConstraints="NO" id="2YJ-oO-KvW">
                                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -1941,7 +1967,7 @@
                                                             </constraints>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 - 4" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AEt-95-Zfu">
-                                                            <rect key="frame" x="235" y="29.5" width="532" height="50"/>
+                                                            <rect key="frame" x="235" y="29.5" width="514" height="50"/>
                                                             <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="30"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -1970,13 +1996,13 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dark_btn_wide" translatesAutoresizingMaskIntoConstraints="NO" id="8cB-oF-jSa">
-                                                    <rect key="frame" x="287.5" y="10" width="430" height="50"/>
+                                                    <rect key="frame" x="291.5" y="10" width="422" height="50"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="umF-YZ-L9i"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تاریخچه" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="972-3d-2yT">
-                                                    <rect key="frame" x="287.5" y="10" width="430" height="50"/>
+                                                    <rect key="frame" x="291.5" y="10" width="422" height="50"/>
                                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="30"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -1985,7 +2011,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstItem="972-3d-2yT" firstAttribute="width" secondItem="8cB-oF-jSa" secondAttribute="width" id="3sD-lh-DwX"/>
-                                                <constraint firstItem="biV-TW-tSU" firstAttribute="leading" secondItem="sL4-09-bEl" secondAttribute="leading" constant="1" id="5BX-ut-pJX"/>
+                                                <constraint firstItem="biV-TW-tSU" firstAttribute="leading" secondItem="sL4-09-bEl" secondAttribute="leading" constant="10" id="5BX-ut-pJX"/>
                                                 <constraint firstItem="KjD-Lv-8IT" firstAttribute="bottom" secondItem="biV-TW-tSU" secondAttribute="bottom" constant="-30" id="Cet-2F-wdS"/>
                                                 <constraint firstAttribute="bottom" secondItem="biV-TW-tSU" secondAttribute="bottom" constant="1" id="GEK-ng-Ivn"/>
                                                 <constraint firstItem="dhF-Tm-3Td" firstAttribute="top" secondItem="8cB-oF-jSa" secondAttribute="bottom" constant="5" id="VgQ-Iq-EGg"/>
@@ -1998,7 +2024,7 @@
                                                 <constraint firstItem="KjD-Lv-8IT" firstAttribute="top" secondItem="biV-TW-tSU" secondAttribute="top" constant="-2" id="mgm-ms-B8G"/>
                                                 <constraint firstItem="972-3d-2yT" firstAttribute="centerX" secondItem="8cB-oF-jSa" secondAttribute="centerX" id="r1n-U0-bZ8"/>
                                                 <constraint firstItem="8cB-oF-jSa" firstAttribute="width" secondItem="biV-TW-tSU" secondAttribute="width" multiplier="3:7" id="udp-Kl-o79"/>
-                                                <constraint firstAttribute="trailing" secondItem="biV-TW-tSU" secondAttribute="trailing" constant="1" id="umS-ti-oJE"/>
+                                                <constraint firstAttribute="trailing" secondItem="biV-TW-tSU" secondAttribute="trailing" constant="10" id="umS-ti-oJE"/>
                                                 <constraint firstItem="8cB-oF-jSa" firstAttribute="centerX" secondItem="biV-TW-tSU" secondAttribute="centerX" id="xgm-QH-wGX"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -2225,6 +2251,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="23G-qT-UBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2650" y="1288"/>
+        </scene>
+        <!--Gifts And Charges View Controller-->
+        <scene sceneID="aRn-gT-QYY">
+            <objects>
+                <viewController modalTransitionStyle="crossDissolve" id="ug0-0l-cMO" customClass="giftsAndChargesViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2gK-4t-TNK">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="g3L-kk-Sln"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="naa-Br-Pkg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2650" y="2030"/>
         </scene>
     </scenes>
     <resources>

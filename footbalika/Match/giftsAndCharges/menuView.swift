@@ -21,7 +21,7 @@ public class menuView: UIView {
     @IBOutlet weak var menuHeight: NSLayoutConstraint!
     @IBOutlet weak var menuWidth: NSLayoutConstraint!
     
-    override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         self.topView.layer.cornerRadius = 15
         self.mainView.layer.cornerRadius = 15
         self.subView.layer.cornerRadius = 15
@@ -34,7 +34,7 @@ public class menuView: UIView {
         commonInit()
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
         commonInit()

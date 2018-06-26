@@ -135,6 +135,15 @@ class matchViewController: UIViewController {
         if let vC = segue.destination as? menuViewController {
             vC.menuState = self.menuState
         }
+        if let vc = segue.destination as? giftsAndChargesViewController {
+            vc.pageState = self.menuState
+        }
+        
+        if let VC = segue.destination as? menuAlertViewController {
+            VC.alertTitle = "اخطار"
+            VC.alertBody = "بخش کارخانه سوال به زودی راه اندازی خواهد شد"
+            VC.alertAcceptLabel = "تأیید"
+        }
     }
     
     @IBAction func showLeagus(_ sender: UIButton) {
@@ -145,8 +154,21 @@ class matchViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     @IBAction func gifts(_ sender: RoundButton) {
+        self.menuState = "gifts"
         self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
     }
+    @IBAction func gameCharge(_ sender: RoundButton) {
+        self.menuState = "gameCharge"
+        self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
+    }
+    
+    
+    @IBAction func questionsBank(_ sender: RoundButton) {
+        
+        self.performSegue(withIdentifier: "alert", sender: self)
+    }
+    
     
 }
