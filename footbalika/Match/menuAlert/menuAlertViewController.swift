@@ -26,6 +26,13 @@ class menuAlertViewController: UIViewController {
         UIApplication.shared.keyWindow!.addSubview(self.showAlert)
         UIApplication.shared.keyWindow!.bringSubview(toFront: self.showAlert)
         self.view.bringSubview(toFront: self.showAlert)
+        if UIDevice().userInterfaceIdiom == .phone {
+            self.showAlert.wholeViewHeight.constant = 202
+            self.showAlert.wholeViewWidth.constant = 240
+        } else {
+            self.showAlert.wholeViewHeight.constant = 250
+            self.showAlert.wholeViewWidth.constant = 300
+        }
         self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
         UIView.animate(withDuration: 0.2, animations: {
             self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)

@@ -12,6 +12,8 @@ class menuAlert: UIView {
 
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var wholeView: UIView!
+    @IBOutlet weak var wholeViewWidth: NSLayoutConstraint!
+    @IBOutlet weak var wholeViewHeight: NSLayoutConstraint!
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var subView: UIView!

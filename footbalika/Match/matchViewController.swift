@@ -166,9 +166,19 @@ class matchViewController: UIViewController {
     
     
     @IBAction func questionsBank(_ sender: RoundButton) {
-        
         self.performSegue(withIdentifier: "alert", sender: self)
     }
+    
+    @IBAction func showLeaderBoard(_ sender: RoundButton) {
+        self.menuState = "LeaderBoard"
+        self.performSegue(withIdentifier: "achievement", sender: self)
+    }
+    
+    @IBAction func alerts(_ sender: RoundButton) {
+        self.menuState = "alerts"
+        self.performSegue(withIdentifier: "achievement", sender: self)
+    }
+    
     
     
 }
