@@ -45,36 +45,35 @@ class menuViewController: UIViewController {
         
         if menuState == "Achievements" {
             
+            self.mainTitleForeGround.text = "دستاوردها"
             if UIDevice().userInterfaceIdiom == .phone {
-                self.mainTitleForeGround.text = "دستاوردها"
                 self.menuHeight.constant = ((8 * UIScreen.main.bounds.height) / 9)
                 self.menuWidth.constant = 280
-                maintitle.AttributesOutLine(font: iPhonefonts, title: "دستاوردها", strokeWidth: -4.0)
+                maintitle.AttributesOutLine(font: iPhonefonts, title: "دستاوردها", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPhonefonts
             } else {
                 self.menuHeight.constant = ((8 * UIScreen.main.bounds.height) / 9)
                 self.menuWidth.constant = 600
-                maintitle.AttributesOutLine(font: iPadfonts, title: "دستاوردها", strokeWidth: -4.0)
+                maintitle.AttributesOutLine(font: iPadfonts, title: "دستاوردها", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPadfonts
             }
         } else if menuState == "LeaderBoard" {
             self.mainTitleForeGround.text = "رتبه بندی"
             if UIDevice().userInterfaceIdiom == .phone {
+                self.mainTitleForeGround.font = iPhonefonts
                 if UIScreen.main.nativeBounds.height == 2436 {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 90
                 self.menuWidth.constant = UIScreen.main.bounds.width - 10
-                maintitle.AttributesOutLine(font: iPhonefonts, title: "رتبه بندی", strokeWidth: -4.0)
-                self.mainTitleForeGround.font = iPhonefonts
+                maintitle.AttributesOutLine(font: iPhonefonts, title: "رتبه بندی", strokeWidth: -7.0)
                 } else {
                     self.menuHeight.constant = UIScreen.main.bounds.height - 30
                     self.menuWidth.constant = UIScreen.main.bounds.width - 10
-                    maintitle.AttributesOutLine(font: iPhonefonts, title: "رتبه بندی", strokeWidth: -4.0)
-                    self.mainTitleForeGround.font = iPhonefonts
+                    maintitle.AttributesOutLine(font: iPhonefonts, title: "رتبه بندی", strokeWidth: -7.0)
                 }
             } else {
-                self.menuHeight.constant = UIScreen.main.bounds.height - 30
-                self.menuWidth.constant = UIScreen.main.bounds.width - 10
-                maintitle.AttributesOutLine(font: iPadfonts, title: "رتبه بندی", strokeWidth: -4.0)
+                self.menuHeight.constant = UIScreen.main.bounds.height - 100
+                self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
+                maintitle.AttributesOutLine(font: iPadfonts, title: "رتبه بندی", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPadfonts
             }
         } else if self.menuState == "alerts" {
@@ -82,25 +81,40 @@ class menuViewController: UIViewController {
             if UIDevice().userInterfaceIdiom == .phone {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
                 self.menuWidth.constant = UIScreen.main.bounds.width - 40
-                maintitle.AttributesOutLine(font: iPhonefonts, title: "اخبار و اعلان ها", strokeWidth: -4.0)
+                maintitle.AttributesOutLine(font: iPhonefonts, title: "اخبار و اعلان ها", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPhonefonts
             } else {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
-                self.menuWidth.constant = UIScreen.main.bounds.width - 40
-                maintitle.AttributesOutLine(font: iPadfonts, title: "اخبار و اعلان ها", strokeWidth: -4.0)
+                self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
+                maintitle.AttributesOutLine(font: iPadfonts, title: "اخبار و اعلان ها", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPadfonts
             }
+            
+          } else if self.menuState == "profile" {
+            self.mainTitleForeGround.text = "پروفایل"
+            if UIDevice().userInterfaceIdiom == .phone {
+                self.menuHeight.constant = UIScreen.main.bounds.height - 100
+                self.menuWidth.constant = UIScreen.main.bounds.width - 40
+                maintitle.AttributesOutLine(font: iPhonefonts, title: "پروفایل", strokeWidth: -7.0)
+                self.mainTitleForeGround.font = iPhonefonts
+            } else {
+                self.menuHeight.constant = UIScreen.main.bounds.height - 100
+                self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
+                maintitle.AttributesOutLine(font: iPadfonts, title: "پروفایل", strokeWidth: -7.0)
+                self.mainTitleForeGround.font = iPadfonts
+            }
+            
         } else {
              self.mainTitleForeGround.text = "تنظیمات"
             if UIDevice().userInterfaceIdiom == .phone {
             self.menuHeight.constant = 318
             self.menuWidth.constant = 280
-            maintitle.AttributesOutLine(font: iPhonefonts, title: "تنظیمات", strokeWidth: -4.0)
+            maintitle.AttributesOutLine(font: iPhonefonts, title: "تنظیمات", strokeWidth: -7.0)
             self.mainTitleForeGround.font = iPhonefonts
             } else {
              self.menuHeight.constant = 418
              self.menuWidth.constant = 370
-            maintitle.AttributesOutLine(font: iPadfonts, title: "تنظیمات", strokeWidth: -4.0)
+            maintitle.AttributesOutLine(font: iPadfonts, title: "تنظیمات", strokeWidth: -7.0)
             self.mainTitleForeGround.font = iPadfonts
             }
         }
@@ -119,13 +133,17 @@ class menuViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vC = segue.destination as? achievementsViewController {
             vC.pageState = self.menuState
-            if self.menuState == "Achievements" {
+            
+            switch self.menuState {
+            case "Achievements" :
                 vC.achievementCount = 10
-            } else if menuState == "LeaderBoard" {
+            case "LeaderBoard" :
                 vC.achievementCount = 0
-            } else if self.menuState == "alerts" {
+            case "alerts" :
                 vC.achievementCount = 0
-            } else {
+            case "profile" :
+                vC.achievementCount = 0
+            default :
                 vC.achievementCount = 4
             }
         }

@@ -14,6 +14,7 @@ class achievementsCell: UITableViewCell {
     @IBOutlet weak var bg2: UIView!
     @IBOutlet weak var bg3: UIView!
     @IBOutlet weak var progressBarBackGroundView: UIView!
+    @IBOutlet weak var progressBarBackGroundView2: UIView!
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var progressTitle: UILabel!
     @IBOutlet weak var acievementTitle: UILabel!
@@ -21,14 +22,21 @@ class achievementsCell: UITableViewCell {
     @IBOutlet weak var achievementProgress: UIProgressView!
     @IBOutlet weak var coinLabel: UILabel!
     @IBOutlet weak var moneyLabel: UILabel!
+    @IBOutlet weak var acievementTitleForeGround: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
         self.bg1.layer.cornerRadius = 10
         self.bg2.layer.cornerRadius = 10
         self.bg3.layer.cornerRadius = 10
-        self.progressBarBackGroundView.layer.cornerRadius = 3
+        if UIDevice().userInterfaceIdiom == .phone {
+        self.progressBarBackGroundView.layer.cornerRadius = 5
+        self.progressBarBackGroundView2.layer.cornerRadius = 5
+        } else {
+        self.progressBarBackGroundView.layer.cornerRadius = 10
+        self.progressBarBackGroundView2.layer.cornerRadius = 10
+        }
         self.achievementDesc.adjustsFontSizeToFitWidth = true
         self.achievementDesc.minimumScaleFactor = 0.5
     }

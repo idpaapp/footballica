@@ -35,6 +35,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var userImages = [String]()
     var userCups = [String]()
     var userLogo = [String]()
+    
     @objc func leaderBoardJson() {
         
             PubProc.HandleDataBase.readJson(wsName: "ws_getLeaderBoard", JSONStr: "{}") { data, error in
@@ -72,6 +73,57 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 }.resume()
     }
     
+    var alertsRes : allAlerts.Response? = nil ;
+    var alertTypes = [String]()
+    var alertTitles = [String]()
+    var alertBody = [String]()
+    var alertDate = [String]()
+    var userAvatar = [String]()
+    @objc func alertsJson() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode':'READ', 'userid':'1'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        self.alertsRes = try JSONDecoder().decode(allAlerts.Response.self , from : data!)
+                        
+                        for i in 0...(self.alertsRes?.response?.count)! - 1 {
+                            self.alertTypes.append((self.alertsRes?.response?[i].type!)!)
+                            if (self.alertsRes?.response?[i].type!)! == "2" {
+                            self.alertTitles.append((self.alertsRes?.response?[i].subject!)!)
+                            self.alertBody.append((self.alertsRes?.response?[i].contents!)!)
+                            self.userAvatar.append((self.alertsRes?.response?[i].image_path!)!)
+                            } else {
+                            self.alertTitles.append((self.alertsRes?.response?[i].username!)!)
+                            self.alertBody.append((self.alertsRes?.response?[i].subject!)!)
+                            self.userAvatar.append((self.alertsRes?.response?[i].avatar!)!)
+                            }
+                            
+                            self.alertDate.append((self.alertsRes?.response?[i].p_message_date!)!)
+                            
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.achievementCount = (self.alertsRes?.response?.count)!
+                            self.achievementsTV.reloadData()
+                        }
+                    } catch {
+                        self.leaderBoardJson()
+                        print(error)
+                    }
+                } else {
+                    self.leaderBoardJson()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
     
     
     
@@ -81,28 +133,36 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         if pageState == "LeaderBoard" {
             leaderBoardJson()
         }
+         if self.pageState == "alerts" {
+            alertsJson()
+        }
         switchStates.append(playgameSounds)
         switchStates.append(playMenuMusic)
         switchStates.append(alerts)
-        
-        if pageState != "LeaderBoard" {
-        for _ in 0...achievementCount - 1 {
-            achievementsProgress.append(0.5)
-            achievementsTitles.append("تیتر")
-        }
-        }
-         if pageState == "Achievements" {
+    
+        let lightColor = UIColor.init(red: 240/255, green: 236/255, blue: 220/255, alpha: 1.0)
+        let grayColor = UIColor.init(red: 98/255, green: 105/255, blue: 122/255, alpha: 1.0)
+        switch self.pageState {
+        case "Achievements":
             self.achievementsTV.bounces = true
             self.achievementsTV.isScrollEnabled = true
-         } else if pageState == "LeaderBoard" {
+            self.achievementsTV.backgroundColor = lightColor
+        case "LeaderBoard":
             self.achievementsTV.bounces = true
             self.achievementsTV.isScrollEnabled = true
-         } else if self.pageState == "alerts" {
+            self.achievementsTV.backgroundColor = lightColor
+        case "alerts":
             self.achievementsTV.bounces = true
             self.achievementsTV.isScrollEnabled = true
-         } else {
+            self.achievementsTV.backgroundColor = lightColor
+        case "profile":
+            self.achievementsTV.bounces = true
+            self.achievementsTV.isScrollEnabled = true
+            self.achievementsTV.backgroundColor = grayColor
+        default:
             self.achievementsTV.bounces = false
             self.achievementsTV.isScrollEnabled = false
+            self.achievementsTV.backgroundColor = lightColor
         }
     }
     
@@ -120,32 +180,35 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if pageState == "Achievements" {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "achievementsCell", for: indexPath) as! achievementsCell
+       
+        switch pageState {
+        case "Achievements":
+            let cell = tableView.dequeueReusableCell(withIdentifier: "achievementsCell", for: indexPath) as! achievementsCell
             
-//            print((loadingAchievements.res?.response?[indexPath.row].level_gain_reward!)!)
-//            print((loadingAchievements.res?.response?[indexPath.row].cash_reward!)!)
-//            print((loadingAchievements.res?.response?[indexPath.row].coin_reward!)!)
-//            print((loadingAchievements.res?.response?[indexPath.row].progress!)!)
-
+            //            print((loadingAchievements.res?.response?[indexPath.row].level_gain_reward!)!)
+            //            print((loadingAchievements.res?.response?[indexPath.row].cash_reward!)!)
+            //            print((loadingAchievements.res?.response?[indexPath.row].coin_reward!)!)
+            //            print((loadingAchievements.res?.response?[indexPath.row].progress!)!)
+            
             cell.coinLabel.text = (loadingAchievements.res?.response?[indexPath.row].coin_reward!)!
             cell.moneyLabel.text = (loadingAchievements.res?.response?[indexPath.row].cash_reward!)!
-
-        if UIDevice().userInterfaceIdiom == .phone {
-            cell.progressTitle.AttributesOutLine(font: iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
-            cell.acievementTitle.AttributesOutLine(font: iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -4.0)
-        } else {
-            cell.progressTitle.AttributesOutLine(font: iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
-            cell.acievementTitle.AttributesOutLine(font: iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -4.0)
-        }
-        cell.achievementDesc.text = "\((loadingAchievements.res?.response?[indexPath.row].describtion!)!)"
+            
+            cell.acievementTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].title!)!)"
+            if UIDevice().userInterfaceIdiom == .phone {
+                cell.progressTitle.AttributesOutLine(font: iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
+                cell.acievementTitle.AttributesOutLine(font: iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                cell.acievementTitleForeGround.font = iPhonefonts
+            } else {
+                cell.progressTitle.AttributesOutLine(font: iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
+                cell.acievementTitle.AttributesOutLine(font: iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                cell.acievementTitleForeGround.font = iPadfonts
+            }
+            cell.achievementDesc.text = "\((loadingAchievements.res?.response?[indexPath.row].describtion!)!)"
             let progressAchievement = (Float((loadingAchievements.res?.response?[indexPath.row].progress)!)!) / 10.0
             print("progress\(progressAchievement)")
-        cell.achievementProgress.progress = progressAchievement
-        return cell
-         
-        } else if pageState == "LeaderBoard" {
-
+            cell.achievementProgress.progress = progressAchievement
+            return cell
+        case "LeaderBoard":
             let cell = tableView.dequeueReusableCell(withIdentifier: "leaderBoardCell", for: indexPath) as! leaderBoardCell
             
             cell.number.text = "\(indexPath.row + 1)"
@@ -158,24 +221,63 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             cell.playerLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
             cell.playerCup.text = "\(self.userCups[indexPath.row])"
             return cell
-
+        case "alerts":
+            if self.alertTypes[indexPath.row] == "2" {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "alertType1Cell", for: indexPath) as! alertType1Cell
+                
+                cell.alertTitle.text = self.alertTitles[indexPath.row]
+                cell.alertBody.text = self.alertBody[indexPath.row]
+                cell.alertDate.text = self.alertDate[indexPath.row]
+                let url = "http://volcan.ir/adelica/images/news/\(self.userAvatar[indexPath.row])"
+                let urls = URL(string : url)
+                cell.alertImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                return cell
+                
+                
+            } else {
+                
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "alertTypeChooseCell", for: indexPath) as! alertTypeChooseCell
+                
+                cell.alertTitle.text = self.alertTitles[indexPath.row]
+                cell.alertDate.text = self.alertDate[indexPath.row]
+                let url = "http://volcan.ir/adelica/images/avatars/\(self.userAvatar[indexPath.row])"
+                let urls = URL(string : url)
+                cell.userAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                cell.alertBody.text = self.alertBody[indexPath.row]
+                return cell
+                
+            }
+        case "profile":
             
-        } else if self.pageState == "alerts" {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "profile1Cell", for: indexPath) as! profile1Cell
             
+            cell.firstProfileTitleForeGround.text = "مشخصات بازیکن"
+            if UIDevice().userInterfaceIdiom == .phone {
+                cell.firstProfileTitle.AttributesOutLine(font: iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
+                cell.firstProfileTitleForeGround.font = iPhonefonts
+            } else {
+                cell.firstProfileTitle.AttributesOutLine(font: iPadfonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
+                cell.firstProfileTitleForeGround.font = iPadfonts
+            }
+            cell.profileName.text = (login.res?.response?.mainInfo?.username)!
+            cell.profileId.text = (login.res?.response?.mainInfo?.id)!
+            cell.profileCup.text = (login.res?.response?.mainInfo?.cups)!
             
-            
-        } else {
+            return cell
+           
+        default:
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "googleEntranceCell", for: indexPath) as! googleEntranceCell
                 
-                
                 return cell
             } else {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! settingsCell
-
+                let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! settingsCell
+                
                 if UIDevice().userInterfaceIdiom == .phone {
-                cell.settingLabel.AttributesOutLine(font: iPhonefonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
-                cell.settingLabelForeGround.font = iPhonefonts
+                    cell.settingLabel.AttributesOutLine(font: iPhonefonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
+                    cell.settingLabelForeGround.font = iPhonefonts
                 } else {
                     cell.settingLabel.AttributesOutLine(font: iPadfonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
                     cell.settingLabelForeGround.font = iPadfonts
@@ -193,8 +295,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         cell.switchSet.thumbTintColor = UIColor(patternImage: ThumbImg)
                     }
                 }
-        return cell
+                return cell
             }
+            
         }
         
     }
@@ -238,6 +341,22 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 return 70
             } else {
                 return 100
+            }
+            
+        } else if self.pageState == "alerts" {
+            
+            if self.alertTypes[indexPath.row] == "2" {
+            if UIDevice().userInterfaceIdiom == .phone {
+                return 350
+            } else {
+                return 350
+            }
+            } else {
+                if UIDevice().userInterfaceIdiom == .phone {
+                    return 150
+                } else {
+                    return 150
+                }
             }
             
         } else {

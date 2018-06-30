@@ -179,6 +179,10 @@ class matchViewController: UIViewController {
         self.performSegue(withIdentifier: "achievement", sender: self)
     }
     
+    @IBAction func profile(_ sender: RoundButton) {
+        self.menuState = "profile"
+        self.performSegue(withIdentifier: "achievement", sender: self)
+    }
     
     
 }
