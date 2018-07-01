@@ -14,8 +14,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     @IBOutlet weak var achievementsTV: UITableView!
 
     var pageState = String()
-    var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
-    var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     var settingsTitle = ["صداهای بازی",
                          "موسیقی بازی",
                          "اعلان ها"]
@@ -30,11 +28,12 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
     let alerts = UserDefaults.standard.bool(forKey: "alerts")
 
-    var res : leaderBoard.Response? = nil ;
+    public var res : leaderBoard.Response? = nil ;
     var userNames = [String]()
     var userImages = [String]()
     var userCups = [String]()
     var userLogo = [String]()
+    var otherProfile = Bool()
     
     @objc func leaderBoardJson() {
         
@@ -126,6 +125,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     
+    let lightColor = UIColor.init(red: 240/255, green: 236/255, blue: 220/255, alpha: 1.0)
+    let grayColor = UIColor.init(red: 98/255, green: 105/255, blue: 122/255, alpha: 1.0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -140,8 +141,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         switchStates.append(playMenuMusic)
         switchStates.append(alerts)
     
-        let lightColor = UIColor.init(red: 240/255, green: 236/255, blue: 220/255, alpha: 1.0)
-        let grayColor = UIColor.init(red: 98/255, green: 105/255, blue: 122/255, alpha: 1.0)
+        
         switch self.pageState {
         case "Achievements":
             self.achievementsTV.bounces = true
@@ -156,7 +156,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             self.achievementsTV.isScrollEnabled = true
             self.achievementsTV.backgroundColor = lightColor
         case "profile":
-            self.achievementsTV.bounces = true
+            self.achievementsTV.bounces = false
             self.achievementsTV.isScrollEnabled = true
             self.achievementsTV.backgroundColor = grayColor
         default:
@@ -195,13 +195,13 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             
             cell.acievementTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].title!)!)"
             if UIDevice().userInterfaceIdiom == .phone {
-                cell.progressTitle.AttributesOutLine(font: iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
-                cell.acievementTitle.AttributesOutLine(font: iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
-                cell.acievementTitleForeGround.font = iPhonefonts
+                cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
+                cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                cell.acievementTitleForeGround.font = fonts().iPhonefonts
             } else {
-                cell.progressTitle.AttributesOutLine(font: iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
-                cell.acievementTitle.AttributesOutLine(font: iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
-                cell.acievementTitleForeGround.font = iPadfonts
+                cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
+                cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                cell.acievementTitleForeGround.font = fonts().iPadfonts
             }
             cell.achievementDesc.text = "\((loadingAchievements.res?.response?[indexPath.row].describtion!)!)"
             let progressAchievement = (Float((loadingAchievements.res?.response?[indexPath.row].progress)!)!) / 10.0
@@ -220,6 +220,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             let urls2 = URL(string : url2)
             cell.playerLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
             cell.playerCup.text = "\(self.userCups[indexPath.row])"
+            cell.selectLeaderBoard.tag = indexPath.row
+            cell.selectLeaderBoard.addTarget(self, action: #selector(selectLeaderBoard), for: UIControlEvents.touchUpInside)
             return cell
         case "alerts":
             if self.alertTypes[indexPath.row] == "2" {
@@ -234,9 +236,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.alertImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
                 return cell
                 
-                
             } else {
-                
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "alertTypeChooseCell", for: indexPath) as! alertTypeChooseCell
                 
@@ -251,21 +251,87 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             }
         case "profile":
             
-            let cell = tableView.dequeueReusableCell(withIdentifier: "profile1Cell", for: indexPath) as! profile1Cell
-            
-            cell.firstProfileTitleForeGround.text = "مشخصات بازیکن"
-            if UIDevice().userInterfaceIdiom == .phone {
-                cell.firstProfileTitle.AttributesOutLine(font: iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                cell.firstProfileTitleForeGround.font = iPhonefonts
-            } else {
-                cell.firstProfileTitle.AttributesOutLine(font: iPadfonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                cell.firstProfileTitleForeGround.font = iPadfonts
+            switch indexPath.row {
+                
+            case 0 :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "profile1Cell", for: indexPath) as! profile1Cell
+                cell.contentView.backgroundColor = grayColor
+                cell.firstProfileTitleForeGround.text = "مشخصات بازیکن"
+                let url =  profileAvatar                
+                let urls = URL(string : url)
+                cell.profileAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                let url2 = profileBadge
+                let urls2 = URL(string : url2)
+                cell.profileLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                if UIDevice().userInterfaceIdiom == .phone {
+                    cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts, title: "\(profileName)", strokeWidth: -3.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\(profileID)", strokeWidth: -3.0)
+                    cell.firstProfileTitleForeGround.font = fonts().iPhonefonts
+                } else {
+                    cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts, title: "\(profileName)", strokeWidth: -3.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts, title: "\(profileID)", strokeWidth: -3.0)
+                    cell.firstProfileTitleForeGround.font = fonts().iPadfonts
+                }
+                cell.profileCup.text = profileCups
+                cell.profileLevel.text = profileLevel
+                
+                return cell
+                
+            case 1 :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "profile2Cell", for: indexPath) as! profile2Cell
+                cell.secondProfileTitleForeGround.text = "آمار و نتایج بازی ها"
+                if UIDevice().userInterfaceIdiom == .phone {
+                    cell.secondProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "آمار و نتایج بازی ها", strokeWidth: -7.0)
+                    cell.secondProfileTitleForeGround.font = fonts().iPhonefonts18
+                } else {
+                    cell.secondProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "آمار و نتایج بازی ها", strokeWidth: -7.0)
+                    cell.secondProfileTitleForeGround.font = fonts().iPadfonts25
+                }
+                cell.contentView.backgroundColor = grayColor
+                cell.drawCount.text = profileDrawCount
+                cell.winCount.text = profileWinCount
+                cell.loseCount.text = profileLoseCount
+                cell.cleanSheetCount.text = profileCleanSheetCount
+                cell.mostScores.text = profileMostScores
+                
+                return cell
+                
+            case 2 :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "profile3Cell", for: indexPath) as! profile3Cell
+                cell.contentView.backgroundColor = grayColor
+                cell.maximumScores.text = profileMaximumScore
+                cell.maximumWinCount.text = profileMaximumWinCount
+                cell.thirdProfileTitleForeGround.text = "آمار و نتایج جام های حذفی"
+                if UIDevice().userInterfaceIdiom == .phone {
+                    cell.thirdProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "آمار و نتایج جام های حذفی", strokeWidth: -7.0)
+                    cell.thirdProfileTitleForeGround.font = fonts().iPhonefonts18
+                } else {
+                    cell.thirdProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "آمار و نتایج جام های حذفی", strokeWidth: -7.0)
+                    cell.thirdProfileTitleForeGround.font = fonts().iPadfonts25
+                }
+                return cell
+                
+            default :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "profile4Cell", for: indexPath) as! profile4Cell
+                cell.contentView.backgroundColor = grayColor
+                cell.fourthProfileTitleForeGround.text = "استادیوم"
+                if UIDevice().userInterfaceIdiom == .phone {
+                    cell.fourthProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "استادیوم", strokeWidth: -7.0)
+                    cell.fourthProfileTitleForeGround.font = fonts().iPhonefonts18
+                } else {
+                    cell.fourthProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "استادیوم", strokeWidth: -7.0)
+                    cell.fourthProfileTitleForeGround.font = fonts().iPadfonts25
+                }
+                
+                let url = profileStadium
+                let urls = URL(string : url)
+                cell.stadiumImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                
+                return cell
             }
-            cell.profileName.text = (login.res?.response?.mainInfo?.username)!
-            cell.profileId.text = (login.res?.response?.mainInfo?.id)!
-            cell.profileCup.text = (login.res?.response?.mainInfo?.cups)!
             
-            return cell
            
         default:
             if indexPath.row == 0 {
@@ -276,11 +342,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! settingsCell
                 
                 if UIDevice().userInterfaceIdiom == .phone {
-                    cell.settingLabel.AttributesOutLine(font: iPhonefonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
-                    cell.settingLabelForeGround.font = iPhonefonts
+                    cell.settingLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
+                    cell.settingLabelForeGround.font = fonts().iPhonefonts
                 } else {
-                    cell.settingLabel.AttributesOutLine(font: iPadfonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
-                    cell.settingLabelForeGround.font = iPadfonts
+                    cell.settingLabel.AttributesOutLine(font: fonts().iPadfonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
+                    cell.settingLabelForeGround.font = fonts().iPadfonts
                 }
                 cell.settingLabelForeGround.text = "\(settingsTitle[indexPath.row - 1])"
                 cell.switchSet.tag = indexPath.row - 1
@@ -302,7 +368,20 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         
     }
     
-    
+    var profileAvatar = String()
+    var profileName = String()
+    var profileID = String()
+    var profileLevel = String()
+    var profileBadge = String()
+    var profileWinCount = String()
+    var profileCleanSheetCount = String()
+    var profileLoseCount = String()
+    var profileMostScores = String()
+    var profileDrawCount = String()
+    var profileStadium = String()
+    var profileMaximumWinCount = String()
+    var profileMaximumScore = String()
+    var profileCups = String()
     let playingMusic = musicPlay()
     let playSound = soundPlay()
     
@@ -328,29 +407,27 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if pageState == "Achievements" {
-        if UIDevice().userInterfaceIdiom == .phone {
-            return 150
-        } else {
-            return 220
+        
+        switch pageState {
+        case "Achievements" :
+            if UIDevice().userInterfaceIdiom == .phone {
+                return 150
+            } else {
+                return 220
             }
-            
-        } else if pageState == "LeaderBoard" {
-            
+        case "LeaderBoard" :
             if UIDevice().userInterfaceIdiom == .phone {
                 return 70
             } else {
                 return 100
             }
-            
-        } else if self.pageState == "alerts" {
-            
+        case "alerts":
             if self.alertTypes[indexPath.row] == "2" {
-            if UIDevice().userInterfaceIdiom == .phone {
-                return 350
-            } else {
-                return 350
-            }
+                if UIDevice().userInterfaceIdiom == .phone {
+                    return 350
+                } else {
+                    return 350
+                }
             } else {
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 150
@@ -358,8 +435,34 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     return 150
                 }
             }
-            
-        } else {
+        case "profile" :
+            switch indexPath.row  {
+            case 0 :
+            if UIDevice().userInterfaceIdiom == .phone {
+                return 180
+            } else {
+                return 240
+            }
+            case 1 :
+                if UIDevice().userInterfaceIdiom == .phone {
+                    return 280
+                } else {
+                    return 300
+                }
+            case 2 :
+                if UIDevice().userInterfaceIdiom == .phone {
+                    return 135
+                } else {
+                    return 150
+                }
+            default :
+                if UIDevice().userInterfaceIdiom == .phone {
+                    return 1 * (UIScreen.main.bounds.height / 3)
+                } else {
+                    return 5 * (UIScreen.main.bounds.height / 16)
+                }
+            }
+        default :
             if indexPath.row == 0 {
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 60
@@ -367,15 +470,45 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     return 100
                 }
             } else {
-          if UIDevice().userInterfaceIdiom == .phone {
-                return 70
-            } else {
-                return 90
-            }
+                if UIDevice().userInterfaceIdiom == .phone {
+                    return 70
+                } else {
+                    return 90
+                }
             }
         }
     }
     
+    @objc func selectLeaderBoard(_ sender : UIButton!) {
+        profileIndex = sender.tag
+        showProfile()
+    }
+    
+    @objc func showProfile(){
+        self.performSegue(withIdentifier: "otherProfiles", sender: self)
+    }
+    
+    var profileIndex = Int()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? menuViewController {
+            vc.menuState = "profile"
+            vc.otherProfiles = true
+            vc.oPStadium = (self.res?.response?[profileIndex].stadium!)!
+            vc.opName = (self.res?.response?[profileIndex].username!)!
+            vc.opAvatar = "http://volcan.ir/adelica/images/avatars/\((self.res?.response?[profileIndex].avatar!)!)"
+            vc.opBadge = "http://volcan.ir/adelica/images/badge/\((self.res?.response?[profileIndex].badge_name!)!)"
+            vc.opID = (self.res?.response?[profileIndex].ref_id!)!
+            vc.opCups = (self.res?.response?[profileIndex].cups!)!
+            vc.opLevel = (self.res?.response?[profileIndex].level!)!
+            vc.opWinCount = (self.res?.response?[profileIndex].win_count!)!
+            vc.opCleanSheetCount = (self.res?.response?[profileIndex].clean_sheet_count!)!
+            vc.opLoseCount = (self.res?.response?[profileIndex].lose_count!)!
+            vc.opMostScores = (self.res?.response?[profileIndex].max_points_gain!)!
+            vc.opDrawCount = (self.res?.response?[profileIndex].draw_count!)!
+            vc.opMaximumWinCount = (self.res?.response?[profileIndex].max_wins_count!)!
+            vc.opMaximumScore = (self.res?.response?[profileIndex].max_point!)!
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

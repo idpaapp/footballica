@@ -17,6 +17,9 @@ public class centerScreen {
 public class fonts {
     public var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     public var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
+    public var iPhonefonts18 = UIFont(name: "DPA_Game", size: 18)!
+    public var iPadfonts25 = UIFont(name: "DPA_Game", size: 25)!
+
 }
 
 extension UILabel {

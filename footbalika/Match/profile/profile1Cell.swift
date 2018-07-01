@@ -33,7 +33,11 @@ class profile1Cell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         mainBackGround.layer.cornerRadius = 15
-        secondBackGround.layer.cornerRadius = 15        
+        secondBackGround.layer.cornerRadius = 15
+        self.profileName.adjustsFontSizeToFitWidth = true
+        self.profileName.minimumScaleFactor = 0.5
+        self.profileId.adjustsFontSizeToFitWidth = true
+        self.profileId.minimumScaleFactor = 0.5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

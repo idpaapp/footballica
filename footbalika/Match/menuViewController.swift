@@ -33,7 +33,21 @@ class menuViewController: UIViewController {
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
     var menuState = String()
-
+    var otherProfiles = Bool()
+    var oPStadium = String()
+    var opName = String()
+    var opAvatar = String()
+    var opBadge = String()
+    var opID = String()
+    var opCups = String()
+    var opLevel = String()
+    var opWinCount = String()
+    var opCleanSheetCount = String()
+    var opLoseCount = String()
+    var opMostScores = String()
+    var opDrawCount = String()
+    var opMaximumWinCount = String()
+    var opMaximumScore = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -98,7 +112,22 @@ class menuViewController: UIViewController {
                 maintitle.AttributesOutLine(font: iPhonefonts, title: "پروفایل", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPhonefonts
             } else {
-                self.menuHeight.constant = UIScreen.main.bounds.height - 100
+                if otherProfiles == false {
+                    let stadium = (login.res?.response?.mainInfo?.stadium)!
+                    if stadium != "empty_std.jpg" {
+                        self.menuHeight.constant = UIScreen.main.bounds.height - 100
+                    } else {
+                        self.menuHeight.constant = UIScreen.main.bounds.height - 280
+                    }
+                } else {
+                    let stadium = oPStadium
+                    if stadium != "empty_std.jpg" {
+                        self.menuHeight.constant = UIScreen.main.bounds.height - 100
+                    } else {
+                        self.menuHeight.constant = UIScreen.main.bounds.height - 280
+                    }
+                }
+                
                 self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
                 maintitle.AttributesOutLine(font: iPadfonts, title: "پروفایل", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPadfonts
@@ -133,7 +162,6 @@ class menuViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vC = segue.destination as? achievementsViewController {
             vC.pageState = self.menuState
-            
             switch self.menuState {
             case "Achievements" :
                 vC.achievementCount = 10
@@ -142,7 +170,52 @@ class menuViewController: UIViewController {
             case "alerts" :
                 vC.achievementCount = 0
             case "profile" :
-                vC.achievementCount = 0
+                if otherProfiles == false {
+                    let stadium = (login.res?.response?.mainInfo?.stadium)!
+                    if stadium != "empty_std.jpg" {
+                        vC.achievementCount = 4
+                    } else {
+                        vC.achievementCount = 3
+                    }
+                    vC.otherProfile = false
+                    vC.profileAvatar = "http://volcan.ir/adelica/images/avatars/\((login.res?.response?.mainInfo?.avatar)!)"
+                    vC.profileBadge = "http://volcan.ir/adelica/images/badge/\((login.res?.response?.mainInfo?.badge_name)!)"
+                    vC.profileName = (login.res?.response?.mainInfo?.username)!
+                    vC.profileID = (login.res?.response?.mainInfo?.ref_id)!
+                    vC.profileCups = (login.res?.response?.mainInfo?.cups)!
+                    vC.profileLevel = (login.res?.response?.mainInfo?.level)!
+                    vC.profileWinCount = (login.res?.response?.mainInfo?.win_count)!
+                    vC.profileCleanSheetCount = (login.res?.response?.mainInfo?.clean_sheet_count)!
+                    vC.profileLoseCount = (login.res?.response?.mainInfo?.lose_count)!
+                    vC.profileMostScores = (login.res?.response?.mainInfo?.max_points_gain)!
+                    vC.profileDrawCount = (login.res?.response?.mainInfo?.draw_count)!
+                    vC.profileStadium = "http://volcan.ir/adelica/images/stadium/\((login.res?.response?.mainInfo?.stadium)!)"
+                    vC.profileMaximumWinCount = (login.res?.response?.mainInfo?.max_wins_count)!
+                    vC.profileMaximumScore = (login.res?.response?.mainInfo?.max_point)!
+                } else {
+                    let stadium = oPStadium
+                    if stadium != "empty_std.jpg" {
+                        vC.achievementCount = 4
+                    } else {
+                        vC.achievementCount = 3
+                    }
+                    
+                    vC.otherProfile = true
+                    vC.profileAvatar = opAvatar
+                    vC.profileBadge = opBadge
+                    vC.profileName = opName
+                    vC.profileID = opID
+                    vC.profileCups = opCups
+                    vC.profileLevel = opLevel
+                    vC.profileWinCount = opWinCount
+                    vC.profileCleanSheetCount = opCleanSheetCount
+                    vC.profileLoseCount = opLoseCount
+                    vC.profileMostScores = opMostScores
+                    vC.profileDrawCount = opDrawCount
+                    vC.profileStadium = "http://volcan.ir/adelica/images/stadium/\(oPStadium)"
+                    vC.profileMaximumWinCount = opMaximumWinCount
+                    vC.profileMaximumScore = opMaximumScore
+                }
             default :
                 vC.achievementCount = 4
             }

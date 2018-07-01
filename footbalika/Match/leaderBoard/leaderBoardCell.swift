@@ -17,6 +17,7 @@ class leaderBoardCell: UITableViewCell {
     @IBOutlet weak var playerCup: UILabel!
     @IBOutlet weak var playerCupBackGround: UIView!
     @IBOutlet weak var playerLogo: UIImageView!
+    @IBOutlet weak var selectLeaderBoard: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
