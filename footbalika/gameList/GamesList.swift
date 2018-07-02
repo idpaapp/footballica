@@ -35,7 +35,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        refreshControl.tintColor = UIColor.init(red: 60/255, green: 183/255, blue: 255/255, alpha: 1.0)
+        refreshControl.tintColor = UIColor.white
         
         if #available(iOS 10.0, *) {
             gameListTV.refreshControl = refreshControl

@@ -20,7 +20,6 @@ class alertType1Cell: UITableViewCell {
     
     @IBOutlet weak var alertDate: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         

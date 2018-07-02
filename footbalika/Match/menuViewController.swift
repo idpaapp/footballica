@@ -48,6 +48,7 @@ class menuViewController: UIViewController {
     var opDrawCount = String()
     var opMaximumWinCount = String()
     var opMaximumScore = String()
+    var uniqueId = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -117,14 +118,14 @@ class menuViewController: UIViewController {
                     if stadium != "empty_std.jpg" {
                         self.menuHeight.constant = UIScreen.main.bounds.height - 100
                     } else {
-                        self.menuHeight.constant = UIScreen.main.bounds.height - 280
+                        self.menuHeight.constant = UIScreen.main.bounds.height - 230
                     }
                 } else {
                     let stadium = oPStadium
                     if stadium != "empty_std.jpg" {
                         self.menuHeight.constant = UIScreen.main.bounds.height - 100
                     } else {
-                        self.menuHeight.constant = UIScreen.main.bounds.height - 280
+                        self.menuHeight.constant = UIScreen.main.bounds.height - 230
                     }
                 }
                 
@@ -173,9 +174,9 @@ class menuViewController: UIViewController {
                 if otherProfiles == false {
                     let stadium = (login.res?.response?.mainInfo?.stadium)!
                     if stadium != "empty_std.jpg" {
-                        vC.achievementCount = 4
+                        vC.achievementCount = 5
                     } else {
-                        vC.achievementCount = 3
+                        vC.achievementCount = 4
                     }
                     vC.otherProfile = false
                     vC.profileAvatar = "http://volcan.ir/adelica/images/avatars/\((login.res?.response?.mainInfo?.avatar)!)"
@@ -195,9 +196,9 @@ class menuViewController: UIViewController {
                 } else {
                     let stadium = oPStadium
                     if stadium != "empty_std.jpg" {
-                        vC.achievementCount = 4
+                        vC.achievementCount = 5
                     } else {
-                        vC.achievementCount = 3
+                        vC.achievementCount = 4
                     }
                     
                     vC.otherProfile = true
@@ -215,6 +216,7 @@ class menuViewController: UIViewController {
                     vC.profileStadium = "http://volcan.ir/adelica/images/stadium/\(oPStadium)"
                     vC.profileMaximumWinCount = opMaximumWinCount
                     vC.profileMaximumScore = opMaximumScore
+                    vC.uniqueId = uniqueId
                 }
             default :
                 vC.achievementCount = 4

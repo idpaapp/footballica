@@ -67,7 +67,7 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         
         pageControl.currentPageIndicatorTintColor = UIColor.clear
         
-        self.view.backgroundColor = UIColor.black
+        self.view.backgroundColor = UIColor.clear
         self.delegate = self
         self.dataSource = self
         if let firstVC = VCArr.last {

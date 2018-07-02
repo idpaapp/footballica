@@ -45,7 +45,7 @@ class menuButtonCell: UICollectionViewCell {
             {
                 UIView.animate(withDuration: 0.5, animations: {
                     self.menuImage.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-                    self.backGroundView.backgroundColor = UIColor.init(red: 99/255, green: 118/255, blue: 136/255, alpha: 1.0)
+                    self.backGroundView.backgroundColor = UIColor.init(red: 99/255, green: 118/255, blue: 136/255, alpha: 0.5)
                 })
                 UIView.animate(withDuration: 5, animations: {
                     if UIDevice().userInterfaceIdiom == .phone  {
@@ -60,7 +60,7 @@ class menuButtonCell: UICollectionViewCell {
             {
                 UIView.animate(withDuration: 0.5, animations: {
                     self.menuImage.transform = CGAffineTransform.identity
-                    self.backGroundView.backgroundColor = UIColor.init(red: 51/255, green: 67/255, blue: 83/255, alpha: 1.0)
+                    self.backGroundView.backgroundColor = UIColor.init(red: 51/255, green: 67/255, blue: 83/255, alpha: 0.3)
                 })
                 UIView.animate(withDuration: 5, animations: {
                      if UIDevice().userInterfaceIdiom == .phone  {

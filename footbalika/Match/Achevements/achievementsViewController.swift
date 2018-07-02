@@ -34,6 +34,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var userCups = [String]()
     var userLogo = [String]()
     var otherProfile = Bool()
+    var userButtons = Bool()
     
     @objc func leaderBoardJson() {
         
@@ -124,10 +125,47 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             }.resume()
     }
     
+    static var friendsRes : friendList.Response? = nil;
+    var friendsId = [String]()
+    @objc func otherProfileJson() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid': 1 }") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        achievementsViewController.friendsRes = try JSONDecoder().decode(friendList.Response.self , from : data!)
+                        
+                        for i in 0...(achievementsViewController.friendsRes?.response?.count)! - 1 {
+                            self.friendsId.append((achievementsViewController.friendsRes?.response?[i].friend_id!)!)
+                        }
+                        self.userButtons = true
+                        DispatchQueue.main.async {
+                            if self.pageState == "profile" {
+                            let indexPathOfFriend = IndexPath(row: 1, section: 0)
+                            self.achievementsTV.reloadRows(at: [indexPathOfFriend], with: .none)
+                            }
+                        }
+                    } catch {
+                        self.otherProfileJson()
+                        print(error)
+                    }
+                } else {
+                    self.otherProfileJson()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
     
     let lightColor = UIColor.init(red: 240/255, green: 236/255, blue: 220/255, alpha: 1.0)
     let grayColor = UIColor.init(red: 98/255, green: 105/255, blue: 122/255, alpha: 1.0)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -141,6 +179,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         switchStates.append(playMenuMusic)
         switchStates.append(alerts)
     
+        if otherProfile == true {
+            otherProfileJson()
+        } else {
+            
+        }
         
         switch self.pageState {
         case "Achievements":
@@ -279,7 +322,42 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 return cell
                 
+                
             case 1 :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "profileButtonsCell", for: indexPath) as! profileButtonsCell
+                
+                cell.contentView.backgroundColor = grayColor
+
+                if otherProfile == true {
+                    if userButtons ==  true {
+                    cell.completingProfile.isHidden = true
+                        \\
+                        if self.friendsId.contains("userID") {
+                            cell.cancelFriendship.isHidden = true
+                            cell.friendshipRequest.isHidden = true
+                            cell.playRequest.isHidden = true
+                        } else if self.friendsId.contains(uniqueId) {
+                        cell.cancelFriendship.isHidden = false
+                        cell.friendshipRequest.isHidden = true
+                        cell.playRequest.isHidden = false
+                    } else {
+                        cell.cancelFriendship.isHidden = true
+                        cell.friendshipRequest.isHidden = false
+                        cell.playRequest.isHidden = true
+                    }
+                } else {
+                    cell.completingProfile.isHidden = false
+                }
+                } else {
+                    cell.cancelFriendship.isHidden = true
+                    cell.friendshipRequest.isHidden = true
+                    cell.playRequest.isHidden = true
+                    cell.completingProfile.isHidden = true
+                }
+                
+                return cell
+                
+            case 2 :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile2Cell", for: indexPath) as! profile2Cell
                 cell.secondProfileTitleForeGround.text = "آمار و نتایج بازی ها"
                 if UIDevice().userInterfaceIdiom == .phone {
@@ -295,10 +373,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.loseCount.text = profileLoseCount
                 cell.cleanSheetCount.text = profileCleanSheetCount
                 cell.mostScores.text = profileMostScores
-                
                 return cell
                 
-            case 2 :
+            case 3 :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile3Cell", for: indexPath) as! profile3Cell
                 cell.contentView.backgroundColor = grayColor
                 cell.maximumScores.text = profileMaximumScore
@@ -331,7 +408,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 return cell
             }
-            
            
         default:
             if indexPath.row == 0 {
@@ -382,8 +458,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var profileMaximumWinCount = String()
     var profileMaximumScore = String()
     var profileCups = String()
+    var uniqueId = String()
     let playingMusic = musicPlay()
     let playSound = soundPlay()
+    
     
     @objc func switchChanged(_ sender : UISwitch!) {
          if (sender.isOn == true){
@@ -444,12 +522,26 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 return 240
             }
             case 1 :
+                if otherProfile == true {
+                    if userButtons == true {
+                    if UIDevice().userInterfaceIdiom == .phone {
+                        return 50
+                    } else {
+                        return 50
+                    }
+                    } else {
+                        return 0
+                    }
+                } else {
+                    return 0
+                }
+            case 2 :
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 280
                 } else {
                     return 300
                 }
-            case 2 :
+            case 3 :
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 135
                 } else {
@@ -507,8 +599,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             vc.opDrawCount = (self.res?.response?[profileIndex].draw_count!)!
             vc.opMaximumWinCount = (self.res?.response?[profileIndex].max_wins_count!)!
             vc.opMaximumScore = (self.res?.response?[profileIndex].max_point!)!
+            vc.uniqueId = (self.res?.response?[profileIndex].id!)!
         }
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

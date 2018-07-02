@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5C15C89E20EA130C0024E66C /* connectionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C15C89D20EA130C0024E66C /* connectionView.xib */; };
+		5C15C8A020EA131C0024E66C /* connectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C15C89F20EA131C0024E66C /* connectionView.swift */; };
 		5C27142020E89E0C008F1E37 /* profile2Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27141F20E89E0C008F1E37 /* profile2Cell.swift */; };
 		5C27142220E8AB4D008F1E37 /* profile3Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27142120E8AB4D008F1E37 /* profile3Cell.swift */; };
 		5C27142420E8B504008F1E37 /* profile4Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27142320E8B504008F1E37 /* profile4Cell.swift */; };
@@ -96,10 +98,15 @@
 		5CC4045520E2222300EC97FF /* menuAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC4045420E2222300EC97FF /* menuAlertViewController.swift */; };
 		5CC4045920E2223F00EC97FF /* menuAlert.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CC4045820E2223F00EC97FF /* menuAlert.xib */; };
 		5CC4045B20E22EC100EC97FF /* menuAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC4045A20E22EC100EC97FF /* menuAlert.swift */; };
+		5CC5DC3E20E9E0EE006F2855 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC5DC3D20E9E0EE006F2855 /* DesignableView.swift */; };
+		5CC5DC4020E9FBA4006F2855 /* friendList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC5DC3F20E9FBA4006F2855 /* friendList.swift */; };
+		5CC5DC4220EA0448006F2855 /* profileButtonsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CC5DC4120EA0448006F2855 /* profileButtonsCell.swift */; };
 		8C48964F5A4FD60E6D718F91 /* Pods_footbalika.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92AE449EB012E59CD33A9860 /* Pods_footbalika.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5C15C89D20EA130C0024E66C /* connectionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = connectionView.xib; sourceTree = "<group>"; };
+		5C15C89F20EA131C0024E66C /* connectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = connectionView.swift; sourceTree = "<group>"; };
 		5C27141F20E89E0C008F1E37 /* profile2Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile2Cell.swift; sourceTree = "<group>"; };
 		5C27142120E8AB4D008F1E37 /* profile3Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile3Cell.swift; sourceTree = "<group>"; };
 		5C27142320E8B504008F1E37 /* profile4Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile4Cell.swift; sourceTree = "<group>"; };
@@ -191,6 +198,9 @@
 		5CC4045420E2222300EC97FF /* menuAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuAlertViewController.swift; sourceTree = "<group>"; };
 		5CC4045820E2223F00EC97FF /* menuAlert.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = menuAlert.xib; sourceTree = "<group>"; };
 		5CC4045A20E22EC100EC97FF /* menuAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuAlert.swift; sourceTree = "<group>"; };
+		5CC5DC3D20E9E0EE006F2855 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
+		5CC5DC3F20E9FBA4006F2855 /* friendList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = friendList.swift; sourceTree = "<group>"; };
+		5CC5DC4120EA0448006F2855 /* profileButtonsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileButtonsCell.swift; sourceTree = "<group>"; };
 		708CCABC5FECE0274167520F /* Pods-footbalika.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-footbalika.debug.xcconfig"; path = "Pods/Target Support Files/Pods-footbalika/Pods-footbalika.debug.xcconfig"; sourceTree = "<group>"; };
 		7515AA704A7F5C6185BED045 /* Pods-footbalika.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-footbalika.release.xcconfig"; path = "Pods/Target Support Files/Pods-footbalika/Pods-footbalika.release.xcconfig"; sourceTree = "<group>"; };
 		92AE449EB012E59CD33A9860 /* Pods_footbalika.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_footbalika.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -208,6 +218,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C055FFB20EA2D6C006267C1 /* connectionView */ = {
+			isa = PBXGroup;
+			children = (
+				5C15C89F20EA131C0024E66C /* connectionView.swift */,
+				5C15C89D20EA130C0024E66C /* connectionView.xib */,
+			);
+			path = connectionView;
+			sourceTree = "<group>";
+		};
 		5C202D9120CE5B46008FA1AB /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -289,6 +308,7 @@
 				5C27141F20E89E0C008F1E37 /* profile2Cell.swift */,
 				5C27142120E8AB4D008F1E37 /* profile3Cell.swift */,
 				5C27142320E8B504008F1E37 /* profile4Cell.swift */,
+				5CC5DC4120EA0448006F2855 /* profileButtonsCell.swift */,
 			);
 			path = profile;
 			sourceTree = "<group>";
@@ -480,6 +500,8 @@
 				5CAEEFFB20D648FD00514842 /* giftRewards.swift */,
 				5C430DDF20E3659D001C155B /* leaderBoard.swift */,
 				5C80B42520E74B04000E5035 /* allAlerts.swift */,
+				5CC5DC3F20E9FBA4006F2855 /* friendList.swift */,
+				5C055FFB20EA2D6C006267C1 /* connectionView */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -541,6 +563,7 @@
 				5C84D50B20CCFED500A9DC67 /* RoundButton.swift */,
 				5C84D50C20CCFED500A9DC67 /* publicExtension.swift */,
 				5C84D51F20CCFFE500A9DC67 /* GradientView.swift */,
+				5CC5DC3D20E9E0EE006F2855 /* DesignableView.swift */,
 			);
 			path = public;
 			sourceTree = "<group>";
@@ -650,6 +673,7 @@
 				5C84D51220CCFED500A9DC67 /* iPhoneX.storyboard in Resources */,
 				5C84D4F920CCFD2500A9DC67 /* Main.storyboard in Resources */,
 				5CA52BF420E0B10800A58AFF /* menuCell.xib in Resources */,
+				5C15C89E20EA130C0024E66C /* connectionView.xib in Resources */,
 				5C6F538220E0A8F10037748F /* menuView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,6 +732,7 @@
 				5C9FFCE220D8DBCA007A11C0 /* tblChargeTypes.swift in Sources */,
 				5C84D51820CCFF7100A9DC67 /* mainPageViewController.swift in Sources */,
 				5C84D51120CCFED500A9DC67 /* publicExtension.swift in Sources */,
+				5C15C8A020EA131C0024E66C /* connectionView.swift in Sources */,
 				5C80B42620E74B04000E5035 /* allAlerts.swift in Sources */,
 				5CAEEFFA20D648BC00514842 /* userXps.swift in Sources */,
 				5C4E36E120D911AE00B1DAB0 /* loginnots_achv.swift in Sources */,
@@ -723,6 +748,7 @@
 				5CAEEFFC20D648FD00514842 /* giftRewards.swift in Sources */,
 				5CBB992720DE095300C17884 /* loadShopStructure.swift in Sources */,
 				5C9FFCEB20D8E811007A11C0 /* tblStadiums.swift in Sources */,
+				5CC5DC4220EA0448006F2855 /* profileButtonsCell.swift in Sources */,
 				5C2AEF5120DE73AF00C5EEA6 /* leagueCell.swift in Sources */,
 				5CAEEFF420D647B600514842 /* gameLeagues.swift in Sources */,
 				5CBB993220DE1D8400C17884 /* loadingAchievementsStructure.swift in Sources */,
@@ -735,6 +761,7 @@
 				5CBB993720DE23F500C17884 /* loadMassagesStructure.swift in Sources */,
 				5CBB993020DE1D2B00C17884 /* loadingAchievements.swift in Sources */,
 				5C9FFCEF20D8E842007A11C0 /* WritetblStadiums.swift in Sources */,
+				5CC5DC4020E9FBA4006F2855 /* friendList.swift in Sources */,
 				5C80B42820E7536B000E5035 /* alertTypeChooseCell.swift in Sources */,
 				5C9FFCE620D8DC3F007A11C0 /* WritetblChargeTypes.swift in Sources */,
 				5CBB992B20DE0B4900C17884 /* loadShopPackage_awards.swift in Sources */,
@@ -754,6 +781,7 @@
 				5C84D51C20CCFF9B00A9DC67 /* storeCell.swift in Sources */,
 				5CBB992920DE0AA000C17884 /* loadShopItems.swift in Sources */,
 				5CAEEFEE20D6404B00514842 /* gameDataModel.swift in Sources */,
+				5CC5DC3E20E9E0EE006F2855 /* DesignableView.swift in Sources */,
 				5C34C91720CFD6CF0095B968 /* achievementsViewController.swift in Sources */,
 				5CC4045B20E22EC100EC97FF /* menuAlert.swift in Sources */,
 				5C6ED3D420CFEA6F005DF73F /* BallThumb.swift in Sources */,
