@@ -32,7 +32,8 @@ class startMatchCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        matchTitle.minimumScaleFactor = 0.5
+        matchTitle.adjustsFontSizeToFitWidth = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

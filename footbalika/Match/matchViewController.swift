@@ -50,6 +50,9 @@ class matchViewController: UIViewController {
 //     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
     var menuState = String()
+    var alertTitle = String()
+    var alertBody = String()
+    var alertAcceptLabel = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -128,7 +131,42 @@ class matchViewController: UIViewController {
     }
     
     @IBAction func StartAMatch(_ sender: RoundButton) {
-        self.performSegue(withIdentifier: "startingMatch", sender: self)
+        requestNewMatch()
+    }
+    
+    var matchCreateRes : String? = nil;
+    @objc func requestNewMatch() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'START_RANDOM_GAME_FOR_TEST','userid':'1'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+//                                    print(data ?? "")
+
+                        self.matchCreateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+
+//                    if ((self.matchCreateRes)!).contains("GAME_NOT_AVAILABILE") {
+//                        self.alertTitle = "اخطار"
+//                        self.alertBody = "بازی های فعال شما از حد مجاز گذشته باید بازیاتو شارژ کنی یا صبر کنی تا یه بازی تموم بشه"
+//                        self.alertAcceptLabel = "تأیید"
+//                        self.performSegue(withIdentifier: "showAlert2Btn", sender: self)
+//                    } else {
+//                        self.performSegue(withIdentifier: "startingMatch", sender: self)
+//                    }
+                    self.performSegue(withIdentifier: "startingMatch", sender: self)
+
+                    
+                    
+                } else {
+                    self.requestNewMatch()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+        
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -140,9 +178,15 @@ class matchViewController: UIViewController {
         }
         
         if let VC = segue.destination as? menuAlertViewController {
-            VC.alertTitle = "اخطار"
-            VC.alertBody = "بخش کارخانه سوال به زودی راه اندازی خواهد شد"
-            VC.alertAcceptLabel = "تأیید"
+            VC.alertTitle = self.alertTitle
+            VC.alertBody = self.alertBody
+            VC.alertAcceptLabel = self.alertAcceptLabel
+        }
+        
+        if let viewCon = segue.destination as? menuAlert2ButtonsViewController {
+            viewCon.alertTitle = self.alertTitle
+            viewCon.alertBody = self.alertBody
+            viewCon.alertAcceptLabel = self.alertAcceptLabel
         }
     }
     
@@ -166,6 +210,9 @@ class matchViewController: UIViewController {
     
     
     @IBAction func questionsBank(_ sender: RoundButton) {
+        self.alertTitle = "اخطار"
+        self.alertBody = "بخش کارخانه سوال به زودی راه اندازی خواهد شد"
+        self.alertAcceptLabel = "تأیید"
         self.performSegue(withIdentifier: "alert", sender: self)
     }
     

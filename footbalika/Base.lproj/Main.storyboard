@@ -710,6 +710,7 @@
                         <segue destination="F3Z-Hl-jab" kind="presentation" identifier="leagueShow" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="MQl-2G-2Vg"/>
                         <segue destination="rZL-t8-5eQ" kind="presentation" identifier="giftsAndCharges" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="4Sq-nf-ez1"/>
                         <segue destination="fuF-wP-gKN" kind="presentation" identifier="alert" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="LfF-cD-YKj"/>
+                        <segue destination="33x-am-hmp" kind="presentation" identifier="showAlert2Btn" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="wU6-MG-i6J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3z-yo-Xeu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1101,6 +1102,14 @@
                         <viewLayoutGuide key="safeArea" id="7bf-xp-F9m"/>
                     </view>
                     <connections>
+                        <outlet property="player1Avatar" destination="Bzk-Xb-wq6" id="sIX-9e-LXS"/>
+                        <outlet property="player1Level" destination="dtC-3z-7bv" id="adZ-u2-Nxg"/>
+                        <outlet property="player1Name" destination="d8W-hb-8dP" id="KEI-Tl-KlS"/>
+                        <outlet property="player1Score" destination="GKR-J4-yc5" id="xLG-nD-XWX"/>
+                        <outlet property="player2Avatar" destination="Zu8-Kx-opu" id="Tru-0U-0Ah"/>
+                        <outlet property="player2Level" destination="rhv-AY-Ewr" id="fat-zq-aZs"/>
+                        <outlet property="player2Name" destination="eeq-Zo-daK" id="IZv-uW-mkj"/>
+                        <outlet property="player2Score" destination="whR-JV-tNQ" id="IFR-1i-mFz"/>
                         <outlet property="startMatchTV" destination="UlP-Nl-b8b" id="owf-QT-zQt"/>
                     </connections>
                 </viewController>
@@ -1886,6 +1895,21 @@
             </objects>
             <point key="canvasLocation" x="1901.5999999999999" y="2033.497536945813"/>
         </scene>
+        <!--Menu Alert2 Buttons View Controller-->
+        <scene sceneID="tvZ-pO-RII">
+            <objects>
+                <viewController restorationIdentifier="menuAlert2ButtonsViewController" storyboardIdentifier="menuAlert2ButtonsViewController" modalTransitionStyle="crossDissolve" id="33x-am-hmp" customClass="menuAlert2ButtonsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bII-9b-rpf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="pE3-Oc-VkC"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bqD-tc-NWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2838" y="2140"/>
+        </scene>
         <!--Menu View Controller-->
         <scene sceneID="Dl0-gh-BH0">
             <objects>
@@ -1922,13 +1946,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HIi-PW-2FK">
-                                        <rect key="frame" x="144.5" y="11" width="45.5" height="27"/>
+                                        <rect key="frame" x="144" y="11" width="45.5" height="27"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KiX-V4-VZ3">
-                                        <rect key="frame" x="144.5" y="11" width="45.5" height="27"/>
+                                        <rect key="frame" x="144" y="11" width="45.5" height="27"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -2291,7 +2315,7 @@
                                                     <rect key="frame" x="15" y="11" width="293" height="69"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Is-g7-ozW">
-                                                            <rect key="frame" x="253" y="24" width="30" height="22"/>
+                                                            <rect key="frame" x="253" y="23.5" width="30" height="22"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="y6f-Oc-eEj"/>
                                                             </constraints>
@@ -2307,7 +2331,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaP-KZ-hXf">
-                                                            <rect key="frame" x="120" y="24" width="83" height="22"/>
+                                                            <rect key="frame" x="120" y="23.5" width="83" height="22"/>
                                                             <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -3272,6 +3296,6 @@
         <image name="xpProgress" width="201" height="416"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FbV-sN-c3I"/>
+        <segue reference="uy9-ug-KDx"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -308,13 +308,13 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.profileLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts, title: "\(profileName)", strokeWidth: -3.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\(profileName)", strokeWidth: -3.0)
                     cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\(profileID)", strokeWidth: -3.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPhonefonts
                 } else {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts, title: "\(profileName)", strokeWidth: -3.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts, title: "\(profileID)", strokeWidth: -3.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileName)", strokeWidth: -3.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileID)", strokeWidth: -3.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPadfonts
                 }
                 cell.profileCup.text = profileCups
@@ -331,8 +331,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 if otherProfile == true {
                     if userButtons ==  true {
                     cell.completingProfile.isHidden = true
-                        \\
-                        if self.friendsId.contains("userID") {
+                        if uniqueId == "1" {
                             cell.cancelFriendship.isHidden = true
                             cell.friendshipRequest.isHidden = true
                             cell.playRequest.isHidden = true
@@ -524,11 +523,15 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             case 1 :
                 if otherProfile == true {
                     if userButtons == true {
-                    if UIDevice().userInterfaceIdiom == .phone {
-                        return 50
-                    } else {
-                        return 50
-                    }
+                        if uniqueId == "1" {
+                            return 0 
+                        } else {
+                       if UIDevice().userInterfaceIdiom == .phone {
+                            return 50
+                        } else {
+                           return 50
+                        }
+                        }
                     } else {
                         return 0
                     }
