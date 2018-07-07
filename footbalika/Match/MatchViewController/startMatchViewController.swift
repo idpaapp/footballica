@@ -11,7 +11,8 @@ import Kingfisher
 
 class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
 
-
+    @IBOutlet weak var playGameOutlet: RoundButton!
+    
     @IBOutlet weak var startMatchTV: UITableView!
     
     @IBOutlet weak var player1Avatar: UIImageView!
@@ -37,9 +38,10 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var redBall = UIImage(named: "ic_red_ball")
     var greenBall = UIImage(named: "ic_green_ball")
     var emptyBall =  UIImage()
+    var matchID = String()
     func loadMatchData() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid':'2548'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : 1}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -70,6 +72,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                             self.player1Score.text = "\((self.res?.response?.matchData?.player1_result)!)"
                             
                             self.player2Score.text = "\((self.res?.response?.matchData?.player2_result)!)"
+                            if (self.res?.response?.isYourTurn)! == true {
+                                self.playGameOutlet.setTitle("بازی کن", for: UIControlState.normal)
+                            } else {
+                                self.playGameOutlet.setTitle("نوبت بازی حریف", for: UIControlState.normal)
+                            }
                             self.startMatchTV.reloadData()
                         }
                     } catch {
@@ -195,6 +202,9 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     @IBAction func backAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
+    }
+    @IBAction func playGameAction(_ sender: RoundButton) {
+        
     }
     
 }

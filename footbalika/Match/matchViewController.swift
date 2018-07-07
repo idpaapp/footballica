@@ -145,15 +145,14 @@ class matchViewController: UIViewController {
 
                         self.matchCreateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
 
-//                    if ((self.matchCreateRes)!).contains("GAME_NOT_AVAILABILE") {
-//                        self.alertTitle = "اخطار"
-//                        self.alertBody = "بازی های فعال شما از حد مجاز گذشته باید بازیاتو شارژ کنی یا صبر کنی تا یه بازی تموم بشه"
-//                        self.alertAcceptLabel = "تأیید"
-//                        self.performSegue(withIdentifier: "showAlert2Btn", sender: self)
-//                    } else {
-//                        self.performSegue(withIdentifier: "startingMatch", sender: self)
-//                    }
-                    self.performSegue(withIdentifier: "startingMatch", sender: self)
+                    if ((self.matchCreateRes)!).contains("GAME_NOT_AVAILABILE") {
+                        self.alertTitle = "اخطار"
+                        self.alertBody = "بازی های فعال شما از حد مجاز گذشته باید بازیاتو شارژ کنی یا صبر کنی تا یه بازی تموم بشه"
+                        self.alertAcceptLabel = "تأیید"
+                        self.performSegue(withIdentifier: "showAlert2Btn", sender: self)
+                    } else {
+                        self.performSegue(withIdentifier: "startingMatch", sender: self)
+                    }
 
                     
                     
@@ -187,6 +186,10 @@ class matchViewController: UIViewController {
             viewCon.alertTitle = self.alertTitle
             viewCon.alertBody = self.alertBody
             viewCon.alertAcceptLabel = self.alertAcceptLabel
+        }
+        
+        if let Vc = segue.destination as? startMatchViewController {
+            Vc.matchID = (self.matchCreateRes)!
         }
     }
     

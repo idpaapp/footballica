@@ -13,5 +13,6 @@ import RealmSwift
 class tblChargeTypes: Object {
     @objc dynamic var  id  = 0
     @objc dynamic var title = ""
-    @objc dynamic var image_path = ""
+    @objc dynamic var img_logo = ""
+    @objc dynamic var img_base64 = ""
 }

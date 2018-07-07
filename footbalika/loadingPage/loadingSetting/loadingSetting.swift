@@ -24,7 +24,8 @@ public class loadingSetting {
 //                        print((loadingSetting.res?.response?.splash_back!)!)
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("updateProgress"), object: nil)
-                        self.updateLastProgress()
+                        downloadAssets.init().getIDs()
+//                        self.updateLastProgress()
                         //                        loadShop.init().loadingShop(userid: userid)
                     } catch {
                         self.loadSetting(userid: userid)
@@ -41,12 +42,5 @@ public class loadingSetting {
             }.resume()
     }
     
-    @objc func updateLastProgress() {
-        for _ in 0...3 {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-                let nc = NotificationCenter.default
-                nc.post(name: Notification.Name("updateProgress"), object: nil)
-            }
-        }
-    }
+
 }

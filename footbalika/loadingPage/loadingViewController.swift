@@ -81,7 +81,7 @@ class loadingViewController: UIViewController {
                         let gameTypesID = gametID!
                         let gameTypesTitle = ((loadingViewController.loadGameData?.response?.gameTypes[i].title!)!)
                         let gameTypesImg_logo = ((loadingViewController.loadGameData?.response?.gameTypes[i].img_logo!)!)
-                        self.writetblMatchTypes.writeToDBtblMatchTypes(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo)
+                        self.writetblMatchTypes.writeToDBtblMatchTypes(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo, base64: "")
                     }
                         
                         for i in 0...(loadingViewController.loadGameData?.response?.gameCharge.count)! - 1 {
@@ -89,7 +89,7 @@ class loadingViewController: UIViewController {
                             let chargeTypesID = ID!
                             let chargeTypesTitle = ((loadingViewController.loadGameData?.response?.gameCharge[i].title!)!)
                             let chargeTypesImagePath = ((loadingViewController.loadGameData?.response?.gameCharge[i].image_path!)!)
-                            self.writeChargeTypes.writeToDBtblChargeTypes(chargeTypesID: chargeTypesID, chargeTypesTitle: chargeTypesTitle, chargeTypesImagePath: chargeTypesImagePath)
+                            self.writeChargeTypes.writeToDBtblChargeTypes(chargeTypesID: chargeTypesID, chargeTypesTitle: chargeTypesTitle, chargeTypesImagePath: chargeTypesImagePath, base64: "")
                         }
                         
                         for i in 0...(loadingViewController.loadGameData?.response?.stadiumData.count)! - 1 {
@@ -98,7 +98,7 @@ class loadingViewController: UIViewController {
                             let title = ((loadingViewController.loadGameData?.response?.stadiumData[i].title!)!)
                             let imagePath = ((loadingViewController.loadGameData?.response?.stadiumData[i].image_path!)!)
                             let extendImage = ((loadingViewController.loadGameData?.response?.stadiumData[i].extended_image!)!)
-                            self.writeStadiums.writeToDBtblChargeTypes(id: id, title: title, imagePath: imagePath, extendedImage: extendImage)
+                            self.writeStadiums.writeToDBtblChargeTypes(id: id, title: title, imagePath: imagePath, extendedBase64Image: extendImage)
                         }
                         self.endProgress = 0.1
                         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
@@ -168,11 +168,11 @@ class loadingViewController: UIViewController {
         DispatchQueue.main.async {
             if self.currentProgress < self.endProgress {
             self.currentProgress = (self.currentProgress * 100).rounded() / 100
-            print("self.currentProgress\(self.currentProgress)")
             if self.currentProgress == 0.99 {
                 self.currentProgress = 1.0
                 self.loadingProgress.progress = self.currentProgress
                 if UIDevice().userInterfaceIdiom == .phone {
+                    print("self.currentProgress\(self.currentProgress)")
                     self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
                 } else {
                     self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)

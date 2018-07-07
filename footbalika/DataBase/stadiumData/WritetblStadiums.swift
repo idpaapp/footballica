@@ -19,20 +19,24 @@ public class WritetblStadiums {
         }
     }
     
-    public func writeToDBStadiums(id : Int , title : String , imagePath : String , extended_image : String ) {
+    public func writeToDBStadiums(id : Int , title : String , imagePath : String , extendedbase64_image : String ) {
         do {
             let realms = try! Realm()
             try realms.write({
                 let TblStadiums = tblStadiums()
                 TblStadiums.id = id
-                print(TblStadiums.id)
-                print(id)
+//                print(TblStadiums.id)
+//                print(id)
+                if title != "" {
                 TblStadiums.title = title
-                TblStadiums.image_path = imagePath
-                TblStadiums.extended_image = extended_image
+                }
+                TblStadiums.img_logo = imagePath
+                if extendedbase64_image != "" {
+                TblStadiums.img_base64 = extendedbase64_image
+                }
                 realms.add(TblStadiums, update: false)
-                print(" variable stored.")
-                print(self.tblStadiumsArray.count)
+//                print(" variable stored.")
+//                print(self.tblStadiumsArray.count)
             })
         }catch let error {
             print(error)

@@ -18,20 +18,29 @@ public class WritetblChargeTypes {
             return realm.objects(tblChargeTypes.self)
         }
     }
-    
-    public func writeToDBChargeTypes(id : Int , title : String , imagePath : String ) {
+    static var chargeTypeImagesID = [Int]()
+    static var chargeTypeImagesPath = [String]()
+    public func writeToDBChargeTypes(id : Int , title : String , imagePath : String , base64 : String ) {
         do {
             let realms = try! Realm()
             try realms.write({
                 let TblChargeTypes = tblChargeTypes()
                 TblChargeTypes.id = id
-                print(TblChargeTypes.id)
-                print(id)
+//                print(TblChargeTypes.id)
+//                print(id)
+                 if title != "" {
                 TblChargeTypes.title = title
-                TblChargeTypes.image_path = imagePath
+                }
+                TblChargeTypes.img_logo = imagePath
+                if base64 != "" {
+                    TblChargeTypes.img_base64 = base64
+                }
+//                print(TblChargeTypes.img_base64)
                 realms.add(TblChargeTypes, update: false)
-                print(" variable stored.")
-                print(self.tblChargeTypesArray.count)
+                WritetblChargeTypes.chargeTypeImagesID.append(TblChargeTypes.id)
+                WritetblChargeTypes.chargeTypeImagesPath.append(TblChargeTypes.img_logo)
+//                print(" variable stored.")
+//                print(self.tblChargeTypesArray.count)
             })
         }catch let error {
             print(error)

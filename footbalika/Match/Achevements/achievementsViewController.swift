@@ -23,11 +23,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     var switchStates = [Bool]()
-    
     let playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
     let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
     let alerts = UserDefaults.standard.bool(forKey: "alerts")
-
     public var res : leaderBoard.Response? = nil ;
     var userNames = [String]()
     var userImages = [String]()

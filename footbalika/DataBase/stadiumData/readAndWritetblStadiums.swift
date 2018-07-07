@@ -18,7 +18,7 @@ public class readAndWritetblStadiums {
         }
     }
     var WtblStadiums = WritetblStadiums()
-    public func writeToDBtblChargeTypes(id : Int ,title : String ,imagePath : String , extendedImage : String ) {
+    public func writeToDBtblChargeTypes(id : Int ,title : String ,imagePath : String , extendedBase64Image : String ) {
         
         DispatchQueue.main.async {
             if self.tblStadiumsArray.count != 0 {
@@ -26,17 +26,16 @@ public class readAndWritetblStadiums {
                 let realmID = self.realm.objects(tblStadiums.self).filter("id == \(id)")
                 
                 if realmID.first?.id != nil {
-                    if realmID.first?.id == id && (realmID.first?.title)! == title && (realmID.first?.image_path)! == imagePath &&  (realmID.first?.extended_image)! == extendedImage{
+                    if realmID.first?.id == id && (realmID.first?.title)! == title && (realmID.first?.img_logo)! == imagePath &&  (realmID.first?.img_base64)! == extendedBase64Image{
                         
                     } else {
-                        self.WtblStadiums.writeToDBStadiums(id: id, title: title, imagePath: imagePath, extended_image: extendedImage)
+                        self.WtblStadiums.writeToDBStadiums(id: id, title: title, imagePath: imagePath, extendedbase64_image : extendedBase64Image)
                     }
                 } else {
-                    self.WtblStadiums.writeToDBStadiums(id: id, title: title, imagePath: imagePath, extended_image: extendedImage)
+                    self.WtblStadiums.writeToDBStadiums(id: id, title: title, imagePath: imagePath, extendedbase64_image: extendedBase64Image)
                 }
-                
             } else {
-                self.WtblStadiums.writeToDBStadiums(id: id, title: title, imagePath: imagePath, extended_image: extendedImage)
+                self.WtblStadiums.writeToDBStadiums(id: id, title: title, imagePath: imagePath, extendedbase64_image: extendedBase64Image)
             }
         }
     }

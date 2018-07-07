@@ -30,10 +30,17 @@ class startMatchCell: UITableViewCell {
     
     @IBOutlet weak var bl4: UIImageView!
     
+    @IBOutlet weak var ballHeight: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         matchTitle.minimumScaleFactor = 0.5
         matchTitle.adjustsFontSizeToFitWidth = true
+        if UIScreen.main.bounds.width == 320 {
+            ballHeight.constant = 25
+        } else {
+           
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

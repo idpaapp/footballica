@@ -18,25 +18,23 @@ public class readAndWritetblMatchTypes {
         }
     }
     var WblMatchTypes = WritetblMatchTypes()
-    public func writeToDBtblMatchTypes(gameTypesID : Int ,gameTypesTitle : String ,gameTypesImg_logo : String ) {
+    public func writeToDBtblMatchTypes(gameTypesID : Int ,gameTypesTitle : String ,gameTypesImg_logo : String  , base64 : String) {
         
         DispatchQueue.main.async {
             if self.tblMatchTypesArray.count != 0 {
 
                 let realmID = self.realm.objects(tblMatchTypes.self).filter("id == \(gameTypesID)")
-                
                 if realmID.first?.id != nil {
                 if realmID.first?.id == gameTypesID && (realmID.first?.title)! == gameTypesTitle && (realmID.first?.img_logo)! == gameTypesImg_logo {
                     
                 } else {
-                    self.WblMatchTypes.writeToDB(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo)
+                    self.WblMatchTypes.writeToDB(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo, base64: base64)
                     }
                 } else {
-                    self.WblMatchTypes.writeToDB(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo)
+                    self.WblMatchTypes.writeToDB(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo, base64: base64)
                 }
-                
             } else {
-                self.WblMatchTypes.writeToDB(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo)
+                self.WblMatchTypes.writeToDB(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo, base64: base64)
             }
         }
     }

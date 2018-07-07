@@ -18,20 +18,28 @@ public class WritetblMatchTypes {
             return realm.objects(tblMatchTypes.self)
         }
     }
-    
-    public func writeToDB(gameTypesID : Int , gameTypesTitle : String , gameTypesImg_logo : String ) {
+    static var matchTypeImagesID = [Int]()
+    static var matchTypeImagesPath = [String]()
+    public func writeToDB(gameTypesID : Int , gameTypesTitle : String , gameTypesImg_logo : String , base64 : String) {
         do {
             let realms = try! Realm()
             try realms.write({
                 let TblMatchTypes = tblMatchTypes()
                 TblMatchTypes.id = gameTypesID
-                print(TblMatchTypes.id)
-                print(gameTypesID)
+//                print(TblMatchTypes.id)
+//                print(gameTypesID)
+                if gameTypesTitle != "" {
                 TblMatchTypes.title = gameTypesTitle
+                }
                 TblMatchTypes.img_logo = gameTypesImg_logo
+                if base64 != "" {
+                    TblMatchTypes.img_base64 = base64
+                }
                 realms.add(TblMatchTypes, update: false)
-                print(" variable stored.")
-                print(self.tblMatchTypesArray.count)
+                WritetblMatchTypes.matchTypeImagesID.append(TblMatchTypes.id)
+                WritetblMatchTypes.matchTypeImagesPath.append(TblMatchTypes.img_logo)
+//                print("variable stored.")
+//                print(self.tblMatchTypesArray.count)
             })
         }catch let error {
             print(error)

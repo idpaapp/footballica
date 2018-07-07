@@ -16,6 +16,7 @@ public class matchDetails {
     public struct  response : Decodable {
         let matchData : matchData?
         let detailData : [detailData]?
+        let isYourTurn : Bool?
     }
     public struct matchData : Decodable {
         let id : String?

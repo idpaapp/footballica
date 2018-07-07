@@ -3062,7 +3062,7 @@
                                     <constraint firstAttribute="height" constant="70" id="iIL-J3-YFl"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="30"/>
-                                <state key="normal" title="بازی کن">
+                                <state key="normal">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -3070,6 +3070,9 @@
                                         <real key="value" value="10"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="playGameAction:" destination="fYU-Yi-9aa" eventType="touchUpInside" id="ZaG-5f-wVh"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -3145,6 +3148,7 @@
                         <viewLayoutGuide key="safeArea" id="d8I-I0-qGG"/>
                     </view>
                     <connections>
+                        <outlet property="playGameOutlet" destination="6CC-wW-qtt" id="FST-ue-pbH"/>
                         <outlet property="player1Avatar" destination="r2M-xf-1cr" id="yaE-gq-oPU"/>
                         <outlet property="player1Level" destination="p0N-Xu-Hwe" id="KF2-iA-7QJ"/>
                         <outlet property="player1Name" destination="WgH-ih-qdc" id="GyY-wg-J49"/>
