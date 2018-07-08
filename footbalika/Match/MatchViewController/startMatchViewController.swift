@@ -34,6 +34,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
+    var urlClass = urls()
     var res : matchDetails.Response? = nil;
     var redBall = UIImage(named: "ic_red_ball")
     var greenBall = UIImage(named: "ic_green_ball")
@@ -41,8 +42,10 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var matchID = String()
     func loadMatchData() {
         
+        print(self.matchID)
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : 1}") { data, error in
             DispatchQueue.main.async {
+                
                 
                 if data != nil {
                     
@@ -53,11 +56,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         self.res = try JSONDecoder().decode(matchDetails.Response.self , from : data!)
                         
                         DispatchQueue.main.async {
-                            let url = "http://volcan.ir/adelica/images/avatars/\((self.res?.response?.matchData?.player1_avatar)!)"
+                            let url = "\(self.urlClass.avatar)\((self.res?.response?.matchData?.player1_avatar)!)"
                             let urls = URL(string: url)
                             self.player1Avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
                             
-                            let url2 = "http://volcan.ir/adelica/images/avatars/\((self.res?.response?.matchData?.player2_avatar)!)"
+                            let url2 = "\(self.urlClass.avatar)\((self.res?.response?.matchData?.player2_avatar)!)"
                             let urls2 = URL(string: url2)
                             self.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
                             
@@ -80,7 +83,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                             self.startMatchTV.reloadData()
                         }
                     } catch {
-                        self.loadMatchData()
+//                        self.loadMatchData()
                         print(error)
                     }
                 } else {
@@ -95,9 +98,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         loadMatchData()
-        // Do any additional setup after loading the view.
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -115,6 +116,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "startMatchCell", for: indexPath) as! startMatchCell
+        print((self.res?.response?.detailData?[indexPath.row].last_questions)!)
         if UIDevice().userInterfaceIdiom == .phone {
         cell.matchResult.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) - \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
         cell.matchTitle.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)", strokeWidth: -3.0)
@@ -194,7 +196,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
     }
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -203,8 +204,54 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     @IBAction func backAction(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func playGameAction(_ sender: RoundButton) {
         
+        let isFinished = (Int((self.res?.response?.matchData?.status)!)!)
+        print(isFinished)
+        if isFinished < 2 {
+            if self.res?.response?.isYourTurn == true {
+                if (self.res?.response?.detailData?.count)! == 0 {
+                    questionIds()
+                } else if self.res?.response?.detailData?[(self.res?.response?.detailData?.count)!].player1_result_sheet == nil  {
+                    questionIds()
+                } else {
+                    print("it's not time for selecting category")
+                }
+            } else {
+                print("it's not your Turn")
+            }
+        } else {
+            print("the match was finished")
+        }
+    }
+    let defaults = UserDefaults.standard
+
+    @objc func questionIds() {
+        
+//        defaults.set("", forKey: "lastMatchId")
+        let lastID = defaults.string(forKey: "lastMatchId") ?? String()
+        var lastPlayedId = ""
+        
+        if (self.res?.response?.detailData?.count)! == 0 {
+            print(lastID)
+        } else {
+            for i in 0...(self.res?.response?.detailData?.count)! - 1 {
+            print((self.res?.response?.detailData?[i].game_type!)!)
+                lastPlayedId.append(",\((self.res?.response?.detailData?[i].game_type!)!)")
+            }
+        }
+        
+        if lastID == "" && lastPlayedId == "" {
+            
+        } else if lastID != "" {
+            
+        } else if lastID == "" && lastPlayedId != "" {
+            
+        }
+        
+        
+        self.performSegue(withIdentifier: "selectCat", sender: self)
     }
     
 }

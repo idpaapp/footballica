@@ -17,6 +17,7 @@ public class readAndWritetblShop {
             return realm.objects(tblShop.self)
         }
     }
+    
     var WblShop = WritetblShop()
     public func writeToDBtblhop(shopID : Int ,shopImage_Path : String ,shopImage_Base64 : String ) {
         
@@ -32,7 +33,6 @@ public class readAndWritetblShop {
                 } else {
                     self.WblShop.writeToDBShop(shopid: shopID, shopimage: shopImage_Path, shopbase64: shopImage_Base64)
                 }
-                
             } else {
                 self.WblShop.writeToDBShop(shopid: shopID, shopimage: shopImage_Path, shopbase64: shopImage_Base64)
             }

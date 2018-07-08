@@ -37,7 +37,6 @@ public class loadShop {
                         }
 //                        print(self.res?.response?[1].items?[0].package_awards?[0].image_path!)
                         loadingAchievements.init().loadAchievements(userid: userid)
-
                     } catch {
                         self.loadingShop(userid: userid)
                         print(error)

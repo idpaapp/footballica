@@ -22,7 +22,7 @@ public class PubProc {
 //    http://volcan.ir/adelica/api/ws_loadGameData.php
     public class THandleDataBase{
         public func readJson(wsName: String, JSONStr: String, completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
-            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api/"+wsName+".php")!)
+            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)
                         
             requestNo.httpMethod = "POST"
             let postStringNo = PubProc.HandleString.ReplaceQoutedToDbQouted(str: JSONStr)
@@ -87,7 +87,7 @@ public class PubProc {
     
     public class THandleFirstInfo{
         public func readJson(wsName: String, JSONStr: String, completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
-            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api/"+wsName+".php")!)
+            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)
             
             requestNo.httpMethod = "POST"
             let postStringNo = PubProc.HandleString.ReplaceQoutedToDbQouted(str: JSONStr)

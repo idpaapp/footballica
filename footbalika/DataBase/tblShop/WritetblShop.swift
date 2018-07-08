@@ -18,6 +18,9 @@ public class WritetblShop {
                 return realm.objects(tblShop.self)
             }
         }
+    
+    static var shopImagesID = [Int]()
+    static var shopImagesPath = [String]()
         
         public func writeToDBShop(shopid : Int , shopimage : String , shopbase64 : String ) {
             do {
@@ -25,13 +28,17 @@ public class WritetblShop {
                 try realms.write({
                     let Tblshop = tblShop()
                     Tblshop.id = shopid
-                    print(Tblshop.id)
-                    print(shopid)
+//                    print(Tblshop.id)
+//                    print(shopid)
                     Tblshop.image_path = shopimage
+                    if shopbase64 != "" {
                     Tblshop.img_base64 = shopbase64
+                    }
                     realms.add(Tblshop, update: false)
-                    print(" variable stored.")
-                    print(self.tblShopArray.count)
+                    WritetblShop.shopImagesID.append(Tblshop.id)
+                    WritetblShop.shopImagesPath.append(Tblshop.image_path)
+//                    print(" variable stored.")
+//                    print(self.tblShopArray.count)
                 })
             }catch let error {
                 print(error)

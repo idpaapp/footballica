@@ -49,6 +49,7 @@ class menuViewController: UIViewController {
     var opMaximumWinCount = String()
     var opMaximumScore = String()
     var uniqueId = String()
+    var urlClass = urls()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -179,8 +180,8 @@ class menuViewController: UIViewController {
                         vC.achievementCount = 4
                     }
                     vC.otherProfile = false
-                    vC.profileAvatar = "http://volcan.ir/adelica/images/avatars/\((login.res?.response?.mainInfo?.avatar)!)"
-                    vC.profileBadge = "http://volcan.ir/adelica/images/badge/\((login.res?.response?.mainInfo?.badge_name)!)"
+                    vC.profileAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
+                    vC.profileBadge = "\(urlClass.badge)\((login.res?.response?.mainInfo?.badge_name)!)"
                     vC.profileName = (login.res?.response?.mainInfo?.username)!
                     vC.profileID = (login.res?.response?.mainInfo?.ref_id)!
                     vC.profileCups = (login.res?.response?.mainInfo?.cups)!
@@ -190,7 +191,7 @@ class menuViewController: UIViewController {
                     vC.profileLoseCount = (login.res?.response?.mainInfo?.lose_count)!
                     vC.profileMostScores = (login.res?.response?.mainInfo?.max_points_gain)!
                     vC.profileDrawCount = (login.res?.response?.mainInfo?.draw_count)!
-                    vC.profileStadium = "http://volcan.ir/adelica/images/stadium/\((login.res?.response?.mainInfo?.stadium)!)"
+                    vC.profileStadium = "\(urlClass.stadium)\((login.res?.response?.mainInfo?.stadium)!)"
                     vC.profileMaximumWinCount = (login.res?.response?.mainInfo?.max_wins_count)!
                     vC.profileMaximumScore = (login.res?.response?.mainInfo?.max_point)!
                 } else {
@@ -213,7 +214,7 @@ class menuViewController: UIViewController {
                     vC.profileLoseCount = opLoseCount
                     vC.profileMostScores = opMostScores
                     vC.profileDrawCount = opDrawCount
-                    vC.profileStadium = "http://volcan.ir/adelica/images/stadium/\(oPStadium)"
+                    vC.profileStadium = "\(urlClass.stadium)\(oPStadium)"
                     vC.profileMaximumWinCount = opMaximumWinCount
                     vC.profileMaximumScore = opMaximumScore
                     vC.uniqueId = uniqueId

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreFoundation
 
 class challengesViewController: UIViewController {
     @IBOutlet weak var gradeTitleForeGround: UILabel!
@@ -15,6 +16,7 @@ class challengesViewController: UIViewController {
     @IBOutlet weak var gradeNumber: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let gradeTexts = "باید حداقل به سطح 20 برسی تا بتونی وارد جام بشی"
         self.gradeTitleForeGround.text = gradeTexts
         let fonts = UIFont(name: "DPA_Game", size: 60)!

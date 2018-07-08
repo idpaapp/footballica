@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class tblMatchTypes: Object {
+public class tblMatchTypes: Object {
     @objc dynamic var  id  = 0
     @objc dynamic var title = ""
     @objc dynamic var img_logo = ""

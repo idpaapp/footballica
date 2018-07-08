@@ -11,12 +11,13 @@ import RealmSwift
 
 public class readAndWritetblMatchTypes {
     var realm : Realm!
-    var tblMatchTypesArray : Results<tblMatchTypes> {
+    public var tblMatchTypesArray : Results<tblMatchTypes> {
         get {
             realm = try! Realm()
             return realm.objects(tblMatchTypes.self)
         }
     }
+    
     var WblMatchTypes = WritetblMatchTypes()
     public func writeToDBtblMatchTypes(gameTypesID : Int ,gameTypesTitle : String ,gameTypesImg_logo : String  , base64 : String) {
         

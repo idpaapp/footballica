@@ -151,6 +151,7 @@ class loadingViewController: UIViewController {
             defaults.set(true, forKey: "launchedBefore")
             defaults.set(true, forKey: "menuMusic")
             defaults.set(true, forKey: "gameSounds")
+            defaults.set("", forKey: "lastMatchId")
             
         }
         

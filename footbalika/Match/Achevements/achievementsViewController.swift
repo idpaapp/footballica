@@ -22,6 +22,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         return true
     }
     
+    var urlClass = urls()
     var switchStates = [Bool]()
     let playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
     let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
@@ -254,10 +255,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             
             cell.number.text = "\(indexPath.row + 1)"
             cell.playerName.text = "\(userNames[indexPath.row])"
-            let url = "http://volcan.ir/adelica/images/avatars/\(self.userImages[indexPath.row])"
+            let url = "\(urlClass.avatar)\(self.userImages[indexPath.row])"
             let urls = URL(string : url)
             cell.avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
-            let url2 = "http://volcan.ir/adelica/images/badge/\(self.userLogo[indexPath.row])"
+            let url2 = "\(urlClass.badge)\(self.userLogo[indexPath.row])"
             let urls2 = URL(string : url2)
             cell.playerLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
             cell.playerCup.text = "\(self.userCups[indexPath.row])"
@@ -283,7 +284,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 cell.alertTitle.text = self.alertTitles[indexPath.row]
                 cell.alertDate.text = self.alertDate[indexPath.row]
-                let url = "http://volcan.ir/adelica/images/avatars/\(self.userAvatar[indexPath.row])"
+                let url = "\(urlClass.avatar)\(self.userAvatar[indexPath.row])"
                 let urls = URL(string : url)
                 cell.userAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
                 cell.alertBody.text = self.alertBody[indexPath.row]
@@ -588,8 +589,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             vc.otherProfiles = true
             vc.oPStadium = (self.res?.response?[profileIndex].stadium!)!
             vc.opName = (self.res?.response?[profileIndex].username!)!
-            vc.opAvatar = "http://volcan.ir/adelica/images/avatars/\((self.res?.response?[profileIndex].avatar!)!)"
-            vc.opBadge = "http://volcan.ir/adelica/images/badge/\((self.res?.response?[profileIndex].badge_name!)!)"
+            vc.opAvatar = "\(urlClass.avatar)\((self.res?.response?[profileIndex].avatar!)!)"
+            vc.opBadge = "\(urlClass.badge)\((self.res?.response?[profileIndex].badge_name!)!)"
             vc.opID = (self.res?.response?[profileIndex].ref_id!)!
             vc.opCups = (self.res?.response?[profileIndex].cups!)!
             vc.opLevel = (self.res?.response?[profileIndex].level!)!

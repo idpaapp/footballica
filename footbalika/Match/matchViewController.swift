@@ -48,7 +48,7 @@ class matchViewController: UIViewController {
     
 //     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
 //     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
-    
+    var urlClass = urls()
     var menuState = String()
     var alertTitle = String()
     var alertBody = String()
@@ -66,7 +66,7 @@ class matchViewController: UIViewController {
         profileName.text = (login.res?.response?.mainInfo?.username)!
         cup.text = (login.res?.response?.mainInfo?.cups)!
         self.xpProgress.progress = 0.0
-        let urlAvatar = "http://volcan.ir/adelica/images/avatars/\((login.res?.response?.mainInfo?.avatar)!)"
+        let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
         let urlsurlAvatar = URL(string: urlAvatar)
         avatar.kf.setImage(with: urlsurlAvatar ,options:[.transition(ImageTransition.fade(0.5))])
         
