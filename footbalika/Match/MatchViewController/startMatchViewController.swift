@@ -8,6 +8,8 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
+
 
 class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
 
@@ -40,6 +42,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var greenBall = UIImage(named: "ic_green_ball")
     var emptyBall =  UIImage()
     var matchID = String()
+
     func loadMatchData() {
         
         print(self.matchID)
@@ -96,9 +99,12 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             }.resume()
     }
     
+    var lastID = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         loadMatchData()
+        categoryArratSet()
+        lastID = defaults.string(forKey: "lastMatchId") ?? String()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -226,12 +232,21 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
     }
     let defaults = UserDefaults.standard
+    var realm : Realm!
+    var tblMatchTypesArray : Results<tblMatchTypes> {
+        get {
+            realm = try! Realm()
+            return realm.objects(tblMatchTypes.self)
+        }
+    }
+    
+    var lastPlayedId = ""
 
     @objc func questionIds() {
         
+
 //        defaults.set("", forKey: "lastMatchId")
-        let lastID = defaults.string(forKey: "lastMatchId") ?? String()
-        var lastPlayedId = ""
+        
         
         if (self.res?.response?.detailData?.count)! == 0 {
             print(lastID)
@@ -244,14 +259,108 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         
         if lastID == "" && lastPlayedId == "" {
             
+            
+            categoryState = 1
+            
+            
+            
+//            do {
+//                let realm = try Realm()
+            
+                
+//            } catch let error as NSError {
+//                print(error.localizedDescription)
+//            }
+            
+//            print(realm.objects(tblChargeTypes.self).first?.title)
+//            print(realm.objects(tblChargeTypes.self).first?.id)
+
+
         } else if lastID != "" {
             
-        } else if lastID == "" && lastPlayedId != "" {
+            categoryState = 2
             
+        } else if lastID == "" && lastPlayedId != "" {
+            categoryState = 3
+
         }
         
         
         self.performSegue(withIdentifier: "selectCat", sender: self)
+    }
+    
+    var categoryTitleArray = [String]()
+    var categoryIDArray = [Int]()
+    var categoryBase64ImageArray = [String]()
+    var categoryState = Int()
+    func categoryArratSet() {
+        
+        let counts = self.tblMatchTypesArray.count
+            for i in 0...counts - 1 {
+        
+            categoryTitleArray.append(tblMatchTypesArray[i].title)
+            categoryIDArray.append(tblMatchTypesArray[i].id)
+            categoryBase64ImageArray.append(tblMatchTypesArray[i].img_base64)
+            
+        }
+        
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! selectCategoryViewController
+        var titles = [String]()
+        var images = [String]()
+        var ids = [Int]()
+        if categoryState == 1 {
+            
+            for _ in 0..<categoryTitleArray.count
+            {
+                let rand = Int(arc4random_uniform(UInt32(categoryTitleArray.count)))
+                
+                titles.append(categoryTitleArray[rand])
+                images.append(categoryBase64ImageArray[rand])
+                ids.append(categoryIDArray[rand])
+                categoryTitleArray.remove(at: rand)
+                categoryBase64ImageArray.remove(at: rand)
+                categoryIDArray.remove(at: rand)
+            }
+            
+            categoryTitleArray = titles
+            categoryBase64ImageArray = images
+            categoryIDArray = ids
+
+        } else if categoryState == 2 {
+            
+            let lastIDArray = lastID.split{$0 == ","}.map(String.init)
+            for i in 0...lastIDArray.count - 1  {
+                let index = categoryIDArray.index(where: {$0 == Int(lastIDArray[i])})
+                titles.append(categoryTitleArray[index!])
+                images.append(categoryBase64ImageArray[index!])
+                ids.append(categoryIDArray[index!])
+            }
+            
+        } else {
+            let lastPlayedIdArray = lastPlayedId.split{$0 == ","}.map(String.init)
+            for i in 0...lastPlayedIdArray.count - 1  {
+                let index = categoryIDArray.index(where: {$0 == Int(lastPlayedIdArray[i])})
+                let tempcategoryTitleArray = categoryTitleArray
+                let tempcategoryBase64ImageArray = categoryBase64ImageArray
+                let tempcategoryIDArray = categoryIDArray
+                categoryTitleArray.remove(at: index!)
+                categoryBase64ImageArray.remove(at: index!)
+                categoryIDArray.remove(at: index!)
+                images = categoryBase64ImageArray
+                ids = categoryIDArray
+                titles = categoryTitleArray
+                categoryTitleArray = tempcategoryTitleArray
+                categoryBase64ImageArray = tempcategoryBase64ImageArray
+                categoryIDArray = tempcategoryIDArray
+            }
+            
+        }
+        vc.images = images
+        vc.titles = titles
+        vc.ids = ids
     }
     
 }

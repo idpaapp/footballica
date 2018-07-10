@@ -114,7 +114,7 @@ public class downloadAssets {
     }
     
     func matchTypeDl() {
-        for i in 0...((self.res?.chargeTypes?.count)!) - 1 {
+        for i in 0...((self.res?.matchTypes?.count)!) - 1 {
             matchTypeRead.writeToDBtblMatchTypes(gameTypesID: Int((self.res?.matchTypes?[i].id!)!)!, gameTypesTitle:"", gameTypesImg_logo: (self.res?.matchTypes?[i].image_path!)! , base64: (self.res?.matchTypes?[i].image_base64!)! )
         }
     }

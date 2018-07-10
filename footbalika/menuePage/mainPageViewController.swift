@@ -44,7 +44,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
         super.viewDidLoad()
     
         if playMenuMusic == true {
-            playingMusic.playMusic()
+            playingMusic.playMenuMusic()
         } else {
             
         }

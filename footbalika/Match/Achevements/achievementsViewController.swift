@@ -475,7 +475,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         }
         playSound.playClick()
         if sender.tag == 1 {
-            playingMusic.playMusic()
+            playingMusic.playMenuMusic()
         }
         UIView.performWithoutAnimation {
             self.achievementsTV.reloadData()

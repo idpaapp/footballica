@@ -79,9 +79,11 @@ class loadingViewController: UIViewController {
                     for i in 0...(loadingViewController.loadGameData?.response?.gameTypes.count)! - 1 {
                         let gametID = Int((loadingViewController.loadGameData?.response?.gameTypes[i].id!)!)
                         let gameTypesID = gametID!
-                        let gameTypesTitle = ((loadingViewController.loadGameData?.response?.gameTypes[i].title!)!)
+                        
+                        let gameTypesTitle = ((loadingViewController.loadGameData?.response?.gameTypes[i].title!)!.replacedArabicCharactersToPersian)
                         let gameTypesImg_logo = ((loadingViewController.loadGameData?.response?.gameTypes[i].img_logo!)!)
                         self.writetblMatchTypes.writeToDBtblMatchTypes(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo, base64: "")
+                        
                     }
                         
                         for i in 0...(loadingViewController.loadGameData?.response?.gameCharge.count)! - 1 {

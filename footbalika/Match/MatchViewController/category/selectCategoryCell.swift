@@ -12,11 +12,14 @@ class selectCategoryCell: UITableViewCell {
 
     @IBOutlet weak var questionImage: UIImageView!
     @IBOutlet weak var questionTitle: UILabel!
+    @IBOutlet weak var questionForeGroundTitle: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         questionTitle.adjustsFontSizeToFitWidth = true
         questionTitle.minimumScaleFactor = 0.5
+        questionForeGroundTitle.minimumScaleFactor = 0.5
+    questionForeGroundTitle.adjustsFontSizeToFitWidth = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
