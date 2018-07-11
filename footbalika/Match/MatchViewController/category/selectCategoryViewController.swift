@@ -23,13 +23,15 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     var images = [String]()
     var titles = [String]()
     var ids = [Int]()
+    var selectedcategoryId = Int()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if titles.count != 3 {
             images = Array(self.images.prefix(3))
             titles = Array(self.titles.prefix(3))
-            images = Array(self.images.prefix(3))
+            ids = Array(self.ids.prefix(3))
         } else {
         
         }
@@ -65,8 +67,8 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedcategoryId = ids[indexPath.row]
         self.performSegue(withIdentifier: "matchTime", sender: self)
-//        dismiss(animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -80,6 +82,17 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         return (440 / 3)
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! mainMatchFieldViewController
+        vc.level = "11"
+        vc.category = String(selectedcategoryId)
+        vc.last_questions = ""
+        vc.userid = "1"
+        vc.lastVC = self
+    }
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

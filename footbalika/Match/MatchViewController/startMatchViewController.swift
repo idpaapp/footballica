@@ -38,9 +38,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     var urlClass = urls()
     var res : matchDetails.Response? = nil;
-    var redBall = UIImage(named: "ic_red_ball")
-    var greenBall = UIImage(named: "ic_green_ball")
-    var emptyBall =  UIImage()
     var matchID = String()
 
     func loadMatchData() {
@@ -133,63 +130,63 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         
         if self.res?.response?.detailData?[indexPath.row].player1_result_sheet != nil {
         if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_1)! == 0 {
-           cell.bl1.image = redBall
+           cell.bl1.image = publicImages().redBall
         } else {
-            cell.bl1.image = greenBall
+            cell.bl1.image = publicImages().greenBall
         }
         
         if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_2)! == 0 {
-            cell.bl2.image = redBall
+            cell.bl2.image = publicImages().redBall
         } else {
-            cell.bl2.image = greenBall
+            cell.bl2.image = publicImages().greenBall
         }
         
         if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_3)! == 0 {
-            cell.bl3.image = redBall
+            cell.bl3.image = publicImages().redBall
         } else {
-            cell.bl3.image = greenBall
+            cell.bl3.image = publicImages().greenBall
         }
         if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_4)! == 0 {
-            cell.bl4.image = redBall
+            cell.bl4.image = publicImages().redBall
         } else {
-            cell.bl4.image = greenBall
+            cell.bl4.image = publicImages().greenBall
         }
         } else {
-            cell.bl1.image = emptyBall
-            cell.bl2.image = emptyBall
-            cell.bl3.image = emptyBall
-            cell.bl4.image = emptyBall
+            cell.bl1.image = publicImages().emptyImage
+            cell.bl2.image = publicImages().emptyImage
+            cell.bl3.image = publicImages().emptyImage
+            cell.bl4.image = publicImages().emptyImage
         }
 
         if self.res?.response?.detailData?[indexPath.row].player2_result_sheet != nil {
         if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_1)! == 0 {
-            cell.br4.image = redBall
+            cell.br4.image = publicImages().redBall
         } else {
-            cell.br4.image = greenBall
+            cell.br4.image = publicImages().greenBall
         }
         
         if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_2)! == 0 {
-            cell.br3.image = redBall
+            cell.br3.image = publicImages().redBall
         } else {
-            cell.br3.image = greenBall
+            cell.br3.image = publicImages().greenBall
         }
         
         if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_3)! == 0 {
-            cell.br2.image = redBall
+            cell.br2.image = publicImages().redBall
         } else {
-            cell.br2.image = greenBall
+            cell.br2.image = publicImages().greenBall
         }
         
         if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_4)! == 0 {
-            cell.br1.image = redBall
+            cell.br1.image = publicImages().redBall
         } else {
-            cell.br1.image = greenBall
+            cell.br1.image = publicImages().greenBall
         }
         } else {
-            cell.br1.image = emptyBall
-            cell.br2.image = emptyBall
-            cell.br3.image = emptyBall
-            cell.br4.image = emptyBall
+            cell.br1.image = publicImages().emptyImage
+            cell.br2.image = publicImages().emptyImage
+            cell.br3.image = publicImages().emptyImage
+            cell.br4.image = publicImages().emptyImage
         }
         return cell
     }
@@ -356,7 +353,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                 categoryBase64ImageArray = tempcategoryBase64ImageArray
                 categoryIDArray = tempcategoryIDArray
             }
-            
         }
         vc.images = images
         vc.titles = titles

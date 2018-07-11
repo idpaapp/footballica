@@ -457,7 +457,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var profileMaximumScore = String()
     var profileCups = String()
     var uniqueId = String()
-    let playingMusic = musicPlay()
     let playSound = soundPlay()
     
     
@@ -473,12 +472,14 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             UserDefaults.standard.set(switchStates[1], forKey: "menuMusic")
             UserDefaults.standard.set(switchStates[2], forKey: "alerts")
         }
-        playSound.playClick()
+        DispatchQueue.main.async {
+            self.playSound.playClick()
         if sender.tag == 1 {
-            playingMusic.playMenuMusic()
+            musicPlay().playMenuMusic()
         }
         UIView.performWithoutAnimation {
             self.achievementsTV.reloadData()
+        }
         }
     }
     

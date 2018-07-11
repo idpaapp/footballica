@@ -14,6 +14,16 @@ public class centerScreen {
     public var centerScreens = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
 }
 
+public class publicImages {
+    public var correctAnswerImage = UIImage(named: "green_answer_btn")
+    public var wrongAnswerImage = UIImage(named: "red_answer_btn")
+    public var normalAnswerImage = UIImage(named: "answer_btn")
+    public var redBall = UIImage(named: "ic_red_ball")
+    public var greenBall = UIImage(named: "ic_green_ball")
+    public var emptyImage = UIImage()
+
+}
+
 public class fonts {
     public var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     public var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
@@ -69,6 +79,67 @@ struct soundPlay {
         }
         }
     }
+    
+    public func playBeepSound() {
+        if playgameSounds == true {
+            guard let url = Bundle.main.url(forResource: "beep", withExtension: "mp3") else { return }
+            
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setActive(true)
+                
+                soundPlay.player = try AVAudioPlayer(contentsOf: url)
+                guard let player = soundPlay.player else { return }
+                player.numberOfLoops = 0
+                player.prepareToPlay()
+                player.play()
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    public func playCorrectAnswerSound() {
+        if playgameSounds == true {
+            guard let url = Bundle.main.url(forResource: "correctAnswer", withExtension: "mp3") else { return }
+            
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setActive(true)
+                
+                soundPlay.player = try AVAudioPlayer(contentsOf: url)
+                guard let player = soundPlay.player else { return }
+                player.numberOfLoops = 0
+                player.prepareToPlay()
+                player.play()
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    public func playWrongAnswerSound() {
+        if playgameSounds == true {
+            guard let url = Bundle.main.url(forResource: "wrong_answer", withExtension: "wav") else { return }
+            
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setActive(true)
+                
+                soundPlay.player = try AVAudioPlayer(contentsOf: url)
+                guard let player = soundPlay.player else { return }
+                player.numberOfLoops = 0
+                player.prepareToPlay()
+                player.play()
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
 }
 
 struct musicPlay {
@@ -76,7 +147,6 @@ struct musicPlay {
     let playMenuMusics = UserDefaults.standard.bool(forKey: "menuMusic")
     
     public func playMenuMusic() {
-        
         if playMenuMusics == true {
         if musicPlay.musicPlayer?.isPlaying == true {
             if #available(iOS 10.0, *) {
@@ -109,6 +179,8 @@ struct musicPlay {
             }
             
         }
+        } else {
+            musicPlay.musicPlayer?.stop()
         }
         
     }
@@ -133,7 +205,6 @@ struct musicPlay {
         }
         }
     }
-    
 }
 
 public extension String {
