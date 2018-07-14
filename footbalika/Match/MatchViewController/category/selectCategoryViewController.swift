@@ -11,6 +11,8 @@ import RealmSwift
 
 class selectCategoryViewController: UIViewController , UITableViewDataSource , UITableViewDelegate {
 
+    @IBOutlet weak var topMainCategoryView: DesignableView!
+    @IBOutlet weak var mainCategoryView: DesignableView!
     @IBOutlet weak var mainTitle: UILabel!
     
     @IBOutlet weak var mainTitleForeGround: UILabel!
@@ -68,6 +70,8 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedcategoryId = ids[indexPath.row]
+       self.topMainCategoryView.isHidden = true
+        self.mainCategoryView.isHidden = true
         self.performSegue(withIdentifier: "matchTime", sender: self)
     }
     

@@ -7,12 +7,21 @@
 //
 
 import UIKit
+import RPCircularProgress
 
 class mainMatchFieldViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var timerLabel: UILabel!
+    
+    @IBOutlet weak var watchTimerConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var watchView: RPCircularProgress!
     
     @IBOutlet weak var handWatchImage: UIImageView!
     
@@ -59,13 +68,20 @@ class mainMatchFieldViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         lastVC.dismiss(animated: true, completion: nil)
         question1Ball.image = publicImages().emptyImage
         question2Ball.image = publicImages().emptyImage
         question3Ball.image = publicImages().emptyImage
         question4Ball.image = publicImages().emptyImage
 
+        self.timerLabel.text = ""
+        if UIScreen.main.bounds.width == 320 {
+            watchTimerConstraint.constant = 6
+        } else {
+            watchTimerConstraint.constant = 7
+        }
+        topViewTopConstraint.constant = -300
+        bottomViewBottomConstraint.constant = 300
         scoreLabel.text = ""
         beforeStartCountDown.text = ""
         beforeStartTitle.text = ""
@@ -74,9 +90,6 @@ class mainMatchFieldViewController: UIViewController {
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height == 2436 {
                 //iPhone X
-                
-                
-                
                 
             } else {
                 //Other iPhones
@@ -163,26 +176,67 @@ class mainMatchFieldViewController: UIViewController {
         }
     }
     
-    func timerHand() {
-        let handwatchHeight = ((5 * (2 * (UIScreen.main.bounds.height / 12))) / 6 )
-        let circlePath = UIBezierPath(arcCenter: CGPoint(x: handwatchHeight / 2 + 1.5 ,y: UIScreen.main.bounds.height - (handwatchHeight / 2) + 3), radius: CGFloat(45), startAngle: CGFloat(-Double.pi/2), endAngle:CGFloat(Double.pi/5 ), clockwise: true)
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = circlePath.cgPath
-        //change the fill color
-        shapeLayer.fillColor = UIColor.red.cgColor
-        //you can change the stroke color
-        shapeLayer.strokeColor = UIColor.red.cgColor
-        //you can change the line width
-        shapeLayer.lineWidth = 3.0
-        circlePath.fill()
-        self.view.layer.addSublayer(shapeLayer)
+    var timerCount = -1
+    let AlertState = "matchField"
+    @objc func updateWatch() {
+        time = time + 0.0165
+        timerCount = timerCount + 1
+        watchView.progressTintColor = .init(red: 222/255, green: 100/255, blue: 1/255, alpha: 1.0)
+        watchView.updateProgress(time)
+        watchView.thicknessRatio = 10
+        watchView.roundedCorners = false
+        
+        if timerCount > 0 {
+            if timerCount == 41 {
+                thirdSoundPlay().playThirdSound()
+            }
+        if timerCount == 45 {
+            DispatchQueue.main.async {
+                musicPlay().playQuizeMusic()
+                soundPlay().playEndGameSound()
+                self.performSegue(withIdentifier: "gameOver", sender: self)
+            }
+        }
+            if timerCount > 45 {
+                self.timerLabel.text = "45"
+            } else {
+        self.timerLabel.text = "\(timerCount)"
+            }
+        }
     }
     
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let VC = segue.destination as? menuAlertViewController {
+            VC.alertTitle = "اخطار"
+            VC.alertBody = "وقت تمام شد"
+            VC.alertAcceptLabel = "تأیید"
+            VC.alertState = AlertState
+            
+        }
+    }
+    
+    
+    var time : CGFloat = 0
+    var gameTimer : Timer!
+    func timerHand() {
+        
+        gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 50) {
+            self.gameTimer.invalidate()
+        }
+    }
+
     
     var currentQuestion = 0
     var correctAnswer = Int()
     var Score = Int()
     func startMatch() {
+        UIView.animate(withDuration: 0.5) {
+            self.topViewTopConstraint.constant = 0
+            self.bottomViewBottomConstraint.constant = 0
+        }
         beforeStartView.isHidden = true
         beforeStartCountDown.isHidden = true
         beforeStartTitle.isHidden = true
@@ -233,6 +287,11 @@ class mainMatchFieldViewController: UIViewController {
                 self.showQuestion(questionTitle: "\((self.res?.response?[self.currentQuestion].title!)!)", answer1: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[self.currentQuestion].ans_correct_id!)!)
             })
         } else {
+            musicPlay().playQuizeMusic()
+            self.gameTimer.invalidate()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                musicPlay().playMenuMusic()
+            }
             dismiss(animated: true, completion: nil)
         }
     }

@@ -14,14 +14,15 @@ class menuAlertViewController: UIViewController {
     var alertTitle = String()
     var alertBody = String()
     var alertAcceptLabel = String()
-    
+    var alertState = String()
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
+    var matchField : mainMatchFieldViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.showAlert.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         UIApplication.shared.keyWindow!.addSubview(self.showAlert)
         UIApplication.shared.keyWindow!.bringSubview(toFront: self.showAlert)
@@ -67,6 +68,7 @@ class menuAlertViewController: UIViewController {
     }
 
     
+    
     @objc func dismissing() {
         UIView.animate(withDuration: 0.2, animations: {
             self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
@@ -78,6 +80,11 @@ class menuAlertViewController: UIViewController {
             self.dismiss(animated: true, completion: nil)
             })
         })
+        if self.alertState == "matchField" {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                self.matchField.dismiss(animated: true, completion: nil)
+            })
+        }
     }
     
     override func didReceiveMemoryWarning() {

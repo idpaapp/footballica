@@ -14,6 +14,8 @@
 		5C1AAAFB20EC9BEE002A2EEA /* downloadAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1AAAFA20EC9BEE002A2EEA /* downloadAssets.swift */; };
 		5C1D232C20F4CE6A00A6C126 /* whistle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C1D232B20F4CE6A00A6C126 /* whistle.mp3 */; };
 		5C1D232E20F4D09D00A6C126 /* quize.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C1D232D20F4D09D00A6C126 /* quize.mp3 */; };
+		5C234EFE20FA08FE00926611 /* last_ticking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C234EFD20FA08FE00926611 /* last_ticking.mp3 */; };
+		5C234F0020FA105500926611 /* referee_whistle_end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C234EFF20FA105500926611 /* referee_whistle_end.mp3 */; };
 		5C27142020E89E0C008F1E37 /* profile2Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27141F20E89E0C008F1E37 /* profile2Cell.swift */; };
 		5C27142220E8AB4D008F1E37 /* profile3Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27142120E8AB4D008F1E37 /* profile3Cell.swift */; };
 		5C27142420E8B504008F1E37 /* profile4Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27142320E8B504008F1E37 /* profile4Cell.swift */; };
@@ -130,6 +132,8 @@
 		5C1AAAFA20EC9BEE002A2EEA /* downloadAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = downloadAssets.swift; sourceTree = "<group>"; };
 		5C1D232B20F4CE6A00A6C126 /* whistle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = whistle.mp3; sourceTree = "<group>"; };
 		5C1D232D20F4D09D00A6C126 /* quize.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = quize.mp3; sourceTree = "<group>"; };
+		5C234EFD20FA08FE00926611 /* last_ticking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = last_ticking.mp3; sourceTree = "<group>"; };
+		5C234EFF20FA105500926611 /* referee_whistle_end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = referee_whistle_end.mp3; sourceTree = "<group>"; };
 		5C27141F20E89E0C008F1E37 /* profile2Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile2Cell.swift; sourceTree = "<group>"; };
 		5C27142120E8AB4D008F1E37 /* profile3Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile3Cell.swift; sourceTree = "<group>"; };
 		5C27142320E8B504008F1E37 /* profile4Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile4Cell.swift; sourceTree = "<group>"; };
@@ -295,6 +299,22 @@
 			path = StoryBoard;
 			sourceTree = "<group>";
 		};
+		5C234EFC20FA078100926611 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				5C2AC1AE20CFA3F10029F8CA /* menu.mp3 */,
+				5C2AC1B020CFA76C0029F8CA /* click.mp3 */,
+				5C1D232B20F4CE6A00A6C126 /* whistle.mp3 */,
+				5C1D232D20F4D09D00A6C126 /* quize.mp3 */,
+				5CE8507420F5CC8300BB303A /* beep.mp3 */,
+				5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */,
+				5CE8507920F5FCB900BB303A /* wrong_answer.wav */,
+				5C234EFD20FA08FE00926611 /* last_ticking.mp3 */,
+				5C234EFF20FA105500926611 /* referee_whistle_end.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		5C2AEF4D20DE714100C5EEA6 /* leagues */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,13 +356,6 @@
 		5C2B690820CD2ED0001DA19E /* menuePage */ = {
 			isa = PBXGroup;
 			children = (
-				5C2AC1AE20CFA3F10029F8CA /* menu.mp3 */,
-				5C2AC1B020CFA76C0029F8CA /* click.mp3 */,
-				5C1D232B20F4CE6A00A6C126 /* whistle.mp3 */,
-				5C1D232D20F4D09D00A6C126 /* quize.mp3 */,
-				5CE8507420F5CC8300BB303A /* beep.mp3 */,
-				5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */,
-				5CE8507920F5FCB900BB303A /* wrong_answer.wav */,
 				5C84D51520CCFF7100A9DC67 /* mainPageViewController.swift */,
 				5C84D51320CCFF7100A9DC67 /* menuButtonCell.swift */,
 				5C84D51420CCFF7100A9DC67 /* pageVC.swift */,
@@ -422,6 +435,7 @@
 			children = (
 				5C84D4F320CCFD2500A9DC67 /* AppDelegate.swift */,
 				5C84D4F520CCFD2500A9DC67 /* ViewController.swift */,
+				5C234EFC20FA078100926611 /* Sounds */,
 				5C84D50920CCFED500A9DC67 /* iPad.storyboard */,
 				5C84D50D20CCFED500A9DC67 /* iPhoneX.storyboard */,
 				5C202D9120CE5B46008FA1AB /* Font */,
@@ -741,6 +755,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C234F0020FA105500926611 /* referee_whistle_end.mp3 in Resources */,
 				5C3418A520EB6C50001F93A4 /* menuAlert2Buttons.xib in Resources */,
 				5C2AC1AF20CFA3F10029F8CA /* menu.mp3 in Resources */,
 				5CE8507B20F5FCB900BB303A /* wrong_answer.wav in Resources */,
@@ -759,6 +774,7 @@
 				5C15C89E20EA130C0024E66C /* connectionView.xib in Resources */,
 				5C6F538220E0A8F10037748F /* menuView.xib in Resources */,
 				5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */,
+				5C234EFE20FA08FE00926611 /* last_ticking.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -773,12 +789,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-footbalika/Pods-footbalika-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/RPCircularProgress/RPCircularProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RPCircularProgress.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 			);

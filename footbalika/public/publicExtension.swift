@@ -140,6 +140,34 @@ struct soundPlay {
         }
     }
     
+    public func playEndGameSound() {
+        if playgameSounds == true {
+            if soundPlay.player?.isPlaying == true {
+                soundPlay.player?.stop()
+            } else {
+                
+                guard let url = Bundle.main.url(forResource: "referee_whistle_end", withExtension: "mp3") else { return }
+                
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setActive(true)
+                    
+                    soundPlay.player = try AVAudioPlayer(contentsOf: url)
+                    guard let player = soundPlay.player else { return }
+                    player.numberOfLoops = 0
+                    player.play()
+                    
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+                
+            }
+        } else {
+            thirdSoundPlay.thirdPlayer?.stop()
+        }
+        
+    }
+    
 }
 
 struct musicPlay {
@@ -190,6 +218,9 @@ struct musicPlay {
         if playMenuMusics == true {
         guard let url = Bundle.main.url(forResource: "quize", withExtension: "mp3") else { return }
         
+            if musicPlay.musicPlayer?.isPlaying == true {
+                musicPlay.musicPlayer?.stop()
+            } else {
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
             try AVAudioSession.sharedInstance().setActive(true)
@@ -205,7 +236,42 @@ struct musicPlay {
         }
         }
     }
+    }
 }
+
+struct thirdSoundPlay {
+    static var thirdPlayer: AVAudioPlayer?
+    let playGameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
+    public func playThirdSound() {
+        if playGameSounds == true {
+            if thirdSoundPlay.thirdPlayer?.isPlaying == true {
+                    thirdSoundPlay.thirdPlayer?.stop()
+            } else {
+                
+                guard let url = Bundle.main.url(forResource: "last_ticking", withExtension: "mp3") else { return }
+                
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setActive(true)
+                    
+                    thirdSoundPlay.thirdPlayer = try AVAudioPlayer(contentsOf: url)
+                    guard let player = thirdSoundPlay.thirdPlayer else { return }
+                    player.numberOfLoops = 0
+                    player.play()
+                    
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+                
+            }
+        } else {
+            thirdSoundPlay.thirdPlayer?.stop()
+        }
+        
+    }
+    
+}
+
 
 public extension String {
     public var replacedArabicCharactersToPersian: String {
