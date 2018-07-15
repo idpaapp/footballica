@@ -457,7 +457,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var profileMaximumScore = String()
     var profileCups = String()
     var uniqueId = String()
-    let playSound = soundPlay()
     
     
     @objc func switchChanged(_ sender : UISwitch!) {
@@ -473,7 +472,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             UserDefaults.standard.set(switchStates[2], forKey: "alerts")
         }
         DispatchQueue.main.async {
-            self.playSound.playClick()
+            soundPlay().playClick()
         if sender.tag == 1 {
             musicPlay().playMenuMusic()
         }

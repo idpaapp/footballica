@@ -65,9 +65,40 @@ class mainMatchFieldViewController: UIViewController {
     
     var lastVC: selectCategoryViewController!
     
+    @objc func UpdateTimer(notification: Notification){
+        if startGame == true {
+        let calendar = NSCalendar.current
+        var compos:Set<Calendar.Component> = Set<Calendar.Component>()
+        compos.insert(.second)
+        compos.insert(.minute)
+        let difference = calendar.dateComponents(compos, from: startDate, to: currentDate)
+            
+//        print("diff in minute=\(difference.minute!)") // difference in minute
+//        print("diff in seconds=\(difference.second!)") // difference in seconds
+            
+        if difference.second! > 0 {
+            for _ in 0...difference.second! - 1 {
+            time = time + 0.0165
+            timerCount = timerCount + 1
+            }
+        }
+         if timerCount >= 45 && checkFinishGame == false {
+            DispatchQueue.main.async {
+                musicPlay().playQuizeMusic()
+                soundPlay().playEndGameSound()
+                self.performSegue(withIdentifier: "gameOver", sender: self)
+            }
+        }
+        startDate = Date()
+        }
+    }
+    
+    var checkFinishGame = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.UpdateTimer(notification:)), name: Notification.Name("updateTimer"), object: nil)
+
         lastVC.dismiss(animated: true, completion: nil)
         question1Ball.image = publicImages().emptyImage
         question2Ball.image = publicImages().emptyImage
@@ -141,7 +172,6 @@ class mainMatchFieldViewController: UIViewController {
                 }
             }
             }.resume()
-        
        
     }
     
@@ -178,7 +208,12 @@ class mainMatchFieldViewController: UIViewController {
     
     var timerCount = -1
     let AlertState = "matchField"
+    var startDate = Date()
+    var currentDate = Date()
+    var startGame = false
     @objc func updateWatch() {
+        startGame = true
+        currentDate = Date()
         time = time + 0.0165
         timerCount = timerCount + 1
         watchView.progressTintColor = .init(red: 222/255, green: 100/255, blue: 1/255, alpha: 1.0)
@@ -191,6 +226,7 @@ class mainMatchFieldViewController: UIViewController {
                 thirdSoundPlay().playThirdSound()
             }
         if timerCount == 45 {
+            checkFinishGame = true
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
                 soundPlay().playEndGameSound()
@@ -200,7 +236,7 @@ class mainMatchFieldViewController: UIViewController {
             if timerCount > 45 {
                 self.timerLabel.text = "45"
             } else {
-        self.timerLabel.text = "\(timerCount)"
+            self.timerLabel.text = "\(timerCount)"
             }
         }
     }
@@ -208,17 +244,20 @@ class mainMatchFieldViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let VC = segue.destination as? menuAlertViewController {
+            self.watchView.updateProgress(75)
+            self.timerLabel.text = "45"
             VC.alertTitle = "اخطار"
             VC.alertBody = "وقت تمام شد"
             VC.alertAcceptLabel = "تأیید"
             VC.alertState = AlertState
-            
+            VC.matchField = self
         }
     }
     
     
     var time : CGFloat = 0
     var gameTimer : Timer!
+    
     func timerHand() {
         
         gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
@@ -232,11 +271,14 @@ class mainMatchFieldViewController: UIViewController {
     var currentQuestion = 0
     var correctAnswer = Int()
     var Score = Int()
+    
     func startMatch() {
+        startDate = Date()
         UIView.animate(withDuration: 0.5) {
             self.topViewTopConstraint.constant = 0
             self.bottomViewBottomConstraint.constant = 0
         }
+        
         beforeStartView.isHidden = true
         beforeStartCountDown.isHidden = true
         beforeStartTitle.isHidden = true
@@ -267,8 +309,27 @@ class mainMatchFieldViewController: UIViewController {
         currentQuestion = currentQuestion + 1
     }
     
-    
     func hideQuestion() {
+        let doubleCheckTimer : CGFloat = time
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            if self.currentQuestion < 3 &&  doubleCheckTimer == self.time {
+                for _ in 0...5 {
+                    self.time = self.time + 0.0165
+                    self.timerCount = self.timerCount + 1
+                }
+                if self.timerCount >= 45 {
+                    self.checkFinishGame = true
+                    DispatchQueue.main.async {
+                        musicPlay().playQuizeMusic()
+                        soundPlay().playEndGameSound()
+                        self.performSegue(withIdentifier: "gameOver", sender: self)
+                    }
+                } else {
+                self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateWatch), userInfo: nil, repeats: true)
+                }
+            }
+        }
+        
         UIView.animate(withDuration: 0.8) {
             self.questionTitleConstraint.constant = -((UIScreen.main.bounds.height / 3) + 50)
             self.answer1Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5) + 30)

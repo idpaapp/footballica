@@ -58,7 +58,7 @@ struct soundPlay {
         } catch let error {
             print(error.localizedDescription)
         }
-        }
+        } else {}
     }
     public func playWhistleSound() {
         if playgameSounds == true {

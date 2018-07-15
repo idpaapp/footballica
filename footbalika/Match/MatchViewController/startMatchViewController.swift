@@ -42,7 +42,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
 
     func loadMatchData() {
         
-        print(self.matchID)
+//        print(self.matchID)
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : 1}") { data, error in
             DispatchQueue.main.async {
                 
@@ -96,6 +96,10 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             }.resume()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.view.isUserInteractionEnabled = true
+    }
     var lastID = String()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,7 +123,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "startMatchCell", for: indexPath) as! startMatchCell
-        print((self.res?.response?.detailData?[indexPath.row].last_questions)!)
+//        print((self.res?.response?.detailData?[indexPath.row].last_questions)!)
         if UIDevice().userInterfaceIdiom == .phone {
         cell.matchResult.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) - \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
         cell.matchTitle.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)", strokeWidth: -3.0)
@@ -246,10 +250,10 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         
         
         if (self.res?.response?.detailData?.count)! == 0 {
-            print(lastID)
+//            print(lastID)
         } else {
             for i in 0...(self.res?.response?.detailData?.count)! - 1 {
-            print((self.res?.response?.detailData?[i].game_type!)!)
+//            print((self.res?.response?.detailData?[i].game_type!)!)
                 lastPlayedId.append(",\((self.res?.response?.detailData?[i].game_type!)!)")
             }
         }

@@ -81,8 +81,10 @@ class menuAlertViewController: UIViewController {
             })
         })
         if self.alertState == "matchField" {
+            self.view.isUserInteractionEnabled = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                 self.matchField.dismiss(animated: true, completion: nil)
+                musicPlay().playMenuMusic()
             })
         }
     }
