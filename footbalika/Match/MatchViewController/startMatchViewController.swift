@@ -10,9 +10,9 @@ import UIKit
 import Kingfisher
 import RealmSwift
 
-
 class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
 
+    
     @IBOutlet weak var playGameOutlet: RoundButton!
     
     @IBOutlet weak var startMatchTV: UITableView!
@@ -42,10 +42,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
 
     func loadMatchData() {
         
-//        print(self.matchID)
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : 1}") { data, error in
             DispatchQueue.main.async {
-                
                 
                 if data != nil {
                     
@@ -106,12 +104,43 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         loadMatchData()
         categoryArratSet()
         lastID = defaults.string(forKey: "lastMatchId") ?? String()
+        NotificationCenter.default.addObserver(self, selector: #selector(updateGameReault), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
     }
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
+    var updateRes : String? = nil;
+    
+    @objc func updateGameReault() {
+        let JsonStr = defaults.string(forKey: "gameLeft") ?? String()
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "\(JsonStr)") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    self.updateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
+                    if ((self.updateRes)!).contains("ok") {
+                        self.loadMatchData()
+                        self.defaults.set("", forKey: "gameLeft")
+                        print(self.updateRes!)
+                    } else {
+                        self.updateGameReault()
+                    }
+                    
+                } else {
+                    self.updateGameReault()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.res != nil {
@@ -125,7 +154,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "startMatchCell", for: indexPath) as! startMatchCell
 //        print((self.res?.response?.detailData?[indexPath.row].last_questions)!)
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.matchResult.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) - \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
+        cell.matchResult.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
         cell.matchTitle.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)", strokeWidth: -3.0)
         } else {
         cell.matchResult.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) - \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
@@ -213,7 +242,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     }
     
     @IBAction func playGameAction(_ sender: RoundButton) {
-        
         let isFinished = (Int((self.res?.response?.matchData?.status)!)!)
         print(isFinished)
         if isFinished < 2 {
@@ -298,7 +326,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         
         let counts = self.tblMatchTypesArray.count
             for i in 0...counts - 1 {
-        
             categoryTitleArray.append(tblMatchTypesArray[i].title)
             categoryIDArray.append(tblMatchTypesArray[i].id)
             categoryBase64ImageArray.append(tblMatchTypesArray[i].img_base64)
@@ -361,6 +388,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         vc.images = images
         vc.titles = titles
         vc.ids = ids
+        vc.matchData = self.res
     }
     
 }

@@ -26,6 +26,8 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     var titles = [String]()
     var ids = [Int]()
     var selectedcategoryId = Int()
+    var matchData : matchDetails.Response? = nil;
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,9 +72,36 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedcategoryId = ids[indexPath.row]
-       self.topMainCategoryView.isHidden = true
+        self.topMainCategoryView.isHidden = true
         self.mainCategoryView.isHidden = true
-        self.performSegue(withIdentifier: "matchTime", sender: self)
+        insertNewGame()
+    }
+    
+    var updateRes : String? = nil;
+
+    @objc func insertNewGame() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode': 'INS_NEW_GAME' , 'match_id' : \(((matchData?.response?.matchData?.id!)!)) , 'game_type' : \(String(selectedcategoryId))}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    self.updateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    if ((self.updateRes)!) != "" {
+                        self.performSegue(withIdentifier: "matchTime", sender: self)
+                    } else {
+                        self.insertNewGame()
+                    }
+                    
+                } else {
+                    self.insertNewGame()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -94,6 +123,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         vc.last_questions = ""
         vc.userid = "1"
         vc.lastVC = self
+        vc.matchData = self.matchData
     }
     
     

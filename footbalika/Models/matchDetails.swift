@@ -35,6 +35,7 @@ public class matchDetails {
         let player2_level : String?
         let player2_avatar : String?
     }
+    
     public struct detailData : Decodable {
         let id : String?
         let game_type : String?

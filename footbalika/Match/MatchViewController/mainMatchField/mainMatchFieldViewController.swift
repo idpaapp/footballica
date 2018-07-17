@@ -11,12 +11,21 @@ import RPCircularProgress
 
 class mainMatchFieldViewController: UIViewController {
 
+    
+    var matchData : matchDetails.Response? = nil;
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
+    @IBOutlet weak var imageQuestionTitle: UILabel!
+    
+    @IBOutlet weak var imageQuestion: UIImageView!
+    
     @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var topViewTopConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var timerLabel: UILabel!
     
     @IBOutlet weak var watchTimerConstraint: NSLayoutConstraint!
@@ -26,11 +35,17 @@ class mainMatchFieldViewController: UIViewController {
     @IBOutlet weak var handWatchImage: UIImageView!
     
     @IBOutlet weak var question1Ball: UIImageView!
+    
     @IBOutlet weak var question2Ball: UIImageView!
+    
     @IBOutlet weak var question3Ball: UIImageView!
+    
     @IBOutlet weak var question4Ball: UIImageView!
+    
     @IBOutlet weak var scoreLabel: UILabel!
+    
     @IBOutlet weak var questionTitle: UILabel!
+    
     @IBOutlet weak var questionTitleConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var answer1Constraint: NSLayoutConstraint!
@@ -62,7 +77,6 @@ class mainMatchFieldViewController: UIViewController {
     var last_questions = String()
     var userid = String()
     var answers = [[String]]()
-    
     var lastVC: selectCategoryViewController!
     
     @objc func UpdateTimer(notification: Notification){
@@ -85,18 +99,22 @@ class mainMatchFieldViewController: UIViewController {
          if timerCount >= 45 && checkFinishGame == false {
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
-                soundPlay().playEndGameSound()
                 self.performSegue(withIdentifier: "gameOver", sender: self)
+                NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                soundPlay().playEndGameSound()
             }
         }
         startDate = Date()
         }
     }
+
     
     var checkFinishGame = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.imageQuestionTitle.text = ""
         NotificationCenter.default.addObserver(self, selector: #selector(self.UpdateTimer(notification:)), name: Notification.Name("updateTimer"), object: nil)
 
         lastVC.dismiss(animated: true, completion: nil)
@@ -122,6 +140,10 @@ class mainMatchFieldViewController: UIViewController {
             if UIScreen.main.nativeBounds.height == 2436 {
                 //iPhone X
                 
+                
+                
+                
+                
             } else {
                 //Other iPhones
                 questionsTopConstraint.constant = (UIScreen.main.bounds.height / 11) + (UIScreen.main.bounds.height / 3) + 50
@@ -145,6 +167,7 @@ class mainMatchFieldViewController: UIViewController {
     }
     
     var res : questionsList.Response? = nil;
+    
     func readMatchData() {
         //match Data Json
         PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'\(level)','category':'\(category)','last_questions':'','userid':'1'}") { data, error in
@@ -157,8 +180,9 @@ class mainMatchFieldViewController: UIViewController {
                     do {
                         
                         self.res = try JSONDecoder().decode(questionsList.Response.self , from : data!)
-                        
-                        self.restMatchFunction()
+                        DispatchQueue.main.async {
+                            self.restMatchFunction()
+                        }
                         
                     } catch {
                         self.readMatchData()
@@ -177,6 +201,7 @@ class mainMatchFieldViewController: UIViewController {
     
     
     func restMatchFunction() {
+        updateGameResault()
         if musicPlay.musicPlayer?.isPlaying == true {
             musicPlay().playMenuMusic()
         } else {}
@@ -229,8 +254,9 @@ class mainMatchFieldViewController: UIViewController {
             checkFinishGame = true
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
-                soundPlay().playEndGameSound()
                 self.performSegue(withIdentifier: "gameOver", sender: self)
+                NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                soundPlay().playEndGameSound()
             }
         }
             if timerCount > 45 {
@@ -288,16 +314,48 @@ class mainMatchFieldViewController: UIViewController {
             }
         timerHand()
         correctAnswer = (self.res?.response?[currentQuestion].ans_correct_id!)!
-        showQuestion(questionTitle: "\((self.res?.response?[currentQuestion].title!)!)", answer1: "\((self.res?.response?[currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[currentQuestion].ans_correct_id!)!)
+        var questionImage = String()
+        if self.res?.response?[currentQuestion].q_image != nil {
+           questionImage = (self.res?.response?[currentQuestion].q_image!)!
+        } else {
+            questionImage = ""
+        }
+        showQuestion(questionTitle: "\((self.res?.response?[currentQuestion].title!)!)", answer1: "\((self.res?.response?[currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
     }
     
-    
-    func showQuestion(questionTitle : String , answer1 : String , answer2 : String , answer3 : String , answer4 : String , correctAnswer : Int ) {
-        self.questionTitle.text = questionTitle
+    func showQuestion(questionTitle : String , answer1 : String , answer2 : String , answer3 : String , answer4 : String , correctAnswer : Int , questionImage : String) {
+        if questionImage != "" {
+            self.questionTitle.text = ""
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+                self.imageQuestionTitle.text = questionTitle
+            }
+            self.imageQuestionTitle.isHidden = false
+        } else {
+            self.questionTitle.text = questionTitle
+            self.imageQuestionTitle.text = ""
+            self.imageQuestionTitle.isHidden = true
+        }
+        
+        DisableEnableInterFace(State : true)
+        
         self.answer1Outlet.setTitle(answer1, for: .normal)
         self.answer2Outlet.setTitle(answer2, for: .normal)
         self.answer3Outlet.setTitle(answer3, for: .normal)
         self.answer4Outlet.setTitle(answer4, for: .normal)
+        
+        self.answer1Outlet.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.answer2Outlet.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.answer3Outlet.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.answer4Outlet.titleLabel?.adjustsFontSizeToFitWidth = true
+        
+        self.answer1Outlet.titleLabel?.minimumScaleFactor = 0.5
+        self.answer2Outlet.titleLabel?.minimumScaleFactor = 0.5
+        self.answer3Outlet.titleLabel?.minimumScaleFactor = 0.5
+        self.answer4Outlet.titleLabel?.minimumScaleFactor = 0.5
+        
+        
+        let dataDecoded:NSData = NSData(base64Encoded: questionImage , options: NSData.Base64DecodingOptions(rawValue: 0))!
+        self.imageQuestion.image = UIImage(data: dataDecoded as Data)
         UIView.animate(withDuration: 0.8) {
             self.questionTitleConstraint.constant = UIScreen.main.bounds.height / 11 + 30
             self.answer1Constraint.constant = UIScreen.main.bounds.width / 10 - 5
@@ -310,21 +368,28 @@ class mainMatchFieldViewController: UIViewController {
     }
     
     func hideQuestion() {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+        self.imageQuestionTitle.text = " "
+        }
         let doubleCheckTimer : CGFloat = time
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             if self.currentQuestion < 3 &&  doubleCheckTimer == self.time {
-                for _ in 0...5 {
                     self.time = self.time + 0.0165
                     self.timerCount = self.timerCount + 1
-                }
                 if self.timerCount >= 45 {
                     self.checkFinishGame = true
                     DispatchQueue.main.async {
-                        musicPlay().playQuizeMusic()
-                        soundPlay().playEndGameSound()
+                        if musicPlay.musicPlayer?.isPlaying == true {
+                            musicPlay().playQuizeMusic()
+                        } else {}
                         self.performSegue(withIdentifier: "gameOver", sender: self)
+                        NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                        soundPlay().playEndGameSound()
                     }
                 } else {
+                    if musicPlay.musicPlayer?.isPlaying == true {
+                    } else {musicPlay().playQuizeMusic()}
                 self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateWatch), userInfo: nil, repeats: true)
                 }
             }
@@ -338,6 +403,7 @@ class mainMatchFieldViewController: UIViewController {
             self.answer4Constraint.constant = -((2 * UIScreen.main.bounds.width / 5 ) + 30)
             self.view.layoutIfNeeded()
         }
+        
         if currentQuestion < 4 {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
                 self.answer1Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
@@ -345,7 +411,14 @@ class mainMatchFieldViewController: UIViewController {
                 self.answer3Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
                 self.answer4Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
                 self.correctAnswer = (self.res?.response?[self.currentQuestion].ans_correct_id!)!
-                self.showQuestion(questionTitle: "\((self.res?.response?[self.currentQuestion].title!)!)", answer1: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[self.currentQuestion].ans_correct_id!)!)
+                var questionImage = String()
+                if self.res?.response?[self.currentQuestion].q_image != nil {
+                    questionImage = (self.res?.response?[self.currentQuestion].q_image!)!
+                } else {
+                    questionImage = ""
+                }
+                
+                self.showQuestion(questionTitle: "\((self.res?.response?[self.currentQuestion].title!)!)", answer1: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[self.currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
             })
         } else {
             musicPlay().playQuizeMusic()
@@ -354,24 +427,37 @@ class mainMatchFieldViewController: UIViewController {
                 musicPlay().playMenuMusic()
             }
             dismiss(animated: true, completion: nil)
+            NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
         }
+    }
+    
+    
+    @objc func DisableEnableInterFace(State : Bool) {
+        self.answer1Outlet.isUserInteractionEnabled = State
+        self.answer2Outlet.isUserInteractionEnabled = State
+        self.answer3Outlet.isUserInteractionEnabled = State
+        self.answer4Outlet.isUserInteractionEnabled = State
     }
     
     
     @IBAction func answer1Action(_ sender: RoundButton) {
         checkAnswer(answerSelectedIndex: 1)
+        DisableEnableInterFace(State : false)
     }
     
     @IBAction func answer2Action(_ sender: RoundButton) {
         checkAnswer(answerSelectedIndex: 2)
+        DisableEnableInterFace(State : false)
     }
     
     @IBAction func answer3Action(_ sender: RoundButton) {
         checkAnswer(answerSelectedIndex: 3)
+        DisableEnableInterFace(State : false)
     }
     
     @IBAction func answer4Action(_ sender: RoundButton) {
         checkAnswer(answerSelectedIndex: 4)
+        DisableEnableInterFace(State : false)
     }
     
     func checkAnswer(answerSelectedIndex : Int) {
@@ -424,7 +510,7 @@ class mainMatchFieldViewController: UIViewController {
     }
     
     var balls = [2,2,2,2]
-
+    let defaults = UserDefaults.standard
     func ballCheck() {
         for i in 0...3 {
         switch balls[i] {
@@ -463,6 +549,37 @@ class mainMatchFieldViewController: UIViewController {
                     }
             }
         }
+        updateGameResault()
+    }
+    
+    
+    
+    func updateGameResault() {
+        var storeArray = [Int]()
+        for i in 0...3 {
+            if balls[i] == 2 {
+                storeArray.append(0)
+            } else {
+                storeArray.append(balls[i])
+            }
+        }
+        
+        var playerSide = String()
+        var playerReault = Int()
+        
+        if ((matchData?.response?.isYourTurn!)!) == true {
+            playerSide = "1"
+        } else {
+            playerSide = "2"
+        }
+        
+        playerReault = storeArray.filter{$0 == 1}.count
+        
+        let gameArray = "{'mode':'UPDT_GAME_RESULT','is_home':'\(((matchData?.response?.isYourTurn!)!))','match_id':\(((matchData?.response?.matchData?.id!)!)),'game_type':\(self.category),'last_questions':'\((self.res?.response?[0].id!)!),\((self.res?.response?[1].id!)!),\((self.res?.response?[2].id!)!),\((self.res?.response?[3].id!)!)','player\(playerSide)_result':\(playerReault),'player\(playerSide)_result_sheet':'{\\'ans_1\\':\(storeArray[0]),\\'ans_2\\':\(storeArray[1]),\\'ans_3\\':\(storeArray[2]),\\'ans_4\\':\(storeArray[3])}'}"
+        
+        print("questionsIDs = Q1:\((self.res?.response?[0].id!)!) - Q2:\((self.res?.response?[1].id!)!) - Q3:\((self.res?.response?[2].id!)!) - Q4:\((self.res?.response?[3].id!)!)")
+        
+        defaults.set(gameArray, forKey: "gameLeft")
     }
     
     override func didReceiveMemoryWarning() {
