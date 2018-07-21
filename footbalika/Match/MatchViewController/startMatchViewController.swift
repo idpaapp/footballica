@@ -102,7 +102,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         loadMatchData()
-        categoryArratSet()
+        categoryArraySet()
         lastID = defaults.string(forKey: "lastMatchId") ?? String()
         NotificationCenter.default.addObserver(self, selector: #selector(updateGameReault), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
     }
@@ -157,7 +157,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         cell.matchResult.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
         cell.matchTitle.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)", strokeWidth: -3.0)
         } else {
-        cell.matchResult.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) - \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
+        cell.matchResult.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
         cell.matchTitle.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)", strokeWidth: -3.0)
         }
         
@@ -260,6 +260,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             print("the match was finished")
         }
     }
+    
     let defaults = UserDefaults.standard
     var realm : Realm!
     var tblMatchTypesArray : Results<tblMatchTypes> {
@@ -283,10 +284,13 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             for i in 0...(self.res?.response?.detailData?.count)! - 1 {
 //            print((self.res?.response?.detailData?[i].game_type!)!)
                 lastPlayedId.append(",\((self.res?.response?.detailData?[i].game_type!)!)")
+                print("lastPlayedId\((self.res?.response?.detailData?[i].game_type!)!)")
             }
+            
         }
         
         if lastID == "" && lastPlayedId == "" {
+            
             
             
             categoryState = 1
@@ -322,7 +326,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var categoryIDArray = [Int]()
     var categoryBase64ImageArray = [String]()
     var categoryState = Int()
-    func categoryArratSet() {
+    func categoryArraySet() {
         
         let counts = self.tblMatchTypesArray.count
             for i in 0...counts - 1 {
@@ -339,6 +343,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         var titles = [String]()
         var images = [String]()
         var ids = [Int]()
+        
         if categoryState == 1 {
             
             for _ in 0..<categoryTitleArray.count
@@ -360,14 +365,19 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         } else if categoryState == 2 {
             
             let lastIDArray = lastID.split{$0 == ","}.map(String.init)
+
             for i in 0...lastIDArray.count - 1  {
                 let index = categoryIDArray.index(where: {$0 == Int(lastIDArray[i])})
-                titles.append(categoryTitleArray[index!])
-                images.append(categoryBase64ImageArray[index!])
-                ids.append(categoryIDArray[index!])
-            }
-            
+
+                categoryTitleArray.remove(at: index!)
+                categoryBase64ImageArray.remove(at: index!)
+                categoryIDArray.remove(at: index!)
+                }
+                titles = categoryTitleArray
+                images = categoryBase64ImageArray
+                ids = categoryIDArray
         } else {
+            
             let lastPlayedIdArray = lastPlayedId.split{$0 == ","}.map(String.init)
             for i in 0...lastPlayedIdArray.count - 1  {
                 let index = categoryIDArray.index(where: {$0 == Int(lastPlayedIdArray[i])})

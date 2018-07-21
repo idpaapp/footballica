@@ -10,7 +10,6 @@ import UIKit
 import RPCircularProgress
 
 class mainMatchFieldViewController: UIViewController {
-
     
     var matchData : matchDetails.Response? = nil;
 
@@ -95,13 +94,26 @@ class mainMatchFieldViewController: UIViewController {
             time = time + 0.0165
             timerCount = timerCount + 1
             }
-        }
+       
+        } else if difference.second! < 0 {
+            DispatchQueue.main.async {
+                musicPlay().playQuizeMusic()
+                self.performSegue(withIdentifier: "gameOver", sender: self)
+                NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                soundPlay().playEndGameSound()
+                self.checkFinishGame = true
+                self.gameTimer.invalidate()
+                self.watchView.updateProgress(75)
+                self.timerLabel.text = "45"
+            }
+            }
          if timerCount >= 45 && checkFinishGame == false {
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
                 self.performSegue(withIdentifier: "gameOver", sender: self)
                 NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                 soundPlay().playEndGameSound()
+                self.checkFinishGame = true
             }
         }
         startDate = Date()
@@ -113,6 +125,8 @@ class mainMatchFieldViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.questionTitle.adjustsFontSizeToFitWidth = true
+        self.questionTitle.minimumScaleFactor = 0.5
         
         self.imageQuestionTitle.text = ""
         NotificationCenter.default.addObserver(self, selector: #selector(self.UpdateTimer(notification:)), name: Notification.Name("updateTimer"), object: nil)
@@ -124,29 +138,48 @@ class mainMatchFieldViewController: UIViewController {
         question4Ball.image = publicImages().emptyImage
 
         self.timerLabel.text = ""
-        if UIScreen.main.bounds.width == 320 {
-            watchTimerConstraint.constant = 6
+        if UIDevice().userInterfaceIdiom == .phone {
+            if UIScreen.main.bounds.width == 320 {
+                //4 inch iPhones or smaller
+                watchTimerConstraint.constant = 6
+            } else {
+                if UIScreen.main.nativeBounds.height == 2436 {
+                    //iPhonex
+                    watchTimerConstraint.constant = 8
+                } else {
+                    // other iPhones
+                    watchTimerConstraint.constant = 7
+                }
+            }
         } else {
-            watchTimerConstraint.constant = 7
+            //iPad
+            watchTimerConstraint.constant = 11
         }
-        topViewTopConstraint.constant = -300
-        bottomViewBottomConstraint.constant = 300
+        
         scoreLabel.text = ""
         beforeStartCountDown.text = ""
         beforeStartTitle.text = ""
         beforeStartTitle.adjustsFontSizeToFitWidth = true
         beforeStartTitle.minimumScaleFactor = 0.5
+        
         if UIDevice().userInterfaceIdiom == .phone {
+            topViewTopConstraint.constant = -300
+            bottomViewBottomConstraint.constant = 300
             if UIScreen.main.nativeBounds.height == 2436 {
+                
                 //iPhone X
-                
-                
-                
-                
+                questionsTopConstraint.constant = 450
+                questionTitleConstraint.constant = -((UIScreen.main.bounds.height / 3) + 50)
+                self.answer1Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5) + 30)
+                self.answer3Constraint.constant = -((2 * UIScreen.main.bounds.width / 5) + 30)
+                self.answer2Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5 ) + 30)
+                self.answer4Constraint.constant = -((2 * UIScreen.main.bounds.width / 5 ) + 30)
                 
             } else {
+                
                 //Other iPhones
-                questionsTopConstraint.constant = (UIScreen.main.bounds.height / 11) + (UIScreen.main.bounds.height / 3) + 50
+//                questionsTopConstraint.constant = (UIScreen.main.bounds.height / 3) + 50
+                questionsTopConstraint.constant = (UIScreen.main.bounds.height / 3) + (UIScreen.main.bounds.height / 11) + 50
                 questionTitleConstraint.constant = -((UIScreen.main.bounds.height / 3) + 50)
                 self.answer1Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5) + 30)
                 self.answer3Constraint.constant = -((2 * UIScreen.main.bounds.width / 5) + 30)
@@ -155,11 +188,15 @@ class mainMatchFieldViewController: UIViewController {
             }
             
         } else {
+            topViewTopConstraint.constant = -600
+            bottomViewBottomConstraint.constant = 600
             //iPad
-            
-            
-            
-            
+            questionsTopConstraint.constant = (UIScreen.main.bounds.height / 8) + 430
+            questionTitleConstraint.constant = -((UIScreen.main.bounds.height / 3) + 50)
+            self.answer1Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5) + 30)
+            self.answer3Constraint.constant = -((2 * UIScreen.main.bounds.width / 5) + 30)
+            self.answer2Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5 ) + 30)
+            self.answer4Constraint.constant = -((2 * UIScreen.main.bounds.width / 5 ) + 30)
         }
         
         
@@ -236,6 +273,8 @@ class mainMatchFieldViewController: UIViewController {
     var startDate = Date()
     var currentDate = Date()
     var startGame = false
+    
+    
     @objc func updateWatch() {
         startGame = true
         currentDate = Date()
@@ -299,6 +338,18 @@ class mainMatchFieldViewController: UIViewController {
     var Score = Int()
     
     func startMatch() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 45) {
+            if self.checkFinishGame == false {
+                self.gameTimer.invalidate()
+                self.checkFinishGame = true
+                DispatchQueue.main.async {
+                    musicPlay().playQuizeMusic()
+                    self.performSegue(withIdentifier: "gameOver", sender: self)
+                    NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                    soundPlay().playEndGameSound()
+                }
+            }
+        }
         startDate = Date()
         UIView.animate(withDuration: 0.5) {
             self.topViewTopConstraint.constant = 0
@@ -313,6 +364,7 @@ class mainMatchFieldViewController: UIViewController {
                 musicPlay().playQuizeMusic()
             }
         timerHand()
+        
         correctAnswer = (self.res?.response?[currentQuestion].ans_correct_id!)!
         var questionImage = String()
         if self.res?.response?[currentQuestion].q_image != nil {
@@ -357,12 +409,41 @@ class mainMatchFieldViewController: UIViewController {
         let dataDecoded:NSData = NSData(base64Encoded: questionImage , options: NSData.Base64DecodingOptions(rawValue: 0))!
         self.imageQuestion.image = UIImage(data: dataDecoded as Data)
         UIView.animate(withDuration: 0.8) {
-            self.questionTitleConstraint.constant = UIScreen.main.bounds.height / 11 + 30
-            self.answer1Constraint.constant = UIScreen.main.bounds.width / 10 - 5
-            self.answer3Constraint.constant = UIScreen.main.bounds.width / 10 - 5
-            self.answer2Constraint.constant = UIScreen.main.bounds.width / 10 - 5
-            self.answer4Constraint.constant = UIScreen.main.bounds.width / 10 - 5
-            self.view.layoutIfNeeded()
+            if UIDevice().userInterfaceIdiom == .phone {
+                if UIScreen.main.nativeBounds.height == 2436 {
+                    //iPhone X
+                    self.questionTitleConstraint.constant = UIScreen.main.bounds.height / 8 + 70
+                    self.answer1Constraint.constant = UIScreen.main.bounds.width / 10 - 5
+                    self.answer3Constraint.constant = UIScreen.main.bounds.width / 10 - 5
+                    self.answer2Constraint.constant = UIScreen.main.bounds.width / 10 - 5
+                    self.answer4Constraint.constant = UIScreen.main.bounds.width / 10 - 5
+                    self.view.layoutIfNeeded()
+                    
+                } else {
+                    
+                    //Other iPhones
+                    self.questionTitleConstraint.constant = UIScreen.main.bounds.height / 11 + 35
+                    self.answer1Constraint.constant = UIScreen.main.bounds.width / 10 - 5
+                    self.answer3Constraint.constant = UIScreen.main.bounds.width / 10 - 5
+                    self.answer2Constraint.constant = UIScreen.main.bounds.width / 10 - 5
+                    self.answer4Constraint.constant = UIScreen.main.bounds.width / 10 - 5
+                    self.view.layoutIfNeeded()
+                    
+                    
+                }
+            } else {
+                
+                //iPad
+                
+                self.questionTitleConstraint.constant = UIScreen.main.bounds.height / 8 + 80
+                self.answer1Constraint.constant = UIScreen.main.bounds.width / 2 - 190
+                self.answer3Constraint.constant = UIScreen.main.bounds.width / 2 - 190
+                self.answer2Constraint.constant = UIScreen.main.bounds.width / 2 - 190
+                self.answer4Constraint.constant = UIScreen.main.bounds.width / 2 - 190
+                self.view.layoutIfNeeded()
+                
+            }
+
         }
         currentQuestion = currentQuestion + 1
     }
@@ -517,24 +598,56 @@ class mainMatchFieldViewController: UIViewController {
         case 0:
             switch i {
             case 0:
-                question1Ball.image = publicImages().redBall
+                UIView.transition(with: question1Ball,
+                                  duration: 0.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: { self.question1Ball.image = publicImages().redBall },
+                                  completion: nil)
             case 1:
-                question2Ball.image = publicImages().redBall
+                UIView.transition(with: question2Ball,
+                                  duration: 0.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: { self.question2Ball.image = publicImages().redBall },
+                                  completion: nil)
             case 2 :
-                question3Ball.image = publicImages().redBall
+                UIView.transition(with: question3Ball,
+                                  duration: 0.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: { self.question3Ball.image = publicImages().redBall },
+                                  completion: nil)
             default :
-                question4Ball.image = publicImages().redBall
+                UIView.transition(with: question4Ball,
+                                  duration: 0.3,
+                                  options: .transitionCrossDissolve,
+                                  animations: { self.question4Ball.image = publicImages().redBall },
+                                  completion: nil)
             }
         case 1:
             switch i {
             case 0:
-                question1Ball.image = publicImages().greenBall
+                UIView.transition(with: question1Ball,
+                                  duration: 0.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: { self.question1Ball.image = publicImages().greenBall },
+                                  completion: nil)
             case 1:
-                question2Ball.image = publicImages().greenBall
+                UIView.transition(with: question2Ball,
+                                  duration: 0.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: { self.question2Ball.image = publicImages().greenBall },
+                                  completion: nil)
             case 2 :
-                question3Ball.image = publicImages().greenBall
+                UIView.transition(with: question3Ball,
+                                  duration: 0.5,
+                                  options: .transitionCrossDissolve,
+                                  animations: { self.question3Ball.image = publicImages().greenBall },
+                                  completion: nil)
             default :
-                question4Ball.image = publicImages().greenBall
+                UIView.transition(with: question4Ball,
+                                  duration: 0.3,
+                                  options: .transitionCrossDissolve,
+                                  animations: { self.question4Ball.image = publicImages().greenBall },
+                                  completion: nil)
             }
         default:
             switch i {
@@ -580,6 +693,7 @@ class mainMatchFieldViewController: UIViewController {
         print("questionsIDs = Q1:\((self.res?.response?[0].id!)!) - Q2:\((self.res?.response?[1].id!)!) - Q3:\((self.res?.response?[2].id!)!) - Q4:\((self.res?.response?[3].id!)!)")
         
         defaults.set(gameArray, forKey: "gameLeft")
+        
     }
     
     override func didReceiveMemoryWarning() {

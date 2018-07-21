@@ -28,9 +28,13 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     var selectedcategoryId = Int()
     var matchData : matchDetails.Response? = nil;
 
+   var defaults = UserDefaults.standard
+    var lastID = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        lastID = defaults.string(forKey: "lastMatchId") ?? String()
         
         if titles.count != 3 {
             images = Array(self.images.prefix(3))
@@ -55,7 +59,6 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        let cell = tableView.dequeueReusableCell(withIdentifier: "selectCategoryCell", for: indexPath) as! selectCategoryCell
-        
         if UIDevice().userInterfaceIdiom == .phone {
         cell.questionTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(titles[indexPath.row])", strokeWidth: -6.0)
         cell.questionForeGroundTitle.font = fonts().iPhonefonts
@@ -74,6 +77,13 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         selectedcategoryId = ids[indexPath.row]
         self.topMainCategoryView.isHidden = true
         self.mainCategoryView.isHidden = true
+        if lastID.count < 6 {
+          lastID.append("\(ids[indexPath.row]),")
+          defaults.set(lastID, forKey: "lastMatchId")
+        } else {
+          lastID = ""
+          defaults.set("", forKey: "lastMatchId")
+        }
         insertNewGame()
     }
     
