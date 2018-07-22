@@ -14,7 +14,7 @@ public class gamesList {
         let status : String?
         var response : [response]
     }
-    //wait in response hame ja hast ino rename koni app be kol mire roo hava
+   
     struct response : Decodable {
         let id : String?
         let player1_id : String?
