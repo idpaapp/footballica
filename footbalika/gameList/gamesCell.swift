@@ -18,6 +18,24 @@ class gamesCell: UITableViewCell {
     @IBOutlet weak var turnLabel: UILabel!
     @IBOutlet weak var result: UILabel!
     
+    @IBOutlet weak var player1Level: UILabel!
+    
+    @IBOutlet weak var player1Avatar: UIImageView!
+    
+    @IBOutlet weak var player1Name: UILabel!
+    
+    @IBOutlet weak var player1Cup: UILabel!
+    
+    @IBOutlet weak var player2Level: UILabel!
+    
+    @IBOutlet weak var player2Avatar: UIImageView!
+    
+    @IBOutlet weak var player2Name: UILabel!
+    
+    @IBOutlet weak var player2Cup: UILabel!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

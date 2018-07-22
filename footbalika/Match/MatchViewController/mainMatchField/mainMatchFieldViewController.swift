@@ -96,22 +96,33 @@ class mainMatchFieldViewController: UIViewController {
             }
        
         } else if difference.second! < 0 {
+            if self.checkFinishGame == false {
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
+                self.view.isUserInteractionEnabled = false
                 self.performSegue(withIdentifier: "gameOver", sender: self)
                 NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    self.view.isUserInteractionEnabled = true
+                })
                 soundPlay().playEndGameSound()
                 self.checkFinishGame = true
                 self.gameTimer.invalidate()
                 self.watchView.updateProgress(75)
                 self.timerLabel.text = "45"
-            }
+          
+                }
+              }
             }
          if timerCount >= 45 && checkFinishGame == false {
+            self.view.isUserInteractionEnabled = false
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
                 self.performSegue(withIdentifier: "gameOver", sender: self)
                 NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    self.view.isUserInteractionEnabled = true
+                })
                 soundPlay().playEndGameSound()
                 self.checkFinishGame = true
             }
@@ -290,12 +301,18 @@ class mainMatchFieldViewController: UIViewController {
                 thirdSoundPlay().playThirdSound()
             }
         if timerCount == 45 {
+             if self.checkFinishGame == false {
             checkFinishGame = true
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
+                self.view.isUserInteractionEnabled = false
                 self.performSegue(withIdentifier: "gameOver", sender: self)
                 NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    self.view.isUserInteractionEnabled = true
+                })
                 soundPlay().playEndGameSound()
+                }
             }
         }
             if timerCount > 45 {
@@ -344,9 +361,13 @@ class mainMatchFieldViewController: UIViewController {
                 self.checkFinishGame = true
                 DispatchQueue.main.async {
                     musicPlay().playQuizeMusic()
+                    self.view.isUserInteractionEnabled = false
                     self.performSegue(withIdentifier: "gameOver", sender: self)
                     NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                     soundPlay().playEndGameSound()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                        self.view.isUserInteractionEnabled = true
+                    })
                 }
             }
         }
@@ -459,14 +480,20 @@ class mainMatchFieldViewController: UIViewController {
                     self.time = self.time + 0.0165
                     self.timerCount = self.timerCount + 1
                 if self.timerCount >= 45 {
+                    if self.checkFinishGame == false {
                     self.checkFinishGame = true
+                    self.view.isUserInteractionEnabled = false
                     DispatchQueue.main.async {
                         if musicPlay.musicPlayer?.isPlaying == true {
                             musicPlay().playQuizeMusic()
                         } else {}
                         self.performSegue(withIdentifier: "gameOver", sender: self)
                         NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                            self.view.isUserInteractionEnabled = true
+                        })
                         soundPlay().playEndGameSound()
+                        }
                     }
                 } else {
                     if musicPlay.musicPlayer?.isPlaying == true {
@@ -502,6 +529,8 @@ class mainMatchFieldViewController: UIViewController {
                 self.showQuestion(questionTitle: "\((self.res?.response?[self.currentQuestion].title!)!)", answer1: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[self.currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
             })
         } else {
+            if self.checkFinishGame == false {
+            self.checkFinishGame = true
             musicPlay().playQuizeMusic()
             self.gameTimer.invalidate()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -509,6 +538,7 @@ class mainMatchFieldViewController: UIViewController {
             }
             dismiss(animated: true, completion: nil)
             NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+        }
         }
     }
     

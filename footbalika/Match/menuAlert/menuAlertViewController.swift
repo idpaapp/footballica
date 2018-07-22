@@ -68,7 +68,10 @@ class menuAlertViewController: UIViewController {
     }
 
     
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        self.view.isUserInteractionEnabled = true
+    }
     @objc func dismissing() {
         UIView.animate(withDuration: 0.2, animations: {
             self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)

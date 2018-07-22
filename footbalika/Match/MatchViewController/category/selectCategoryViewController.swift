@@ -141,6 +141,5 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         super.didReceiveMemoryWarning()
         
     }
-    
 
 }
