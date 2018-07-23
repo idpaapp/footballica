@@ -42,6 +42,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
 
     func loadMatchData() {
         
+        print(self.matchID)
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : 1}") { data, error in
             DispatchQueue.main.async {
                 
@@ -78,6 +79,10 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                             } else {
                                 self.playGameOutlet.setTitle("نوبت بازی حریف", for: UIControlState.normal)
                             }
+                            if (Int((self.res?.response?.matchData?.status)!)!) >= 2 {
+                                self.playGameOutlet.setTitle("خروج", for: UIControlState.normal)
+                            }
+                            
                             self.startMatchTV.reloadData()
                         }
                     } catch {
@@ -155,10 +160,10 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
 //        print((self.res?.response?.detailData?[indexPath.row].last_questions)!)
         if UIDevice().userInterfaceIdiom == .phone {
         cell.matchResult.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
-        cell.matchTitle.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)", strokeWidth: -3.0)
+        cell.matchTitle.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
         } else {
         cell.matchResult.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
-        cell.matchTitle.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)", strokeWidth: -3.0)
+        cell.matchTitle.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
         }
         
         if self.res?.response?.detailData?[indexPath.row].player1_result_sheet != nil {
@@ -192,25 +197,25 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
 
         if self.res?.response?.detailData?[indexPath.row].player2_result_sheet != nil {
-        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_1)! == 0 {
+        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_1)! == "0" {
             cell.br4.image = publicImages().redBall
         } else {
             cell.br4.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_2)! == 0 {
+        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_2)! == "0" {
             cell.br3.image = publicImages().redBall
         } else {
             cell.br3.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_3)! == 0 {
+        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_3)! == "0" {
             cell.br2.image = publicImages().redBall
         } else {
             cell.br2.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_4)! == 0 {
+        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_4)! == "0" {
             cell.br1.image = publicImages().redBall
         } else {
             cell.br1.image = publicImages().greenBall
@@ -237,9 +242,15 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func backAction(_ sender: UIButton) {
+    func closePage() {
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func backAction(_ sender: UIButton) {
+        closePage()
+    }
+    
+    var catState = String()
     
     @IBAction func playGameAction(_ sender: RoundButton) {
         let isFinished = (Int((self.res?.response?.matchData?.status)!)!)
@@ -247,17 +258,22 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         if isFinished < 2 {
             if self.res?.response?.isYourTurn == true {
                 if (self.res?.response?.detailData?.count)! == 0 {
+                    self.catState = "cat"
                     questionIds()
-                } else if self.res?.response?.detailData?[(self.res?.response?.detailData?.count)!].player1_result_sheet == nil  {
+                } else if self.res?.response?.detailData?[(self.res?.response?.detailData?.count)! - 1].player1_result_sheet != nil &&  self.res?.response?.detailData?[(self.res?.response?.detailData?.count)! - 1].player2_result_sheet != nil {
+                    self.catState = "cat"
                     questionIds()
                 } else {
+                    self.catState = "NoCat"
                     print("it's not time for selecting category")
+                    self.performSegue(withIdentifier: "selectCat", sender: self)
                 }
             } else {
                 print("it's not your Turn")
             }
         } else {
-            print("the match was finished")
+            closePage()
+//            print("the match was finished")
         }
     }
     
@@ -318,8 +334,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
 
         }
         
-        
         self.performSegue(withIdentifier: "selectCat", sender: self)
+        
     }
     
     var categoryTitleArray = [String]()
@@ -344,6 +360,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         var images = [String]()
         var ids = [Int]()
         
+        if self.catState != "NoCat" {
         if categoryState == 1 {
             
             for _ in 0..<categoryTitleArray.count
@@ -395,10 +412,21 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                 categoryIDArray = tempcategoryIDArray
             }
         }
+        
+        
         vc.images = images
         vc.titles = titles
         vc.ids = ids
         vc.matchData = self.res
+        vc.catState = self.catState
+            
+        } else {
+            
+            vc.selectedcategoryId = Int((self.res?.response?.detailData?[(self.res?.response?.detailData?.count)! - 1].game_type)!)!
+            vc.matchData = self.res
+            vc.catState = self.catState
+            
+        }
     }
     
 }

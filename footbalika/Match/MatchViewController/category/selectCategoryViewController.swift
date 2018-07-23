@@ -26,6 +26,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     var titles = [String]()
     var ids = [Int]()
     var selectedcategoryId = Int()
+    var catState = String()
     var matchData : matchDetails.Response? = nil;
 
    var defaults = UserDefaults.standard
@@ -34,6 +35,10 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if self.catState == "NoCat" {
+            self.topMainCategoryView.isHidden = true
+            self.mainCategoryView.isHidden = true
+        } else {
         lastID = defaults.string(forKey: "lastMatchId") ?? String()
         
         if titles.count != 3 {
@@ -51,10 +56,27 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
             mainTitleForeGround.font = fonts().iPadfonts
         }
         mainTitleForeGround.text = "انتخاب دسته بندی سؤالات"
+        }
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        if self.catState == "NoCat" {
+            goingToMatch()
+        }
+    }
+    
+    func goingToMatch() {
+        self.performSegue(withIdentifier: "matchTime", sender: self)
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if self.catState == "NoCat" {
+            return 0
+        } else {
         return 3
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

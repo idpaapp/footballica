@@ -26,7 +26,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     var res0 : gamesList.Response? = nil;
     var res1 : gamesList.Response? = nil;
     
-    func gameLists() {
+    @objc func gameLists() {
         
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchList", JSONStr: "{'mode': 'USERMATCH','userid':'1'}") { data, error in
             DispatchQueue.main.async {
@@ -44,12 +44,8 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                             print("res not found")
                             return
                         }
-                        
-                       
-                        //bebin man faghat ye kar mikham bokonam m okeye man faghat mikham m o berizam to self.res0 hamin chizi ro nemikham taghir bedam age momkene
-                        
+
                         let playerStatuses = res.response.filter { $0.status != nil }
-//
                         let playersWithStatus1 = playerStatuses.filter({ $0.status == "1" })
                         let playersWithStatus0 = playerStatuses.filter({ $0.status != "1" })
                         
@@ -83,10 +79,15 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     var gameListState = "currentGames"
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         gameLists()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(gameLists), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
+
         
         refreshControl.tintColor = UIColor.white
         
@@ -156,7 +157,17 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             let url2 = "\(urlClass.avatar)\((self.res0?.response[indexPath.row].player2_avatar)!)"
             let urls2 = URL(string : url2)
             cell.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
-            
+            if (self.res0?.response[indexPath.row].status_result)! == "MY_TURN" {
+                cell.turnLabel.text = "نوبت شما"
+                cell.turnLabel.textColor = UIColor.init(red: 184/255, green: 219/255, blue: 31/255, alpha: 1.0)
+            } else if (self.res0?.response[indexPath.row].status_result)! == "OTHER_TURN" {
+                cell.turnLabel.text = "نوبت حریف"
+                 cell.turnLabel.textColor = UIColor.white
+            }
+            cell.player1Select.tag = indexPath.row
+            cell.player1Select.addTarget(self, action: #selector(player1Select), for: UIControlEvents.touchUpInside)
+            cell.player2Select.tag = indexPath.row
+            cell.player2Select.addTarget(self, action: #selector(player2Select), for: UIControlEvents.touchUpInside)
             
         } else {
             
@@ -176,7 +187,30 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             let urls2 = URL(string : url2)
             cell.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
             
+            if (self.res1?.response[indexPath.row].status_result)! == "DRAW" {
+                cell.turnLabel.text = "مساوی"
+                cell.turnLabel.textColor = UIColor.init(red: 233/255, green: 241/255, blue: 0/255, alpha: 1.0)
+            } else if (self.res1?.response[indexPath.row].status_result)! == "WIN" {
+                cell.turnLabel.text = "بردی"
+                cell.turnLabel.textColor = UIColor.init(red: 184/255, green: 219/255, blue: 31/255, alpha: 1.0)
+            } else if (self.res1?.response[indexPath.row].status_result)! == "LOSE" {
+                cell.turnLabel.text = "باختی"
+                cell.turnLabel.textColor = UIColor.init(red: 238/255, green: 70/255, blue: 70/255, alpha: 1.0)
+            } else if (self.res1?.response[indexPath.row].status_result)! == "DEFER" {
+                cell.turnLabel.text = "تسلیم"
+                cell.turnLabel.textColor = UIColor.init(red: 255/255, green: 119/255, blue: 29/255, alpha: 1.0)
+            } else if (self.res1?.response[indexPath.row].status_result)! == "TIME_OUT" {
+                cell.turnLabel.text = "وقت تمام شد"
+                cell.turnLabel.textColor = UIColor.init(red: 255/255, green: 119/255, blue: 29/255, alpha: 1.0)
+            }
+            
+            cell.player1Select.tag = indexPath.row
+            cell.player1Select.addTarget(self, action: #selector(player1Select), for: UIControlEvents.touchUpInside)
+            cell.player2Select.tag = indexPath.row
+            cell.player2Select.addTarget(self, action: #selector(player2Select), for: UIControlEvents.touchUpInside)
+            
         }
+        
         
         
         return cell
@@ -188,6 +222,14 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         } else {
         return 250
         }
+    }
+    
+    
+    var selectedMatch = Int()
+    
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.selectedMatch = indexPath.row
+        self.performSegue(withIdentifier: "continueMatch", sender: self)
     }
     
     @IBAction func showCurrentGames(_ sender: RoundButton) {
@@ -202,6 +244,40 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         self.endedGames.backgroundColor = UIColor.white
         self.gameListState = "endedGames"
         self.gameListTV.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? startMatchViewController {
+            if self.gameListState == "currentGames" {
+                vc.matchID = (self.res0?.response[self.selectedMatch].id)!
+            } else {
+                vc.matchID = (self.res1?.response[self.selectedMatch].id)!
+            }
+        }
+    }
+    
+    @objc func player1Select(_ sender : UIButton!) {
+        if self.gameListState == "currentGames" {
+//            self.performSegue(withIdentifier: "showProfile", sender: self)
+
+        } else {
+            
+            
+        }
+        
+        
+    }
+    
+    @objc func player2Select(_ sender : UIButton!) {
+        
+        if self.gameListState == "currentGames" {
+//            self.performSegue(withIdentifier: "showProfile", sender: self)
+        } else {
+            
+            
+            
+        }
+        
     }
     
     

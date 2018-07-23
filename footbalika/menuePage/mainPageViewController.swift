@@ -14,7 +14,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     var menuTitles = ["لیست بازی ها" ,
                       "جام حذفی" ,
                       "مسابقه" ,
-                      "گروه ها" ,
+                      "دوستان" ,
                       "فروشگاه"]
     
     

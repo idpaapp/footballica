@@ -14,6 +14,7 @@
 		5C1AAAFB20EC9BEE002A2EEA /* downloadAssets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1AAAFA20EC9BEE002A2EEA /* downloadAssets.swift */; };
 		5C1D232C20F4CE6A00A6C126 /* whistle.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C1D232B20F4CE6A00A6C126 /* whistle.mp3 */; };
 		5C1D232E20F4D09D00A6C126 /* quize.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C1D232D20F4D09D00A6C126 /* quize.mp3 */; };
+		5C20C1D82105EB0F00930531 /* friendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C20C1D72105EB0F00930531 /* friendCell.swift */; };
 		5C234EFE20FA08FE00926611 /* last_ticking.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C234EFD20FA08FE00926611 /* last_ticking.mp3 */; };
 		5C234F0020FA105500926611 /* referee_whistle_end.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C234EFF20FA105500926611 /* referee_whistle_end.mp3 */; };
 		5C27142020E89E0C008F1E37 /* profile2Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C27141F20E89E0C008F1E37 /* profile2Cell.swift */; };
@@ -133,6 +134,7 @@
 		5C1AAAFA20EC9BEE002A2EEA /* downloadAssets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = downloadAssets.swift; sourceTree = "<group>"; };
 		5C1D232B20F4CE6A00A6C126 /* whistle.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = whistle.mp3; sourceTree = "<group>"; };
 		5C1D232D20F4D09D00A6C126 /* quize.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = quize.mp3; sourceTree = "<group>"; };
+		5C20C1D72105EB0F00930531 /* friendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = friendCell.swift; sourceTree = "<group>"; };
 		5C234EFD20FA08FE00926611 /* last_ticking.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = last_ticking.mp3; sourceTree = "<group>"; };
 		5C234EFF20FA105500926611 /* referee_whistle_end.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = referee_whistle_end.mp3; sourceTree = "<group>"; };
 		5C27141F20E89E0C008F1E37 /* profile2Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile2Cell.swift; sourceTree = "<group>"; };
@@ -481,8 +483,8 @@
 		5C84D53320CD07CE00A9DC67 /* MatchViewController */ = {
 			isa = PBXGroup;
 			children = (
-				5C84D52020CCFFE600A9DC67 /* startMatchCell.swift */,
 				5C84D52220CCFFE600A9DC67 /* startMatchViewController.swift */,
+				5C84D52020CCFFE600A9DC67 /* startMatchCell.swift */,
 				5CCB9BCC20F1DB8800B92355 /* category */,
 				5C963AC420F4A7F1009DB6A6 /* mainMatchField */,
 			);
@@ -655,6 +657,7 @@
 			isa = PBXGroup;
 			children = (
 				5C84D52F20CD000D00A9DC67 /* GroupsViewController.swift */,
+				5C20C1D72105EB0F00930531 /* friendCell.swift */,
 			);
 			path = Groups;
 			sourceTree = "<group>";
@@ -875,6 +878,7 @@
 				5CBB993720DE23F500C17884 /* loadMassagesStructure.swift in Sources */,
 				5CBB993020DE1D2B00C17884 /* loadingAchievements.swift in Sources */,
 				5C1AAAFB20EC9BEE002A2EEA /* downloadAssets.swift in Sources */,
+				5C20C1D82105EB0F00930531 /* friendCell.swift in Sources */,
 				5C9FFCEF20D8E842007A11C0 /* WritetblStadiums.swift in Sources */,
 				5CC5DC4020E9FBA4006F2855 /* friendList.swift in Sources */,
 				5C80B42820E7536B000E5035 /* alertTypeChooseCell.swift in Sources */,

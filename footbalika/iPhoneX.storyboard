@@ -807,11 +807,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tsv-X5-OJS">
                                 <rect key="frame" x="0.0" y="89" width="375" height="723"/>
                                 <subviews>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pcD-3A-riF">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pcD-3A-riF">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="608"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="gamesCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="gamesCell" rowHeight="180" id="fAI-qp-7tn" customClass="gamesCell" customModule="footbalika" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="gamesCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="gamesCell" rowHeight="180" id="fAI-qp-7tn" customClass="gamesCell" customModule="footbalika" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="375" height="180"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fAI-qp-7tn" id="Reb-FX-uzo">
@@ -1084,6 +1084,16 @@
                                                 <connections>
                                                     <outlet property="mainTopView" destination="CX1-hm-GjZ" id="w9g-Dg-kgE"/>
                                                     <outlet property="mainView" destination="3iH-F1-Z58" id="MTn-GR-cWD"/>
+                                                    <outlet property="player1Avatar" destination="jkM-7g-5JG" id="tCF-kO-WRW"/>
+                                                    <outlet property="player1Cup" destination="f94-EK-JyM" id="beU-4H-Rgr"/>
+                                                    <outlet property="player1Level" destination="uXd-FO-Yja" id="QUv-xR-VN3"/>
+                                                    <outlet property="player1Name" destination="TJM-Cn-ila" id="rqX-gi-c2t"/>
+                                                    <outlet property="player1Select" destination="kNE-WT-zUK" id="qRS-5T-BEf"/>
+                                                    <outlet property="player2Avatar" destination="cLs-1z-l3E" id="taY-Kk-N4x"/>
+                                                    <outlet property="player2Cup" destination="fPW-Au-ZXe" id="SAk-YZ-RMR"/>
+                                                    <outlet property="player2Level" destination="UG2-Th-oav" id="x6Z-7h-SWL"/>
+                                                    <outlet property="player2Name" destination="CLp-or-9ky" id="EdS-AJ-Kyi"/>
+                                                    <outlet property="player2Select" destination="3wF-Ur-3Qd" id="wsd-tQ-1lQ"/>
                                                     <outlet property="playersView" destination="8AJ-ZJ-YHR" id="nsr-1A-Who"/>
                                                     <outlet property="result" destination="pgr-0C-C7e" id="JRd-2M-YvP"/>
                                                     <outlet property="subMainTopView" destination="Fk6-5O-XqO" id="Y9z-rY-ub5"/>
@@ -1127,6 +1137,8 @@
                         <outlet property="currentGames" destination="kht-oZ-mDO" id="Yjf-Bb-RS6"/>
                         <outlet property="endedGames" destination="TP7-KF-PA7" id="p0t-Lw-Qrd"/>
                         <outlet property="gameListTV" destination="pcD-3A-riF" id="e80-qj-6Nd"/>
+                        <segue destination="83l-qg-0RF" kind="presentation" identifier="continueMatch" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="eJu-IB-BGt"/>
+                        <segue destination="Tgo-ru-oXN" kind="presentation" identifier="showProfile" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Vyc-bl-aJg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mbb-zy-Ws5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1424,13 +1436,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMl-XS-jUz">
-                                        <rect key="frame" x="144" y="11.000000000000002" width="45.333333333333343" height="26.666666666666671"/>
+                                        <rect key="frame" x="144.33333333333334" y="11.000000000000002" width="45.333333333333343" height="26.666666666666671"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rye-R5-NV9">
-                                        <rect key="frame" x="143.33333333333334" y="11.000000000000002" width="45.333333333333343" height="26.666666666666671"/>
+                                        <rect key="frame" x="143.66666666666666" y="11.000000000000002" width="45.333333333333343" height="26.666666666666671"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1808,7 +1820,7 @@
                                                     <rect key="frame" x="15" y="11" width="293" height="128"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CX8-wo-WE7">
-                                                            <rect key="frame" x="253" y="53.333333333333329" width="30" height="22"/>
+                                                            <rect key="frame" x="253" y="53.666666666666671" width="30" height="22"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="05V-xu-w9O"/>
                                                             </constraints>
@@ -1824,7 +1836,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36y-pD-utX">
-                                                            <rect key="frame" x="123" y="53.333333333333329" width="80" height="22"/>
+                                                            <rect key="frame" x="123" y="53.666666666666671" width="80" height="22"/>
                                                             <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -3780,7 +3792,8 @@
         <image name="xpProgress" width="201" height="416"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Skd-Bw-ub7"/>
+        <segue reference="eJu-IB-BGt"/>
+        <segue reference="Vyc-bl-aJg"/>
         <segue reference="bq7-f8-UWV"/>
     </inferredMetricsTieBreakers>
 </document>

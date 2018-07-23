@@ -14,7 +14,7 @@ public class gamesList {
         let status : String?
         var response : [response]
     }
-   
+    
     struct response : Decodable {
         let id : String?
         let player1_id : String?
@@ -35,6 +35,8 @@ public class gamesList {
         let player2_level : String?
         let player2_avatar : String?
         let turn : String?
+        let is_home : String?
+        let status_result : String?
     }
 }
 
