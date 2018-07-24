@@ -13,6 +13,6 @@ public class urls {
     public var badge = "http://volcan.ir/adelica/images/badge/"
     public var stadium = "http://volcan.ir/adelica/images/stadium/"
     
-    
+
     
 }

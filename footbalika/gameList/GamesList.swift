@@ -79,13 +79,11 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     var gameListState = "currentGames"
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         gameLists()
-        
+        currentGamesListColor()
         NotificationCenter.default.addObserver(self, selector: #selector(gameLists), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
 
         
@@ -232,9 +230,14 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         self.performSegue(withIdentifier: "continueMatch", sender: self)
     }
     
-    @IBAction func showCurrentGames(_ sender: RoundButton) {
+    
+    func currentGamesListColor() {
         self.endedGames.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
         self.currentGames.backgroundColor = UIColor.white
+    }
+    
+    @IBAction func showCurrentGames(_ sender: RoundButton) {
+        currentGamesListColor()
         self.gameListState = "currentGames"
         self.gameListTV.reloadData()
     }
@@ -273,7 +276,6 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         if self.gameListState == "currentGames" {
 //            self.performSegue(withIdentifier: "showProfile", sender: self)
         } else {
-            
             
             
         }

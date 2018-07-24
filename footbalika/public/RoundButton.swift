@@ -63,11 +63,42 @@ import AVFoundation
         refreshCorners(value: cornerRadius)
     }
     
+    @IBInspectable
+    open var cornerEdges : CGFloat = 0
+    @IBInspectable  var topLeft: Bool = false
+    @IBInspectable  var topRight: Bool = false
+    @IBInspectable  var bottomLeft: Bool = false
+    @IBInspectable  var bottomRight: Bool = false
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         self.addTarget(self, action: #selector(buttonDown), for: .touchDown)
         self.addTarget(self, action: #selector(buttonUp), for: .touchUpOutside)
         self.addTarget(self, action: #selector(buttonUpAndDown), for: .touchUpInside)
+        var options = UIRectCorner()
+        if topLeft {
+            options =  options.union(.topLeft)
+        }
+        if topRight {
+            options =  options.union(.topRight)
+        }
+        if bottomLeft {
+            options =  options.union(.bottomLeft)
+        }
+        if bottomRight {
+            options =  options.union(.bottomRight)
+        }
+        
+        
+        let path = UIBezierPath(roundedRect:self.bounds,
+                                byRoundingCorners:options,
+                                cornerRadii: CGSize(width: self.cornerEdges, height: self.cornerEdges))
+        
+        let maskLayer = CAShapeLayer()
+        
+        maskLayer.path = path.cgPath
+        self.layer.mask = maskLayer
     }
     
 }
