@@ -90,7 +90,6 @@ import AVFoundation
             options =  options.union(.bottomRight)
         }
         
-        
         let path = UIBezierPath(roundedRect:self.bounds,
                                 byRoundingCorners:options,
                                 cornerRadii: CGSize(width: self.cornerEdges, height: self.cornerEdges))

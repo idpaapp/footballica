@@ -269,13 +269,21 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     self.performSegue(withIdentifier: "selectCat", sender: self)
                 }
             } else {
-                print("it's not your Turn")
+//                print("it's not your Turn")
+                turnAlert()
             }
         } else {
             closePage()
 //            print("the match was finished")
         }
     }
+    
+    
+    @objc func turnAlert() {
+        self.performSegue(withIdentifier: "matchFieldAlert", sender: self)
+    }
+    
+    
     
     let defaults = UserDefaults.standard
     var realm : Realm!
@@ -355,7 +363,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! selectCategoryViewController
+        if  let vc = segue.destination as? selectCategoryViewController {
         var titles = [String]()
         var images = [String]()
         var ids = [Int]()
@@ -426,6 +434,13 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             vc.matchData = self.res
             vc.catState = self.catState
             
+        }
+    }
+        
+        if let vc = segue.destination as? menuAlertViewController {
+            vc.alertTitle = "اخطار"
+            vc.alertBody = "باید صبر کنی تا حریف بازیشو انجام بده"
+            vc.alertAcceptLabel = "تأیید"
         }
     }
     

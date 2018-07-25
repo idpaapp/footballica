@@ -133,7 +133,6 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         }
     }
     
-    
     var urlClass = urls()
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "gamesCell", for: indexPath) as! gamesCell
@@ -141,7 +140,13 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         if self.gameListState == "currentGames" {
             
             cell.result.text = "\((self.res0?.response[indexPath.row].player1_result)!) _ \((self.res0?.response[indexPath.row].player2_result)!)"
+            
+            if self.res0?.response[indexPath.row].p_game_start != nil {
             cell.timeLabel.text = (self.res0?.response[indexPath.row].p_game_start)!
+            } else {
+              cell.timeLabel.text = "چندی قبل"
+            }
+            
             cell.player1Level.text = (self.res0?.response[indexPath.row].player1_level)!
             cell.player1Cup.text = (self.res0?.response[indexPath.row].player1_cup)!
             cell.player1Name.text = (self.res0?.response[indexPath.row].player1_username)!
@@ -206,19 +211,16 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             cell.player1Select.addTarget(self, action: #selector(player1Select), for: UIControlEvents.touchUpInside)
             cell.player2Select.tag = indexPath.row
             cell.player2Select.addTarget(self, action: #selector(player2Select), for: UIControlEvents.touchUpInside)
-            
         }
-        
-        
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if UIDevice().userInterfaceIdiom == .phone {
-        return 180
+            return 180
         } else {
-        return 250
+            return  UIScreen.main.bounds.height / 6
         }
     }
     

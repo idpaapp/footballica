@@ -65,7 +65,10 @@ class gamesCell: UITableViewCell {
         self.player2Name.minimumScaleFactor = 0.5
         self.turnLabel.adjustsFontSizeToFitWidth = true
         self.turnLabel.minimumScaleFactor = 0.5
-        
+//        player1Level.font = fonts().iPhonefonts
+//        player2Level.font = fonts().iPhonefonts
+        turnLabel.font = fonts().iPhonefonts
+        timeLabel.font = fonts().iPhonefonts
         
     }
 

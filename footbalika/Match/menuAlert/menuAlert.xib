@@ -69,12 +69,24 @@
                                             <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t74-l3-PyC" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t74-l3-PyC" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                             <rect key="frame" x="29" y="109" width="172.5" height="40"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="40" id="PFU-RA-CKP"/>
                                             </constraints>
                                             <state key="normal" backgroundImage="alter_action_back_large_btn"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                            </userDefinedRuntimeAttributes>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pMa-ce-7V8">
                                             <rect key="frame" x="29" y="109.5" width="172.5" height="40"/>
