@@ -109,7 +109,17 @@ class menuViewController: UIViewController {
           } else if self.menuState == "profile" {
             self.mainTitleForeGround.text = "پروفایل"
             if UIDevice().userInterfaceIdiom == .phone {
+                var stadium = String()
+                if otherProfiles == false {
+                    stadium = (login.res?.response?.mainInfo?.stadium)!
+                } else {
+                    stadium = oPStadium
+                }
+                if UIScreen.main.nativeBounds.height == 2436 && stadium == "empty_std.jpg"{
+                  self.menuHeight.constant = UIScreen.main.bounds.height - 115
+                } else {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
+                }
                 self.menuWidth.constant = UIScreen.main.bounds.width - 40
                 maintitle.AttributesOutLine(font: iPhonefonts, title: "پروفایل", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPhonefonts
@@ -218,6 +228,7 @@ class menuViewController: UIViewController {
                     vC.profileMaximumWinCount = opMaximumWinCount
                     vC.profileMaximumScore = opMaximumScore
                     vC.uniqueId = uniqueId
+                    
                 }
             default :
                 vC.achievementCount = 4

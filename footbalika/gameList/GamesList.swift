@@ -259,29 +259,53 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                 vc.matchID = (self.res1?.response[self.selectedMatch].id)!
             }
         }
+        if let vC = segue.destination as? menuViewController {
+            vC.menuState = "profile"
+        }
     }
     
     @objc func player1Select(_ sender : UIButton!) {
         if self.gameListState == "currentGames" {
-//            self.performSegue(withIdentifier: "showProfile", sender: self)
-
+            getUserData(id : (self.res0?.response[sender.tag].player1_id)!)
         } else {
-            
-            
+            getUserData(id : (self.res1?.response[sender.tag].player1_id)!)
         }
-        
-        
     }
     
     @objc func player2Select(_ sender : UIButton!) {
         
         if self.gameListState == "currentGames" {
-//            self.performSegue(withIdentifier: "showProfile", sender: self)
+            getUserData(id : (self.res0?.response[sender.tag].player2_id)!)
         } else {
-            
-            
+            getUserData(id : (self.res1?.response[sender.tag].player2_id)!)
         }
         
+    }
+    
+    @objc func getUserData(id : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        self.performSegue(withIdentifier: "showProfile", sender: self)
+                    } catch {
+                        self.getUserData(id : id)
+                        print(error)
+                    }
+                } else {
+                    self.getUserData(id : id)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
     }
     
     

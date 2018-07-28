@@ -69,13 +69,16 @@ import AVFoundation
     @IBInspectable  var topRight: Bool = false
     @IBInspectable  var bottomLeft: Bool = false
     @IBInspectable  var bottomRight: Bool = false
-    
+    @IBInspectable  var cornerEdgesAllow: Bool = true
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         
         self.addTarget(self, action: #selector(buttonDown), for: .touchDown)
         self.addTarget(self, action: #selector(buttonUp), for: .touchUpOutside)
         self.addTarget(self, action: #selector(buttonUpAndDown), for: .touchUpInside)
+        
+        if cornerEdgesAllow == true {
         var options = UIRectCorner()
         if topLeft {
             options =  options.union(.topLeft)
@@ -99,5 +102,6 @@ import AVFoundation
         maskLayer.path = path.cgPath
         self.layer.mask = maskLayer
     }
+    } 
     
 }

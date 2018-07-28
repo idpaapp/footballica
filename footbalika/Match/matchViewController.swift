@@ -231,8 +231,34 @@ class matchViewController: UIViewController {
     
     @IBAction func profile(_ sender: RoundButton) {
         self.menuState = "profile"
-        self.performSegue(withIdentifier: "achievement", sender: self)
+        getProfile()
     }
     
+    @objc func getProfile() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '1' , 'load_stadium' : 'false'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        self.performSegue(withIdentifier: "achievement", sender: self)
+                        
+                    } catch {
+                        self.getProfile()
+                        print(error)
+                    }
+                } else {
+                    self.getProfile()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
     
 }

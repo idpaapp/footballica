@@ -82,7 +82,6 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     var resUser : usersSearchLists.Response? = nil
     @objc func searchFunction() {
-        
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode' : 'GetByRefID' , 'ref_id' : '\(self.searchText)' , 'userid' : '1' }") { data, error in
             
                 if data != nil {
@@ -162,6 +161,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 }
                 cell.friendCup.text = "\((self.resUser?.response?[indexPath.row - 1].cups!)!)"
                 cell.friendName.text = "\((self.resUser?.response?[indexPath.row - 1].username!)!)"
+                cell.selectFriend.tag = indexPath.row
+                cell.selectFriend.addTarget(self, action: #selector(selectingProfile), for: UIControlEvents.touchUpInside)
+                cell.selectFriendName.tag = indexPath.row
+                cell.selectFriendName.addTarget(self, action: #selector(selectingProfile), for: UIControlEvents.touchUpInside)
                 return cell
             }
             
@@ -181,6 +184,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
         cell.friendCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
         cell.friendName.text = "\((self.res?.response?[indexPath.row].username!)!)"
+        cell.selectFriend.tag = indexPath.row
+        cell.selectFriend.addTarget(self, action: #selector(selectingProfile), for: UIControlEvents.touchUpInside)
+        cell.selectFriendName.tag = indexPath.row
+        cell.selectFriendName.addTarget(self, action: #selector(selectingProfile), for: UIControlEvents.touchUpInside)
         return cell
 
         } else {
@@ -230,12 +237,89 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
     }
     
+    var selectedProfile = Int()
+    @objc func selectingProfile(_ sender : UIButton!) {
+        selectedProfile = sender.tag
+        if state == "searchList" {
+        self.performSegue(withIdentifier: "showUserProfile", sender: self)
+        } else {
+        getProfile()
+        }
+    }
+    
+    @objc func getProfile() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\((self.res?.response?[selectedProfile].friend_id!)!)' , 'load_stadium' : 'false'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        self.performSegue(withIdentifier: "showUserProfile", sender: self)
+                        
+                    } catch {
+                        self.getProfile()
+                        print(error)
+                    }
+                } else {
+                    self.getProfile()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? menuViewController {
+            if state == "searchList" {
+            vc.menuState = "profile"
+            vc.otherProfiles = true
+            vc.oPStadium = ((self.resUser?.response?[selectedProfile - 1].stadium!)!)
+            vc.opName = ((self.resUser?.response?[selectedProfile - 1].username!)!)
+            vc.opAvatar = "\(urlClass.avatar)\(((self.resUser?.response?[selectedProfile - 1].avatar!)!))"
+            vc.opBadge = "\(urlClass.badge)\(((self.resUser?.response?[selectedProfile - 1].badge_name!)!))"
+            vc.opID = ((self.resUser?.response?[selectedProfile - 1].ref_id!)!)
+            vc.opCups = ((self.resUser?.response?[selectedProfile - 1].cups!)!)
+            vc.opLevel = ((self.resUser?.response?[selectedProfile - 1].level!)!)
+            vc.opWinCount = ((self.resUser?.response?[selectedProfile - 1].win_count!)!)
+            vc.opCleanSheetCount = ((self.resUser?.response?[selectedProfile - 1].clean_sheet_count!)!)
+            vc.opLoseCount = ((self.resUser?.response?[selectedProfile - 1].lose_count!)!)
+            vc.opMostScores = ((self.resUser?.response?[selectedProfile - 1].max_points_gain!)!)
+            vc.opDrawCount = ((self.resUser?.response?[selectedProfile - 1].draw_count!)!)
+            vc.opMaximumWinCount = ((self.resUser?.response?[selectedProfile - 1].max_wins_count!)!)
+            vc.opMaximumScore = ((self.resUser?.response?[selectedProfile - 1].max_point!)!)
+            vc.uniqueId = ((self.resUser?.response?[selectedProfile - 1].id!)!)
+            } else {
+                vc.menuState = "profile"
+                vc.otherProfiles = true
+                vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
+                vc.opName = (login.res?.response?.mainInfo?.username!)!
+                vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
+                vc.opBadge = "\(urlClass.badge)\(((login.res?.response?.mainInfo?.badge_name!)!))"
+                vc.opID = ((login.res?.response?.mainInfo?.ref_id!)!)
+                vc.opCups = ((login.res?.response?.mainInfo?.cups!)!)
+                vc.opLevel = ((login.res?.response?.mainInfo?.level!)!)
+                vc.opWinCount = ((login.res?.response?.mainInfo?.win_count!)!)
+                vc.opCleanSheetCount = ((login.res?.response?.mainInfo?.clean_sheet_count!)!)
+                vc.opLoseCount = ((login.res?.response?.mainInfo?.lose_count!)!)
+                vc.opMostScores = ((login.res?.response?.mainInfo?.max_points_gain!)!)
+                vc.opDrawCount = ((login.res?.response?.mainInfo?.draw_count!)!)
+                vc.opMaximumWinCount = ((login.res?.response?.mainInfo?.max_wins_count!)!)
+                vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
+                vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
+            }
+        }
+    }
     
     func friendsActionColor() {
-    
         self.searchOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
         self.friendsOutlet.backgroundColor = UIColor.white
-        
     }
     
     

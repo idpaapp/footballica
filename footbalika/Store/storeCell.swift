@@ -14,6 +14,8 @@ class storeCell: UICollectionViewCell {
     @IBOutlet weak var storeImage: UIImageView!
     @IBOutlet weak var storeLabelForeGround: UILabel!
     
+    @IBOutlet weak var storeSelect: RoundButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.storeLabel.minimumScaleFactor = 0.5

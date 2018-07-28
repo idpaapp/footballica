@@ -54,8 +54,13 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             cell.storeLabelForeGround.font = iPadfonts
         }
         cell.storeLabelForeGround.text = "\(storeTitles[indexPath.item])"
-        
+        cell.storeSelect.tag = indexPath.item
+        cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
         return cell
+    }
+    
+    @objc func selectingStore(_ sender : UIButton!) {
+        print("ok")
     }
     
     

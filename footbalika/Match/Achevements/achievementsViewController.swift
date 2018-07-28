@@ -1,4 +1,4 @@
-//
+ //
 //  achievementsViewController.swift
 //  footbalika
 //
@@ -78,6 +78,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var alertBody = [String]()
     var alertDate = [String]()
     var userAvatar = [String]()
+    
     @objc func alertsJson() {
         PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode':'READ', 'userid':'1'}") { data, error in
             DispatchQueue.main.async {

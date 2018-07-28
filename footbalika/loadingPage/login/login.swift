@@ -35,9 +35,8 @@ public class login {
                 print("Error Connection")
                 print(error as Any)
                 // handle error
+                }
             }
-            }
-            
             }.resume()
     }
 }

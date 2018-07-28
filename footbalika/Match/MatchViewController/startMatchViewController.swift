@@ -12,6 +12,41 @@ import RealmSwift
 
 class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
 
+    @IBAction func selectPlayer1(_ sender: RoundButton) {
+        getUserData(id : (self.res?.response?.matchData?.player1_id)!)
+    }
+    
+    @IBAction func selectPlayer2(_ sender: RoundButton) {
+        getUserData(id : (self.res?.response?.matchData?.player2_id)!)
+    }
+    
+    
+    @objc func getUserData(id : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        self.performSegue(withIdentifier: "showPF", sender: self)                        
+                    } catch {
+                        self.getUserData(id : id)
+                        print(error)
+                    }
+                } else {
+                    self.getUserData(id : id)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
     
     @IBOutlet weak var playGameOutlet: RoundButton!
     
@@ -42,7 +77,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
 
     func loadMatchData() {
         
-        print(self.matchID)
+//        print(self.matchID)
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : 1}") { data, error in
             DispatchQueue.main.async {
                 
@@ -132,7 +167,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     if ((self.updateRes)!).contains("ok") {
                         self.loadMatchData()
                         self.defaults.set("", forKey: "gameLeft")
-                        print(self.updateRes!)
+//                        print(self.updateRes!)
                     } else {
                         self.updateGameReault()
                     }
@@ -254,7 +289,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     @IBAction func playGameAction(_ sender: RoundButton) {
         let isFinished = (Int((self.res?.response?.matchData?.status)!)!)
-        print(isFinished)
+//        print(isFinished)
         if isFinished < 2 {
             if self.res?.response?.isYourTurn == true {
                 if (self.res?.response?.detailData?.count)! == 0 {
@@ -265,7 +300,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     questionIds()
                 } else {
                     self.catState = "NoCat"
-                    print("it's not time for selecting category")
+//                    print("it's not time for selecting category")
                     self.performSegue(withIdentifier: "selectCat", sender: self)
                 }
             } else {
@@ -308,7 +343,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             for i in 0...(self.res?.response?.detailData?.count)! - 1 {
 //            print((self.res?.response?.detailData?[i].game_type!)!)
                 lastPlayedId.append(",\((self.res?.response?.detailData?[i].game_type!)!)")
-                print("lastPlayedId\((self.res?.response?.detailData?[i].game_type!)!)")
+//                print("lastPlayedId\((self.res?.response?.detailData?[i].game_type!)!)")
             }
             
         }
@@ -437,10 +472,16 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
     }
         
+       
+        
+        
         if let vc = segue.destination as? menuAlertViewController {
             vc.alertTitle = "اخطار"
             vc.alertBody = "باید صبر کنی تا حریف بازیشو انجام بده"
             vc.alertAcceptLabel = "تأیید"
+        }
+        if let vC = segue.destination as? menuViewController {
+            vC.menuState = "profile"
         }
     }
     

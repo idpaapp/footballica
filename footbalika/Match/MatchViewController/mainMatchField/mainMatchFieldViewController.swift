@@ -228,6 +228,9 @@ class mainMatchFieldViewController: UIViewController {
                     do {
                         
                         self.res = try JSONDecoder().decode(questionsList.Response.self , from : data!)
+                        
+                        print("questionsIDs = Q1:\((self.res?.response?[0].id!)!) - Q2:\((self.res?.response?[1].id!)!) - Q3:\((self.res?.response?[2].id!)!) - Q4:\((self.res?.response?[3].id!)!)")
+                        
                         DispatchQueue.main.async {
                             self.restMatchFunction()
                         }
@@ -720,7 +723,7 @@ class mainMatchFieldViewController: UIViewController {
         
         let gameArray = "{'mode':'UPDT_GAME_RESULT','is_home':'\(((matchData?.response?.isYourTurn!)!))','match_id':\(((matchData?.response?.matchData?.id!)!)),'game_type':\(self.category),'last_questions':'\((self.res?.response?[0].id!)!),\((self.res?.response?[1].id!)!),\((self.res?.response?[2].id!)!),\((self.res?.response?[3].id!)!)','player\(playerSide)_result':\(playerReault),'player\(playerSide)_result_sheet':'{\\'ans_1\\':\(storeArray[0]),\\'ans_2\\':\(storeArray[1]),\\'ans_3\\':\(storeArray[2]),\\'ans_4\\':\(storeArray[3])}'}"
         
-        print("questionsIDs = Q1:\((self.res?.response?[0].id!)!) - Q2:\((self.res?.response?[1].id!)!) - Q3:\((self.res?.response?[2].id!)!) - Q4:\((self.res?.response?[3].id!)!)")
+        
         
         defaults.set(gameArray, forKey: "gameLeft")
         
