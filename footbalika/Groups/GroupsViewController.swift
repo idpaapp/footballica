@@ -16,7 +16,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.searchText = searchText
     }
     
-
+    
     @IBOutlet weak var friendsTableView: UITableView!
     @IBOutlet weak var friendsOutlet: RoundButton!
     @IBOutlet weak var searchOutlet: RoundButton!

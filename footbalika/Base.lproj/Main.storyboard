@@ -775,13 +775,22 @@
                                 </constraints>
                                 <state key="normal" image="ic_flag"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lFq-NU-0UT">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lFq-NU-0UT" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                 <rect key="frame" x="335" y="20" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="lFq-NU-0UT" secondAttribute="height" multiplier="1:1" id="LlY-c3-0hJ"/>
                                     <constraint firstAttribute="height" constant="30" id="hqX-m5-GJc"/>
                                 </constraints>
                                 <state key="normal" image="back"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="backAction:" destination="boW-v1-c97" eventType="touchUpInside" id="6Zg-gl-9Pc"/>
                                 </connections>
@@ -2602,6 +2611,123 @@
             </objects>
             <point key="canvasLocation" x="1901.5999999999999" y="-856.82158920539734"/>
         </scene>
+        <!--Shop Detail View Controller-->
+        <scene sceneID="1QI-EZ-VD1">
+            <objects>
+                <viewController restorationIdentifier="shopDetailViewController" storyboardIdentifier="shopDetailViewController" id="UEa-RU-6TV" customClass="shopDetailViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6BO-hx-2YS">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Jc-Ac-Wdj">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QV7-IT-elB" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="47" y="180" width="280" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="O0S-9e-s9v"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VwM-YY-MxY" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="47" y="183" width="280" height="300"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SnZ-km-kdp" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="5" y="35" width="270" height="260"/>
+                                        <color key="backgroundColor" red="0.94509803921568625" green="0.92941176470588238" blue="0.8666666666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="scf-cn-s4c" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="250" y="5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="AdS-ae-aUS"/>
+                                            <constraint firstAttribute="width" secondItem="scf-cn-s4c" secondAttribute="height" multiplier="1:1" id="doM-zS-4GE"/>
+                                        </constraints>
+                                        <state key="normal" image="ic_close"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="dismissShopDetail:" destination="UEa-RU-6TV" eventType="touchUpInside" id="ANq-iz-zMA"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Meq-nm-qyd" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="5" y="5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="PGP-Nb-bgX"/>
+                                            <constraint firstAttribute="width" secondItem="Meq-nm-qyd" secondAttribute="height" multiplier="1:1" id="sWL-fH-RPG"/>
+                                        </constraints>
+                                        <state key="normal" image="ic_help"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.38823529411764707" green="0.41568627450980394" blue="0.48627450980392156" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="SnZ-km-kdp" secondAttribute="bottom" constant="5" id="015-L9-jp5"/>
+                                    <constraint firstAttribute="trailing" secondItem="SnZ-km-kdp" secondAttribute="trailing" constant="5" id="8Mq-kQ-kVe"/>
+                                    <constraint firstItem="scf-cn-s4c" firstAttribute="top" secondItem="VwM-YY-MxY" secondAttribute="top" constant="5" id="KHi-Ru-NCL"/>
+                                    <constraint firstItem="SnZ-km-kdp" firstAttribute="top" secondItem="VwM-YY-MxY" secondAttribute="top" constant="35" id="KMV-kB-kED"/>
+                                    <constraint firstItem="Meq-nm-qyd" firstAttribute="top" secondItem="VwM-YY-MxY" secondAttribute="top" constant="5" id="Ldb-Tv-h9Y"/>
+                                    <constraint firstAttribute="width" constant="280" id="Owh-Lw-ges"/>
+                                    <constraint firstAttribute="height" constant="300" id="hJU-u1-6z0"/>
+                                    <constraint firstItem="Meq-nm-qyd" firstAttribute="leading" secondItem="VwM-YY-MxY" secondAttribute="leading" constant="5" id="lfy-US-5fO"/>
+                                    <constraint firstAttribute="trailing" secondItem="scf-cn-s4c" secondAttribute="trailing" constant="5" id="qE6-nU-gYn"/>
+                                    <constraint firstItem="SnZ-km-kdp" firstAttribute="leading" secondItem="VwM-YY-MxY" secondAttribute="leading" constant="5" id="wqu-gg-pBS"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="4Jc-Ac-Wdj" firstAttribute="leading" secondItem="lAR-Hj-Vhn" secondAttribute="leading" id="4Jv-F8-seo"/>
+                            <constraint firstItem="QV7-IT-elB" firstAttribute="centerX" secondItem="6BO-hx-2YS" secondAttribute="centerX" id="4Tq-Kf-5eh"/>
+                            <constraint firstItem="4Jc-Ac-Wdj" firstAttribute="top" secondItem="6BO-hx-2YS" secondAttribute="top" id="Fsa-i7-MQQ"/>
+                            <constraint firstItem="VwM-YY-MxY" firstAttribute="centerX" secondItem="6BO-hx-2YS" secondAttribute="centerX" id="SOf-Ii-XqU"/>
+                            <constraint firstItem="VwM-YY-MxY" firstAttribute="top" secondItem="QV7-IT-elB" secondAttribute="bottom" constant="-27" id="UGW-XZ-2G2"/>
+                            <constraint firstItem="VwM-YY-MxY" firstAttribute="centerY" secondItem="6BO-hx-2YS" secondAttribute="centerY" id="VnU-II-mgC"/>
+                            <constraint firstAttribute="bottom" secondItem="4Jc-Ac-Wdj" secondAttribute="bottom" id="hll-CH-BKf"/>
+                            <constraint firstItem="lAR-Hj-Vhn" firstAttribute="trailing" secondItem="4Jc-Ac-Wdj" secondAttribute="trailing" id="hsO-Yl-9sJ"/>
+                            <constraint firstItem="QV7-IT-elB" firstAttribute="width" secondItem="VwM-YY-MxY" secondAttribute="width" id="pI9-R0-G5U"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lAR-Hj-Vhn"/>
+                    </view>
+                    <connections>
+                        <outlet property="shopDetailHeight" destination="hJU-u1-6z0" id="IDJ-kB-48h"/>
+                        <outlet property="shopDetailWidth" destination="Owh-Lw-ges" id="Mri-uW-5Hx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Tre-mR-dIp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1032.8" y="2139.5802098950526"/>
+        </scene>
         <!--Store View Controller-->
         <scene sceneID="SGd-Z6-fER">
             <objects>
@@ -2838,11 +2964,12 @@
                         <outlet property="xp" destination="I9y-Rb-zLX" id="2J3-fK-FUX"/>
                         <outlet property="xpProgress" destination="bEL-Mm-tHF" id="tcI-wW-AoA"/>
                         <outlet property="xpProgressBackGround" destination="d8a-hK-Pmh" id="jsH-JG-N1K"/>
+                        <segue destination="UEa-RU-6TV" kind="presentation" identifier="shopDetail" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="W9L-sd-oA4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p9n-qc-7qL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1901.5999999999999" y="2033.497536945813"/>
+            <point key="canvasLocation" x="1902" y="2140"/>
         </scene>
         <!--Menu Alert2 Buttons View Controller-->
         <scene sceneID="tvZ-pO-RII">

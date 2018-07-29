@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class StoreViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
    
@@ -20,11 +21,32 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     @IBOutlet weak var xpProgress: UIProgressView!
     @IBOutlet weak var xpProgressBackGround: UIView!
     
+    var realm : Realm!
+    var tblShopArray : Results<tblShop> {
+        get {
+            realm = try! Realm()
+            return realm.objects(tblShop.self)
+        }
+    }
     
-    var storeImages = ["coin" , "money" , "ball" , "avatar"]
-    var storeTitles = ["سکه" , "پول" , "استادیوم" , "آواتار"]
+    
+    var storeImages = [String]()
+    var storeID = [Int]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let counts = self.tblShopArray.count
+        for i in 0...counts - 1 {
+            storeID.append(tblShopArray[i].id)
+            storeImages.append(tblShopArray[i].img_base64)
+            if i == counts - 1  {
+                self.storeCV.reloadData()
+            }
+            
+        }
+        
+        
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
@@ -44,23 +66,27 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
+
+        let dataDecoded:NSData = NSData(base64Encoded: storeImages[indexPath.row], options: NSData.Base64DecodingOptions(rawValue: 0))!
+        cell.storeImage.image = UIImage(data: dataDecoded as Data)
         
-        cell.storeImage.image = UIImage(named : "\(storeImages[indexPath.item])")
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(storeTitles[indexPath.item])", strokeWidth: -4.0)
+        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -4.0)
         cell.storeLabelForeGround.font = iPhonefonts
         } else {
-            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(storeTitles[indexPath.item])", strokeWidth: -4.0)
+            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -4.0)
             cell.storeLabelForeGround.font = iPadfonts
         }
-        cell.storeLabelForeGround.text = "\(storeTitles[indexPath.item])"
+        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))"
         cell.storeSelect.tag = indexPath.item
         cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
         return cell
     }
     
     @objc func selectingStore(_ sender : UIButton!) {
-        print("ok")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.performSegue(withIdentifier: "shopDetail", sender: self)
+        }
     }
     
     

@@ -1394,6 +1394,7 @@
                         <outlet property="xp" destination="Adc-lq-ZAG" id="yAO-qz-liV"/>
                         <outlet property="xpProgress" destination="g3S-9c-gJg" id="iEq-8G-YQf"/>
                         <outlet property="xpProgressBackGround" destination="tgr-u2-kzf" id="9X3-3R-Gyv"/>
+                        <segue destination="4Xr-jP-IPW" kind="presentation" identifier="shopDetail" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Taq-ke-M6y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="19q-Ts-Hc9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4180,6 +4181,123 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1g-nY-8Zr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1918" y="1298"/>
+        </scene>
+        <!--Shop Detail View Controller-->
+        <scene sceneID="7qf-SM-3xh">
+            <objects>
+                <viewController restorationIdentifier="shopDetailViewController" storyboardIdentifier="shopDetailViewController" id="4Xr-jP-IPW" customClass="shopDetailViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="M2W-Cx-0mj">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rMw-C8-RJu">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P3P-wz-MJP" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="47" y="253" width="280" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="eHU-lu-5G8"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4NO-HU-Ise" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="47" y="256" width="280" height="300"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sxL-rF-bdr" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="5" y="35" width="270" height="260"/>
+                                        <color key="backgroundColor" red="0.94509803920000002" green="0.92941176469999998" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5BF-7u-fSf" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="250" y="5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="KHT-7f-Xhz"/>
+                                            <constraint firstAttribute="width" secondItem="5BF-7u-fSf" secondAttribute="height" multiplier="1:1" id="Qp0-ko-B9j"/>
+                                        </constraints>
+                                        <state key="normal" image="ic_close"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="dismissShopDetail:" destination="4Xr-jP-IPW" eventType="touchUpInside" id="d7I-Cr-Bn0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q55-lP-LIM" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="5" y="5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Q55-lP-LIM" secondAttribute="height" multiplier="1:1" id="7c2-FB-M9y"/>
+                                            <constraint firstAttribute="height" constant="25" id="moq-Pu-xyD"/>
+                                        </constraints>
+                                        <state key="normal" image="ic_help"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.38823529410000002" green="0.41568627450000001" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="4h4-2n-rhk"/>
+                                    <constraint firstAttribute="trailing" secondItem="5BF-7u-fSf" secondAttribute="trailing" constant="5" id="5xI-Ra-L0g"/>
+                                    <constraint firstAttribute="bottom" secondItem="sxL-rF-bdr" secondAttribute="bottom" constant="5" id="9nr-P9-mgr"/>
+                                    <constraint firstItem="Q55-lP-LIM" firstAttribute="top" secondItem="4NO-HU-Ise" secondAttribute="top" constant="5" id="Cf7-LV-Pk4"/>
+                                    <constraint firstItem="Q55-lP-LIM" firstAttribute="leading" secondItem="4NO-HU-Ise" secondAttribute="leading" constant="5" id="Mbh-lp-77M"/>
+                                    <constraint firstAttribute="trailing" secondItem="sxL-rF-bdr" secondAttribute="trailing" constant="5" id="bUQ-b6-Kzy"/>
+                                    <constraint firstItem="sxL-rF-bdr" firstAttribute="leading" secondItem="4NO-HU-Ise" secondAttribute="leading" constant="5" id="cjW-ch-c4k"/>
+                                    <constraint firstItem="5BF-7u-fSf" firstAttribute="top" secondItem="4NO-HU-Ise" secondAttribute="top" constant="5" id="gO2-0B-PyB"/>
+                                    <constraint firstItem="sxL-rF-bdr" firstAttribute="top" secondItem="4NO-HU-Ise" secondAttribute="top" constant="35" id="lvP-YT-uHh"/>
+                                    <constraint firstAttribute="width" constant="280" id="yb3-PT-Rgh"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="P3P-wz-MJP" firstAttribute="centerX" secondItem="M2W-Cx-0mj" secondAttribute="centerX" id="ATl-Rl-Ast"/>
+                            <constraint firstItem="P3P-wz-MJP" firstAttribute="width" secondItem="4NO-HU-Ise" secondAttribute="width" id="BiQ-4w-I3u"/>
+                            <constraint firstItem="4NO-HU-Ise" firstAttribute="centerY" secondItem="M2W-Cx-0mj" secondAttribute="centerY" id="CDE-01-gUL"/>
+                            <constraint firstItem="rMw-C8-RJu" firstAttribute="leading" secondItem="Hwo-3L-974" secondAttribute="leading" id="HZb-Cx-b50"/>
+                            <constraint firstItem="Hwo-3L-974" firstAttribute="trailing" secondItem="rMw-C8-RJu" secondAttribute="trailing" id="QbS-9y-Rcr"/>
+                            <constraint firstAttribute="bottom" secondItem="rMw-C8-RJu" secondAttribute="bottom" id="V5o-Ex-4Nf"/>
+                            <constraint firstItem="rMw-C8-RJu" firstAttribute="top" secondItem="M2W-Cx-0mj" secondAttribute="top" id="fHo-Oc-B46"/>
+                            <constraint firstItem="4NO-HU-Ise" firstAttribute="centerX" secondItem="M2W-Cx-0mj" secondAttribute="centerX" id="nLT-Zt-h6j"/>
+                            <constraint firstItem="4NO-HU-Ise" firstAttribute="top" secondItem="P3P-wz-MJP" secondAttribute="bottom" constant="-27" id="yAK-Q7-Yja"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Hwo-3L-974"/>
+                    </view>
+                    <connections>
+                        <outlet property="shopDetailHeight" destination="4h4-2n-rhk" id="O3y-qX-2LC"/>
+                        <outlet property="shopDetailWidth" destination="yb3-PT-Rgh" id="6kE-UK-6Rr"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w64-Rd-8nJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1074" y="2033"/>
         </scene>
     </scenes>
     <resources>

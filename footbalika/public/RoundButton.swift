@@ -70,9 +70,9 @@ import AVFoundation
     @IBInspectable  var bottomLeft: Bool = false
     @IBInspectable  var bottomRight: Bool = false
     @IBInspectable  var cornerEdgesAllow: Bool = true
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         
         self.addTarget(self, action: #selector(buttonDown), for: .touchDown)
         self.addTarget(self, action: #selector(buttonUp), for: .touchUpOutside)

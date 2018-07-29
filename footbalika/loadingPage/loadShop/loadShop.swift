@@ -17,12 +17,13 @@ public class loadShop {
                 
                 if data != nil {
                     
-                    //                print(data ?? "")
+//                                    print(data ?? "")
+                    
+//                    print(String(data: data!, encoding: String.Encoding.utf8)!)
                     
                     do {
                         
                         loadShop.res = try JSONDecoder().decode(loadShopStructure.Response.self , from : data!)
-                        //                    print((self.res?.response?.mainInfo?.badge_name!)!)
                         
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("updateProgress"), object: nil)

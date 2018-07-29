@@ -1432,6 +1432,7 @@
                         <outlet property="xp" destination="d3X-nk-t9e" id="7px-TH-5JK"/>
                         <outlet property="xpProgress" destination="jmX-Ka-eQU" id="KBY-QT-z3N"/>
                         <outlet property="xpProgressBackGround" destination="Jtn-d0-cVT" id="aFK-y2-Koc"/>
+                        <segue destination="uJ7-kM-wPa" kind="presentation" identifier="shopDetail" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="bYm-R5-GHM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="61L-79-bD0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4210,6 +4211,123 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1O4-5F-jnX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1902" y="1288"/>
+        </scene>
+        <!--Shop Detail View Controller-->
+        <scene sceneID="5Ml-1O-jnM">
+            <objects>
+                <viewController restorationIdentifier="shopDetailViewController" storyboardIdentifier="shopDetailViewController" id="uJ7-kM-wPa" customClass="shopDetailViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hyR-qO-YvX">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eDS-cv-cAi">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gt4-69-KWZ" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="372" y="530" width="280" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="5va-hH-5WK"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ix1-0m-05h" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="372" y="533" width="280" height="300"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yKp-Js-nQW" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="5" y="35" width="270" height="260"/>
+                                        <color key="backgroundColor" red="0.94509803920000002" green="0.92941176469999998" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SJ7-es-w6h" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="250" y="5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="6Mm-ca-JdC"/>
+                                            <constraint firstAttribute="width" secondItem="SJ7-es-w6h" secondAttribute="height" multiplier="1:1" id="cxL-db-ubm"/>
+                                        </constraints>
+                                        <state key="normal" image="ic_close"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="dismissShopDetail:" destination="uJ7-kM-wPa" eventType="touchUpInside" id="B1b-4b-BoK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Hn-L5-WLa" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="5" y="5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="1Hn-L5-WLa" secondAttribute="height" multiplier="1:1" id="qBA-2b-pNO"/>
+                                            <constraint firstAttribute="height" constant="25" id="t63-xi-2bB"/>
+                                        </constraints>
+                                        <state key="normal" image="ic_help"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.38823529410000002" green="0.41568627450000001" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="yKp-Js-nQW" secondAttribute="bottom" constant="5" id="3SJ-IY-LYz"/>
+                                    <constraint firstItem="SJ7-es-w6h" firstAttribute="top" secondItem="ix1-0m-05h" secondAttribute="top" constant="5" id="C6p-Vw-5wy"/>
+                                    <constraint firstItem="1Hn-L5-WLa" firstAttribute="top" secondItem="ix1-0m-05h" secondAttribute="top" constant="5" id="HAk-7Y-wWT"/>
+                                    <constraint firstAttribute="width" constant="280" id="IzT-1r-NJC"/>
+                                    <constraint firstItem="yKp-Js-nQW" firstAttribute="leading" secondItem="ix1-0m-05h" secondAttribute="leading" constant="5" id="cgY-dK-6yS"/>
+                                    <constraint firstAttribute="trailing" secondItem="SJ7-es-w6h" secondAttribute="trailing" constant="5" id="gPc-3n-034"/>
+                                    <constraint firstItem="yKp-Js-nQW" firstAttribute="top" secondItem="ix1-0m-05h" secondAttribute="top" constant="35" id="kGk-lz-A4s"/>
+                                    <constraint firstAttribute="trailing" secondItem="yKp-Js-nQW" secondAttribute="trailing" constant="5" id="ktU-Nw-BLk"/>
+                                    <constraint firstAttribute="height" constant="300" id="taF-Ne-tpe"/>
+                                    <constraint firstItem="1Hn-L5-WLa" firstAttribute="leading" secondItem="ix1-0m-05h" secondAttribute="leading" constant="5" id="zEY-7W-wo3"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ix1-0m-05h" firstAttribute="centerY" secondItem="hyR-qO-YvX" secondAttribute="centerY" id="Ffm-5Q-uT4"/>
+                            <constraint firstItem="ix1-0m-05h" firstAttribute="top" secondItem="Gt4-69-KWZ" secondAttribute="bottom" constant="-27" id="Gfe-zQ-u8r"/>
+                            <constraint firstItem="s6L-aa-ZxA" firstAttribute="trailing" secondItem="eDS-cv-cAi" secondAttribute="trailing" id="ILP-wF-Ho1"/>
+                            <constraint firstItem="Gt4-69-KWZ" firstAttribute="width" secondItem="ix1-0m-05h" secondAttribute="width" id="LHb-Gz-EBg"/>
+                            <constraint firstAttribute="bottom" secondItem="eDS-cv-cAi" secondAttribute="bottom" id="V0K-d2-qIr"/>
+                            <constraint firstItem="eDS-cv-cAi" firstAttribute="top" secondItem="hyR-qO-YvX" secondAttribute="top" id="VWB-Mz-tkh"/>
+                            <constraint firstItem="Gt4-69-KWZ" firstAttribute="centerX" secondItem="hyR-qO-YvX" secondAttribute="centerX" id="bzY-eg-Wzc"/>
+                            <constraint firstItem="ix1-0m-05h" firstAttribute="centerX" secondItem="hyR-qO-YvX" secondAttribute="centerX" id="eNc-BQ-Tlt"/>
+                            <constraint firstItem="eDS-cv-cAi" firstAttribute="leading" secondItem="s6L-aa-ZxA" secondAttribute="leading" id="qVe-bS-gdd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="s6L-aa-ZxA"/>
+                    </view>
+                    <connections>
+                        <outlet property="shopDetailHeight" destination="taF-Ne-tpe" id="nKK-EW-xp2"/>
+                        <outlet property="shopDetailWidth" destination="IzT-1r-NJC" id="eSg-jG-51F"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BaV-Qi-dLy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1074" y="2033"/>
         </scene>
     </scenes>
     <resources>

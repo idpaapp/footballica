@@ -48,12 +48,13 @@ public class downloadAssets {
         
         
         if m.count == 0 && c.count == 0 {
-        
+        downloadShop.init().getIDs()
         } else {
         let jsonPost = [["MatchTypes" : m , "ChargeTypes" : c]] as [[String : Any]]
         let jsonData = try? JSONSerialization.data(withJSONObject: jsonPost, options: [])
         let jsonString = String(data: jsonData!, encoding: .utf8)!
         downloadingAssets(postString : jsonString)
+        downloadShop.init().getIDs()
         }
         
         
@@ -62,19 +63,7 @@ public class downloadAssets {
             nc.post(name: Notification.Name("updateProgress"), object: nil)
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            let nc = NotificationCenter.default
-            nc.post(name: Notification.Name("updateProgress"), object: nil)
-        }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            let nc = NotificationCenter.default
-            nc.post(name: Notification.Name("updateProgress"), object: nil)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            let nc = NotificationCenter.default
-            nc.post(name: Notification.Name("updateProgress"), object: nil)
-        }
     }
     
     public func downloadingAssets(postString : String) {
@@ -96,7 +85,7 @@ public class downloadAssets {
                         
                         if ((self.res?.matchTypes?.count)!) != 0 {
                             self.matchTypeDl()
-                        }
+                        }                        
 
                     } catch {
                         self.downloadingAssets(postString : postString)

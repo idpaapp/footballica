@@ -24,7 +24,9 @@ public class loadingSetting {
 //                        print((loadingSetting.res?.response?.splash_back!)!)
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("updateProgress"), object: nil)
-                        downloadAssets.init().getIDs()
+                        DispatchQueue.main.async {
+                            downloadAssets.init().getIDs()
+                        }
 //                        self.updateLastProgress()
                         //                        loadShop.init().loadingShop(userid: userid)
                     } catch {

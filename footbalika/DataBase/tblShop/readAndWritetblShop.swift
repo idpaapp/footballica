@@ -19,7 +19,7 @@ public class readAndWritetblShop {
     }
     
     var WblShop = WritetblShop()
-    public func writeToDBtblhop(shopID : Int ,shopImage_Path : String ,shopImage_Base64 : String ) {
+    public func writeToDBtblhop(shopID : Int ,shopImage_Path : String ,shopImage_Base64 : String ) {       
         
         DispatchQueue.main.async {
             if self.tblShopArray.count != 0 {
