@@ -32,9 +32,11 @@ public class WritetblMatchTypes {
 //                    print(counts.count)
 //                    print("self.tblMatchTypesArray.count\(self.tblMatchTypesArray.count)")
                     if realmID.first?.id != nil {
+                        if realmID.first?.img_base64 == "" && realmID.first?.img_base64 != base64 {
                         DispatchQueue.main.async {
                             try! self.realm.write {
                             realmID.first?.img_base64 = base64
+                             }
                             }
                         }
                     } else {

@@ -1452,13 +1452,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eMl-XS-jUz">
-                                        <rect key="frame" x="144" y="11.000000000000002" width="45.333333333333343" height="26.666666666666671"/>
+                                        <rect key="frame" x="144.66666666666666" y="11.000000000000002" width="45.333333333333343" height="26.666666666666671"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rye-R5-NV9">
-                                        <rect key="frame" x="143.33333333333334" y="11.000000000000002" width="45.333333333333343" height="26.666666666666671"/>
+                                        <rect key="frame" x="144" y="11.000000000000002" width="45.333333333333343" height="26.666666666666671"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -1836,7 +1836,7 @@
                                                     <rect key="frame" x="15" y="11" width="293" height="128"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CX8-wo-WE7">
-                                                            <rect key="frame" x="253" y="53.333333333333329" width="30" height="22"/>
+                                                            <rect key="frame" x="253" y="54" width="30" height="22"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="05V-xu-w9O"/>
                                                             </constraints>
@@ -1852,7 +1852,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="200" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36y-pD-utX">
-                                                            <rect key="frame" x="123" y="53.333333333333329" width="80" height="22"/>
+                                                            <rect key="frame" x="123" y="54" width="80" height="22"/>
                                                             <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -4185,6 +4185,7 @@
         <!--Shop Detail View Controller-->
         <scene sceneID="7qf-SM-3xh">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w64-Rd-8nJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController restorationIdentifier="shopDetailViewController" storyboardIdentifier="shopDetailViewController" id="4Xr-jP-IPW" customClass="shopDetailViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="M2W-Cx-0mj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
@@ -4211,7 +4212,117 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sxL-rF-bdr" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="5" y="35" width="270" height="260"/>
+                                        <subviews>
+                                            <collectionView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aGe-ql-cbb">
+                                                <rect key="frame" x="0.0" y="0.0" width="270" height="260"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oPR-07-xMQ">
+                                                    <size key="itemSize" width="103" height="131"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                                                </collectionViewFlowLayout>
+                                                <cells>
+                                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="shopDetailCell" reuseIdentifier="shopDetailCell" id="F7Z-cE-OL1" customClass="shopDetailCell" customModule="footbalika" customModuleProvider="target">
+                                                        <rect key="frame" x="10" y="10" width="103" height="131"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                                            <rect key="frame" x="0.0" y="0.0" width="103" height="131"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TRo-5E-5cY" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="103" height="131"/>
+                                                                    <state key="normal" image="shop_item_back"/>
+                                                                    <userDefinedRuntimeAttributes>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                            <real key="value" value="0.0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                                            <real key="value" value="0.0"/>
+                                                                        </userDefinedRuntimeAttribute>
+                                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                                                    </userDefinedRuntimeAttributes>
+                                                                </button>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fIL-AD-pbO">
+                                                                    <rect key="frame" x="0.0" y="105" width="103" height="26"/>
+                                                                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="16"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7ef-QG-FMs" customClass="publicLabel" customModule="footbalika" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="105" width="103" height="26"/>
+                                                                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="16"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="psg-KV-B0s">
+                                                                    <rect key="frame" x="25.666666666666668" y="42.666666666666657" width="52.333333333333329" height="52.333333333333343"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" secondItem="psg-KV-B0s" secondAttribute="height" multiplier="1:1" id="pRF-cS-3P8"/>
+                                                                    </constraints>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ig7-Bl-CjA" customClass="publicLabel" customModule="footbalika" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="10" width="103" height="26"/>
+                                                                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x4m-9G-c4X" customClass="publicLabel" customModule="footbalika" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="10" width="103" height="26"/>
+                                                                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </view>
+                                                        <constraints>
+                                                            <constraint firstItem="fIL-AD-pbO" firstAttribute="height" secondItem="TRo-5E-5cY" secondAttribute="height" multiplier="1:5" id="69N-eR-FSi"/>
+                                                            <constraint firstAttribute="trailing" secondItem="TRo-5E-5cY" secondAttribute="trailing" id="6mm-sK-fK7"/>
+                                                            <constraint firstItem="TRo-5E-5cY" firstAttribute="top" secondItem="F7Z-cE-OL1" secondAttribute="top" id="8gO-Nf-BA0"/>
+                                                            <constraint firstItem="x4m-9G-c4X" firstAttribute="height" secondItem="Ig7-Bl-CjA" secondAttribute="height" id="B2f-58-XCk"/>
+                                                            <constraint firstItem="psg-KV-B0s" firstAttribute="height" secondItem="TRo-5E-5cY" secondAttribute="height" multiplier="2:5" id="Bc1-dN-Yrc"/>
+                                                            <constraint firstItem="x4m-9G-c4X" firstAttribute="width" secondItem="Ig7-Bl-CjA" secondAttribute="width" id="Fmf-Ps-Qzv"/>
+                                                            <constraint firstAttribute="bottom" secondItem="fIL-AD-pbO" secondAttribute="bottom" id="G4w-kA-EBS"/>
+                                                            <constraint firstItem="fIL-AD-pbO" firstAttribute="leading" secondItem="F7Z-cE-OL1" secondAttribute="leading" id="HfT-LY-1sk"/>
+                                                            <constraint firstItem="x4m-9G-c4X" firstAttribute="centerX" secondItem="Ig7-Bl-CjA" secondAttribute="centerX" id="Hsb-bl-cbD"/>
+                                                            <constraint firstAttribute="trailing" secondItem="fIL-AD-pbO" secondAttribute="trailing" id="SXR-O3-DTs"/>
+                                                            <constraint firstItem="7ef-QG-FMs" firstAttribute="height" secondItem="fIL-AD-pbO" secondAttribute="height" id="SnG-pE-iAf"/>
+                                                            <constraint firstItem="Ig7-Bl-CjA" firstAttribute="leading" secondItem="F7Z-cE-OL1" secondAttribute="leading" id="TKA-cj-xJ8"/>
+                                                            <constraint firstItem="7ef-QG-FMs" firstAttribute="centerY" secondItem="fIL-AD-pbO" secondAttribute="centerY" id="TTi-17-e8p"/>
+                                                            <constraint firstItem="7ef-QG-FMs" firstAttribute="top" secondItem="psg-KV-B0s" secondAttribute="bottom" constant="10" id="Yaw-Sv-ecC"/>
+                                                            <constraint firstAttribute="trailing" secondItem="Ig7-Bl-CjA" secondAttribute="trailing" id="d9G-an-bAW"/>
+                                                            <constraint firstItem="Ig7-Bl-CjA" firstAttribute="top" secondItem="F7Z-cE-OL1" secondAttribute="top" constant="10" id="gDk-M0-T4o"/>
+                                                            <constraint firstItem="7ef-QG-FMs" firstAttribute="width" secondItem="fIL-AD-pbO" secondAttribute="width" id="gvf-sA-XjD"/>
+                                                            <constraint firstItem="7ef-QG-FMs" firstAttribute="centerX" secondItem="fIL-AD-pbO" secondAttribute="centerX" id="hYB-Db-EFW"/>
+                                                            <constraint firstItem="Ig7-Bl-CjA" firstAttribute="height" secondItem="TRo-5E-5cY" secondAttribute="height" multiplier="1:5" id="ldF-Vm-003"/>
+                                                            <constraint firstItem="x4m-9G-c4X" firstAttribute="centerY" secondItem="Ig7-Bl-CjA" secondAttribute="centerY" id="nKI-UP-NJV"/>
+                                                            <constraint firstAttribute="bottom" secondItem="TRo-5E-5cY" secondAttribute="bottom" id="nZq-GV-ner"/>
+                                                            <constraint firstItem="psg-KV-B0s" firstAttribute="centerX" secondItem="TRo-5E-5cY" secondAttribute="centerX" id="paC-cV-W16"/>
+                                                            <constraint firstItem="TRo-5E-5cY" firstAttribute="leading" secondItem="F7Z-cE-OL1" secondAttribute="leading" id="qoZ-Wj-OeS"/>
+                                                        </constraints>
+                                                        <connections>
+                                                            <outlet property="selectShopDetail" destination="TRo-5E-5cY" id="ktb-Ba-TFn"/>
+                                                            <outlet property="shopDetailImage" destination="psg-KV-B0s" id="cCk-G8-fmn"/>
+                                                            <outlet property="shopDetailPrice" destination="fIL-AD-pbO" id="nYu-2V-efw"/>
+                                                            <outlet property="shopDetailPriceForeGround" destination="7ef-QG-FMs" id="lD9-S0-zFf"/>
+                                                            <outlet property="shopDetailTitle" destination="Ig7-Bl-CjA" id="pX7-x2-nSU"/>
+                                                            <outlet property="shopDetailTitleForeGround" destination="x4m-9G-c4X" id="McO-UH-6tm"/>
+                                                        </connections>
+                                                    </collectionViewCell>
+                                                </cells>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="4Xr-jP-IPW" id="reN-3P-5nB"/>
+                                                    <outlet property="delegate" destination="4Xr-jP-IPW" id="qNz-Zi-NCg"/>
+                                                </connections>
+                                            </collectionView>
+                                        </subviews>
                                         <color key="backgroundColor" red="0.94509803920000002" green="0.92941176469999998" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="aGe-ql-cbb" firstAttribute="height" secondItem="sxL-rF-bdr" secondAttribute="height" id="8wh-tT-Ke8"/>
+                                            <constraint firstItem="aGe-ql-cbb" firstAttribute="width" secondItem="sxL-rF-bdr" secondAttribute="width" id="EsT-DZ-fOQ"/>
+                                            <constraint firstItem="aGe-ql-cbb" firstAttribute="centerY" secondItem="sxL-rF-bdr" secondAttribute="centerY" id="qMU-nW-7gv"/>
+                                            <constraint firstItem="aGe-ql-cbb" firstAttribute="centerX" secondItem="sxL-rF-bdr" secondAttribute="centerX" id="yo7-fn-abi"/>
+                                        </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                 <real key="value" value="10"/>
@@ -4293,9 +4404,9 @@
                     <connections>
                         <outlet property="shopDetailHeight" destination="4h4-2n-rhk" id="O3y-qX-2LC"/>
                         <outlet property="shopDetailWidth" destination="yb3-PT-Rgh" id="6kE-UK-6Rr"/>
+                        <outlet property="shopDetailsCV" destination="aGe-ql-cbb" id="wDL-p9-sUb"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="w64-Rd-8nJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1074" y="2033"/>
         </scene>
@@ -4343,6 +4454,7 @@
         <image name="main_back" width="720" height="1280"/>
         <image name="money" width="376" height="390"/>
         <image name="progressImage" width="83" height="199"/>
+        <image name="shop_item_back" width="201" height="321"/>
         <image name="shop_spec_item_back" width="201" height="251"/>
         <image name="splash" width="720" height="1280"/>
         <image name="splash_back" width="720" height="1280"/>

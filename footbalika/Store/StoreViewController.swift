@@ -13,13 +13,14 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
    
 
     @IBOutlet weak var storeCV: UICollectionView!
-    
     @IBOutlet weak var coins: UILabel!
     @IBOutlet weak var money: UILabel!
     @IBOutlet weak var xp: UILabel!
     @IBOutlet weak var level: UILabel!
     @IBOutlet weak var xpProgress: UIProgressView!
     @IBOutlet weak var xpProgressBackGround: UIView!
+    @IBOutlet weak var storeLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var storeRightConstraint: NSLayoutConstraint!
     
     var realm : Realm!
     var tblShopArray : Results<tblShop> {
@@ -36,6 +37,16 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if storeLeftConstraint != nil {
+            storeLeftConstraint.constant = UIScreen.main.bounds.width / 10
+        }
+        
+        if storeRightConstraint != nil {
+            storeRightConstraint.constant = UIScreen.main.bounds.width / 10
+        }
+        
+        
+        self.storeCV.allowsMultipleSelection = false
         let counts = self.tblShopArray.count
         for i in 0...counts - 1 {
             storeID.append(tblShopArray[i].id)
@@ -71,10 +82,10 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         cell.storeImage.image = UIImage(data: dataDecoded as Data)
         
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -4.0)
+        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -7.0)
         cell.storeLabelForeGround.font = iPhonefonts
         } else {
-            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -4.0)
+            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -7.0)
             cell.storeLabelForeGround.font = iPadfonts
         }
         cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))"
@@ -99,7 +110,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                     return CGSize(width: UIScreen.main.bounds.width / 3 - 20 , height: 130)
                 }
             } else {
-                return CGSize(width: UIScreen.main.bounds.width / 3 - 20 , height: 250)
+                return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3 , height: 230)
             }
         }
     

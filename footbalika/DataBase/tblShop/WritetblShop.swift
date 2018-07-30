@@ -33,7 +33,7 @@ public class WritetblShop {
 
                     if realmID.first?.id != nil {
                         DispatchQueue.main.async {
-                            if realmID.first?.img_base64 == "" {
+                            if realmID.first?.img_base64 == "" && realmID.first?.img_base64 != shopbase64{
                             try! self.realm.write {
                                 realmID.first?.img_base64 = shopbase64
                             }

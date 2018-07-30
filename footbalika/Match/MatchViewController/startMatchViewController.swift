@@ -472,9 +472,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
     }
         
-       
-        
-        
         if let vc = segue.destination as? menuAlertViewController {
             vc.alertTitle = "اخطار"
             vc.alertBody = "باید صبر کنی تا حریف بازیشو انجام بده"
