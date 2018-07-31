@@ -29,8 +29,9 @@ public class fonts {
     public var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     public var iPhonefonts18 = UIFont(name: "DPA_Game", size: 18)!
     public var iPadfonts25 = UIFont(name: "DPA_Game", size: 25)!
-
+    public var large35 = UIFont(name: "DPA_Game", size: 35)!
 }
+
 
 extension UILabel {
     public func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
@@ -60,6 +61,7 @@ struct soundPlay {
         }
         } else {}
     }
+    
     public func playWhistleSound() {
         if playgameSounds == true {
         guard let url = Bundle.main.url(forResource: "whistle", withExtension: "mp3") else { return }
@@ -73,7 +75,7 @@ struct soundPlay {
             player.numberOfLoops = 0
             player.prepareToPlay()
             player.play()
-            
+       
         } catch let error {
             print(error.localizedDescription)
         }
@@ -165,9 +167,7 @@ struct soundPlay {
         } else {
             thirdSoundPlay.thirdPlayer?.stop()
         }
-        
     }
-    
 }
 
 struct musicPlay {

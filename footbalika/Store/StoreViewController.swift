@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Kingfisher
 
 class StoreViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
    
@@ -33,6 +34,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     var storeImages = [String]()
     var storeID = [Int]()
+    var storeImagePath = [String]()
+    var selectedShop = Int()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,10 +54,10 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         for i in 0...counts - 1 {
             storeID.append(tblShopArray[i].id)
             storeImages.append(tblShopArray[i].img_base64)
-            if i == counts - 1  {
+            storeImagePath.append(tblShopArray[i].image_path)
+//            if i == counts - 1  {
                 self.storeCV.reloadData()
-            }
-            
+//            }
         }
         
         
@@ -72,14 +75,17 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return storeImages.count
+        return (loadShop.res?.response?[1].items?.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
-
-        let dataDecoded:NSData = NSData(base64Encoded: storeImages[indexPath.row], options: NSData.Base64DecodingOptions(rawValue: 0))!
-        cell.storeImage.image = UIImage(data: dataDecoded as Data)
+        
+        
+        let url = "\(((loadShop.res?.response?[1].items?[indexPath.item].image!)!))"
+        let urls = URL(string: url)
+        cell.storeImage.kf.setImage(with: urls , options : [.transition(ImageTransition.fade(0.5))])
+        
         
         if UIDevice().userInterfaceIdiom == .phone {
         cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -7.0)
@@ -95,8 +101,22 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     }
     
     @objc func selectingStore(_ sender : UIButton!) {
+        selectedShop = sender.tag
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.performSegue(withIdentifier: "shopDetail", sender: self)
+        }
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? shopDetailViewController {
+            var indexArray = [Int]()
+            for i in 0...((loadShop.res?.response?[1].items?[selectedShop].package_awards?.count)!) - 1 {
+                indexArray.append(storeImagePath.index(of: "\((loadShop.res?.response?[1].items?[selectedShop].package_awards?[i].image_path)!)")!)
+            }            
+            vc.images = indexArray.map {storeImages[$0]}
+            vc.ids = indexArray.map {storeID[$0]}
+            vc.shopIndex = selectedShop
         }
     }
     
@@ -118,6 +138,21 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    @IBAction func addMoney(_ sender: RoundButton) {
+        
+        
+        
+    }
+    
+    
+    
+    @IBAction func addCoin(_ sender: RoundButton) {
+        
+        
+        
+    }
+    
     
 
     override func viewDidAppear(_ animated: Bool) {

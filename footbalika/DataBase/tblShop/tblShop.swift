@@ -14,7 +14,6 @@ class tblShop: Object {
     @objc dynamic var  id  = 0
     @objc dynamic var image_path = ""
     @objc dynamic var img_base64 = ""
-    @objc dynamic var main_id = 0
 }
 
 

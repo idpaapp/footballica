@@ -29,12 +29,14 @@ public class loadShop {
                         nc.post(name: Notification.Name("updateProgress"), object: nil)
                         
                         for i in 0...(loadShop.res?.response?[1].items?.count)! - 1 {
-                            let ID = Int((loadShop.res?.response?[1].items?[i].id!)!)
+                            for j in 0...(loadShop.res?.response?[1].items?[i].package_awards?.count)! - 1 {
+                            let ID = Int((loadShop.res?.response?[1].items?[i].package_awards?[j].id!)!)
                             let id = ID!
 //                            let title = ((self.res?.response?[1].items?[i].title!)!)
-                            let imagePath = ((loadShop.res?.response?[1].items?[i].image!)!)
+                            let imagePath = ((loadShop.res?.response?[1].items?[i].package_awards?[j].image_path!)!)
                             let base64 = ""
                             self.writeShops.writeToDBtblhop(shopID: id, shopImage_Path: imagePath, shopImage_Base64: base64)
+                            }
                         }
 //                        print(self.res?.response?[1].items?[0].package_awards?[0].image_path!)
                         loadingAchievements.init().loadAchievements(userid: userid)
