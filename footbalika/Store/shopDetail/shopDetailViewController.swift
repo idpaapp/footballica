@@ -85,8 +85,18 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "shopDetailCell", for: indexPath) as! shopDetailCell
         
         var title = String()
-        if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].image_path)!.contains("coin") || (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].image_path)!.contains("money") {
-            title = (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].qty)!
+        var price = String()
+        
+        if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price_type)! == "0"  {
+            price = "مجانی"
+        } else  if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price_type)! == "1"  {
+            price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!) تومان"
+        } else {
+            price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!)"
+        }
+        
+        if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].type)! == "2" || (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].type)! == "1" {
+            title = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].qty)!)"
         } else {
             title = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].title)!)"
         }
@@ -94,13 +104,13 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height == 2436 {
                 //iPhone X
-                cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!)", strokeWidth: -5.0)
+                cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: -7.0)
                 cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: -5.0)
                 cell.shopDetailPriceForeGround.font = fonts().iPadfonts
                 cell.shopDetailTitleForeGround.font = fonts().iPadfonts
             } else {
                 //other iPhones
-                cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!)", strokeWidth: -5.0)
+                cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: -7.0)
                 cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: -5.0)
                  cell.shopDetailPriceForeGround.font = fonts().iPadfonts
                 cell.shopDetailTitleForeGround.font = fonts().iPadfonts
@@ -108,18 +118,39 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             
         } else {
             //iPad
-            cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!)", strokeWidth: -5.0)
+            cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: -7.0)
             cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: -5.0)
             cell.shopDetailPriceForeGround.font = fonts().iPadfonts
             cell.shopDetailTitleForeGround.font = fonts().iPadfonts
         }
         
-        cell.shopDetailPriceForeGround.text = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!)"
+        cell.shopDetailPriceForeGround.text = "\(price)"
         cell.shopDetailTitleForeGround.text = "\(title)"
         let dataDecoded:NSData = NSData(base64Encoded: images[indexPath.row], options: NSData.Base64DecodingOptions(rawValue: 0))!
         cell.shopDetailImage.image = UIImage(data: dataDecoded as Data)
         cell.selectShopDetail.tag = indexPath.item
         cell.selectShopDetail.addTarget(self, action: #selector(showItem), for: UIControlEvents.touchUpInside)
+        
+        switch "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price_type)!)" {
+        case "1":
+            cell.shopDetailTypeImage.image = UIImage()
+            cell.shopDetailTypeImage.isHidden = true
+            self.view.layoutIfNeeded()
+        case "2":
+            cell.shopDetailTypeImage.image = UIImage(named: "ic_coin")
+            cell.shopDetailTypeImage.isHidden = false
+            self.view.layoutIfNeeded()
+        case "3":
+            cell.shopDetailTypeImage.image = UIImage(named: "money")
+            cell.shopDetailTypeImage.isHidden = false
+            self.view.layoutIfNeeded()
+        default:
+            cell.shopDetailTypeImage.image = UIImage()
+            cell.shopDetailTypeImage.isHidden = true
+            self.view.layoutIfNeeded()
+        }
+        
+        
         return cell
     }
     
@@ -152,7 +183,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         if let vc = segue.destination as? showItemViewController {
             vc.mainTitle = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].title)!)"
             vc.mainImage = images[selectedItem]
-            if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].image_path)!.contains("coin") ||  (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].image_path)!.contains("money") {
+            if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].type)! == "2" || (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].type)! == "1" {
                 vc.subTitle = (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].qty)!
             }
         }

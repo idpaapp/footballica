@@ -37,6 +37,14 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     var storeImagePath = [String]()
     var selectedShop = Int()
     
+    @objc func openCoinsOrMoney(notification: Notification){
+        self.view.isUserInteractionEnabled = true
+        if let text = notification.userInfo?["title"] as? String {
+           openCoinOrMoney(Title: text)
+        }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,6 +56,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             storeRightConstraint.constant = UIScreen.main.bounds.width / 10
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.openCoinsOrMoney(notification:)), name: Notification.Name("openCoinsOrMoney"), object: nil)
+
         
         self.storeCV.allowsMultipleSelection = false
         let counts = self.tblShopArray.count
@@ -139,18 +149,30 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func addMoney(_ sender: RoundButton) {
-        
-        
+    
+    @objc func openCoinOrMoney(Title : String) {
+        for i in 0...(loadShop.res?.response?[1].items?.count)! - 1 {
+            if ((loadShop.res?.response?[1].items?[i].title!)!).contains(Title) {
+                selectedShop = i
+                break
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.performSegue(withIdentifier: "shopDetail", sender: self)
+        }
         
     }
     
     
     
+    @IBAction func addMoney(_ sender: RoundButton) {
+        openCoinOrMoney(Title: "پول")
+    }
+    
+    
+    
     @IBAction func addCoin(_ sender: RoundButton) {
-        
-        
-        
+        openCoinOrMoney(Title: "سکه")
     }
     
     

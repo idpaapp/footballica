@@ -68,8 +68,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     @IBOutlet weak var player2Score: UILabel!
     
-    var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
-    var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
+//    var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
+//    var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
     var urlClass = urls()
     var res : matchDetails.Response? = nil;
@@ -194,11 +194,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "startMatchCell", for: indexPath) as! startMatchCell
 //        print((self.res?.response?.detailData?[indexPath.row].last_questions)!)
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.matchResult.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
-        cell.matchTitle.AttributesOutLine(font: iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
+        cell.matchResult.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
+        cell.matchTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
         } else {
-        cell.matchResult.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
-        cell.matchTitle.AttributesOutLine(font: iPadfonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
+        cell.matchResult.AttributesOutLine(font: fonts().large35, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
+        cell.matchTitle.AttributesOutLine(font: fonts().large35, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
         }
         
         if self.res?.response?.detailData?[indexPath.row].player1_result_sheet != nil {

@@ -27,13 +27,21 @@ class matchViewController: UIViewController {
     @IBOutlet weak var xpProgressBackGround: UIView!
     
     @IBAction func addMoney(_ sender: UIButton) {
+        self.view.isUserInteractionEnabled = false
         scrollPageViewController(index: 4)
         menuButtonChanged(index: 4)
+        let pageIndexDict:[String: String] = ["title": "پول"]
+        NotificationCenter.default.post(name: Notification.Name("openCoinsOrMoney"), object: nil, userInfo: pageIndexDict)
+        self.view.isUserInteractionEnabled = true
     }
 
     @IBAction func addCoin(_ sender: UIButton) {
+        self.view.isUserInteractionEnabled = false
         scrollPageViewController(index: 4)
         menuButtonChanged(index: 4)
+        let pageIndexDict:[String: String] = ["title": "سکه"]
+        NotificationCenter.default.post(name: Notification.Name("openCoinsOrMoney"), object: nil, userInfo: pageIndexDict)
+        self.view.isUserInteractionEnabled = true
     }
     
     @objc func menuButtonChanged(index : Int) {
@@ -46,8 +54,6 @@ class matchViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
     }
     
-//     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
-//     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     var urlClass = urls()
     var menuState = String()
     var alertTitle = String()

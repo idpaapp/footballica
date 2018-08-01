@@ -9,7 +9,10 @@
 import UIKit
 
 class shopDetailCell: UICollectionViewCell {
+    
     @IBOutlet weak var selectShopDetail: RoundButton!
+    
+    @IBOutlet weak var shopDetailTypeImage: UIImageView!
     
     @IBOutlet weak var shopDetailPrice: UILabel!
     
