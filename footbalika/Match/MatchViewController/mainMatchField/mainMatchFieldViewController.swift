@@ -8,14 +8,19 @@
 
 import UIKit
 import RPCircularProgress
+import KBImageView
+import Kingfisher
 
-class mainMatchFieldViewController: UIViewController {
+class mainMatchFieldViewController: UIViewController  {
+
+    
     
     var matchData : matchDetails.Response? = nil;
 
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    @IBOutlet weak var backGroundStadium: KBImageView!
     
     @IBOutlet weak var imageQuestionTitle: UILabel!
     
@@ -133,9 +138,16 @@ class mainMatchFieldViewController: UIViewController {
 
     
     var checkFinishGame = false
+    var stadiumUrl = urls()
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        backGroundStadium.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
+
+        let url = "\(stadiumUrl.stadium)anfield.jpg"
+        let urls = URL(string: url)
+        backGroundStadium.kf.setImage(with: urls)
+        print(url)
         self.questionTitle.adjustsFontSizeToFitWidth = true
         self.questionTitle.minimumScaleFactor = 0.5
         
