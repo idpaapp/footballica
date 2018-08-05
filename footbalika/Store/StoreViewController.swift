@@ -123,7 +123,14 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             var indexArray = [Int]()
             for i in 0...((loadShop.res?.response?[1].items?[selectedShop].package_awards?.count)!) - 1 {
                 indexArray.append(storeImagePath.index(of: "\((loadShop.res?.response?[1].items?[selectedShop].package_awards?[i].image_path)!)")!)
-            }            
+            }
+            
+            if (loadShop.res?.response?[1].items?[selectedShop].type)! == "3" {
+                vc.myVitrin = true
+            } else {
+               vc.myVitrin = false
+            }
+            
             vc.images = indexArray.map {storeImages[$0]}
             vc.ids = indexArray.map {storeID[$0]}
             vc.shopIndex = selectedShop

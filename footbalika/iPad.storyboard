@@ -225,7 +225,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_back" translatesAutoresizingMaskIntoConstraints="NO" id="axk-IR-WyP">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_Back-1" translatesAutoresizingMaskIntoConstraints="NO" id="axk-IR-WyP" customClass="KBImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
@@ -2831,7 +2831,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_back" translatesAutoresizingMaskIntoConstraints="NO" id="LQl-KA-cV9">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_Back-1" translatesAutoresizingMaskIntoConstraints="NO" id="LQl-KA-cV9">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.10000000000000001" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WgH-ih-qdc">
@@ -3244,7 +3244,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_back" translatesAutoresizingMaskIntoConstraints="NO" id="hkK-nC-7C0">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_Back-1" translatesAutoresizingMaskIntoConstraints="NO" id="hkK-nC-7C0" customClass="KBImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gZP-GI-jc0">
@@ -4727,6 +4727,9 @@
                     <connections>
                         <outlet property="itemHeight" destination="BDV-bJ-UcM" id="2vP-WZ-Dex"/>
                         <outlet property="itemImage" destination="KG1-4S-jLI" id="iyl-Qg-VAo"/>
+                        <outlet property="itemPriceIcon" destination="q9P-aT-Fgv" id="gyO-Lm-eNi"/>
+                        <outlet property="itemPriceTitle" destination="Smq-BM-BZz" id="CmN-Eg-Gea"/>
+                        <outlet property="itemPriceTitleForeGround" destination="CxZ-Pk-GBT" id="xIR-GO-nXE"/>
                         <outlet property="itemSubTitle" destination="s8K-cX-HMb" id="fQ3-cW-HIT"/>
                         <outlet property="itemSubTitleForeGround" destination="U0C-Pb-lz4" id="6s1-4o-DC9"/>
                         <outlet property="itemTitle" destination="gnO-3c-NTN" id="Umq-1f-4Pv"/>
@@ -4779,7 +4782,7 @@
         <image name="leader_board" width="120" height="120"/>
         <image name="light_btn_large" width="469" height="109"/>
         <image name="light_btn_rounded_large" width="151" height="151"/>
-        <image name="main_back" width="720" height="1280"/>
+        <image name="main_Back-1" width="720" height="1280"/>
         <image name="money" width="376" height="390"/>
         <image name="progressImage" width="83" height="199"/>
         <image name="shop_item_back" width="201" height="321"/>
@@ -4791,7 +4794,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="GQ7-oi-Qy2"/>
-        <segue reference="Rnt-nO-7hp"/>
-        <segue reference="m1J-PS-Ihp"/>
+        <segue reference="ffA-PK-kE0"/>
+        <segue reference="yrp-qQ-0L3"/>
     </inferredMetricsTieBreakers>
 </document>

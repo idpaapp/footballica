@@ -21,6 +21,13 @@ class showItemViewController: UIViewController {
     var mainTitle = String()
     var mainImage = String()
     var subTitle = ""
+    var price = String()
+    var myVitrin = Bool()
+    var priceType = String()
+    
+    @IBOutlet weak var itemPriceIcon: UIImageView!
+    @IBOutlet weak var itemPriceTitle: UILabel!
+    @IBOutlet weak var itemPriceTitleForeGround: UILabel!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -43,12 +50,60 @@ class showItemViewController: UIViewController {
         itemTitleForeGround.text = "\(mainTitle)"
         let dataDecoded:NSData = NSData(base64Encoded: mainImage, options: NSData.Base64DecodingOptions(rawValue: 0))!
         itemImage.image = UIImage(data: dataDecoded as Data)
+        if myVitrin {
+            itemPriceIcon.image = UIImage()
+             if UIDevice().userInterfaceIdiom == .phone {
+            itemPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "استفاده", strokeWidth: -5.0)
+                itemPriceTitleForeGround.font = fonts().iPhonefonts
+             } else {
+                itemPriceTitle.AttributesOutLine(font: fonts().iPadfonts, title: "استفاده", strokeWidth: -5.0)
+                itemPriceTitleForeGround.font = fonts().iPadfonts
+            }
+            itemPriceTitleForeGround.text = "استفاده"
+        } else {
+            itemPriceIcon.image = UIImage()
+            if UIDevice().userInterfaceIdiom == .phone {
+                itemPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(price)", strokeWidth: -5.0)
+                itemPriceTitleForeGround.font = fonts().iPhonefonts
+            } else {
+                itemPriceTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: -5.0)
+                itemPriceTitleForeGround.font = fonts().iPadfonts
+            }
+            itemPriceTitleForeGround.text = "\(price)"
+            switch priceType {
+            case "1":
+                itemPriceIcon.image = UIImage()
+            case "2":
+                itemPriceIcon.image = UIImage(named: "ic_coin")
+            case "3":
+                itemPriceIcon.image = UIImage(named: "money")
+            default :
+                itemPriceIcon.image = UIImage()
+            }
+            
+            
+            
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    
+    @IBAction func useOrBuyItem(_ sender: RoundButton) {
+        if myVitrin {
+        NotificationCenter.default.post(name: Notification.Name("buyOrChoose"), object: nil, userInfo: nil)
+        dismissing()
+        } else {
+            
+        }
+    }
+    
+    
     @IBAction func dismissAcrion(_ sender: RoundButton) {
         dismissing()
     }

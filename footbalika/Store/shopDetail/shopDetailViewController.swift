@@ -18,16 +18,62 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     var images = [String]()
     var ids = [Int]()
     var shopIndex = Int()
-    
+    var myVitrin = Bool()
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     
+    var chooseRes : String? = nil ;
+    
+    @objc func chooseItem() {
+        
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleCoins", JSONStr: "{'item_id' : '\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id)!)' , 'userid' : '1' , 'trans_id' : '0'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                      print(data ?? "")
+                    
+                    self.chooseRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+
+                    if ((self.chooseRes)!).contains("TRANSACTION_COMPELETE") {
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "showItem", sender: self)
+                            self.view.isUserInteractionEnabled = true
+                        }
+                    } else {
+                        
+                    }
+                    
+                    
+                    
+                } else {
+                    self.chooseItem()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+        
+        
+        
+        
+        
+        
+    }
+    
+    @objc func buyOrChoose() {
+        self.view.isUserInteractionEnabled = false
+        chooseItem()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(buyOrChoose), name: Notification.Name("buyOrChoose"), object: nil)
+
         
         if dismissButton != nil {
             dismissButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
@@ -88,11 +134,23 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         var price = String()
         
         if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price_type)! == "0"  {
+            if myVitrin {
+               price = "استفاده"
+            } else {
             price = "مجانی"
+            }
         } else  if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price_type)! == "1"  {
+            if myVitrin {
+                price = "استفاده"
+            } else {
             price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!) تومان"
+            }
         } else {
+            if myVitrin {
+                price = "استفاده"
+            } else {
             price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!)"
+            }
         }
         
         if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].type)! == "2" || (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].type)! == "1" {
@@ -137,13 +195,25 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             cell.shopDetailTypeImage.isHidden = true
             self.view.layoutIfNeeded()
         case "2":
+            if myVitrin {
+                cell.shopDetailTypeImage.image = UIImage()
+                cell.shopDetailTypeImage.isHidden = true
+                self.view.layoutIfNeeded()
+            } else {
             cell.shopDetailTypeImage.image = UIImage(named: "ic_coin")
             cell.shopDetailTypeImage.isHidden = false
             self.view.layoutIfNeeded()
+            }
         case "3":
+            if myVitrin {
+                cell.shopDetailTypeImage.image = UIImage()
+                cell.shopDetailTypeImage.isHidden = true
+                self.view.layoutIfNeeded()
+            } else {
             cell.shopDetailTypeImage.image = UIImage(named: "money")
             cell.shopDetailTypeImage.isHidden = false
             self.view.layoutIfNeeded()
+            }
         default:
             cell.shopDetailTypeImage.image = UIImage()
             cell.shopDetailTypeImage.isHidden = true
@@ -159,8 +229,13 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         selectedItem = sender.tag
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.performSegue(withIdentifier: "showShopItem", sender: self)
-        }
+            }
     }
+    
+    @objc func showMySelectedVitrin() {
+            self.performSegue(withIdentifier: "showItem", sender: self)
+    }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if UIDevice().userInterfaceIdiom == .phone  {
@@ -186,7 +261,25 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].type)! == "2" || (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].type)! == "1" {
                 vc.subTitle = (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].qty)!
             }
+            vc.myVitrin = self.myVitrin
+            
+            if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price_type)! == "0"  {
+                    vc.price = "مجانی"
+            } else  if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price_type)! == "1"  {
+                    vc.price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price)!) تومان"
+            } else {
+                    vc.price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price)!)"
+            }
+            
+             vc.priceType = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price_type)!)"            
         }
+        
+        
+        if let vc = segue.destination as? ItemViewController {
+            vc.ImageItem = images[selectedItem]
+            vc.TitleItem = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].title)!)"
+        }
+        
     }
     
     

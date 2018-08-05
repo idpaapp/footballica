@@ -147,7 +147,10 @@ class mainMatchFieldViewController: UIViewController  {
         let url = "\(stadiumUrl.stadium)anfield.jpg"
         let urls = URL(string: url)
         backGroundStadium.kf.setImage(with: urls)
-        print(url)
+//        print(url)
+        backGroundStadium.timer.tolerance = 0.1
+        
+        
         self.questionTitle.adjustsFontSizeToFitWidth = true
         self.questionTitle.minimumScaleFactor = 0.5
         

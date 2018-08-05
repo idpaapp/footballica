@@ -75,8 +75,8 @@ class menuButtonCell: UICollectionViewCell {
     }
 }
 
-extension UIView {
-    func rotate360Degrees(duration: CFTimeInterval = 1.0, completionDelegate: AnyObject? = nil , rotateDirection : Int) {
+public extension UIView {
+    public func rotate360Degrees(duration: CFTimeInterval = 1.0, completionDelegate: AnyObject? = nil , rotateDirection : Int) {
         let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
         rotateAnimation.fromValue = 0.0
         if rotateDirection == 0 {
