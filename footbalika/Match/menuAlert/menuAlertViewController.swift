@@ -65,6 +65,7 @@ class menuAlertViewController: UIViewController {
             self.showAlert.acceptButtonLabelForeGround.font = fonts().iPhonefonts
             self.showAlert.acceptButtonLabelForeGround.text = "\(self.alertAcceptLabel)"
         }
+        
     }
 
     

@@ -153,7 +153,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         vc.level = "11"
         vc.category = String(selectedcategoryId)
         vc.last_questions = ""
-        vc.userid = "1"
+        vc.userid = "\(loadingViewController.userid)"
         vc.lastVC = self
         vc.matchData = self.matchData
     }

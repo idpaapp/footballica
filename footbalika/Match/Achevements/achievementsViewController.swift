@@ -80,7 +80,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var userAvatar = [String]()
     
     @objc func alertsJson() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode':'READ', 'userid':'1'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode':'READ', 'userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -128,7 +128,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     static var friendsRes : friendList.Response? = nil;
     var friendsId = [String]()
     @objc func otherProfileJson() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid': 1 }") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid': \(loadingViewController.userid) }") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

@@ -233,7 +233,7 @@ class mainMatchFieldViewController: UIViewController  {
     
     func readMatchData() {
         //match Data Json
-        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'\(level)','category':'\(category)','last_questions':'','userid':'1'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'\(level)','category':'\(category)','last_questions':'','userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

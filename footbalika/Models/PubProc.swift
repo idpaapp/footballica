@@ -19,6 +19,7 @@ public class PubProc {
             return str.replacingOccurrences(of: "'", with: "\"");
         }
     }
+    
 //    http://volcan.ir/adelica/api/ws_loadGameData.php
     public class THandleDataBase{
         public func readJson(wsName: String, JSONStr: String, completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{

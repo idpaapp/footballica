@@ -28,7 +28,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     @objc func gameLists() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchList", JSONStr: "{'mode': 'USERMATCH','userid':'1'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchList", JSONStr: "{'mode': 'USERMATCH','userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -72,7 +72,6 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                 }
             }
             }.resume()
-    
     }
     
     private let refreshControl = UIRefreshControl()
@@ -86,7 +85,6 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         currentGamesListColor()
         NotificationCenter.default.addObserver(self, selector: #selector(gameLists), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
 
-        
         refreshControl.tintColor = UIColor.white
         
         if #available(iOS 10.0, *) {
@@ -279,7 +277,6 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         } else {
             getUserData(id : (self.res1?.response[sender.tag].player2_id)!)
         }
-        
     }
     
     @objc func getUserData(id : String) {

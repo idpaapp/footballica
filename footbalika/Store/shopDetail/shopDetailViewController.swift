@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import SafariServices
 
-class shopDetailViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
+class shopDetailViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , SFSafariViewControllerDelegate {
     
     @IBOutlet weak var shopDetailsCV: UICollectionView!
     @IBOutlet weak var shopDetailHeight: NSLayoutConstraint!
@@ -19,16 +20,16 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     var ids = [Int]()
     var shopIndex = Int()
     var myVitrin = Bool()
+   
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
     
     var chooseRes : String? = nil ;
     
     @objc func chooseItem() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleCoins", JSONStr: "{'item_id' : '\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id)!)' , 'userid' : '1' , 'trans_id' : '0'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleCoins", JSONStr: "{'item_id' : '\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -39,29 +40,55 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
 
                     if ((self.chooseRes)!).contains("TRANSACTION_COMPELETE") {
                         DispatchQueue.main.async {
-                            self.performSegue(withIdentifier: "showItem", sender: self)
-                            self.view.isUserInteractionEnabled = true
+                            login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                                
+                                self.performSegue(withIdentifier: "showItem", sender: self)
+                                self.view.isUserInteractionEnabled = true
+                            })
+                            
+                            if self.myVitrin {
+                                
+                            } else {
+                                DispatchQueue.main.async{
+                                    loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                        NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
+                                        print(((loadShop.res?.response?[1].items?[self.shopIndex].title!)!))
+                                        if  ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "پول"  {
+                                        self.images.remove(at: self.selectedItem)
+                                        self.ids.remove(at: self.selectedItem)
+                                        self.shopDetailsCV.reloadData()
+                                        self.sizingPage()
+                                        }
+                                    })
+                                }
+                            }
                         }
+                    } else  if ((self.chooseRes)!).contains("NOT_ENOUGH_RESOURCE") {
+                        self.view.isUserInteractionEnabled = true
+                        self.notEnough = "شما به اندازه ی کافی پول یا سکه ندارید"
+                        self.performSegue(withIdentifier: "shopAlert", sender: self)
                     } else {
-                        
+                        self.view.isUserInteractionEnabled = true
+                        self.notEnough = "تراکنش نا موفق بود!"
+                        self.performSegue(withIdentifier: "shopAlert", sender: self)
                     }
-                    
-                    
-                    
                 } else {
                     self.chooseItem()
+                    self.view.isUserInteractionEnabled = true
                     print("Error Connection")
                     print(error as Any)
                     // handle error
                 }
             }
             }.resume()
-        
-        
-        
-        
-        
-        
+    }
+    
+    var intCash = Int()
+    var intCoin = Int()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        intCash = Int((login.res?.response?.mainInfo?.cashs)!)!
+        intCoin = Int((login.res?.response?.mainInfo?.coins)!)!
     }
     
     @objc func buyOrChoose() {
@@ -69,16 +96,36 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         chooseItem()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @objc func openWbsite() {
+//        let urls = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id)!)','userid':'\(loadingViewController.userid)'}")
+//        if let url = URL(string: urls) {
+//            let svc = SFSafariViewController(url: url)
+//            self.present(svc, animated: true, completion: nil)
+//            svc.delegate = self
+//        }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(buyOrChoose), name: Notification.Name("buyOrChoose"), object: nil)
-
-        
-        if dismissButton != nil {
-            dismissButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)','userid':'\(loadingViewController.userid)'}") as NSString
+            let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
+            let searchURL : NSURL = NSURL(string: urlStr as String)!
+            print(searchURL)
+            let svc = SFSafariViewController(url: searchURL as URL)
+            self.present(svc, animated: true, completion: nil)
+            svc.delegate = self
         }
-        let roundCellCount = ceil(CGFloat(images.count)/3)
+
+    }
+    
+    
+    @objc func sizingPage() {
+        
+        intCash = Int((login.res?.response?.mainInfo?.cashs)!)!
+        intCoin = Int((login.res?.response?.mainInfo?.coins)!)!
+        
+        var roundCellCount = ceil(CGFloat(images.count)/3)
+        if roundCellCount == 0 {
+            roundCellCount = 1
+        }
         
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height == 2436 {
@@ -91,14 +138,14 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     self.shopDetailsCV.isScrollEnabled = false
                 }
                 shopDetailHeight.constant = height
-          
+                
             } else {
                 shopDetailWidth.constant = UIScreen.main.bounds.width - 10
                 var height = CGFloat()
                 if UIScreen.main.bounds.height > 568 {
-                height = 53 + ((roundCellCount * 130) + (roundCellCount * 10))
+                    height = 53 + ((roundCellCount * 130) + (roundCellCount * 10))
                 } else {
-                height = 53 + ((roundCellCount * 110) + (roundCellCount * 10))
+                    height = 53 + ((roundCellCount * 110) + (roundCellCount * 10))
                 }
                 if height >= (UIScreen.main.bounds.height - 10) {
                     height = UIScreen.main.bounds.height - 10
@@ -111,7 +158,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             
         } else {
             shopDetailWidth.constant = UIScreen.main.bounds.width - (UIScreen.main.bounds.width / 5)
-             var height = 53 + ((roundCellCount * 230) + (roundCellCount * 10))
+            var height = 53 + ((roundCellCount * 230) + (roundCellCount * 10))
             if height >= (UIScreen.main.bounds.height - 50) {
                 height = UIScreen.main.bounds.height - 50
                 self.shopDetailsCV.isScrollEnabled = true
@@ -120,11 +167,26 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             }
             shopDetailHeight.constant = height
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(buyOrChoose), name: Notification.Name("buyOrChoose"), object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(openWbsite), name: Notification.Name("openBuyWebsite"), object: nil)
+
+        
+        if dismissButton != nil {
+            dismissButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
+        }
+        
+        sizingPage()
         
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        return (loadShop.res?.response?[1].items?[shopIndex].package_awards?.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -202,6 +264,14 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             } else {
             cell.shopDetailTypeImage.image = UIImage(named: "ic_coin")
             cell.shopDetailTypeImage.isHidden = false
+                let intPrice = Int(price)
+                if intPrice! > intCoin {
+                    cell.shopDetailPrice.textColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
+                    cell.shopDetailPriceForeGround.textColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
+                    } else {
+                    cell.shopDetailPrice.textColor = UIColor.white
+                    cell.shopDetailPriceForeGround.textColor = UIColor.white
+                }
             self.view.layoutIfNeeded()
             }
         case "3":
@@ -212,6 +282,15 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             } else {
             cell.shopDetailTypeImage.image = UIImage(named: "money")
             cell.shopDetailTypeImage.isHidden = false
+                let intPrice = Int(price)
+                
+                if intPrice! > intCash {
+                    cell.shopDetailPrice.textColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
+                    cell.shopDetailPriceForeGround.textColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
+                } else {
+                    cell.shopDetailPrice.textColor = UIColor.white
+                    cell.shopDetailPriceForeGround.textColor = UIColor.white
+                }
             self.view.layoutIfNeeded()
             }
         default:
@@ -220,16 +299,43 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             self.view.layoutIfNeeded()
         }
         
-        
         return cell
     }
     
     var selectedItem = Int()
+    var notEnough = String()
     @objc func showItem(_ sender : UIButton!) {
         selectedItem = sender.tag
+        var showAlert = false
+        let priceInt = Int((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price)!)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if self.myVitrin == false {
+                if  ((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "2" ||  ((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "3" {
+                    if  ((loadShop.res?.response?[1].items?[self.self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "2" {
+                    
+                        if priceInt! > self.intCoin {
+                        showAlert = true
+                        self.notEnough = "شما به مقدار کافی سکه ندارید!"
+                        self.performSegue(withIdentifier: "shopAlert", sender: self)
+                    }
+                    
+                } else {
+                    
+                        if priceInt! > self.intCash {
+                        showAlert = true
+                        self.notEnough = "شما به مقدار کافی پول ندارید!"
+                        self.performSegue(withIdentifier: "shopAlert", sender: self)
+                    }
+                }
+            }
+            }
+        }
+    
+        if showAlert == false {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.performSegue(withIdentifier: "showShopItem", sender: self)
             }
+        }
     }
     
     @objc func showMySelectedVitrin() {
@@ -274,19 +380,24 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
              vc.priceType = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price_type)!)"            
         }
         
-        
         if let vc = segue.destination as? ItemViewController {
             vc.ImageItem = images[selectedItem]
             vc.TitleItem = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].title)!)"
         }
         
+        if let vc = segue.destination as?  menuAlertViewController {
+            vc.alertTitle = "اخطار"
+            vc.alertBody = "\(self.notEnough)"
+            vc.alertAcceptLabel = "تأیید"
+        }
+        
     }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     @IBAction func dismissShopDetail(_ sender: RoundButton) {
         dismissing()
     }

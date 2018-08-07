@@ -24,7 +24,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     var searchCount = 1
     @objc func getFriendsList() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'1'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -82,7 +82,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     var resUser : usersSearchLists.Response? = nil
     @objc func searchFunction() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode' : 'GetByRefID' , 'ref_id' : '\(self.searchText)' , 'userid' : '1' }") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode' : 'GetByRefID' , 'ref_id' : '\(self.searchText)' , 'userid' : '\(loadingViewController.userid)' }") { data, error in
             
                 if data != nil {
                     

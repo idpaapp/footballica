@@ -104,7 +104,8 @@ class loadingViewController: UIViewController {
                         }
                         self.endProgress = 0.1
                         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
-                        login.init().loging(userid: self.userid)
+                        login.init().loging(userid: loadingViewController.userid, rest: true, completionHandler: {
+                        })
                     }
                 } catch {
                     self.gameData()
@@ -120,7 +121,7 @@ class loadingViewController: UIViewController {
             }.resume()
     }
 
-    var userid = "1"
+    static var userid = "1"
     var realm : Realm!
     
     var launchedBefore = Bool()
@@ -144,11 +145,11 @@ class loadingViewController: UIViewController {
             playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
             playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
             alerts = UserDefaults.standard.bool(forKey: "alerts")
-            self.userid = defaults.string(forKey: "userid") ?? String()
+            loadingViewController.userid = defaults.string(forKey: "userid") ?? String()
             
         } else {
 
-            let userid = "1"
+            let userid = "\(loadingViewController.userid)"
             defaults.set(userid, forKey: "userid")
             defaults.set(true, forKey: "launchedBefore")
             defaults.set(true, forKey: "menuMusic")

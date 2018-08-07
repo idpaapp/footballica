@@ -9,7 +9,11 @@
 import UIKit
 
 class ItemViewController: UIViewController {
-
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     @IBOutlet weak var mainView: DesignableView!
     @IBOutlet weak var headerImage: UIImageView!
     @IBOutlet weak var headerTitle: UILabel!
@@ -23,9 +27,9 @@ class ItemViewController: UIViewController {
     var alphaTimer : Timer!
     var TitleItem = String()
     var ImageItem = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
         let dataDecoded:NSData = NSData(base64Encoded: ImageItem, options: NSData.Base64DecodingOptions(rawValue: 0))!
         itemImage.image = UIImage(data: dataDecoded as Data)

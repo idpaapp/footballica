@@ -78,7 +78,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     func loadMatchData() {
         
 //        print(self.matchID)
-        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : 1}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : \(loadingViewController.userid)}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -432,6 +432,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                 categoryTitleArray.remove(at: index!)
                 categoryBase64ImageArray.remove(at: index!)
                 categoryIDArray.remove(at: index!)
+                
                 }
                 titles = categoryTitleArray
                 images = categoryBase64ImageArray

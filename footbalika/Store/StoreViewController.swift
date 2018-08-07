@@ -31,7 +31,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         }
     }
     
-    
     var storeImages = [String]()
     var storeID = [Int]()
     var storeImagePath = [String]()
@@ -44,6 +43,22 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         }
     }
     
+    @objc func rData() {
+        level.text = (login.res?.response?.mainInfo?.level)!
+        money.text = (login.res?.response?.mainInfo?.cashs)!
+        xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
+        coins.text = (login.res?.response?.mainInfo?.coins)!
+        xpProgress.progress = Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        rData()
+    }
+    
+    @objc func refreshData(notification : Notification) {
+        rData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +70,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         if storeRightConstraint != nil {
             storeRightConstraint.constant = UIScreen.main.bounds.width / 10
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData(notification:)), name: Notification.Name("refreshUserData"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.openCoinsOrMoney(notification:)), name: Notification.Name("openCoinsOrMoney"), object: nil)
 
@@ -71,11 +88,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         }
         
         
-        level.text = (login.res?.response?.mainInfo?.level)!
-        money.text = (login.res?.response?.mainInfo?.cashs)!
-        xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
-        coins.text = (login.res?.response?.mainInfo?.coins)!
-        xpProgress.progress = Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!
+       
         self.xpProgressBackGround.layer.cornerRadius = 3
         xp.minimumScaleFactor = 0.5
         xp.adjustsFontSizeToFitWidth = true
@@ -121,8 +134,10 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? shopDetailViewController {
             var indexArray = [Int]()
+            if (loadShop.res?.response?[1].items?[selectedShop].package_awards?.count)! != 0 {
             for i in 0...((loadShop.res?.response?[1].items?[selectedShop].package_awards?.count)!) - 1 {
                 indexArray.append(storeImagePath.index(of: "\((loadShop.res?.response?[1].items?[selectedShop].package_awards?[i].image_path)!)")!)
+            }
             }
             
             if (loadShop.res?.response?[1].items?[selectedShop].type)! == "3" {
@@ -164,26 +179,21 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                 break
             }
         }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.performSegue(withIdentifier: "shopDetail", sender: self)
         }
         
     }
     
-    
-    
     @IBAction func addMoney(_ sender: RoundButton) {
         openCoinOrMoney(Title: "پول")
     }
-    
-    
     
     @IBAction func addCoin(_ sender: RoundButton) {
         openCoinOrMoney(Title: "سکه")
     }
     
-    
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         let pageIndexDict:[String: Int] = ["button": 4]

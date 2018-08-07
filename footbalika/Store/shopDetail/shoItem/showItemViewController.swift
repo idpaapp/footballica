@@ -42,9 +42,9 @@ class showItemViewController: UIViewController {
             itemSubTitleForeGround.font = fonts().large35
         } else {
            itemTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(mainTitle)", strokeWidth: -5.0)
-            itemSubTitle.AttributesOutLine(font: fonts().large35, title: "\(subTitle)", strokeWidth: -5.0)
-            itemTitleForeGround.font = fonts().large35
-            itemSubTitleForeGround.font = fonts().large35
+            itemSubTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(subTitle)", strokeWidth: -5.0)
+            itemTitleForeGround.font = fonts().iPadfonts
+            itemSubTitleForeGround.font = fonts().iPadfonts
         }
         itemSubTitleForeGround.text = "\(subTitle)"
         itemTitleForeGround.text = "\(mainTitle)"
@@ -80,11 +80,7 @@ class showItemViewController: UIViewController {
             default :
                 itemPriceIcon.image = UIImage()
             }
-            
-            
-            
         }
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -99,7 +95,14 @@ class showItemViewController: UIViewController {
         NotificationCenter.default.post(name: Notification.Name("buyOrChoose"), object: nil, userInfo: nil)
         dismissing()
         } else {
-            
+            if priceType != "1" {
+            NotificationCenter.default.post(name: Notification.Name("buyOrChoose"), object: nil, userInfo: nil)
+            dismissing()
+            } else {
+                dismissing()
+                NotificationCenter.default.post(name: Notification.Name("openBuyWebsite"), object: nil, userInfo: nil)
+                print("openSafari")
+            }
         }
     }
     

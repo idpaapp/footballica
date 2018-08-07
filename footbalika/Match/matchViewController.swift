@@ -59,8 +59,9 @@ class matchViewController: UIViewController {
     var alertTitle = String()
     var alertBody = String()
     var alertAcceptLabel = String()
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
@@ -81,19 +82,26 @@ class matchViewController: UIViewController {
         let urls = URL(string: url)
         mainCupImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
         if UIDevice().userInterfaceIdiom == .phone  {
-        startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
-        friendlyLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "دوستانه", strokeWidth: -4.0)
-        eliminateCupLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "جام حذفی", strokeWidth: -4.0)
-        startLabelForeGround.text =  "شروع بازی"
-        startLabelForeGround.font = fonts.init().iPhonefonts
+            startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
+            friendlyLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "دوستانه", strokeWidth: -4.0)
+            eliminateCupLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "جام حذفی", strokeWidth: -4.0)
+            startLabelForeGround.text =  "شروع بازی"
+            startLabelForeGround.font = fonts.init().iPhonefonts
         } else {
-        startLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "شروع بازی", strokeWidth: -4.0)
-        friendlyLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "دوستانه", strokeWidth: -4.0)
-        eliminateCupLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "جام حذفی", strokeWidth: -4.0)
-        startLabelForeGround.text =  "شروع بازی"
-        startLabelForeGround.font = fonts.init().iPadfonts
+            startLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "شروع بازی", strokeWidth: -4.0)
+            friendlyLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "دوستانه", strokeWidth: -4.0)
+            eliminateCupLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "جام حذفی", strokeWidth: -4.0)
+            startLabelForeGround.text =  "شروع بازی"
+            startLabelForeGround.font = fonts.init().iPadfonts
             
         }
+        
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         
         self.startLabelForeGround.minimumScaleFactor = 0.5
         self.startLabel.minimumScaleFactor = 0.5
@@ -142,7 +150,7 @@ class matchViewController: UIViewController {
     
     var matchCreateRes : String? = nil;
     @objc func requestNewMatch() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'START_RANDOM_GAME_FOR_TEST','userid':'1'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'START_RANDOM_GAME_FOR_TEST','userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -241,7 +249,7 @@ class matchViewController: UIViewController {
     }
     
     @objc func getProfile() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '1' , 'load_stadium' : 'false'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(loadingViewController.userid)' , 'load_stadium' : 'false'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

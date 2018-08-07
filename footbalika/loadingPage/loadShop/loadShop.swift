@@ -11,7 +11,7 @@ import Foundation
 public class loadShop {
     static var res : loadShopStructure.Response? = nil;
     var writeShops = readAndWritetblShop()
-    public func loadingShop(userid : String) {
+    public func loadingShop(userid : String , rest : Bool , completionHandler: @escaping () -> Void) {
         PubProc.HandleDataBase.readJson(wsName: "ws_loadShop", JSONStr: "{'mode':'mainPage' , 'userid' : '\(userid)'}") { data, error in
             DispatchQueue.main.async {
                 
@@ -24,12 +24,14 @@ public class loadShop {
                     do {
                         
                         loadShop.res = try JSONDecoder().decode(loadShopStructure.Response.self , from : data!)
-                        
+                        completionHandler()
+                        if rest {
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("updateProgress"), object: nil)
-                        
                         for i in 0...(loadShop.res?.response?[1].items?.count)! - 1 {
+                            if loadShop.res?.response?[1].items?[i].package_awards?.count != 0 {
                             for j in 0...(loadShop.res?.response?[1].items?[i].package_awards?.count)! - 1 {
+                                
                             let ID = Int((loadShop.res?.response?[1].items?[i].package_awards?[j].id!)!)
                             let id = ID!
 //                            let title = ((self.res?.response?[1].items?[i].title!)!)
@@ -37,15 +39,19 @@ public class loadShop {
                             let base64 = ""
                             self.writeShops.writeToDBtblhop(shopID: id, shopImage_Path: imagePath, shopImage_Base64: base64)
                             }
+                            }
                         }
 //                        print(self.res?.response?[1].items?[0].package_awards?[0].image_path!)
                         loadingAchievements.init().loadAchievements(userid: userid)
+                        }
                     } catch {
-                        self.loadingShop(userid: userid)
+                        self.loadingShop(userid: userid, rest: rest, completionHandler: {
+                        })
                         print(error)
                     }
                 } else {
-                    self.loadingShop(userid: userid)
+                    self.loadingShop(userid: userid, rest: rest, completionHandler: {
+                    })
                     print("Error Connection")
                     print(error as Any)
                     // handle error
