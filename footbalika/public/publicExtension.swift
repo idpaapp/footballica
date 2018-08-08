@@ -80,6 +80,27 @@ struct soundPlay {
             print(error.localizedDescription)
         }
         }
+        
+    }
+    
+    public func playBuyItem() {
+        if playgameSounds == true {
+            guard let url = Bundle.main.url(forResource: "buy_item", withExtension: "mp3") else { return }
+            
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setActive(true)
+                
+                soundPlay.player = try AVAudioPlayer(contentsOf: url)
+                guard let player = soundPlay.player else { return }
+                player.numberOfLoops = 0
+                player.prepareToPlay()
+                player.play()
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
     }
     
     public func playBeepSound() {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RealmSwift
 import Kingfisher
 
 class StoreViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
@@ -23,17 +22,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     @IBOutlet weak var storeLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var storeRightConstraint: NSLayoutConstraint!
     
-    var realm : Realm!
-    var tblShopArray : Results<tblShop> {
-        get {
-            realm = try! Realm()
-            return realm.objects(tblShop.self)
-        }
-    }
-    
-    var storeImages = [String]()
-    var storeID = [Int]()
-    var storeImagePath = [String]()
     var selectedShop = Int()
     
     @objc func openCoinsOrMoney(notification: Notification){
@@ -77,18 +65,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
 
         
         self.storeCV.allowsMultipleSelection = false
-        let counts = self.tblShopArray.count
-        for i in 0...counts - 1 {
-            storeID.append(tblShopArray[i].id)
-            storeImages.append(tblShopArray[i].img_base64)
-            storeImagePath.append(tblShopArray[i].image_path)
-//            if i == counts - 1  {
-                self.storeCV.reloadData()
-//            }
-        }
-        
-        
-       
         self.xpProgressBackGround.layer.cornerRadius = 3
         xp.minimumScaleFactor = 0.5
         xp.adjustsFontSizeToFitWidth = true
@@ -133,12 +109,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? shopDetailViewController {
-            var indexArray = [Int]()
-            if (loadShop.res?.response?[1].items?[selectedShop].package_awards?.count)! != 0 {
-            for i in 0...((loadShop.res?.response?[1].items?[selectedShop].package_awards?.count)!) - 1 {
-                indexArray.append(storeImagePath.index(of: "\((loadShop.res?.response?[1].items?[selectedShop].package_awards?[i].image_path)!)")!)
-            }
-            }
             
             if (loadShop.res?.response?[1].items?[selectedShop].type)! == "3" {
                 vc.myVitrin = true
@@ -146,8 +116,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                vc.myVitrin = false
             }
             
-            vc.images = indexArray.map {storeImages[$0]}
-            vc.ids = indexArray.map {storeID[$0]}
             vc.shopIndex = selectedShop
         }
     }

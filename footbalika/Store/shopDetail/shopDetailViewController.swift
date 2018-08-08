@@ -7,20 +7,19 @@
 //
 
 import UIKit
-import SafariServices
+import RealmSwift
 
-class shopDetailViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , SFSafariViewControllerDelegate {
+class shopDetailViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var shopDetailsCV: UICollectionView!
     @IBOutlet weak var shopDetailHeight: NSLayoutConstraint!
     @IBOutlet weak var shopDetailWidth: NSLayoutConstraint!
     @IBOutlet weak var dismissButton: RoundButton!
 
-    var images = [String]()
-    var ids = [Int]()
     var shopIndex = Int()
     var myVitrin = Bool()
-   
+    var realm : Realm!
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -54,8 +53,6 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                                         NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
                                         print(((loadShop.res?.response?[1].items?[self.shopIndex].title!)!))
                                         if  ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "پول"  {
-                                        self.images.remove(at: self.selectedItem)
-                                        self.ids.remove(at: self.selectedItem)
                                         self.shopDetailsCV.reloadData()
                                         self.sizingPage()
                                         }
@@ -109,11 +106,13 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
             let searchURL : NSURL = NSURL(string: urlStr as String)!
             print(searchURL)
-            let svc = SFSafariViewController(url: searchURL as URL)
-            self.present(svc, animated: true, completion: nil)
-            svc.delegate = self
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(searchURL as URL, options: [:])
+            } else {
+                // Fallback on earlier versions
+                UIApplication.shared.openURL(URL(string: "\(urlStr)")!)
+            }
         }
-
     }
     
     
@@ -122,7 +121,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         intCash = Int((login.res?.response?.mainInfo?.cashs)!)!
         intCoin = Int((login.res?.response?.mainInfo?.coins)!)!
         
-        var roundCellCount = ceil(CGFloat(images.count)/3)
+        var roundCellCount = ceil(CGFloat((loadShop.res?.response?[1].items?[shopIndex].package_awards?.count)!)/3)
         if roundCellCount == 0 {
             roundCellCount = 1
         }
@@ -171,6 +170,8 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+         realm = try? Realm()
         
         NotificationCenter.default.addObserver(self, selector: #selector(buyOrChoose), name: Notification.Name("buyOrChoose"), object: nil)
 
@@ -246,7 +247,9 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         
         cell.shopDetailPriceForeGround.text = "\(price)"
         cell.shopDetailTitleForeGround.text = "\(title)"
-        let dataDecoded:NSData = NSData(base64Encoded: images[indexPath.row], options: NSData.Base64DecodingOptions(rawValue: 0))!
+        let intID = Int((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].id!)!)
+        let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
+        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
         cell.shopDetailImage.image = UIImage(data: dataDecoded as Data)
         cell.selectShopDetail.tag = indexPath.item
         cell.selectShopDetail.addTarget(self, action: #selector(showItem), for: UIControlEvents.touchUpInside)
@@ -255,6 +258,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         case "1":
             cell.shopDetailTypeImage.image = UIImage()
             cell.shopDetailTypeImage.isHidden = true
+            cell.shopDetailTypeImage.transform = CGAffineTransform.identity.scaledBy(x: 0.01, y: 0.01)
             self.view.layoutIfNeeded()
         case "2":
             if myVitrin {
@@ -363,7 +367,9 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? showItemViewController {
             vc.mainTitle = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].title)!)"
-            vc.mainImage = images[selectedItem]
+            let intID = Int((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id!)!)
+            let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
+            vc.mainImage = (realmID.first?.img_base64)!
             if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].type)! == "2" || (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].type)! == "1" {
                 vc.subTitle = (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].qty)!
             }
@@ -381,7 +387,9 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         }
         
         if let vc = segue.destination as? ItemViewController {
-            vc.ImageItem = images[selectedItem]
+            let intID = Int((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id!)!)
+            let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
+            vc.ImageItem = (realmID.first?.img_base64)!
             vc.TitleItem = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].title)!)"
         }
         

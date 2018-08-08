@@ -31,6 +31,7 @@ class ItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        soundPlay().playBuyItem()
         let dataDecoded:NSData = NSData(base64Encoded: ImageItem, options: NSData.Base64DecodingOptions(rawValue: 0))!
         itemImage.image = UIImage(data: dataDecoded as Data)
         
