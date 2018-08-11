@@ -194,7 +194,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "startMatchCell", for: indexPath) as! startMatchCell
 //        print((self.res?.response?.detailData?[indexPath.row].last_questions)!)
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.matchResult.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
+        cell.matchResult.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
         cell.matchTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
         } else {
         cell.matchResult.AttributesOutLine(font: fonts().large35, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)

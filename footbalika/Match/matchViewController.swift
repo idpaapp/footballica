@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+//import TapsellSDKv3
 
 class matchViewController: UIViewController {
 
@@ -25,6 +26,8 @@ class matchViewController: UIViewController {
     @IBOutlet weak var coin: UILabel!
     @IBOutlet weak var xpProgress: UIProgressView!
     @IBOutlet weak var xpProgressBackGround: UIView!
+//    weak var tapsellAd : TapsellAd?
+
     
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
@@ -102,6 +105,16 @@ class matchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        let config = TSConfiguration()
+//        config.setDebugMode(true);
+//
+//        Tapsell.initialize(withAppKey: "ngtsdfapnnfjcmpespmjmiffspaogjdolrspgmnpttkmisjaipbtgjmcbnanaammhlkamm", andConfig: config)
+//
+//        Tapsell.setAdShowFinishedCallback { (ad, completed) in
+//            if(ad!.isRewardedAd() && completed){
+//                NSLog("Congratulations! awarded 1 coin.");
+//            }
+//        }
         
         self.startLabelForeGround.minimumScaleFactor = 0.5
         self.startLabel.minimumScaleFactor = 0.5
@@ -275,4 +288,33 @@ class matchViewController: UIViewController {
             }.resume()
     }
     
+    
+    @IBAction func showAdv(_ sender: RoundButton) {
+//        let requestOptions = TSAdRequestOptions()
+//        requestOptions.setCacheType(CacheTypeStreamed)
+//
+//        Tapsell.requestAd(forZone: "5b6e7e0537a1ee0001a4b809", andOptions: requestOptions, onAdAvailable:{ (tapsellAd) in
+//
+//            NSLog("Ad Available")
+//            self.tapsellAd = tapsellAd
+//            DispatchQueue.main.async {
+////                self.btnShowAd.isHidden = false
+////                self.btnRequestAd.setTitle("Ready", for: .normal)
+//            }
+//        }, onNoAdAvailable: {
+//            NSLog("No Ad Available")
+//            DispatchQueue.main.async {
+////                self.btnRequestAd.setTitle("No ad available,\nClick to Retry", for: .normal)
+//            }
+//        }, onError: { (error) in
+//            NSLog("onError:"+error!)
+//            DispatchQueue.main.async {
+////                self.btnRequestAd.setTitle("Error occured,\nClick to Retry", for: .normal)
+//            }
+//        }, onExpiring: { (ad) in
+//            NSLog("Expiring")
+//        })
+        
+    }
+
 }

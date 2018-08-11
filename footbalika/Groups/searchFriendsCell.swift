@@ -41,6 +41,7 @@ class searchFriendsCell: UITableViewCell , UITextFieldDelegate {
         searchButtonTitle.minimumScaleFactor = 0.5
         searchButtonTitleForeGround.adjustsFontSizeToFitWidth = true
         searchButtonTitleForeGround.minimumScaleFactor = 0.5
+        searchTextField.addPadding(.right(5))
     }
     
     @objc func clearTextFieldComplete() {
