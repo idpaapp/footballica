@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import SwiftGifOrigin
 
 public class centerScreen {
     public var centerScreens = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
@@ -32,7 +33,9 @@ public class fonts {
     public var large35 = UIFont(name: "DPA_Game", size: 35)!
 }
 
-
+public class colors {
+    public var lightBrownBackGroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
+}
 extension UILabel {
     public func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
         let strokeTextAttributes: [NSAttributedStringKey: Any] = [.strokeColor: UIColor.black, .foregroundColor: UIColor.white, .strokeWidth : strokeWidth , .strikethroughColor : UIColor.white , .font: font]

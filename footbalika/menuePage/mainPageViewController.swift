@@ -12,7 +12,7 @@ import AVFoundation
 class mainPageViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
     var menuTitles = ["لیست بازی ها" ,
-                      "جام حذفی" ,
+                      "چالش" ,
                       "مسابقه" ,
                       "دوستان" ,
                       "فروشگاه"]

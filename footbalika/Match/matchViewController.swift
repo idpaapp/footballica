@@ -8,7 +8,6 @@
 
 import UIKit
 import Kingfisher
-//import TapsellSDKv3
 
 class matchViewController: UIViewController {
 
@@ -26,7 +25,6 @@ class matchViewController: UIViewController {
     @IBOutlet weak var coin: UILabel!
     @IBOutlet weak var xpProgress: UIProgressView!
     @IBOutlet weak var xpProgressBackGround: UIView!
-//    weak var tapsellAd : TapsellAd?
 
     
     @IBAction func addMoney(_ sender: UIButton) {
@@ -87,13 +85,13 @@ class matchViewController: UIViewController {
         if UIDevice().userInterfaceIdiom == .phone  {
             startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
             friendlyLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "دوستانه", strokeWidth: -4.0)
-            eliminateCupLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "جام حذفی", strokeWidth: -4.0)
+            eliminateCupLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title:  "پیش بینی", strokeWidth: -4.0)
             startLabelForeGround.text =  "شروع بازی"
             startLabelForeGround.font = fonts.init().iPhonefonts
         } else {
             startLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "شروع بازی", strokeWidth: -4.0)
             friendlyLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "دوستانه", strokeWidth: -4.0)
-            eliminateCupLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "جام حذفی", strokeWidth: -4.0)
+            eliminateCupLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "پیش بینی", strokeWidth: -4.0)
             startLabelForeGround.text =  "شروع بازی"
             startLabelForeGround.font = fonts.init().iPadfonts
             
@@ -105,16 +103,6 @@ class matchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        let config = TSConfiguration()
-//        config.setDebugMode(true);
-//
-//        Tapsell.initialize(withAppKey: "ngtsdfapnnfjcmpespmjmiffspaogjdolrspgmnpttkmisjaipbtgjmcbnanaammhlkamm", andConfig: config)
-//
-//        Tapsell.setAdShowFinishedCallback { (ad, completed) in
-//            if(ad!.isRewardedAd() && completed){
-//                NSLog("Congratulations! awarded 1 coin.");
-//            }
-//        }
         
         self.startLabelForeGround.minimumScaleFactor = 0.5
         self.startLabel.minimumScaleFactor = 0.5
@@ -149,12 +137,11 @@ class matchViewController: UIViewController {
         self.performSegue(withIdentifier: "achievement", sender: self)
     }
     
-    
-    
-    
+
     @IBAction func eliminateCupAction(_ sender: RoundButton) {
-        scrollPageViewController(index: 1)
-        menuButtonChanged(index: 1)
+        self.performSegue(withIdentifier : "predictMatch" , sender : self)
+//        scrollPageViewController(index: 1)
+//        menuButtonChanged(index: 1)
     }
     
     @IBAction func StartAMatch(_ sender: RoundButton) {
@@ -177,8 +164,10 @@ class matchViewController: UIViewController {
                         self.alertBody = "بازی های فعال شما از حد مجاز گذشته باید بازیاتو شارژ کنی یا صبر کنی تا یه بازی تموم بشه"
                         self.alertAcceptLabel = "تأیید"
                         self.performSegue(withIdentifier: "showAlert2Btn", sender: self)
+                        PubProc.wb.hideWaiting()
                     } else {
                         self.performSegue(withIdentifier: "startingMatch", sender: self)
+                        PubProc.wb.hideWaiting()
                     }
 
                     
@@ -273,7 +262,7 @@ class matchViewController: UIViewController {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                         self.performSegue(withIdentifier: "achievement", sender: self)
-                        
+                        PubProc.wb.hideWaiting()
                     } catch {
                         self.getProfile()
                         print(error)
@@ -286,35 +275,6 @@ class matchViewController: UIViewController {
                 }
             }
             }.resume()
-    }
-    
-    
-    @IBAction func showAdv(_ sender: RoundButton) {
-//        let requestOptions = TSAdRequestOptions()
-//        requestOptions.setCacheType(CacheTypeStreamed)
-//
-//        Tapsell.requestAd(forZone: "5b6e7e0537a1ee0001a4b809", andOptions: requestOptions, onAdAvailable:{ (tapsellAd) in
-//
-//            NSLog("Ad Available")
-//            self.tapsellAd = tapsellAd
-//            DispatchQueue.main.async {
-////                self.btnShowAd.isHidden = false
-////                self.btnRequestAd.setTitle("Ready", for: .normal)
-//            }
-//        }, onNoAdAvailable: {
-//            NSLog("No Ad Available")
-//            DispatchQueue.main.async {
-////                self.btnRequestAd.setTitle("No ad available,\nClick to Retry", for: .normal)
-//            }
-//        }, onError: { (error) in
-//            NSLog("onError:"+error!)
-//            DispatchQueue.main.async {
-////                self.btnRequestAd.setTitle("Error occured,\nClick to Retry", for: .normal)
-//            }
-//        }, onExpiring: { (ad) in
-//            NSLog("Expiring")
-//        })
-        
     }
 
 }

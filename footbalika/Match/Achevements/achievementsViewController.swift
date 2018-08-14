@@ -8,12 +8,28 @@
 
 import UIKit
 import Kingfisher
+import SwiftGifOrigin
 
 class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource {
 
+    
+    @IBOutlet weak var leagues: RoundButton!
+    
+    @IBOutlet weak var tournament: RoundButton!
+    
+    @IBOutlet weak var predict3Month: RoundButton!
+    
+    
     @IBOutlet weak var achievementsTV: UITableView!
 
+    
+    @IBOutlet weak var achievementLeaderBoardTopConstraint: NSLayoutConstraint!
+    
+    
     var pageState = String()
+    
+//    var waitingClass = waitingBall()
+    
     var settingsTitle = ["صداهای بازی",
                          "موسیقی بازی",
                          "اعلان ها"]
@@ -28,16 +44,14 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
     let alerts = UserDefaults.standard.bool(forKey: "alerts")
     public var res : leaderBoard.Response? = nil ;
-    var userNames = [String]()
-    var userImages = [String]()
-    var userCups = [String]()
-    var userLogo = [String]()
     var otherProfile = Bool()
     var userButtons = Bool()
+    var leaderBoardState = String()
+//    let waitingCB = waiting().showWaiting()
     
     @objc func leaderBoardJson() {
         
-            PubProc.HandleDataBase.readJson(wsName: "ws_getLeaderBoard", JSONStr: "{}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getLeaderBoard", JSONStr: "{'mode' : '\(self.leaderBoardState)' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
                 DispatchQueue.main.async {
                     
                     if data != nil {
@@ -47,16 +61,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         do {
                             
                             self.res = try JSONDecoder().decode(leaderBoard.Response.self , from : data!)
-
-                            for i in  0...(self.res?.response?.count)! - 1 {
-                                self.userNames.append((self.res?.response?[i].username!)!)
-                                self.userImages.append((self.res?.response?[i].avatar!)!)
-                                self.userCups.append((self.res?.response?[i].cups!)!)
-                                self.userLogo.append((self.res?.response?[i].badge_name!)!)
-                            }
+                            
                             DispatchQueue.main.async {
                                 self.achievementCount = (self.res?.response?.count)!
                                 self.achievementsTV.reloadData()
+                                PubProc.wb.hideWaiting()
                             }
                         } catch {
                             self.leaderBoardJson()
@@ -110,6 +119,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         DispatchQueue.main.async {
                             self.achievementCount = (self.alertsRes?.response?.count)!
                             self.achievementsTV.reloadData()
+                            PubProc.wb.hideWaiting()
                         }
                     } catch {
                         self.leaderBoardJson()
@@ -147,6 +157,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                             if self.pageState == "profile" {
                             let indexPathOfFriend = IndexPath(row: 1, section: 0)
                             self.achievementsTV.reloadRows(at: [indexPathOfFriend], with: .none)
+                            PubProc.wb.hideWaiting()
                             }
                         }
                     } catch {
@@ -166,11 +177,61 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     let lightColor = UIColor.init(red: 240/255, green: 236/255, blue: 220/255, alpha: 1.0)
     let grayColor = UIColor.init(red: 98/255, green: 105/255, blue: 122/255, alpha: 1.0)
 
+    
+    
+    @objc func leaguesSelect() {
+        self.leagues.backgroundColor = UIColor.white
+        self.tournament.backgroundColor = colors().lightBrownBackGroundColor
+        self.predict3Month.backgroundColor = colors().lightBrownBackGroundColor
+        self.leaderBoardState = "MAIN_LEADERBORAD"
+        leaderBoardJson()
+//        wb.showWaiting()
+    }
+    
+    
+    @objc func tournamentSelect() {
+        self.tournament.backgroundColor = UIColor.white
+        self.leagues.backgroundColor = colors().lightBrownBackGroundColor
+        self.predict3Month.backgroundColor = colors().lightBrownBackGroundColor
+        self.leaderBoardState = "TOURNAMENT"
+        leaderBoardJson()
+//        wb.showWaiting()
+    }
+    
+    
+    @objc func predict3MonthSelect() {
+        self.predict3Month.backgroundColor = UIColor.white
+        self.leagues.backgroundColor = colors().lightBrownBackGroundColor
+        self.tournament.backgroundColor = colors().lightBrownBackGroundColor
+        self.leaderBoardState = "PREDICTION_3MONTH"
+        leaderBoardJson()
+//        wb.showWaiting()
+    }
+    
+    
+//    let wb = waitingBall()
     override func viewDidLoad() {
         super.viewDidLoad()
 
+//        self.waitingCB
+//        wb.showWaiting()
+        
+        self.leagues.addTarget(self, action: #selector(leaguesSelect), for: UIControlEvents.touchUpInside)
+        
+        self.tournament.addTarget(self, action: #selector(tournamentSelect), for: UIControlEvents.touchUpInside)
+
+        self.predict3Month.addTarget(self, action: #selector(predict3MonthSelect), for: UIControlEvents.touchUpInside)
+
+        self.predict3Month.titleLabel?.adjustsFontSizeToFitWidth = true
+
+        
         if pageState == "LeaderBoard" {
             leaderBoardJson()
+            self.leaderBoardState = "MAIN_LEADERBORAD"
+            achievementLeaderBoardTopConstraint.constant = 40
+            self.achievementsTV.layer.cornerRadius = 10
+        } else {
+           achievementLeaderBoardTopConstraint.constant = 0
         }
          if self.pageState == "alerts" {
             alertsJson()
@@ -228,10 +289,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         case "Achievements":
             let cell = tableView.dequeueReusableCell(withIdentifier: "achievementsCell", for: indexPath) as! achievementsCell
             
-            //            print((loadingAchievements.res?.response?[indexPath.row].level_gain_reward!)!)
-            //            print((loadingAchievements.res?.response?[indexPath.row].cash_reward!)!)
-            //            print((loadingAchievements.res?.response?[indexPath.row].coin_reward!)!)
-            //            print((loadingAchievements.res?.response?[indexPath.row].progress!)!)
             
             cell.coinLabel.text = (loadingAchievements.res?.response?[indexPath.row].coin_reward!)!
             cell.moneyLabel.text = (loadingAchievements.res?.response?[indexPath.row].cash_reward!)!
@@ -255,16 +312,36 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "leaderBoardCell", for: indexPath) as! leaderBoardCell
             
             cell.number.text = "\(indexPath.row + 1)"
-            cell.playerName.text = "\(userNames[indexPath.row])"
-            let url = "\(urlClass.avatar)\(self.userImages[indexPath.row])"
+            cell.playerName.text = "\((self.res?.response?[indexPath.row].username!)!)"
+            let url = "\(urlClass.avatar)\((self.res?.response?[indexPath.row].avatar!)!)"
             let urls = URL(string : url)
             cell.avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
-            let url2 = "\(urlClass.badge)\(self.userLogo[indexPath.row])"
+            var url2 = String()
+            if self.res?.response?[indexPath.row].badge_name != nil {
+            url2 = "\(urlClass.badge)\((self.res?.response?[indexPath.row].badge_name!)!)"
+            } else {
+            url2 = "\(urlClass.badge)"
+            }
             let urls2 = URL(string : url2)
             cell.playerLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
-            cell.playerCup.text = "\(self.userCups[indexPath.row])"
             cell.selectLeaderBoard.tag = indexPath.row
             cell.selectLeaderBoard.addTarget(self, action: #selector(selectLeaderBoard), for: UIControlEvents.touchUpInside)
+            
+            if self.leaderBoardState == "MAIN_LEADERBORAD" {
+             cell.cupImage.image = UIImage(named: "ic_cup")
+             cell.playerCup.textAlignment = .center
+            cell.playerCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
+            } else if self.leaderBoardState == "TOURNAMENT" {
+               cell.cupImage.image = UIImage(named: "ic_gem")
+               cell.playerCup.textAlignment = .center
+               cell.playerCup.text = "\((self.res?.response?[indexPath.row].gem!)!)"
+            } else {
+                cell.cupImage.image = UIImage()
+                cell.playerCup.textAlignment = .left
+                cell.playerCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
+            }
+            
+            
             return cell
         case "alerts":
             if self.alertTypes[indexPath.row] == "2" {
@@ -494,7 +571,13 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             }
         case "LeaderBoard" :
             if UIDevice().userInterfaceIdiom == .phone {
-                return 70
+                if self.leaderBoardState == "MAIN_LEADERBORAD" {
+                   return 70
+                } else if self.leaderBoardState == "TOURNAMENT" {
+                    return 100
+                } else {
+                   return 70
+                }
             } else {
                 return 100
             }

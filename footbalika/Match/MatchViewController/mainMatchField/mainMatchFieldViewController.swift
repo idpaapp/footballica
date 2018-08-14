@@ -133,21 +133,30 @@ class mainMatchFieldViewController: UIViewController  {
         startDate = Date()
         }
     }
-
     
     var checkFinishGame = false
     var stadiumUrl = urls()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+         PubProc.wb.showWaiting()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.answer1Outlet.isExclusiveTouch = true
+        self.answer2Outlet.isExclusiveTouch = true
+        self.answer3Outlet.isExclusiveTouch = true
+        self.answer4Outlet.isExclusiveTouch = true
         
 //        backGroundStadium.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
 
         let url = "\(stadiumUrl.stadium)anfield.jpg"
         let urls = URL(string: url)
         backGroundStadium.kf.setImage(with: urls)
-
-//        print(url)
         
+//        print(url)
         
         self.questionTitle.adjustsFontSizeToFitWidth = true
         self.questionTitle.minimumScaleFactor = 0.5
@@ -246,6 +255,7 @@ class mainMatchFieldViewController: UIViewController  {
                         
                         DispatchQueue.main.async {
                             self.restMatchFunction()
+                            PubProc.wb.hideWaiting()
                         }
                         
                     } catch {
@@ -565,6 +575,7 @@ class mainMatchFieldViewController: UIViewController  {
         self.answer3Outlet.isUserInteractionEnabled = State
         self.answer4Outlet.isUserInteractionEnabled = State
     }
+    
     
     
     @IBAction func answer1Action(_ sender: RoundButton) {

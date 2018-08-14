@@ -54,11 +54,11 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                         
                         DispatchQueue.main.async {
                             self.gameListTV.reloadData()
+                            PubProc.wb.hideWaiting()
+                            self.refreshControl.endRefreshing()
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-                        self.refreshControl.endRefreshing()
-                        })
+                        
                         
                     } catch {
                         self.gameLists()
@@ -291,6 +291,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                         self.performSegue(withIdentifier: "showProfile", sender: self)
+                        PubProc.wb.hideWaiting()
                     } catch {
                         self.getUserData(id : id)
                         print(error)

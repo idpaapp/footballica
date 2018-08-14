@@ -117,8 +117,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                             if (Int((self.res?.response?.matchData?.status)!)!) >= 2 {
                                 self.playGameOutlet.setTitle("خروج", for: UIControlState.normal)
                             }
-                            
                             self.startMatchTV.reloadData()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                PubProc.wb.hideWaiting()
+                            })
+                            
                         }
                     } catch {
 //                        self.loadMatchData()

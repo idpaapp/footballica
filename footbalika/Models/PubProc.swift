@@ -7,6 +7,9 @@
 //
 
 import Foundation
+import UIKit
+import SwiftGifOrigin
+
 
 public class PubProc {
     static var HandleString = THandleString()
@@ -20,11 +23,16 @@ public class PubProc {
         }
     }
     
-//    http://volcan.ir/adelica/api/ws_loadGameData.php
+    static var isSplash = true
+    static var wb = waitingBall()
     public class THandleDataBase{
-        public func readJson(wsName: String, JSONStr: String, completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
+        public func readJson(wsName: String, JSONStr: String  , completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
             var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)
-                        
+            
+            
+            if !PubProc.isSplash  {
+                wb.showWaiting()
+            }
             requestNo.httpMethod = "POST"
             let postStringNo = PubProc.HandleString.ReplaceQoutedToDbQouted(str: JSONStr)
             requestNo.httpBody = postStringNo.data(using: .utf8)
@@ -42,9 +50,11 @@ public class PubProc {
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response!))")
                 }
-                completionHandler(data, nil)
                 
-                //
+                completionHandler(data, nil)
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: {
+//                    wb.hideWaiting()
+//                })
             })
             
             taskNo.resume()
@@ -88,7 +98,7 @@ public class PubProc {
     
     public class THandleFirstInfo{
         public func readJson(wsName: String, JSONStr: String, completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
-            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)
+            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api/"+wsName+".php")!)
             
             requestNo.httpMethod = "POST"
             let postStringNo = PubProc.HandleString.ReplaceQoutedToDbQouted(str: JSONStr)

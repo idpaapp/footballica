@@ -186,6 +186,7 @@ class loadingViewController: UIViewController {
                     self.timer.invalidate()
                     self.ballTimer.invalidate()
                     self.performSegue(withIdentifier: "showMainMenu", sender: self)
+                    PubProc.isSplash = false
                 })
                 } else {
                 if self.currentProgress >= self.endProgress {

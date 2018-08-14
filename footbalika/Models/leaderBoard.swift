@@ -51,5 +51,11 @@ public class  leaderBoard {
         let finish_extra_time : String?
         let extra_type : String?
         let friend_id : String?
+        let is_supports : String?
+        let next_watch_video : String?
+        let video : String?
+        let view_type : String?
+        let gem : String?
+        let score : String?
     }
 }

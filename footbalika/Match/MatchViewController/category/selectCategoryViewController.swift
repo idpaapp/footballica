@@ -122,8 +122,10 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
                     self.updateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
                     if ((self.updateRes)!) != "" {
                         self.performSegue(withIdentifier: "matchTime", sender: self)
+                        PubProc.wb.hideWaiting()
                     } else {
                         self.insertNewGame()
+                        PubProc.wb.hideWaiting()
                     }
                     
                 } else {

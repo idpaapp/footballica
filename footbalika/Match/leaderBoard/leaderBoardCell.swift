@@ -13,6 +13,9 @@ class leaderBoardCell: UITableViewCell {
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var number: UILabel!
     @IBOutlet weak var avatar: UIImageView!
+    
+    @IBOutlet weak var cupImage: UIImageView!
+    
     @IBOutlet weak var playerName: UILabel!
     @IBOutlet weak var playerCup: UILabel!
     @IBOutlet weak var playerCupBackGround: UIView!

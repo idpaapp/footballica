@@ -43,6 +43,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                             }
                             self.friendsTableView.reloadData()
                         }
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                        }
                         
                     } catch {
                         self.getFriendsList()
@@ -97,11 +100,13 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                             self.searchCount = 1 + (self.resUser?.response?.count)!
                             DispatchQueue.main.async {
                                 self.friendsTableView.reloadData()
+                                PubProc.wb.hideWaiting()
                             }
                         } else {
                             self.searchCount = 1
                             DispatchQueue.main.async {
                                 self.friendsTableView.reloadData()
+                                PubProc.wb.hideWaiting()
                             }
                         }
 //                        print((self.resUser?.response?[0].avatar!)!)
@@ -259,7 +264,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                         self.performSegue(withIdentifier: "showUserProfile", sender: self)
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                        }
                     } catch {
                         self.getProfile()
                         print(error)
@@ -338,9 +345,5 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.friendsTableView.reloadData()
     
     }
-    
-    
-    
-    
 
 }

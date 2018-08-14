@@ -43,6 +43,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                                 
                                 self.performSegue(withIdentifier: "showItem", sender: self)
                                 self.view.isUserInteractionEnabled = true
+                                PubProc.wb.hideWaiting()
                             })
                             
                             if self.myVitrin {
@@ -54,6 +55,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                                         print(((loadShop.res?.response?[1].items?[self.shopIndex].title!)!))
                                         if  ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "پول"  {
                                         self.shopDetailsCV.reloadData()
+                                        PubProc.wb.hideWaiting()
                                         self.sizingPage()
                                         }
                                     })
@@ -64,10 +66,12 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                         self.view.isUserInteractionEnabled = true
                         self.notEnough = "شما به اندازه ی کافی پول یا سکه ندارید"
                         self.performSegue(withIdentifier: "shopAlert", sender: self)
+                        PubProc.wb.hideWaiting()
                     } else {
                         self.view.isUserInteractionEnabled = true
                         self.notEnough = "تراکنش نا موفق بود!"
                         self.performSegue(withIdentifier: "shopAlert", sender: self)
+                        PubProc.wb.hideWaiting()
                     }
                 } else {
                     self.chooseItem()
