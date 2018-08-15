@@ -11,6 +11,9 @@ import Kingfisher
 import RealmSwift
 
 class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
+    
+    
+   
 
     @IBAction func selectPlayer1(_ sender: RoundButton) {
         getUserData(id : (self.res?.response?.matchData?.player1_id)!)
@@ -140,6 +143,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.view.isUserInteractionEnabled = true
+        PubProc.wb.showWaiting()
     }
     var lastID = String()
     override func viewDidLoad() {

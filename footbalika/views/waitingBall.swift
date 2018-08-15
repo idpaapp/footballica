@@ -35,7 +35,6 @@ public class waitingBall: UIView {
         self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         UIApplication.shared.keyWindow!.addSubview(self)
         UIApplication.shared.keyWindow!.bringSubview(toFront: self)
-//        self.waitingImage.image = UIImage.gif(name: "progress")
         self.waitingImage.loadGif(name: "progress")
         
         self.isOpaque = false

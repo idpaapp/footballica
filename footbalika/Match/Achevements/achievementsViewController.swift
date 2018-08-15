@@ -8,7 +8,6 @@
 
 import UIKit
 import Kingfisher
-import SwiftGifOrigin
 
 class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource {
 

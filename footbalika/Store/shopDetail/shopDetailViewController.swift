@@ -43,24 +43,42 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                                 
                                 self.performSegue(withIdentifier: "showItem", sender: self)
                                 self.view.isUserInteractionEnabled = true
-                                PubProc.wb.hideWaiting()
+//                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                    if self.myVitrin {
+                                        PubProc.wb.hideWaiting()
+                                    } else {
+                                        DispatchQueue.main.async{
+                                            loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                                NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
+                                                print(((loadShop.res?.response?[1].items?[self.shopIndex].title!)!))
+                                                if  ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "پول"  {
+                                                    self.shopDetailsCV.reloadData()
+                                                    PubProc.wb.hideWaiting()
+                                                    self.sizingPage()
+                                                }
+                                            })
+                                        }
+                                    }
+//                                })
                             })
                             
-                            if self.myVitrin {
-                                
-                            } else {
-                                DispatchQueue.main.async{
-                                    loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
-                                        NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
-                                        print(((loadShop.res?.response?[1].items?[self.shopIndex].title!)!))
-                                        if  ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "پول"  {
-                                        self.shopDetailsCV.reloadData()
-                                        PubProc.wb.hideWaiting()
-                                        self.sizingPage()
-                                        }
-                                    })
-                                }
-                            }
+//                            if self.myVitrin {
+//
+//                            } else {
+//                                DispatchQueue.main.async{
+//                                    loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+//                                        NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
+//                                        print(((loadShop.res?.response?[1].items?[self.shopIndex].title!)!))
+//                                        if  ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "پول"  {
+//                                        self.shopDetailsCV.reloadData()
+//                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+//                                                PubProc.wb.hideWaiting()
+//                                            })
+//                                        self.sizingPage()
+//                                        }
+//                                    })
+//                                }
+//                            }
                         }
                     } else  if ((self.chooseRes)!).contains("NOT_ENOUGH_RESOURCE") {
                         self.view.isUserInteractionEnabled = true
@@ -78,6 +96,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     self.view.isUserInteractionEnabled = true
                     print("Error Connection")
                     print(error as Any)
+                    PubProc.wb.hideWaiting()
                     // handle error
                 }
             }
@@ -98,6 +117,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     }
     
     @objc func openWbsite() {
+        
 //        let urls = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id)!)','userid':'\(loadingViewController.userid)'}")
 //        if let url = URL(string: urls) {
 //            let svc = SFSafariViewController(url: url)
@@ -349,7 +369,6 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     @objc func showMySelectedVitrin() {
             self.performSegue(withIdentifier: "showItem", sender: self)
     }
-    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if UIDevice().userInterfaceIdiom == .phone  {

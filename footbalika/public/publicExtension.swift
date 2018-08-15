@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import AVFoundation
-import SwiftGifOrigin
 
 public class centerScreen {
     public var centerScreens = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)

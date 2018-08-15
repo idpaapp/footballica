@@ -26,6 +26,12 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     var res0 : gamesList.Response? = nil;
     var res1 : gamesList.Response? = nil;
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        gameLists()
+    }
+    
     @objc func gameLists() {
         
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchList", JSONStr: "{'mode': 'USERMATCH','userid':'\(loadingViewController.userid)'}") { data, error in

@@ -103,6 +103,7 @@ class mainMatchFieldViewController: UIViewController  {
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
                 self.view.isUserInteractionEnabled = false
+                self.DisableEnableInterFace(State : false)
                 self.performSegue(withIdentifier: "gameOver", sender: self)
                 NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -121,6 +122,7 @@ class mainMatchFieldViewController: UIViewController  {
             self.view.isUserInteractionEnabled = false
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
+                self.DisableEnableInterFace(State : false)
                 self.performSegue(withIdentifier: "gameOver", sender: self)
                 NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -332,6 +334,7 @@ class mainMatchFieldViewController: UIViewController  {
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()
                 self.view.isUserInteractionEnabled = false
+                self.DisableEnableInterFace(State : false)
                 self.performSegue(withIdentifier: "gameOver", sender: self)
                 NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -388,6 +391,7 @@ class mainMatchFieldViewController: UIViewController  {
                 DispatchQueue.main.async {
                     musicPlay().playQuizeMusic()
                     self.view.isUserInteractionEnabled = false
+                    self.DisableEnableInterFace(State : false)
                     self.performSegue(withIdentifier: "gameOver", sender: self)
                     NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                     soundPlay().playEndGameSound()
@@ -513,6 +517,7 @@ class mainMatchFieldViewController: UIViewController  {
                         if musicPlay.musicPlayer?.isPlaying == true {
                             musicPlay().playQuizeMusic()
                         } else {}
+                        self.DisableEnableInterFace(State : false)
                         self.performSegue(withIdentifier: "gameOver", sender: self)
                         NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -567,7 +572,6 @@ class mainMatchFieldViewController: UIViewController  {
         }
         }
     }
-    
     
     @objc func DisableEnableInterFace(State : Bool) {
         self.answer1Outlet.isUserInteractionEnabled = State
