@@ -41,7 +41,7 @@ public class waitingBall: UIView {
     }
     
     public func hideWaiting() {
-        self.removeFromSuperview()
+            self.removeFromSuperview()
     }
     
     private func commonInit() {

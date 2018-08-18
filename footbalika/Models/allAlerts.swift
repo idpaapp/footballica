@@ -13,6 +13,7 @@ public class allAlerts {
         let status : String?
         let response : [response]?
     }
+    
     public struct response : Decodable {
         let id : String?
         let sender_id : String?

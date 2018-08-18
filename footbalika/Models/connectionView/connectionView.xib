@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,7 +20,20 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qMa-yI-Hxp">
                     <rect key="frame" x="0.0" y="0.0" width="512" height="89"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noWifi" translatesAutoresizingMaskIntoConstraints="NO" id="jBl-mW-aWQ">
+                            <rect key="frame" x="442.5" y="15" width="59.5" height="59"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="jBl-mW-aWQ" secondAttribute="height" multiplier="1:1" id="dnF-j6-hJz"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
                     <color key="backgroundColor" red="0.88627450980392153" green="0.14117647058823529" blue="0.12156862745098039" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="jBl-mW-aWQ" firstAttribute="height" secondItem="qMa-yI-Hxp" secondAttribute="height" multiplier="2:3" id="Hqo-na-Eji"/>
+                        <constraint firstItem="jBl-mW-aWQ" firstAttribute="centerY" secondItem="qMa-yI-Hxp" secondAttribute="centerY" id="N6l-by-CxR"/>
+                        <constraint firstAttribute="trailing" secondItem="jBl-mW-aWQ" secondAttribute="trailing" constant="10" id="p7I-nP-V2g"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -33,4 +48,7 @@
             <point key="canvasLocation" x="37" y="86.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="noWifi" width="100" height="100"/>
+    </resources>
 </document>

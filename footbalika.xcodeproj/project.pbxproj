@@ -48,6 +48,8 @@
 		5C523CC72121AF3500642077 /* waitingBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C523CC62121AF3500642077 /* waitingBall.swift */; };
 		5C523CC92121AF4500642077 /* waitingBall.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C523CC82121AF4500642077 /* waitingBall.xib */; };
 		5C523CCB2121AFD100642077 /* progress.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5C523CCA2121AFD100642077 /* progress.gif */; };
+		5C67B1272127F133000D5ADD /* prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C67B1262127F133000D5ADD /* prediction.swift */; };
+		5C67B1292127FA46000D5ADD /* predictionLeaderBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C67B1282127FA46000D5ADD /* predictionLeaderBoard.swift */; };
 		5C6ED3D420CFEA6F005DF73F /* BallThumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6ED3D320CFEA6F005DF73F /* BallThumb.swift */; };
 		5C6ED3D620CFF5A8005DF73F /* settingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6ED3D520CFF5A8005DF73F /* settingsCell.swift */; };
 		5C6F538020E0A8D90037748F /* menuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F537F20E0A8D90037748F /* menuView.swift */; };
@@ -140,6 +142,7 @@
 		5CE8507720F5D98500BB303A /* questionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8507620F5D98500BB303A /* questionsList.swift */; };
 		5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */; };
 		5CE8507B20F5FCB900BB303A /* wrong_answer.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8507920F5FCB900BB303A /* wrong_answer.wav */; };
+		5CFF0C7121283C0B007DF3EB /* predictOneMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF0C7021283C0B007DF3EB /* predictOneMatchViewController.swift */; };
 		DA43467F46209DB4E9C5B9DE /* Pods_footbalika.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92AE449EB012E59CD33A9860 /* Pods_footbalika.framework */; };
 /* End PBXBuildFile section */
 
@@ -198,6 +201,8 @@
 		5C523CC62121AF3500642077 /* waitingBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitingBall.swift; sourceTree = "<group>"; };
 		5C523CC82121AF4500642077 /* waitingBall.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = waitingBall.xib; sourceTree = "<group>"; };
 		5C523CCA2121AFD100642077 /* progress.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = progress.gif; sourceTree = "<group>"; };
+		5C67B1262127F133000D5ADD /* prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = prediction.swift; sourceTree = "<group>"; };
+		5C67B1282127FA46000D5ADD /* predictionLeaderBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictionLeaderBoard.swift; sourceTree = "<group>"; };
 		5C6ED3D320CFEA6F005DF73F /* BallThumb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallThumb.swift; sourceTree = "<group>"; };
 		5C6ED3D520CFF5A8005DF73F /* settingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsCell.swift; sourceTree = "<group>"; };
 		5C6F537F20E0A8D90037748F /* menuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuView.swift; sourceTree = "<group>"; };
@@ -292,6 +297,7 @@
 		5CE8507620F5D98500BB303A /* questionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = questionsList.swift; sourceTree = "<group>"; };
 		5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctAnswer.mp3; sourceTree = "<group>"; };
 		5CE8507920F5FCB900BB303A /* wrong_answer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wrong_answer.wav; sourceTree = "<group>"; };
+		5CFF0C7021283C0B007DF3EB /* predictOneMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictOneMatchViewController.swift; sourceTree = "<group>"; };
 		708CCABC5FECE0274167520F /* Pods-footbalika.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-footbalika.debug.xcconfig"; path = "Pods/Target Support Files/Pods-footbalika/Pods-footbalika.debug.xcconfig"; sourceTree = "<group>"; };
 		7515AA704A7F5C6185BED045 /* Pods-footbalika.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-footbalika.release.xcconfig"; path = "Pods/Target Support Files/Pods-footbalika/Pods-footbalika.release.xcconfig"; sourceTree = "<group>"; };
 		92AE449EB012E59CD33A9860 /* Pods_footbalika.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_footbalika.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -495,6 +501,7 @@
 				5C730C512120127300467711 /* predictMatchViewController.swift */,
 				5C730C53212017F600467711 /* todayCell.swift */,
 				5C730C552120187A00467711 /* predictLeaderBoardCell.swift */,
+				5CFF0C6F21283BC9007DF3EB /* predictOneMatch */,
 			);
 			path = predictMatch;
 			sourceTree = "<group>";
@@ -670,6 +677,8 @@
 				5CE8507620F5D98500BB303A /* questionsList.swift */,
 				5C3B27992104663500150FB2 /* gamesList.swift */,
 				5CC7AEA021073D67000F39A6 /* usersSearchLists.swift */,
+				5C67B1262127F133000D5ADD /* prediction.swift */,
+				5C67B1282127FA46000D5ADD /* predictionLeaderBoard.swift */,
 				5C055FFB20EA2D6C006267C1 /* connectionView */,
 			);
 			path = Models;
@@ -770,6 +779,14 @@
 				5CCB9BCF20F1DFB400B92355 /* selectCategoryCell.swift */,
 			);
 			path = category;
+			sourceTree = "<group>";
+		};
+		5CFF0C6F21283BC9007DF3EB /* predictOneMatch */ = {
+			isa = PBXGroup;
+			children = (
+				5CFF0C7021283C0B007DF3EB /* predictOneMatchViewController.swift */,
+			);
+			path = predictOneMatch;
 			sourceTree = "<group>";
 		};
 		69D45CE03C3BA27097DC9141 /* Pods */ = {
@@ -953,6 +970,7 @@
 				5C523CC72121AF3500642077 /* waitingBall.swift in Sources */,
 				5C84D53020CD000D00A9DC67 /* GroupsViewController.swift in Sources */,
 				5C9FFCDE20D8D674007A11C0 /* WritetblShop.swift in Sources */,
+				5CFF0C7121283C0B007DF3EB /* predictOneMatchViewController.swift in Sources */,
 				5CBB993A20DE25A100C17884 /* loadingSetting.swift in Sources */,
 				5CCB9BCE20F1DBA300B92355 /* selectCategoryViewController.swift in Sources */,
 				5CC4045520E2222300EC97FF /* menuAlertViewController.swift in Sources */,
@@ -1018,6 +1036,7 @@
 				5C27142420E8B504008F1E37 /* profile4Cell.swift in Sources */,
 				5CAEEFF220D646BC00514842 /* gameRewards.swift in Sources */,
 				5C2377DC2116E7640040DC93 /* ItemViewController.swift in Sources */,
+				5C67B1272127F133000D5ADD /* prediction.swift in Sources */,
 				5C9FFCF420D8F6FA007A11C0 /* loginStructure.swift in Sources */,
 				5C3B279A2104663500150FB2 /* gamesList.swift in Sources */,
 				5C84D51720CCFF7100A9DC67 /* pageVC.swift in Sources */,
@@ -1044,6 +1063,7 @@
 				5C9FFCDC20D8D613007A11C0 /* readAndWritetblShop.swift in Sources */,
 				5C12536220F0C4FE005A64E8 /* stadiumDataDownload.swift in Sources */,
 				5C430DE020E3659D001C155B /* leaderBoard.swift in Sources */,
+				5C67B1292127FA46000D5ADD /* predictionLeaderBoard.swift in Sources */,
 				5CAEEFF620D6481800514842 /* gameCharge.swift in Sources */,
 				5C3418A920EB6D01001F93A4 /* menuAlert2ButtonsViewController.swift in Sources */,
 				5C730C562120187A00467711 /* predictLeaderBoardCell.swift in Sources */,

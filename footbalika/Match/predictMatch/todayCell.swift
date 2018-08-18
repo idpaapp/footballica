@@ -20,7 +20,10 @@ class todayCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        team1Title.adjustsFontSizeToFitWidth = true
+        team1Title.minimumScaleFactor = 0.1
+        team2Title.adjustsFontSizeToFitWidth = true
+        team2Title.minimumScaleFactor = 0.1
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

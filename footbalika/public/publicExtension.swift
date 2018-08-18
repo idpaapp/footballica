@@ -310,6 +310,7 @@ public extension String {
     }
 }
 
+
 public extension UITextField {
     
     enum PaddingSide {

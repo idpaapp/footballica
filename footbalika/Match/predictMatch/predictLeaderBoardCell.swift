@@ -24,7 +24,9 @@ class predictLeaderBoardCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        self.number.adjustsFontSizeToFitWidth = true
+        self.number.minimumScaleFactor = 0.5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

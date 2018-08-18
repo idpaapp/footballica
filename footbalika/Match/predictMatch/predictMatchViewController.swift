@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class predictMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
     
@@ -22,11 +23,34 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        if self.state == "today"  {
+            if self.todayRes != nil {
+                print((self.todayRes?.response?.count)!)
+            return (self.todayRes?.response?.count)!
+            } else {
+                return 0 
+            }
+            
+            } else if self.state == "past" {
+            if self.pastRes != nil {
+                print((self.pastRes?.response?.count)!)
+                return (self.pastRes?.response?.count)!
+            } else {
+                return 0
+            }
+            
+        } else {
+            if self.predictLeaderBoardRes != nil {
+                print((self.predictLeaderBoardRes?.response?.count)!)
+                return (self.predictLeaderBoardRes?.response?.count)!
+            } else {
+                return 0
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if state == "today" || state == "past" {
+        if self.state == "today" || self.state == "past" {
         return 150
         } else {
             return 80
@@ -35,28 +59,69 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if state == "today" || state == "past" {
+        if self.state == "today" {
         let cell = tableView.dequeueReusableCell(withIdentifier: "todayCell", for: indexPath) as! todayCell
         
-        cell.mainTitle.text = "زمان شروع بازی : 15:00"
-        cell.team1Title.text = "شموشک"
-        cell.team2Title.text = "نفت اراک"
-        cell.team1Resault.text = "5"
-        cell.team2Resault.text = "3"
-        
+        cell.mainTitle.text = "\((self.todayRes?.response?[indexPath.row].p_game_time!)!)"
+        cell.team1Title.text = "\((self.todayRes?.response?[indexPath.row].home_name!)!)"
+        cell.team2Title.text = "\((self.todayRes?.response?[indexPath.row].away_name!)!)"
+        cell.team1Resault.text = "\((self.todayRes?.response?[indexPath.row].home_result!)!)"
+        cell.team2Resault.text = "\((self.todayRes?.response?[indexPath.row].home_result!)!)"
+        let team1LogoUrl = "\((self.todayRes?.response?[indexPath.row].home_image!)!)"
+        let team1ImgUrl = URL(string: team1LogoUrl)
+        cell.team1Logo.kf.setImage(with: team1ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+        let team2LogoUrl = "\((self.todayRes?.response?[indexPath.row].away_image!)!)"
+        let team2ImgUrl = URL(string: team2LogoUrl)
+        cell.team2Logo.kf.setImage(with: team2ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+            
+            
         return cell
+          
+        } else if self.state == "past" {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "todayCell", for: indexPath) as! todayCell
+            
+            cell.mainTitle.text = "\((self.pastRes?.response?[indexPath.row].p_game_time!)!)"
+            cell.team1Title.text = "\((self.pastRes?.response?[indexPath.row].home_name!)!)"
+            cell.team2Title.text = "\((self.pastRes?.response?[indexPath.row].away_name!)!)"
+            cell.team1Resault.text = "\((self.pastRes?.response?[indexPath.row].home_result!)!)"
+            cell.team2Resault.text = "\((self.pastRes?.response?[indexPath.row].home_result!)!)"
+            let team1LogoUrl = "\((self.pastRes?.response?[indexPath.row].home_image!)!)"
+            let team1ImgUrl = URL(string: team1LogoUrl)
+            cell.team1Logo.kf.setImage(with: team1ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+            let team2LogoUrl = "\((self.pastRes?.response?[indexPath.row].away_image!)!)"
+            let team2ImgUrl = URL(string: team2LogoUrl)
+            cell.team2Logo.kf.setImage(with: team2ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+            return cell
             
         } else {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "predictLeaderBoardCell", for: indexPath) as! predictLeaderBoardCell
             
-            cell.userAvatar.image = UIImage(named: "avatar")
-            cell.userName.text = "پلنگ"
+            let leaderAvatarUrl = "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)"
+            let leaderA = URL(string: leaderAvatarUrl)
+            cell.userAvatar.kf.setImage(with: leaderA ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.userName.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].username!)!)"
             cell.number.text = "\(indexPath.row + 1)"
-            cell.userScore.text = "\(Int(arc4random_uniform(75)))"
+            cell.userScore.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].cups!)!)"
             return cell
         }
     }
     
+    
+    var selectedPredict = Int()
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.state == "today" {
+            selectedPredict = indexPath.row
+            self.performSegue(withIdentifier: "predictOne", sender: self)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! predictOneMatchViewController
+        vc.homeImg = "\((self.todayRes?.response?[selectedPredict].home_image!)!)"
+        vc.awayImg = "\((self.todayRes?.response?[selectedPredict].away_image!)!)"
+    }
 
     @IBOutlet weak var predictMatchTV: UITableView!
     
@@ -85,10 +150,14 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         }
     }
     
-    
+    var todayRes : prediction.Response? = nil
+    var predictLeaderBoardRes : predictionLeaderBoard.Response? = nil
+    var pastRes : prediction.Response? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        todayJson()
         yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "امتیاز شما", strokeWidth: -6.0)
         yourScoreTitleForeGround.font = fonts().iPadfonts25
         yourScoreTitleForeGround.text = "امتیاز شما"
@@ -107,49 +176,145 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     }
     
     @IBAction func todayAction(_ sender: RoundButton) {
-        self.predictLeaderBoardOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
-        self.pastOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
+        self.predictLeaderBoardOutlet.backgroundColor = colors().lightBrownBackGroundColor
+        self.pastOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.todayOutlet.backgroundColor = UIColor.white
-        state = "today"
-        self.predictMatchTV.reloadData()
-        UIView.animate(withDuration: 0.5) {
-            self.leaderBoardConstraint.constant = 0
-            self.view.layoutIfNeeded()
-        }
-        
+        self.state = "today"
+        todayJson()
     }
     
     @IBAction func predictLeaderBoardAction(_ sender: RoundButton) {
-        self.todayOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
-        self.pastOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
+        self.todayOutlet.backgroundColor = colors().lightBrownBackGroundColor
+        self.pastOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.predictLeaderBoardOutlet.backgroundColor = UIColor.white
-        state = "leaderBoard"
-        self.predictMatchTV.reloadData()
-        UIView.animate(withDuration: 0.5) {
-            self.leaderBoardConstraint.constant = 40
-            self.view.layoutIfNeeded()
-        }
-        
+        self.state = "leaderBoard"
+        leaderBoardJson()
+
     }
     
     @IBAction func pastAction(_ sender: RoundButton) {
-        self.todayOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
-        self.predictLeaderBoardOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
+        self.todayOutlet.backgroundColor = colors().lightBrownBackGroundColor
+        self.predictLeaderBoardOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.pastOutlet.backgroundColor = UIColor.white
-        state = "past"
-        self.predictMatchTV.reloadData()
-        UIView.animate(withDuration: 0.5) {
-            self.leaderBoardConstraint.constant = 0
-            self.view.layoutIfNeeded()
-        }
-        
+        self.state = "past"
+        pastJson()
     }
+    
+    
+    @objc func pastJson() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'GET_PREV_GAMES' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        self.pastRes = try JSONDecoder().decode(prediction.Response.self , from : data!)
+                        DispatchQueue.main.async {
+                            self.predictMatchTV.reloadData()
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                            UIView.animate(withDuration: 0.5) {
+                                self.leaderBoardConstraint.constant = 0
+                                self.view.layoutIfNeeded()
+                            }
+                        })
+                        PubProc.wb.hideWaiting()
+                    } catch {
+                        self.pastJson()
+                        print(error)
+                    }
+                } else {
+                    self.pastJson()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
+    @objc func todayJson() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'GET_TODAY_GAMES' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        self.todayRes = try JSONDecoder().decode(prediction.Response.self , from : data!)
+                        DispatchQueue.main.async {
+                            self.predictMatchTV.reloadData()
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                            UIView.animate(withDuration: 0.5) {
+                                self.leaderBoardConstraint.constant = 0
+                                self.view.layoutIfNeeded()
+                            }
+                        })
+
+                        PubProc.wb.hideWaiting()
+                    } catch {
+                        self.pastJson()
+                        print(error)
+                    }
+                } else {
+                    self.pastJson()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
+    @objc func leaderBoardJson() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'LEADERBOARD' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        self.predictLeaderBoardRes = try JSONDecoder().decode(predictionLeaderBoard.Response.self , from : data!)
+                        
+                        self.yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "امتیاز شما : \((self.predictLeaderBoardRes?.user_pts)!)", strokeWidth: -6.0)
+                        self.yourScoreTitleForeGround.text = "امتیاز شما : \((self.predictLeaderBoardRes?.user_pts)!)"
+                        DispatchQueue.main.async {
+                            self.predictMatchTV.reloadData()
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                            UIView.animate(withDuration: 0.5) {
+                                self.leaderBoardConstraint.constant = 40
+                                self.view.layoutIfNeeded()
+                            }
+                        })
+
+                        PubProc.wb.hideWaiting()
+                    } catch {
+                        self.pastJson()
+                        print(error)
+                    }
+                } else {
+                    self.pastJson()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
     
     @IBAction func dismissing(_ sender: RoundButton) {
         self.dismiss(animated : true , completion: nil)
     }
-    
-    
     
     
     
