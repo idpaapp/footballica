@@ -13,7 +13,6 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     
     @IBOutlet weak var yourScoreTitle: UILabel!
     @IBOutlet weak var yourScoreTitleForeGround: UILabel!
-    
     @IBOutlet weak var leaderBoardConstraint: NSLayoutConstraint!
     @IBOutlet weak var pageTitle: UILabel!
     @IBOutlet weak var pageTitleForeGround: UILabel!
@@ -73,7 +72,27 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         let team2LogoUrl = "\((self.todayRes?.response?[indexPath.row].away_image!)!)"
         let team2ImgUrl = URL(string: team2LogoUrl)
         cell.team2Logo.kf.setImage(with: team2ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+        cell.submitPrediction.tag = indexPath.row
+            cell.submitPrediction.addTarget(self, action: #selector(submitting), for: UIControlEvents.touchUpInside)
+        if ((self.todayRes?.response?[indexPath.row].status)!) != "0" {
+        cell.team1Prediction.text = "\((self.todayRes?.response?[indexPath.row].home_prediction!)!)"
+        cell.team2Prediction.text = "\((self.todayRes?.response?[indexPath.row].away_prediction!)!)"
+        cell.submitPrediction.isHidden = true
+        cell.submitTitleForeGround.isHidden = true
+        cell.submitTitle.isHidden = true
+            cell.team1Prediction.isHidden = false
+            cell.team2Prediction.isHidden = false
+
+            } else {
             
+            cell.submitTitleForeGround.isHidden = false
+            cell.submitTitle.isHidden = false
+            cell.submitPrediction.isHidden = false
+            cell.team1Prediction.text = ""
+            cell.team2Prediction.text = ""
+            cell.team1Prediction.isHidden = true
+            cell.team2Prediction.isHidden = true
+            }
             
         return cell
           
@@ -81,6 +100,11 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "todayCell", for: indexPath) as! todayCell
             
+            cell.submitTitleForeGround.isHidden = true
+            cell.submitTitle.isHidden = true
+            cell.submitPrediction.isHidden = true
+            cell.team1Prediction.isHidden = false
+            cell.team2Prediction.isHidden = false
             cell.mainTitle.text = "\((self.pastRes?.response?[indexPath.row].p_game_time!)!)"
             cell.team1Title.text = "\((self.pastRes?.response?[indexPath.row].home_name!)!)"
             cell.team2Title.text = "\((self.pastRes?.response?[indexPath.row].away_name!)!)"
@@ -92,6 +116,8 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             let team2LogoUrl = "\((self.pastRes?.response?[indexPath.row].away_image!)!)"
             let team2ImgUrl = URL(string: team2LogoUrl)
             cell.team2Logo.kf.setImage(with: team2ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.team1Prediction.text = "\((self.pastRes?.response?[indexPath.row].home_prediction!)!)"
+            cell.team2Prediction.text = "\((self.pastRes?.response?[indexPath.row].away_prediction!)!)"
             return cell
             
         } else {
@@ -110,17 +136,26 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     
     
     var selectedPredict = Int()
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    @objc func submitting(_ sender : RoundButton!) {
         if self.state == "today" {
-            selectedPredict = indexPath.row
-            self.performSegue(withIdentifier: "predictOne", sender: self)
+        selectedPredict = sender.tag
+        self.performSegue(withIdentifier: "predictOne", sender: self)
         }
     }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if self.state == "today" {
+//            selectedPredict = indexPath.row
+//            self.performSegue(withIdentifier: "predictOne", sender: self)
+//        }
+//    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! predictOneMatchViewController
         vc.homeImg = "\((self.todayRes?.response?[selectedPredict].home_image!)!)"
         vc.awayImg = "\((self.todayRes?.response?[selectedPredict].away_image!)!)"
+        vc.predictionId = Int((self.todayRes?.response?[selectedPredict].id!)!)!
     }
 
     @IBOutlet weak var predictMatchTV: UITableView!
@@ -154,10 +189,18 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     var predictLeaderBoardRes : predictionLeaderBoard.Response? = nil
     var pastRes : prediction.Response? = nil
 
+    
+    @objc func refreshAfterPredict(notification: Notification){
+        todayJson()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         todayJson()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshAfterPredict(notification:)), name: Notification.Name("refreshPrediction"), object: nil)
+
+        
         yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "امتیاز شما", strokeWidth: -6.0)
         yourScoreTitleForeGround.font = fonts().iPadfonts25
         yourScoreTitleForeGround.text = "امتیاز شما"

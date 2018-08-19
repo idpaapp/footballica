@@ -24,9 +24,10 @@ public class PubProc {
     
     static var isSplash = true
     static var wb = waitingBall()
+    static var cV = connectionView()
     public class THandleDataBase{
         public func readJson(wsName: String, JSONStr: String  , completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
-            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api/"+wsName+".php")!)
+            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)
             
             if !PubProc.isSplash  {
                 wb.showWaiting()
@@ -39,6 +40,7 @@ public class PubProc {
                 guard let data = data, error == nil else {
                     completionHandler(nil, (error! as NSError))
                     print("error=\(String(describing: error))")
+                    cV.showWarning()
                     return
                 }
                 
@@ -47,6 +49,7 @@ public class PubProc {
                     // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response!))")
+                    cV.showWarning()
                 }
                 
                 completionHandler(data, nil)
@@ -96,7 +99,7 @@ public class PubProc {
     
     public class THandleFirstInfo{
         public func readJson(wsName: String, JSONStr: String, completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
-            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api/"+wsName+".php")!)
+            var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)
             
             requestNo.httpMethod = "POST"
             let postStringNo = PubProc.HandleString.ReplaceQoutedToDbQouted(str: JSONStr)

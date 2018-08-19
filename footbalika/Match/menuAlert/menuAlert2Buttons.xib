@@ -63,30 +63,36 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="60" id="eBa-RD-1oh"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="16"/>
                                             <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="yGp-Bk-0VC">
-                                            <rect key="frame" x="10" y="117" width="210" height="30"/>
+                                            <rect key="frame" x="10" y="107" width="210" height="40"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5BI-ob-pzy" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
-                                                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
-                                                    <state key="normal" title="رد" backgroundImage="cancel_btn">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="40"/>
+                                                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                                                    <state key="normal" title="خیر" backgroundImage="cancel_btn">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O5X-3k-4OG" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                                    <rect key="frame" x="110" y="0.0" width="100" height="30"/>
-                                                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
-                                                    <state key="normal" title="تأیید" backgroundImage="accept_btn">
+                                                    <rect key="frame" x="110" y="0.0" width="100" height="40"/>
+                                                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                                                    <state key="normal" title="بلی" backgroundImage="alter_action_back_btn">
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </state>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                                    </userDefinedRuntimeAttributes>
                                                 </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="30" id="RX0-T4-mOE"/>
+                                                <constraint firstAttribute="height" constant="40" id="RX0-T4-mOE"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
@@ -170,7 +176,7 @@
         </view>
     </objects>
     <resources>
-        <image name="accept_btn" width="193" height="78"/>
+        <image name="alter_action_back_btn" width="209" height="114"/>
         <image name="cancel_btn" width="209" height="114"/>
         <image name="ic_close" width="48" height="48"/>
     </resources>

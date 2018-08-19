@@ -14,7 +14,9 @@ class menuAlert2ButtonsViewController: UIViewController {
         var alertTitle = String()
         var alertBody = String()
         var alertAcceptLabel = String()
-        
+        var state = String()
+        var jsonStr = String()
+    
         override var prefersStatusBarHidden: Bool {
             return true
         }
@@ -44,24 +46,82 @@ class menuAlert2ButtonsViewController: UIViewController {
             
             self.showAlert.closeButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
             self.showAlert.cancelButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
-            self.showAlert.acceptButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
+            self.showAlert.acceptButton.addTarget(self, action: #selector(accepting), for: UIControlEvents.touchUpInside)
             self.showAlert.isOpaque = false
             if UIDevice().userInterfaceIdiom == .phone {
-                self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -4.0)
+                self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -6.0)
                 self.showAlert.topForeGroundLabel.text = "\(self.alertTitle)"
                 self.showAlert.topForeGroundLabel.font = fonts().iPhonefonts
                 self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 13)!
                 self.showAlert.mainTitle.text = "\(self.alertBody)"
 
             } else {
-                self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -4.0)
+                self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -6.0)
                 self.showAlert.topForeGroundLabel.text = "\(self.alertTitle)"
                 self.showAlert.topForeGroundLabel.font = fonts().iPhonefonts
                 self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 13)!
                 self.showAlert.mainTitle.text = "\(self.alertBody)"
             }
         }
-        
+    
+    
+    var predictionResponse : Response? = nil
+    
+    struct Response : Decodable {
+        let status : String?
+    }
+    
+    @objc func accepting() {
+        switch state {
+        case "prediction":
+            print(jsonStr)
+                    PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: jsonStr) { data, error in
+                        DispatchQueue.main.async {
+            
+            
+                            if data != nil {
+            
+                                //                print(data ?? "")
+                                
+                                do {
+                                    
+                                    self.predictionResponse = try JSONDecoder().decode(Response.self , from : data!)
+
+                                    print((self.predictionResponse?.status!)!)
+                                    if ((self.predictionResponse?.status!)!) == "OK" {
+                                        PubProc.wb.hideWaiting()
+                                        self.dismissing()
+                                        NotificationCenter.default.post(name: Notification.Name("refreshPrediction"), object: nil, userInfo: nil)
+                                    } else {
+                                        print("this has finished!")
+                                        self.performSegue(withIdentifier: "notMore", sender: self)
+                                    }
+            
+                                } catch {
+                                    self.accepting()
+                                    print(error)
+                                }
+                            } else {
+                                self.accepting()
+                                print("Error Connection")
+                                print(error as Any)
+                                // handle error
+                            }
+                        }
+                    }.resume()
+            
+        default:
+            print("otherStates")
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! menuAlertViewController
+        vc.alertState = ""
+        vc.alertBody = "زمان پیش بینی این بازی تمام شده است"
+        vc.alertTitle = "فوتبالیکا"
+        vc.alertAcceptLabel = "تأیید"
+    }
         
         @objc func dismissing() {
             UIView.animate(withDuration: 0.2, animations: {

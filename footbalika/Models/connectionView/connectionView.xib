@@ -11,41 +11,62 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="connectionView" customModule="footbalika" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="connectionView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="connectionViewConstraint" destination="mCn-SN-yj3" id="TuV-6f-Qg8"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="5ab-kr-rVd"/>
+                <outlet property="mainView" destination="qMa-yI-Hxp" id="AEC-w2-qg6"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="512" height="89"/>
+            <rect key="frame" x="0.0" y="0.0" width="647" height="815"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qMa-yI-Hxp">
-                    <rect key="frame" x="0.0" y="0.0" width="512" height="89"/>
+                    <rect key="frame" x="173.5" y="785" width="300" height="30"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="noWifi" translatesAutoresizingMaskIntoConstraints="NO" id="jBl-mW-aWQ">
-                            <rect key="frame" x="442.5" y="15" width="59.5" height="59"/>
+                            <rect key="frame" x="271" y="3" width="24" height="24"/>
                             <constraints>
-                                <constraint firstAttribute="width" secondItem="jBl-mW-aWQ" secondAttribute="height" multiplier="1:1" id="dnF-j6-hJz"/>
+                                <constraint firstAttribute="width" secondItem="jBl-mW-aWQ" secondAttribute="height" multiplier="1:1" id="O6T-Ch-9rr"/>
                             </constraints>
                         </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ارتباط شما با سرور قطع شده لطفاً اینترنت خود را چک کنید" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EMm-JT-rIQ">
+                            <rect key="frame" x="3" y="0.0" width="263" height="30"/>
+                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="20"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="0.88627450980392153" green="0.14117647058823529" blue="0.12156862745098039" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="jBl-mW-aWQ" firstAttribute="height" secondItem="qMa-yI-Hxp" secondAttribute="height" multiplier="2:3" id="Hqo-na-Eji"/>
+                        <constraint firstItem="jBl-mW-aWQ" firstAttribute="height" secondItem="qMa-yI-Hxp" secondAttribute="height" multiplier="4:5" id="G0e-zd-EmE"/>
+                        <constraint firstAttribute="height" constant="30" id="G4G-EO-Yor"/>
                         <constraint firstItem="jBl-mW-aWQ" firstAttribute="centerY" secondItem="qMa-yI-Hxp" secondAttribute="centerY" id="N6l-by-CxR"/>
-                        <constraint firstAttribute="trailing" secondItem="jBl-mW-aWQ" secondAttribute="trailing" constant="10" id="p7I-nP-V2g"/>
+                        <constraint firstAttribute="width" constant="300" id="QhC-B8-e7H"/>
+                        <constraint firstItem="jBl-mW-aWQ" firstAttribute="leading" secondItem="EMm-JT-rIQ" secondAttribute="trailing" constant="5" id="UUj-R9-h82"/>
+                        <constraint firstItem="EMm-JT-rIQ" firstAttribute="top" secondItem="qMa-yI-Hxp" secondAttribute="top" id="cYE-xw-xq4"/>
+                        <constraint firstAttribute="trailing" secondItem="jBl-mW-aWQ" secondAttribute="trailing" constant="5" id="p7I-nP-V2g"/>
+                        <constraint firstAttribute="bottom" secondItem="EMm-JT-rIQ" secondAttribute="bottom" id="sxg-Fd-rhh"/>
+                        <constraint firstItem="EMm-JT-rIQ" firstAttribute="leading" secondItem="qMa-yI-Hxp" secondAttribute="leading" constant="3" id="tFr-ZB-KJ3"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="qMa-yI-Hxp" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="QeW-aD-r5y"/>
-                <constraint firstItem="qMa-yI-Hxp" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="YFM-Lh-qnc"/>
-                <constraint firstItem="qMa-yI-Hxp" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ipv-5p-mXF"/>
-                <constraint firstItem="qMa-yI-Hxp" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="jNG-uX-0Tk"/>
+                <constraint firstItem="qMa-yI-Hxp" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="k5Z-4U-1lZ"/>
+                <constraint firstItem="qMa-yI-Hxp" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="mCn-SN-yj3"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <point key="canvasLocation" x="37" y="86.5"/>
+            <point key="canvasLocation" x="17.5" y="117.5"/>
         </view>
     </objects>
     <resources>

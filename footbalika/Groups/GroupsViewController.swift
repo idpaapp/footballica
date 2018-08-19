@@ -95,7 +95,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         
                         self.resUser = try JSONDecoder().decode(usersSearchLists.Response.self , from : data!)
                         
-                        print((self.resUser?.response?.count)!)
+//                        print((self.resUser?.response?.count)!)
                         if (self.resUser?.response?.count)! != 0 {
                             self.searchCount = 1 + (self.resUser?.response?.count)!
                             DispatchQueue.main.async {

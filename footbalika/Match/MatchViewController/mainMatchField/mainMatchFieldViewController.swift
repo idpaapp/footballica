@@ -352,7 +352,6 @@ class mainMatchFieldViewController: UIViewController  {
         }
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let VC = segue.destination as? menuAlertViewController {
             self.watchView.updateProgress(75)

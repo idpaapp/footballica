@@ -20,11 +20,8 @@ class menuAlert2Buttons: UIView {
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var topForeGroundLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
-    
     @IBOutlet weak var mainTitle: UILabel!
-    
     @IBOutlet weak var acceptButton: UIButton!
-    
     @IBOutlet weak var cancelButton: UIButton!
     
     override public func draw(_ rect: CGRect) {
