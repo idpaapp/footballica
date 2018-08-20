@@ -66,7 +66,7 @@ class menuAlert2ButtonsViewController: UIViewController {
     
     
     var predictionResponse : Response? = nil
-    
+    var ResponseFriendlyMatch = String()
     struct Response : Decodable {
         let status : String?
     }
@@ -109,18 +109,57 @@ class menuAlert2ButtonsViewController: UIViewController {
                             }
                         }
                     }.resume()
-            
+        case "friendlyMatch" :
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleFriends", JSONStr: "\(jsonStr)") { data, error in
+                DispatchQueue.main.async {
+                    
+                    if data != nil {
+                        
+                        self.ResponseFriendlyMatch = ((String(data: data!, encoding: String.Encoding.utf8) as String?)!)
+                        //                print(data ?? "")
+                        
+                        print(self.ResponseFriendlyMatch)
+                        if self.ResponseFriendlyMatch.contains("OK") {
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                            PubProc.wb.hideWaiting()
+                        } else {
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                            PubProc.wb.hideWaiting()
+                        }
+                    } else {
+                        self.accepting()
+                        print("Error Connection")
+                        print(error as Any)
+                        // handle error
+                    }
+                }
+                }.resume()
         default:
             print("otherStates")
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         let vc = segue.destination as! menuAlertViewController
+        if state == "friendlyMatch" {
+            if self.ResponseFriendlyMatch.contains("OK") {
+                vc.alertState = ""
+                vc.alertBody = "درخواست دوستی با موفقیت انجام شد!"
+                vc.alertTitle = "فوتبالیکا"
+                vc.alertAcceptLabel = "تأیید"
+            } else {
+                vc.alertState = ""
+                vc.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
+                vc.alertTitle = "فوتبالیکا"
+                vc.alertAcceptLabel = "تأیید"
+            }
+        } else {
         vc.alertState = ""
         vc.alertBody = "زمان پیش بینی این بازی تمام شده است"
         vc.alertTitle = "فوتبالیکا"
         vc.alertAcceptLabel = "تأیید"
+        }
     }
         
         @objc func dismissing() {

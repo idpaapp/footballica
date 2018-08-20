@@ -18,6 +18,11 @@ class mainMatchFieldViewController: UIViewController  {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    @IBOutlet weak var bomb: RoundButton!
+    
+    @IBOutlet weak var freezTimer: RoundButton!
+    
     @IBOutlet weak var backGroundStadium: KBImageView!
     
     @IBOutlet weak var imageQuestionTitle: UILabel!
@@ -144,14 +149,66 @@ class mainMatchFieldViewController: UIViewController  {
          PubProc.wb.showWaiting()
     }
     
+    @objc func bombAction() {
+//        print("bomb")
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
+            
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+//                    do {
+//
+//
+//
+//                        DispatchQueue.main.async {
+//
+//                            PubProc.wb.hideWaiting()
+//                        }
+//
+//                    } catch {
+//                        self.bombAction()
+//                        print(error)
+//                    }
+                } else {
+                    self.bombAction()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let money = Int((login.res?.response?.mainInfo?.cashs)!)!
+        let coin = Int((login.res?.response?.mainInfo?.coins)!)!
+        print(Int((login.res?.response?.mainInfo?.cashs)!)!)
+        print(Int((login.res?.response?.mainInfo?.coins)!)!)
+        
+        if money < 300 {
+            self.freezTimer.isEnabled = false
+        } else {
+            self.freezTimer.isEnabled = true
+        }
+        
+        if coin < 5 {
+            self.bomb.isEnabled = false
+        } else {
+            self.bomb.isEnabled = true
+        }
+        
+        self.bomb.addTarget(self, action: #selector(bombAction), for: UIControlEvents.touchUpInside)
         self.answer1Outlet.isExclusiveTouch = true
         self.answer2Outlet.isExclusiveTouch = true
         self.answer3Outlet.isExclusiveTouch = true
         self.answer4Outlet.isExclusiveTouch = true
-        
+        self.freezTimer.isExclusiveTouch = true
+        self.bomb.isExclusiveTouch = true
 //        backGroundStadium.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
 
         let url = "\(stadiumUrl.stadium)anfield.jpg"
@@ -430,6 +487,8 @@ class mainMatchFieldViewController: UIViewController  {
             self.questionTitle.text = ""
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                 self.imageQuestionTitle.text = questionTitle
+                self.freezTimer.isUserInteractionEnabled = true
+                self.bomb.isUserInteractionEnabled = true
             }
             self.imageQuestionTitle.isHidden = false
         } else {
@@ -499,7 +558,8 @@ class mainMatchFieldViewController: UIViewController  {
     }
     
     func hideQuestion() {
-        
+        self.freezTimer.isUserInteractionEnabled = false
+        self.bomb.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
         self.imageQuestionTitle.text = " "
         }

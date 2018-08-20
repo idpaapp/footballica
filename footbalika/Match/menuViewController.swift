@@ -32,6 +32,7 @@ class menuViewController: UIViewController {
     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
+    var friensRes : friendList.Response? = nil
     var menuState = String()
     var otherProfiles = Bool()
     var oPStadium = String()
@@ -50,14 +51,14 @@ class menuViewController: UIViewController {
     var opMaximumScore = String()
     var uniqueId = String()
     var urlClass = urls()
+    var isFriend = Bool()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
         self.mainBackGround.layer.cornerRadius = 15
         self.topView.layer.cornerRadius = 15
         self.subMainBackGround.layer.cornerRadius = 15
-        
         
         if menuState == "Achievements" {
             
@@ -145,6 +146,26 @@ class menuViewController: UIViewController {
                 self.mainTitleForeGround.font = iPadfonts
             }
             
+            
+        } else if self.menuState == "friendsList" {
+            self.mainTitleForeGround.text = "دوستان"
+            if UIDevice().userInterfaceIdiom == .phone {
+                self.mainTitleForeGround.font = iPhonefonts
+                if UIScreen.main.nativeBounds.height == 2436 {
+                    self.menuHeight.constant = UIScreen.main.bounds.height - 90
+                    self.menuWidth.constant = UIScreen.main.bounds.width - 10
+                    maintitle.AttributesOutLine(font: iPhonefonts, title: "دوستان", strokeWidth: -7.0)
+                } else {
+                    self.menuHeight.constant = UIScreen.main.bounds.height - 30
+                    self.menuWidth.constant = UIScreen.main.bounds.width - 10
+                    maintitle.AttributesOutLine(font: iPhonefonts, title: "دوستان", strokeWidth: -7.0)
+                }
+            } else {
+                self.menuHeight.constant = UIScreen.main.bounds.height - 100
+                self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
+                maintitle.AttributesOutLine(font: iPadfonts, title: "دوستان", strokeWidth: -7.0)
+                self.mainTitleForeGround.font = iPadfonts
+            }
         } else {
              self.mainTitleForeGround.text = "تنظیمات"
             if UIDevice().userInterfaceIdiom == .phone {
@@ -228,8 +249,11 @@ class menuViewController: UIViewController {
                     vC.profileMaximumWinCount = opMaximumWinCount
                     vC.profileMaximumScore = opMaximumScore
                     vC.uniqueId = uniqueId
-                    
+                    vC.isFriend = self.isFriend
                 }
+            case "friendsList" :
+                vC.friensRes = self.friensRes
+                vC.achievementCount = (self.friensRes?.response?.count)!
             default :
                 vC.achievementCount = 4
             }

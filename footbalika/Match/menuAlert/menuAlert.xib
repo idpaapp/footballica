@@ -60,8 +60,8 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aTx-UI-9oI">
                                     <rect key="frame" x="5" y="40" width="230" height="157"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2et-KW-bCM">
-                                            <rect key="frame" x="29" y="46" width="172.5" height="25"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2et-KW-bCM">
+                                            <rect key="frame" x="10" y="46" width="210" height="25"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="25" id="Qri-6f-tsD"/>
                                             </constraints>
@@ -116,8 +116,9 @@
                                         <constraint firstItem="K11-h9-p4b" firstAttribute="width" secondItem="pMa-ce-7V8" secondAttribute="width" id="VTj-Az-cMN"/>
                                         <constraint firstItem="pMa-ce-7V8" firstAttribute="centerX" secondItem="t74-l3-PyC" secondAttribute="centerX" id="ezZ-cc-XDe"/>
                                         <constraint firstItem="pMa-ce-7V8" firstAttribute="centerY" secondItem="t74-l3-PyC" secondAttribute="centerY" id="gsx-Xr-KBh"/>
-                                        <constraint firstItem="2et-KW-bCM" firstAttribute="width" secondItem="t74-l3-PyC" secondAttribute="width" id="iX9-7J-kog"/>
                                         <constraint firstItem="2et-KW-bCM" firstAttribute="centerX" secondItem="aTx-UI-9oI" secondAttribute="centerX" id="prl-bR-TME"/>
+                                        <constraint firstItem="2et-KW-bCM" firstAttribute="leading" secondItem="aTx-UI-9oI" secondAttribute="leading" constant="10" id="uPa-RE-Y3R"/>
+                                        <constraint firstAttribute="trailing" secondItem="2et-KW-bCM" secondAttribute="trailing" constant="10" id="wWu-ZT-epd"/>
                                     </constraints>
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O31-gf-QzN" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
@@ -129,13 +130,13 @@
                                     <state key="normal" image="ic_close"/>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uXY-Ru-hW4">
-                                    <rect key="frame" x="2" y="6.5" width="235" height="27"/>
+                                    <rect key="frame" x="2" y="10" width="235" height="20"/>
                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pKt-SF-GII">
-                                    <rect key="frame" x="2" y="6.5" width="235" height="27"/>
+                                    <rect key="frame" x="2" y="10" width="235" height="20"/>
                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -189,7 +190,7 @@
         </view>
     </objects>
     <resources>
-        <image name="alter_action_back_large_btn" width="293" height="114"/>
+        <image name="alter_action_back_large_btn" width="397" height="114"/>
         <image name="ic_close" width="48" height="48"/>
     </resources>
 </document>

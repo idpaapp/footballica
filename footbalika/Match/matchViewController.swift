@@ -150,7 +150,7 @@ class matchViewController: UIViewController {
     
     var matchCreateRes : String? = nil;
     @objc func requestNewMatch() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'START_RANDOM_GAME_FOR_TEST','userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'START_RANDOM_GAME','userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -187,6 +187,7 @@ class matchViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vC = segue.destination as? menuViewController {
             vC.menuState = self.menuState
+            vC.friensRes = self.friendsRes
         }
         if let vc = segue.destination as? giftsAndChargesViewController {
             vc.pageState = self.menuState
@@ -276,5 +277,44 @@ class matchViewController: UIViewController {
             }
             }.resume()
     }
+    
+    @IBAction func requestFriendlyMatch(_ sender: RoundButton) {
+        firendlyMatch()
+    }
+    
+    var friendsRes : friendList.Response? = nil
+    
+    @objc func firendlyMatch() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        self.friendsRes = try JSONDecoder().decode(friendList.Response.self , from : data!)
+                        
+                        DispatchQueue.main.async {
+                            self.menuState = "friendsList"
+                            self.performSegue(withIdentifier: "achievement", sender: self)
+                            PubProc.wb.hideWaiting()
+                        }
+                        
+                    } catch {
+                        self.firendlyMatch()
+                        print(error)
+                    }
+                } else {
+                    self.firendlyMatch()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
 
 }

@@ -20,6 +20,7 @@ class menuAlertViewController: UIViewController {
     }
     
     var matchField : mainMatchFieldViewController!
+    var menue2Alert : menuAlert2ButtonsViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,8 @@ class menuAlertViewController: UIViewController {
         self.view.bringSubview(toFront: self.showAlert)
         if UIDevice().userInterfaceIdiom == .phone {
             self.showAlert.wholeViewHeight.constant = 202
-            self.showAlert.wholeViewWidth.constant = 240
+            self.showAlert.wholeViewWidth.constant = 280
+            //240
         } else {
             self.showAlert.wholeViewHeight.constant = 250
             self.showAlert.wholeViewWidth.constant = 300
@@ -50,7 +52,7 @@ class menuAlertViewController: UIViewController {
         self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -4.0)
         self.showAlert.topForeGroundLabel.text = "\(self.alertTitle)"
         self.showAlert.topForeGroundLabel.font = fonts().iPhonefonts
-        self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 13)!
+        self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 20)!
         self.showAlert.mainTitle.text = "\(self.alertBody)"
         self.showAlert.acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertAcceptLabel)", strokeWidth: -4.0)
         self.showAlert.acceptButtonLabelForeGround.font = fonts().iPhonefonts
@@ -59,7 +61,7 @@ class menuAlertViewController: UIViewController {
             self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -4.0)
             self.showAlert.topForeGroundLabel.text = "\(self.alertTitle)"
             self.showAlert.topForeGroundLabel.font = fonts().iPhonefonts
-            self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 13)!
+            self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 20)!
             self.showAlert.mainTitle.text = "\(self.alertBody)"
             self.showAlert.acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertAcceptLabel)", strokeWidth: -4.0)
             self.showAlert.acceptButtonLabelForeGround.font = fonts().iPhonefonts
@@ -89,6 +91,17 @@ class menuAlertViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                 self.matchField.dismiss(animated: true, completion: nil)
                 musicPlay().playMenuMusic()
+            })
+        }
+        
+    }
+    
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        if self.alertTitle == "فوتبالیکا" {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                self.dismiss(animated: true, completion: nil)
             })
         }
     }

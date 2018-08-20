@@ -80,7 +80,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
 
     func loadMatchData() {
         
-//        print(self.matchID)
+        print(self.matchID)
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : \(loadingViewController.userid)}") { data, error in
             DispatchQueue.main.async {
                 
@@ -92,6 +92,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         
                         self.res = try JSONDecoder().decode(matchDetails.Response.self , from : data!)
                         
+//                        print((self.res?.response?.matchData?.player1_avatar))
                         DispatchQueue.main.async {
                             let url = "\(self.urlClass.avatar)\((self.res?.response?.matchData?.player1_avatar)!)"
                             let urls = URL(string: url)

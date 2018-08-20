@@ -187,6 +187,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         let urls2 = URL(string : url2)
         cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
         }
+            print("\((self.res?.response?[indexPath.row].id!)!)")
         cell.friendCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
         cell.friendName.text = "\((self.res?.response?[indexPath.row].username!)!)"
         cell.selectFriend.tag = indexPath.row
