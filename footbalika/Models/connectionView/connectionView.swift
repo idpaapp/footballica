@@ -31,22 +31,28 @@ public class connectionView: UIView {
     }
     
     public func showWarning() {
+        DispatchQueue.main.async {
         self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         self.connectionViewConstraint.constant = 40
         UIApplication.shared.keyWindow!.addSubview(self)
         UIApplication.shared.keyWindow!.bringSubview(toFront: self)
         self.isOpaque = false
-        UIView.animate(withDuration: 0.5) {
-            self.connectionViewConstraint.constant = 0
+        UIView.animate(withDuration: 5.0) {
+            self.connectionViewConstraint.constant = -10
+            self.contentView.layoutIfNeeded()
+        }
         }
     }
     
     public func hideWarning() {
-        UIView.animate(withDuration: 0.5, animations: {
+        DispatchQueue.main.async {
+        UIView.animate(withDuration: 5.0, animations: {
             self.connectionViewConstraint.constant = 40
+            self.contentView.layoutIfNeeded()
         }, completion: { (finish) in
             self.removeFromSuperview()
         })
+        }
     }
     
     private func commonInit() {

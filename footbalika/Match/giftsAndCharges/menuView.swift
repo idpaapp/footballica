@@ -10,6 +10,7 @@ import UIKit
 
 public class menuView: UIView {
 
+    @IBOutlet weak var topTitleForeGround: UILabel!
     @IBOutlet weak var topTitle: UILabel!
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var topView: UIView!

@@ -201,9 +201,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshAfterPredict(notification:)), name: Notification.Name("refreshPrediction"), object: nil)
 
         
-        yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "امتیاز شما", strokeWidth: -6.0)
-        yourScoreTitleForeGround.font = fonts().iPadfonts25
-        yourScoreTitleForeGround.text = "امتیاز شما"
+        topLabelFunction(text: "امتیاز شما")
         scoreAnimation()
         self.leaderBoardConstraint.constant = 0
         pageTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "پیش بینی", strokeWidth: -6.0)
@@ -211,6 +209,13 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         pageTitleForeGround.text = "پیش بینی"
         self.todayOutlet.backgroundColor = UIColor.white
 
+    }
+    
+    
+    @objc func topLabelFunction(text : String) {
+        yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "\(text)", strokeWidth: -6.0)
+        yourScoreTitleForeGround.font = fonts().iPadfonts25
+        yourScoreTitleForeGround.text = "\(text)"
     }
 
     override func didReceiveMemoryWarning() {
@@ -291,14 +296,23 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         
                         self.todayRes = try JSONDecoder().decode(prediction.Response.self , from : data!)
                         DispatchQueue.main.async {
+                            if self.todayRes?.response?.count == 0 {
+                                self.topLabelFunction(text: "در حال حاضر بازی ای وجود ندارد")
+                                UIView.animate(withDuration: 0.5) {
+                                    self.leaderBoardConstraint.constant = 40
+                                    self.view.layoutIfNeeded()
+                                }
+                            } else {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                                    UIView.animate(withDuration: 0.5) {
+                                        self.leaderBoardConstraint.constant = 0
+                                        self.view.layoutIfNeeded()
+                                    }
+                                })
+                            }
                             self.predictMatchTV.reloadData()
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                            UIView.animate(withDuration: 0.5) {
-                                self.leaderBoardConstraint.constant = 0
-                                self.view.layoutIfNeeded()
-                            }
-                        })
+                        
 
                         PubProc.wb.hideWaiting()
                     } catch {
@@ -327,8 +341,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         
                         self.predictLeaderBoardRes = try JSONDecoder().decode(predictionLeaderBoard.Response.self , from : data!)
                         
-                        self.yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "امتیاز شما : \((self.predictLeaderBoardRes?.user_pts)!)", strokeWidth: -6.0)
-                        self.yourScoreTitleForeGround.text = "امتیاز شما : \((self.predictLeaderBoardRes?.user_pts)!)"
+                        self.topLabelFunction(text: "امتیاز شما : \((self.predictLeaderBoardRes?.user_pts)!)")
                         DispatchQueue.main.async {
                             self.predictMatchTV.reloadData()
                         }

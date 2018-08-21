@@ -77,6 +77,19 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 }.resume()
     }
     
+    
+//    @objc func updateConstraint() {
+//        UIView.animate(withDuration: 0.5) {
+//        if self.leaderBoardState == "TOURNAMENT" {
+//            self.achievementLeaderBoardTopConstraint.constant = 80
+//            self.achievementsTV.layer.cornerRadius = 10
+//        } else {
+//            self.achievementLeaderBoardTopConstraint.constant = 40
+//        }
+//            self.view.layoutIfNeeded()
+//        }
+//    }
+    
     var alertsRes : allAlerts.Response? = nil ;
     var alertTypes = [String]()
     var alertTitles = [String]()
@@ -294,20 +307,46 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             cell.moneyLabel.text = (loadingAchievements.res?.response?[indexPath.row].cash_reward!)!
             
             cell.acievementTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].title!)!)"
+            let intProgress = Int((loadingAchievements.res?.response?[indexPath.row].progress)!)!
+            if intProgress < 10 {
             if UIDevice().userInterfaceIdiom == .phone {
-                cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
+                cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
+                cell.progressTitleForeGround.font = fonts().iPhonefonts
                 cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
                 cell.acievementTitleForeGround.font = fonts().iPhonefonts
+                
             } else {
-                cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -3.0)
+                cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
+                cell.progressTitleForeGround.font = fonts().iPadfonts
                 cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
                 cell.acievementTitleForeGround.font = fonts().iPadfonts
+            }
+            cell.progressTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10"
+            } else {
+            
+                cell.receiveGift.tag = indexPath.row
+                cell.receiveGift.addTarget(self, action: #selector(receivingGift), for: UIControlEvents.touchUpInside)
+                if UIDevice().userInterfaceIdiom == .phone {
+                    cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "دریافت جایزه", strokeWidth: -5.0)
+                    cell.progressTitleForeGround.font = fonts().iPhonefonts
+                    cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                    cell.acievementTitleForeGround.font = fonts().iPhonefonts
+                    
+                } else {
+                    cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "دریافت جایزه", strokeWidth: -5.0)
+                    cell.progressTitleForeGround.font = fonts().iPadfonts
+                    cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                    cell.acievementTitleForeGround.font = fonts().iPadfonts
+                }
+                cell.progressTitleForeGround.text = "دریافت جایزه"
+
             }
             cell.achievementDesc.text = "\((loadingAchievements.res?.response?[indexPath.row].describtion!)!)"
             let progressAchievement = (Float((loadingAchievements.res?.response?[indexPath.row].progress)!)!) / 10.0
             print("progress\(progressAchievement)")
             cell.achievementProgress.progress = progressAchievement
             return cell
+            
         case "LeaderBoard":
             let cell = tableView.dequeueReusableCell(withIdentifier: "leaderBoardCell", for: indexPath) as! leaderBoardCell
             
@@ -555,6 +594,47 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         }
         
     }
+    var collectingItemAchievement : String? = nil;
+
+    @objc func achievementReceive(id : Int) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_updateAchievements", JSONStr: "{'achievement_id' : '\(id)' ,'userid':'\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
+
+                    if ((self.collectingItemAchievement)!).contains("OK") {
+                        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, completionHandler: {
+                        DispatchQueue.main.async {
+                            self.achievementsTV.reloadData()
+                            PubProc.wb.hideWaiting()
+                            thirdSoundPlay().playCollectItemSound()
+                        }
+                            })
+                    } else {
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                        }
+                    }
+                } else {
+                    self.achievementReceive(id : id)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
+    @objc func receivingGift(_ sender : UIButton!) {
+        print(sender.tag)
+        let aId = Int((loadingAchievements.res?.response?[sender.tag].id!)!)
+        achievementReceive(id : aId!)
+    }
+    
     
     var profileAvatar = String()
     var profileName = String()

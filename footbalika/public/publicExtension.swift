@@ -293,6 +293,34 @@ struct thirdSoundPlay {
         
     }
     
+    public func playCollectItemSound() {
+        if playGameSounds == true {
+            if thirdSoundPlay.thirdPlayer?.isPlaying == true {
+                thirdSoundPlay.thirdPlayer?.stop()
+            } else {
+                
+                guard let url = Bundle.main.url(forResource: "collectItem", withExtension: "mp3") else { return }
+                
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setActive(true)
+                    
+                    thirdSoundPlay.thirdPlayer = try AVAudioPlayer(contentsOf: url)
+                    guard let player = thirdSoundPlay.thirdPlayer else { return }
+                    player.numberOfLoops = 0
+                    player.play()
+                    
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+                
+            }
+        } else {
+            thirdSoundPlay.thirdPlayer?.stop()
+        }
+        
+    }
+    
 }
 
 

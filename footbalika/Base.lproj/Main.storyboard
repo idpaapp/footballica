@@ -1517,6 +1517,15 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P63-hz-w4S" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                 <rect key="frame" x="110" y="218" width="156" height="156.5"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="showLeagus:" destination="eVy-0W-4xt" eventType="touchUpInside" id="xYh-L4-Vnn"/>
                                 </connections>
@@ -3140,6 +3149,9 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="tLd-UP-QFd"/>
                     </view>
+                    <connections>
+                        <segue destination="fuF-wP-gKN" kind="presentation" identifier="giftAlert" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="mKV-V0-Y0m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AAa-oe-2ac" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -4611,7 +4623,7 @@
             <objects>
                 <viewController restorationIdentifier="menuAlert2ButtonsViewController" storyboardIdentifier="menuAlert2ButtonsViewController" modalTransitionStyle="crossDissolve" id="33x-am-hmp" customClass="menuAlert2ButtonsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bII-9b-rpf">
-                        <rect key="frame" x="0.0" y="0.0" width="323" height="541"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="pE3-Oc-VkC"/>
@@ -4898,6 +4910,24 @@
                                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6GQ-Km-mnV">
+                                                                            <rect key="frame" x="163" y="99.5" width="130" height="20"/>
+                                                                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                                                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cU4-TC-Xck" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                                                            <rect key="frame" x="163" y="99.5" width="130" height="20"/>
+                                                                            <userDefinedRuntimeAttributes>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                                                    <real key="value" value="0.0"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                                    <real key="value" value="0.0"/>
+                                                                                </userDefinedRuntimeAttribute>
+                                                                            </userDefinedRuntimeAttributes>
+                                                                        </button>
                                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_coin" translatesAutoresizingMaskIntoConstraints="NO" id="Q0H-Dh-2rC">
                                                                             <rect key="frame" x="123" y="100" width="20" height="20"/>
                                                                         </imageView>
@@ -4926,6 +4956,7 @@
                                                                     <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstItem="1SV-j9-sF7" firstAttribute="centerY" secondItem="dzz-d5-fT3" secondAttribute="centerY" id="0b9-xL-qiy"/>
+                                                                        <constraint firstItem="cU4-TC-Xck" firstAttribute="height" secondItem="6GQ-Km-mnV" secondAttribute="height" id="32M-km-mu9"/>
                                                                         <constraint firstItem="dzz-d5-fT3" firstAttribute="top" secondItem="rxm-Q0-fDC" secondAttribute="top" constant="14" id="3au-9x-f6r"/>
                                                                         <constraint firstItem="wmZ-iX-3j2" firstAttribute="centerY" secondItem="dXU-EL-UcM" secondAttribute="centerY" id="4fh-QW-ciM"/>
                                                                         <constraint firstItem="Q0H-Dh-2rC" firstAttribute="centerY" secondItem="drp-pR-Iqy" secondAttribute="centerY" id="5n1-Df-JBu"/>
@@ -4935,20 +4966,26 @@
                                                                         <constraint firstItem="Wro-ft-FTY" firstAttribute="height" secondItem="Q0H-Dh-2rC" secondAttribute="height" id="6tf-l5-aPN"/>
                                                                         <constraint firstItem="Q0H-Dh-2rC" firstAttribute="height" secondItem="drp-pR-Iqy" secondAttribute="height" id="7gp-Oz-l2v"/>
                                                                         <constraint firstItem="dzz-d5-fT3" firstAttribute="leading" secondItem="rxm-Q0-fDC" secondAttribute="leading" constant="8" id="8d6-Ht-dqY"/>
+                                                                        <constraint firstItem="cU4-TC-Xck" firstAttribute="centerX" secondItem="6GQ-Km-mnV" secondAttribute="centerX" id="C12-sC-duo"/>
                                                                         <constraint firstAttribute="trailing" secondItem="WJc-E6-zx8" secondAttribute="trailing" id="D21-Nv-oIn"/>
                                                                         <constraint firstItem="wmZ-iX-3j2" firstAttribute="leading" secondItem="rxm-Q0-fDC" secondAttribute="leading" constant="3" id="E07-ay-xo6"/>
                                                                         <constraint firstAttribute="trailing" secondItem="LI4-rY-Ort" secondAttribute="trailing" constant="8" id="Gpp-cz-8p6"/>
+                                                                        <constraint firstItem="6GQ-Km-mnV" firstAttribute="centerX" secondItem="1xj-oO-OgJ" secondAttribute="centerX" id="HQx-i7-kkR"/>
                                                                         <constraint firstItem="Wro-ft-FTY" firstAttribute="leading" secondItem="dXU-EL-UcM" secondAttribute="trailing" id="K0I-gj-M9l"/>
                                                                         <constraint firstAttribute="trailing" secondItem="drp-pR-Iqy" secondAttribute="trailing" constant="10" id="MWa-Oh-sf3"/>
                                                                         <constraint firstItem="Wro-ft-FTY" firstAttribute="centerY" secondItem="Q0H-Dh-2rC" secondAttribute="centerY" id="Od8-ut-eQU"/>
                                                                         <constraint firstAttribute="trailing" secondItem="DW5-HQ-Hn0" secondAttribute="trailing" constant="8" id="QO9-Ci-jRL"/>
                                                                         <constraint firstItem="1SV-j9-sF7" firstAttribute="centerX" secondItem="dzz-d5-fT3" secondAttribute="centerX" id="Uzu-f4-Uv2"/>
                                                                         <constraint firstItem="drp-pR-Iqy" firstAttribute="centerY" secondItem="WJc-E6-zx8" secondAttribute="centerY" id="V3i-58-b5u"/>
+                                                                        <constraint firstItem="6GQ-Km-mnV" firstAttribute="centerY" secondItem="1xj-oO-OgJ" secondAttribute="centerY" id="VHm-iQ-m9a"/>
+                                                                        <constraint firstItem="cU4-TC-Xck" firstAttribute="centerY" secondItem="6GQ-Km-mnV" secondAttribute="centerY" id="XOu-bl-FKM"/>
                                                                         <constraint firstItem="dXU-EL-UcM" firstAttribute="width" secondItem="Q0H-Dh-2rC" secondAttribute="height" multiplier="1:1" id="YmX-Fq-KvG"/>
                                                                         <constraint firstItem="1xj-oO-OgJ" firstAttribute="centerX" secondItem="drp-pR-Iqy" secondAttribute="centerX" id="Zpk-Ek-cfC"/>
+                                                                        <constraint firstItem="6GQ-Km-mnV" firstAttribute="height" secondItem="1xj-oO-OgJ" secondAttribute="height" id="a1O-VP-mrn"/>
                                                                         <constraint firstAttribute="bottom" secondItem="WJc-E6-zx8" secondAttribute="bottom" id="b1S-mD-lTV"/>
                                                                         <constraint firstItem="drp-pR-Iqy" firstAttribute="leading" secondItem="Q0H-Dh-2rC" secondAttribute="trailing" constant="20" id="bIs-da-LON"/>
                                                                         <constraint firstItem="1xj-oO-OgJ" firstAttribute="centerY" secondItem="drp-pR-Iqy" secondAttribute="centerY" id="d8h-BM-4tA"/>
+                                                                        <constraint firstItem="6GQ-Km-mnV" firstAttribute="width" secondItem="1xj-oO-OgJ" secondAttribute="width" id="da1-2k-Uem"/>
                                                                         <constraint firstItem="LI4-rY-Ort" firstAttribute="top" secondItem="rxm-Q0-fDC" secondAttribute="top" constant="8" id="eIk-4N-hiT"/>
                                                                         <constraint firstItem="dXU-EL-UcM" firstAttribute="leading" secondItem="wmZ-iX-3j2" secondAttribute="trailing" constant="3" id="eXR-HA-kDp"/>
                                                                         <constraint firstItem="1SV-j9-sF7" firstAttribute="height" secondItem="dzz-d5-fT3" secondAttribute="height" id="fqd-6M-QcB"/>
@@ -4957,6 +4994,7 @@
                                                                         <constraint firstItem="1xj-oO-OgJ" firstAttribute="height" secondItem="drp-pR-Iqy" secondAttribute="height" id="hrh-VO-IUX"/>
                                                                         <constraint firstItem="drp-pR-Iqy" firstAttribute="bottom" secondItem="WJc-E6-zx8" secondAttribute="bottom" constant="-10" id="i4c-V8-qw0"/>
                                                                         <constraint firstItem="drp-pR-Iqy" firstAttribute="width" secondItem="WJc-E6-zx8" secondAttribute="width" multiplier="3:7" id="iVe-Ia-xcD"/>
+                                                                        <constraint firstItem="cU4-TC-Xck" firstAttribute="width" secondItem="6GQ-Km-mnV" secondAttribute="width" id="iVn-Sk-fJ1"/>
                                                                         <constraint firstItem="DW5-HQ-Hn0" firstAttribute="top" secondItem="LI4-rY-Ort" secondAttribute="bottom" constant="5" id="jt4-Sz-qJR"/>
                                                                         <constraint firstItem="1SV-j9-sF7" firstAttribute="width" secondItem="dzz-d5-fT3" secondAttribute="width" id="kLo-Hh-J9J"/>
                                                                         <constraint firstItem="Wro-ft-FTY" firstAttribute="width" secondItem="Q0H-Dh-2rC" secondAttribute="width" multiplier="2:1" id="lSQ-fR-blV"/>
@@ -5008,6 +5046,8 @@
                                             <outlet property="progressBarBackGroundView" destination="drp-pR-Iqy" id="kGi-mU-1b2"/>
                                             <outlet property="progressBarBackGroundView2" destination="jdl-iy-mvp" id="Jee-JP-1Mi"/>
                                             <outlet property="progressTitle" destination="1xj-oO-OgJ" id="gZo-JE-pDL"/>
+                                            <outlet property="progressTitleForeGround" destination="6GQ-Km-mnV" id="8Uu-wR-4ou"/>
+                                            <outlet property="receiveGift" destination="cU4-TC-Xck" id="lhF-D7-UFI"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="settingsCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="settingsCell" rowHeight="91" id="6q3-sG-9Kc" customClass="settingsCell" customModule="footbalika" customModuleProvider="target">
@@ -6275,9 +6315,9 @@
         <image name="xpProgress" width="201" height="416"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FbV-sN-c3I"/>
-        <segue reference="qQL-Pc-TZS"/>
-        <segue reference="8SW-Su-quE"/>
+        <segue reference="uy9-ug-KDx"/>
+        <segue reference="wU6-MG-i6J"/>
+        <segue reference="LfF-cD-YKj"/>
         <segue reference="N21-7O-RH3"/>
     </inferredMetricsTieBreakers>
 </document>

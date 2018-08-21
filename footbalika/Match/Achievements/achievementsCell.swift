@@ -23,6 +23,9 @@ class achievementsCell: UITableViewCell {
     @IBOutlet weak var coinLabel: UILabel!
     @IBOutlet weak var moneyLabel: UILabel!
     @IBOutlet weak var acievementTitleForeGround: UILabel!
+    @IBOutlet weak var progressTitleForeGround: UILabel!
+    
+    @IBOutlet weak var receiveGift: RoundButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

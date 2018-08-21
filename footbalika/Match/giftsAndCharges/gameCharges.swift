@@ -12,7 +12,6 @@ import UIKit
 public class gameCharges : menuView {
     
     public var gameChargesImages = [String]()
-    
     public var gameChargesTitles = [String]()
     public var gameChargesNumbers = [String]()
     public var gameChargesPriceType = [String]()
@@ -36,11 +35,13 @@ public class gameCharges : menuView {
         }
         
         if UIDevice().userInterfaceIdiom == .phone {
-            self.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "شارژ بازی", strokeWidth: -4.0)
+            self.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "شارژ بازی", strokeWidth: -6.0)
+            self.topTitleForeGround.font = fonts().iPhonefonts
         } else {
-            self.topTitle.AttributesOutLine(font: fonts().iPadfonts, title: "شارژ بازی", strokeWidth: -4.0)
+            self.topTitle.AttributesOutLine(font: fonts().iPadfonts, title: "شارژ بازی", strokeWidth: -6.0)
+            self.topTitleForeGround.font = fonts().iPadfonts
         }
-        
+        self.topTitleForeGround.text = "شارژ بازی"
     }
     
 }

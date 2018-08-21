@@ -10,7 +10,7 @@ import Foundation
 
 public class loadingAchievements {
     static var res : loadingAchievementsStructure.Response? = nil;
-    public func loadAchievements(userid : String) {
+    public func loadAchievements(userid : String , completionHandler : @escaping () -> Void)  {
         PubProc.HandleDataBase.readJson(wsName: "ws_getAchievements", JSONStr: "{'userid' : '\(userid)'}") { data, error in
             DispatchQueue.main.async {
                 
@@ -25,12 +25,15 @@ public class loadingAchievements {
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("updateProgress"), object: nil)
                         loadMassages.init().loadingMassage(userid: userid)
+                        completionHandler()
                     } catch {
-                        self.loadAchievements(userid: userid)
+                        self.loadAchievements(userid: userid, completionHandler: {
+                        })
                         print(error)
                     }
                 } else {
-                    self.loadAchievements(userid: userid)
+                    self.loadAchievements(userid: userid, completionHandler: {
+                    })
                     print("Error Connection")
                     print(error as Any)
                     // handle error

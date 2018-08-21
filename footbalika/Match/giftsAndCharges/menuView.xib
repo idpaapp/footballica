@@ -27,6 +27,7 @@
                 <outlet property="menuWidth" destination="S1U-40-JU2" id="tEu-PF-Adv"/>
                 <outlet property="subView" destination="c3V-tT-crc" id="fuB-WY-DkX"/>
                 <outlet property="topTitle" destination="2Uk-LC-rax" id="VJa-pc-7y6"/>
+                <outlet property="topTitleForeGround" destination="a3z-f7-41E" id="D1A-Np-cuI"/>
                 <outlet property="topView" destination="hLE-0B-IIp" id="qx4-xB-2AN"/>
             </connections>
         </placeholder>
@@ -86,18 +87,28 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a3z-f7-41E">
+                            <rect key="frame" x="136.5" y="6" width="45.5" height="27"/>
+                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" red="0.38823529411764707" green="0.41568627450980394" blue="0.48627450980392156" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="c3V-tT-crc" secondAttribute="trailing" constant="5" id="0P7-te-61y"/>
                         <constraint firstAttribute="trailing" secondItem="eJA-Yc-aVj" secondAttribute="trailing" constant="10" id="0ru-MZ-rmF"/>
+                        <constraint firstItem="a3z-f7-41E" firstAttribute="width" secondItem="2Uk-LC-rax" secondAttribute="width" id="23W-aq-Tx0"/>
+                        <constraint firstItem="a3z-f7-41E" firstAttribute="centerX" secondItem="2Uk-LC-rax" secondAttribute="centerX" id="6eZ-BY-IID"/>
                         <constraint firstItem="eJA-Yc-aVj" firstAttribute="top" secondItem="Yk0-VU-BRP" secondAttribute="top" constant="5" id="HDH-k1-Kjg"/>
+                        <constraint firstItem="a3z-f7-41E" firstAttribute="centerY" secondItem="2Uk-LC-rax" secondAttribute="centerY" id="HcE-fS-dVp"/>
                         <constraint firstAttribute="height" constant="544" id="Ncl-rY-6Bf"/>
                         <constraint firstAttribute="width" constant="317" id="S1U-40-JU2"/>
                         <constraint firstItem="c3V-tT-crc" firstAttribute="top" secondItem="Yk0-VU-BRP" secondAttribute="top" constant="40" id="cg8-JN-Gok"/>
                         <constraint firstItem="c3V-tT-crc" firstAttribute="leading" secondItem="Yk0-VU-BRP" secondAttribute="leading" constant="5" id="nte-ti-MMS"/>
                         <constraint firstAttribute="bottom" secondItem="c3V-tT-crc" secondAttribute="bottom" constant="5" id="osh-5Q-ifr"/>
                         <constraint firstItem="2Uk-LC-rax" firstAttribute="centerX" secondItem="Yk0-VU-BRP" secondAttribute="centerX" id="qTg-VF-0mj"/>
+                        <constraint firstItem="a3z-f7-41E" firstAttribute="height" secondItem="2Uk-LC-rax" secondAttribute="height" id="sTx-KG-fpE"/>
                         <constraint firstItem="2Uk-LC-rax" firstAttribute="centerY" secondItem="eJA-Yc-aVj" secondAttribute="centerY" id="vQQ-in-4cm"/>
                     </constraints>
                 </view>

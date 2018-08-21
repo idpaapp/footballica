@@ -42,7 +42,8 @@ public class loadShop {
                             }
                         }
 //                        print(self.res?.response?[1].items?[0].package_awards?[0].image_path!)
-                        loadingAchievements.init().loadAchievements(userid: userid)
+                            loadingAchievements.init().loadAchievements(userid: userid, completionHandler: {
+                            })
                         }
                     } catch {
                         self.loadingShop(userid: userid, rest: rest, completionHandler: {

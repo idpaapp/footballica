@@ -128,8 +128,69 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         }
     }
     
+    var chargeRes : String? = nil;
+    var alertTitle = String()
+    var alertBody = String()
+    var alertAcceptLabel = String()
+    
+    @objc func chargeGame(id : Int) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_setExtraGames", JSONStr: "{'charge_id' : '\(id)' , 'userid':'\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    
+                        self.chargeRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+
+                    
+                    if ((self.chargeRes)!).contains("TRANSACTION_COMPELETE") {
+                        self.alertTitle = "فوتبالیکا"
+                        self.alertBody = "تراکنش با موفقیت انجام شد!"
+                        self.alertAcceptLabel = "تأیید"
+                        self.performSegue(withIdentifier: "giftAlert", sender: self)
+                    } else {
+                        self.alertTitle = "اخطار"
+                        self.alertBody = "تراکنش با موفقیت انجام نشد!"
+                        self.alertAcceptLabel = "تأیید"
+                        self.performSegue(withIdentifier: "giftAlert", sender: self)
+                    }
+                    
+                        DispatchQueue.main.async {
+                            
+                            PubProc.wb.hideWaiting()
+                        }
+                        
+                    
+                } else {
+                    self.chargeGame(id : id)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     
+        if let vc = segue.destination as? menuAlertViewController {
+            vc.alertTitle = self.alertTitle
+            vc.alertBody = self.alertBody
+            vc.alertAcceptLabel = self.alertAcceptLabel
+        }
+    }
+    
     @objc func selectedMenu(_ sender : UIButton!) {
-        print(sender.tag)
+        if pageState == "gifts" {
+            
+        } else {
+//        print((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
+        let id = Int((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
+        self.chargeGame(id : id!)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
