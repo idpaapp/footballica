@@ -83,6 +83,9 @@ class menuAlert2ButtonsViewController: UIViewController {
             
                                 //                print(data ?? "")
                                 
+                                DispatchQueue.main.async {
+                                    PubProc.cV.hideWarning()
+                                }
                                 do {
                                     
                                     self.predictionResponse = try JSONDecoder().decode(Response.self , from : data!)
@@ -114,7 +117,9 @@ class menuAlert2ButtonsViewController: UIViewController {
                 DispatchQueue.main.async {
                     
                     if data != nil {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                        }
                         self.ResponseFriendlyMatch = ((String(data: data!, encoding: String.Encoding.utf8) as String?)!)
                         //                print(data ?? "")
                         

@@ -29,6 +29,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 
                 if data != nil {
                     
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    
                     //                print(data ?? "")
                     
                     do {
@@ -88,6 +92,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode' : 'GetByRefID' , 'ref_id' : '\(self.searchText)' , 'userid' : '\(loadingViewController.userid)' }") { data, error in
             
                 if data != nil {
+                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
                     
                     //                print(data ?? "")
                     
@@ -258,6 +266,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             DispatchQueue.main.async {
                 
                 if data != nil {
+                    
+                        PubProc.cV.hideWarning()
                     
                     //                print(data ?? "")
                     

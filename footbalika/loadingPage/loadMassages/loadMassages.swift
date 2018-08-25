@@ -14,7 +14,7 @@ public class loadMassages {
     public func loadingMassage(userid : String) {
         PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode':'READ' , 'userid' : '\(userid)'}") { data, error in
             DispatchQueue.main.async {
-
+                    PubProc.cV.hideWarning()
                 if data != nil {
 
                     //                print(data ?? "")

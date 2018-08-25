@@ -31,8 +31,11 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         PubProc.HandleDataBase.readJson(wsName: "ws_handleCoins", JSONStr: "{'item_id' : '\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
             DispatchQueue.main.async {
                 
+                
                 if data != nil {
-                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
                     //                      print(data ?? "")
                     
                     self.chooseRes = String(data: data!, encoding: String.Encoding.utf8) as String?

@@ -62,6 +62,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                                 self.achievementCount = (self.res?.response?.count)!
                                 self.achievementsTV.reloadData()
                                 PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
                             }
                         } catch {
                             self.leaderBoardJson()
@@ -129,6 +130,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                             self.achievementCount = (self.alertsRes?.response?.count)!
                             self.achievementsTV.reloadData()
                             PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
                         }
                     } catch {
                         self.leaderBoardJson()
@@ -168,6 +170,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                             self.achievementsTV.reloadRows(at: [indexPathOfFriend], with: .none)
                             PubProc.wb.hideWaiting()
                             }
+                                PubProc.cV.hideWarning()
                         }
                     } catch {
                         self.otherProfileJson()
@@ -603,7 +606,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 if data != nil {
                     
                     //                print(data ?? "")
-                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
                     self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
 
                     if ((self.collectingItemAchievement)!).contains("OK") {
@@ -801,6 +806,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 if data != nil {
                     
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
                     //                print(data ?? "")
                     
                     do {

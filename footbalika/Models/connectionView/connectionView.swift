@@ -12,7 +12,6 @@ public class connectionView: UIView {
 
     @IBOutlet weak var connectionViewConstraint: NSLayoutConstraint!
     @IBOutlet var contentView: UIView!
-    
     @IBOutlet weak var mainView: UIView!
     
     override init(frame: CGRect) {
@@ -22,7 +21,6 @@ public class connectionView: UIView {
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
         commonInit()
     }
     
@@ -31,27 +29,35 @@ public class connectionView: UIView {
     }
     
     public func showWarning() {
+        if PubProc.showWarning == false {
+        PubProc.showWarning = true
         DispatchQueue.main.async {
         self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        self.connectionViewConstraint.constant = 40
         UIApplication.shared.keyWindow!.addSubview(self)
         UIApplication.shared.keyWindow!.bringSubview(toFront: self)
+        self.layer.zPosition = 5
         self.isOpaque = false
-        UIView.animate(withDuration: 5.0) {
-            self.connectionViewConstraint.constant = -10
-            self.contentView.layoutIfNeeded()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                UIView.animate(withDuration: 0.5) {
+                    self.connectionViewConstraint.constant = -10
+                    self.contentView.layoutIfNeeded()
+                }
+            })
         }
         }
     }
     
     public func hideWarning() {
+        if PubProc.showWarning == true {
+        PubProc.showWarning = false
         DispatchQueue.main.async {
-        UIView.animate(withDuration: 5.0, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             self.connectionViewConstraint.constant = 40
             self.contentView.layoutIfNeeded()
         }, completion: { (finish) in
             self.removeFromSuperview()
         })
+        }
         }
     }
     

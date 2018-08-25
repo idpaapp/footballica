@@ -13,7 +13,7 @@ public class loadingSetting {
     public func loadSetting(userid : String) {
         PubProc.HandleDataBase.readJson(wsName: "ws_getSettings", JSONStr: "{'mode':'READ'}") { data, error in
             DispatchQueue.main.async {
-                
+                    PubProc.cV.hideWarning()
                 if data != nil {
                     
                     //                print(data ?? "")
@@ -21,6 +21,8 @@ public class loadingSetting {
                     do {
                         
                         loadingSetting.res = try JSONDecoder().decode(loadingSettingStructure.Response.self , from : data!)
+                        
+                        
 //                        print((loadingSetting.res?.response?.splash_back!)!)
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("updateProgress"), object: nil)

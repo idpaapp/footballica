@@ -79,67 +79,21 @@ class mainMatchFieldViewController: UIViewController  {
     
     @IBOutlet weak var beforeStartTitle: UILabel!
     
+    @IBOutlet weak var bombPrice: UILabel!
+    
+    @IBOutlet weak var bombPriceImage: UIImageView!
+    
+    @IBOutlet weak var freezTimePrice: UILabel!
+    
+    @IBOutlet weak var freezTimePriceImage: UIImageView!
+    
     var level = String()
     var category = String()
     var last_questions = String()
     var userid = String()
     var answers = [[String]]()
     var lastVC: selectCategoryViewController!
-    
-    @objc func UpdateTimer(notification: Notification){
-        if startGame == true {
-        let calendar = NSCalendar.current
-        var compos:Set<Calendar.Component> = Set<Calendar.Component>()
-        compos.insert(.second)
-        compos.insert(.minute)
-        let difference = calendar.dateComponents(compos, from: startDate, to: currentDate)
-            
-//        print("diff in minute=\(difference.minute!)") // difference in minute
-//        print("diff in seconds=\(difference.second!)") // difference in seconds
-            
-        if difference.second! > 0 {
-            for _ in 0...difference.second! - 1 {
-            time = time + 0.0165
-            timerCount = timerCount + 1
-            }
-       
-        } else if difference.second! < 0 {
-            if self.checkFinishGame == false {
-            DispatchQueue.main.async {
-                musicPlay().playQuizeMusic()
-                self.view.isUserInteractionEnabled = false
-                self.DisableEnableInterFace(State : false)
-                self.performSegue(withIdentifier: "gameOver", sender: self)
-                NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                    self.view.isUserInteractionEnabled = true
-                })
-                soundPlay().playEndGameSound()
-                self.checkFinishGame = true
-                self.gameTimer.invalidate()
-                self.watchView.updateProgress(75)
-                self.timerLabel.text = "45"
-          
-                }
-              }
-            }
-         if timerCount >= 45 && checkFinishGame == false {
-            self.view.isUserInteractionEnabled = false
-            DispatchQueue.main.async {
-                musicPlay().playQuizeMusic()
-                self.DisableEnableInterFace(State : false)
-                self.performSegue(withIdentifier: "gameOver", sender: self)
-                NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                    self.view.isUserInteractionEnabled = true
-                })
-                soundPlay().playEndGameSound()
-                self.checkFinishGame = true
-            }
-        }
-        startDate = Date()
-        }
-    }
+    var isHome = Bool()
     
     var checkFinishGame = false
     var stadiumUrl = urls()
@@ -149,29 +103,51 @@ class mainMatchFieldViewController: UIViewController  {
          PubProc.wb.showWaiting()
     }
     
+    
+    var bombAndFreezRes : String? = nil
+    
+    @objc func freezAction() {
+        self.gameTimer.invalidate()
+    }
+    
+    
     @objc func bombAction() {
-//        print("bomb")
+        self.bomb.isEnabled = false
+        PubProc.isSplash = true
         PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
             
             DispatchQueue.main.async {
                 
                 if data != nil {
                     
-                    //                print(data ?? "")
                     
-//                    do {
-//
-//
-//
-//                        DispatchQueue.main.async {
-//
-//                            PubProc.wb.hideWaiting()
-//                        }
-//
-//                    } catch {
-//                        self.bombAction()
-//                        print(error)
-//                    }
+                    self.bombAndFreezRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
+//                    print(self.bombRes)
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    if ((self.bombAndFreezRes)!).contains("TRANSACTION_COMPELETE") {
+                    
+                        if (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 1 ||  (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 4 {
+                            
+                            self.answer2Outlet.isUserInteractionEnabled = false
+                            self.answer3Outlet.isUserInteractionEnabled = false
+                    
+                            self.answer2Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+                            self.answer3Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+                        } else {
+                            
+                            self.answer1Outlet.isUserInteractionEnabled = false
+                            self.answer4Outlet.isUserInteractionEnabled = false
+                            self.answer1Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+                            self.answer4Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+                        }
+                        
+                    } else {
+                        
+                    }
+
                 } else {
                     self.bombAction()
                     print("Error Connection")
@@ -185,24 +161,46 @@ class mainMatchFieldViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let money = Int((login.res?.response?.mainInfo?.cashs)!)!
-        let coin = Int((login.res?.response?.mainInfo?.coins)!)!
+//        let money = Int((login.res?.response?.mainInfo?.cashs)!)!
+//        let coin = Int((login.res?.response?.mainInfo?.coins)!)!
         print(Int((login.res?.response?.mainInfo?.cashs)!)!)
         print(Int((login.res?.response?.mainInfo?.coins)!)!)
         
-        if money < 300 {
-            self.freezTimer.isEnabled = false
-        } else {
-            self.freezTimer.isEnabled = true
+        self.bombPrice.text = (loadingSetting.res?.response?.bomb_price!)!
+        self.freezTimePrice.text = (loadingSetting.res?.response?.freeze_price!)!
+        
+        switch (loadingSetting.res?.response?.bomb_price_type!)! {
+        case "2":
+            self.bombPriceImage.image = UIImage(named: "ic_coin")
+        case "3":
+            self.bombPriceImage.image = UIImage(named: "money")
+        default:
+            self.bombPriceImage.image = UIImage()
         }
         
-        if coin < 5 {
-            self.bomb.isEnabled = false
-        } else {
-            self.bomb.isEnabled = true
+        switch (loadingSetting.res?.response?.freeze_price_type!)! {
+        case "2":
+            self.freezTimePriceImage.image = UIImage(named: "ic_coin")
+        case "3":
+            self.freezTimePriceImage.image = UIImage(named: "money")
+        default:
+            self.freezTimePriceImage.image = UIImage()
         }
+        
+//        if money < 300 {
+//            self.freezTimer.isEnabled = false
+//        } else {
+//            self.freezTimer.isEnabled = true
+//        }
+//
+//        if coin < 5 {
+//            self.bomb.isEnabled = false
+//        } else {
+//            self.bomb.isEnabled = true
+//        }
         
         self.bomb.addTarget(self, action: #selector(bombAction), for: UIControlEvents.touchUpInside)
+        self.freezTimer.addTarget(self, action: #selector(freezAction), for: UIControlEvents.touchUpInside)
         self.answer1Outlet.isExclusiveTouch = true
         self.answer2Outlet.isExclusiveTouch = true
         self.answer3Outlet.isExclusiveTouch = true
@@ -221,8 +219,6 @@ class mainMatchFieldViewController: UIViewController  {
         self.questionTitle.minimumScaleFactor = 0.5
         
         self.imageQuestionTitle.text = ""
-        NotificationCenter.default.addObserver(self, selector: #selector(self.UpdateTimer(notification:)), name: Notification.Name("updateTimer"), object: nil)
-
         lastVC.dismiss(animated: true, completion: nil)
         question1Ball.image = publicImages().emptyImage
         question2Ball.image = publicImages().emptyImage
@@ -304,6 +300,10 @@ class mainMatchFieldViewController: UIViewController  {
                 
                 if data != nil {
                     
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    
                     //                print(data ?? "")
                     
                     do {
@@ -376,6 +376,7 @@ class mainMatchFieldViewController: UIViewController  {
         currentDate = Date()
         time = time + 0.0165
         timerCount = timerCount + 1
+        print(timerCount)
         watchView.progressTintColor = .init(red: 222/255, green: 100/255, blue: 1/255, alpha: 1.0)
         watchView.updateProgress(time)
         watchView.thicknessRatio = 10
@@ -392,6 +393,8 @@ class mainMatchFieldViewController: UIViewController  {
                 musicPlay().playQuizeMusic()
                 self.view.isUserInteractionEnabled = false
                 self.DisableEnableInterFace(State : false)
+                PubProc.isSplash = false
+                self.gameTimer.invalidate()
                 self.performSegue(withIdentifier: "gameOver", sender: self)
                 NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -421,7 +424,6 @@ class mainMatchFieldViewController: UIViewController  {
         }
     }
     
-    
     var time : CGFloat = 0
     var gameTimer : Timer!
     
@@ -429,9 +431,6 @@ class mainMatchFieldViewController: UIViewController  {
         
         gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 50) {
-            self.gameTimer.invalidate()
-        }
     }
 
     
@@ -440,23 +439,23 @@ class mainMatchFieldViewController: UIViewController  {
     var Score = Int()
     
     func startMatch() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 45) {
-            if self.checkFinishGame == false {
-                self.gameTimer.invalidate()
-                self.checkFinishGame = true
-                DispatchQueue.main.async {
-                    musicPlay().playQuizeMusic()
-                    self.view.isUserInteractionEnabled = false
-                    self.DisableEnableInterFace(State : false)
-                    self.performSegue(withIdentifier: "gameOver", sender: self)
-                    NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-                    soundPlay().playEndGameSound()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                        self.view.isUserInteractionEnabled = true
-                    })
-                }
-            }
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 45) {
+//            if self.checkFinishGame == false {
+//                self.gameTimer.invalidate()
+//                self.checkFinishGame = true
+//                DispatchQueue.main.async {
+//                    musicPlay().playQuizeMusic()
+//                    self.view.isUserInteractionEnabled = false
+//                    self.DisableEnableInterFace(State : false)
+//                    self.performSegue(withIdentifier: "gameOver", sender: self)
+//                    NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+//                    soundPlay().playEndGameSound()
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+//                        self.view.isUserInteractionEnabled = true
+//                    })
+//                }
+//            }
+//        }
         startDate = Date()
         UIView.animate(withDuration: 0.5) {
             self.topViewTopConstraint.constant = 0
@@ -487,8 +486,6 @@ class mainMatchFieldViewController: UIViewController  {
             self.questionTitle.text = ""
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
                 self.imageQuestionTitle.text = questionTitle
-                self.freezTimer.isUserInteractionEnabled = true
-                self.bomb.isUserInteractionEnabled = true
             }
             self.imageQuestionTitle.isHidden = false
         } else {
@@ -518,6 +515,9 @@ class mainMatchFieldViewController: UIViewController  {
         let dataDecoded:NSData = NSData(base64Encoded: questionImage , options: NSData.Base64DecodingOptions(rawValue: 0))!
         self.imageQuestion.image = UIImage(data: dataDecoded as Data)
         UIView.animate(withDuration: 0.8) {
+            self.bomb.isUserInteractionEnabled = true
+            self.freezTimer.isUserInteractionEnabled = true
+            self.bomb.isEnabled = true
             if UIDevice().userInterfaceIdiom == .phone {
                 if UIScreen.main.nativeBounds.height == 2436 {
                     //iPhone X
@@ -537,7 +537,6 @@ class mainMatchFieldViewController: UIViewController  {
                     self.answer2Constraint.constant = UIScreen.main.bounds.width / 10 - 5
                     self.answer4Constraint.constant = UIScreen.main.bounds.width / 10 - 5
                     self.view.layoutIfNeeded()
-                    
                     
                 }
             } else {
@@ -786,7 +785,6 @@ class mainMatchFieldViewController: UIViewController  {
     }
     
     
-    
     func updateGameResault() {
         var storeArray = [Int]()
         for i in 0...3 {
@@ -800,7 +798,7 @@ class mainMatchFieldViewController: UIViewController  {
         var playerSide = String()
         var playerReault = Int()
         
-        if ((matchData?.response?.isYourTurn!)!) == true {
+        if self.isHome == true {
             playerSide = "1"
         } else {
             playerSide = "2"
@@ -808,9 +806,7 @@ class mainMatchFieldViewController: UIViewController  {
         
         playerReault = storeArray.filter{$0 == 1}.count
         
-        let gameArray = "{'mode':'UPDT_GAME_RESULT','is_home':'\(((matchData?.response?.isYourTurn!)!))','match_id':\(((matchData?.response?.matchData?.id!)!)),'game_type':\(self.category),'last_questions':'\((self.res?.response?[0].id!)!),\((self.res?.response?[1].id!)!),\((self.res?.response?[2].id!)!),\((self.res?.response?[3].id!)!)','player\(playerSide)_result':\(playerReault),'player\(playerSide)_result_sheet':'{\\'ans_1\\':\(storeArray[0]),\\'ans_2\\':\(storeArray[1]),\\'ans_3\\':\(storeArray[2]),\\'ans_4\\':\(storeArray[3])}'}"
-        
-        
+        let gameArray = "{'mode':'UPDT_GAME_RESULT','is_home':'\(self.isHome)','match_id':\(((matchData?.response?.matchData?.id!)!)),'game_type':\(self.category),'last_questions':'\((self.res?.response?[0].id!)!),\((self.res?.response?[1].id!)!),\((self.res?.response?[2].id!)!),\((self.res?.response?[3].id!)!)','player\(playerSide)_result':\(playerReault),'player\(playerSide)_result_sheet':'{\\'ans_1\\':\\'\(storeArray[0])\\',\\'ans_2\\':\\'\(storeArray[1])\\',\\'ans_3\\':\\'\(storeArray[2])\\',\\'ans_4\\':\\'\(storeArray[3])\\'}'}"
         
         defaults.set(gameArray, forKey: "gameLeft")
         

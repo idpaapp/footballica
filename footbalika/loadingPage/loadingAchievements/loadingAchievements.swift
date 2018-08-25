@@ -13,7 +13,7 @@ public class loadingAchievements {
     public func loadAchievements(userid : String , completionHandler : @escaping () -> Void)  {
         PubProc.HandleDataBase.readJson(wsName: "ws_getAchievements", JSONStr: "{'userid' : '\(userid)'}") { data, error in
             DispatchQueue.main.async {
-                
+                    PubProc.cV.hideWarning()
                 if data != nil {
                     
                     //                print(data ?? "")

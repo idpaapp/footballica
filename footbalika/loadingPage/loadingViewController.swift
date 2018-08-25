@@ -75,10 +75,9 @@ class loadingViewController: UIViewController {
 //                    print((self.loadGameData?.response?.gameTypes[0].id!)!)
 //                    print((self.loadGameData?.response?.giftRewards?.change_name!)!)
                     
-                    
                     DispatchQueue.main.async {
-                        PubProc.HandleDataBase.cV.hideWarning()
-                    for i in 0...(loadingViewController.loadGameData?.response?.gameTypes.count)! - 1 {
+                            PubProc.cV.hideWarning()
+                        for i in 0...(loadingViewController.loadGameData?.response?.gameTypes.count)! - 1 {
                         let gametID = Int((loadingViewController.loadGameData?.response?.gameTypes[i].id!)!)
                         let gameTypesID = gametID!
                         

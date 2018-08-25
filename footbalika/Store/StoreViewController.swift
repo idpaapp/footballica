@@ -42,7 +42,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         rData()
-        PubProc.wb.showWaiting()
         loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
         PubProc.wb.hideWaiting()
         })

@@ -262,6 +262,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         self.pastRes = try JSONDecoder().decode(prediction.Response.self , from : data!)
                         DispatchQueue.main.async {
                             self.predictMatchTV.reloadData()
+                                PubProc.cV.hideWarning()
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                             UIView.animate(withDuration: 0.5) {
@@ -296,6 +297,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         
                         self.todayRes = try JSONDecoder().decode(prediction.Response.self , from : data!)
                         DispatchQueue.main.async {
+                                PubProc.cV.hideWarning()
                             if self.todayRes?.response?.count == 0 {
                                 self.topLabelFunction(text: "در حال حاضر بازی ای وجود ندارد")
                                 UIView.animate(withDuration: 0.5) {
@@ -344,6 +346,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         self.topLabelFunction(text: "امتیاز شما : \((self.predictLeaderBoardRes?.user_pts)!)")
                         DispatchQueue.main.async {
                             self.predictMatchTV.reloadData()
+                            PubProc.cV.hideWarning()
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                             UIView.animate(withDuration: 0.5) {

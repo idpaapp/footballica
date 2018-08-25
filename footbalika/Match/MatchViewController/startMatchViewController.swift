@@ -11,10 +11,8 @@ import Kingfisher
 import RealmSwift
 
 class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
-    
-    
-   
 
+    var isHome = Bool()
     @IBAction func selectPlayer1(_ sender: RoundButton) {
         getUserData(id : (self.res?.response?.matchData?.player1_id)!)
     }
@@ -81,10 +79,16 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     func loadMatchData() {
         
         print(self.matchID)
+        self.playGameOutlet.isUserInteractionEnabled = false
+        
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : \(loadingViewController.userid)}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
+                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
                     
                     //                print(data ?? "")
                     
@@ -92,9 +96,17 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         
                         self.res = try JSONDecoder().decode(matchDetails.Response.self , from : data!)
                         
+                        
+                        if (self.res?.response?.matchData?.player1_id!)! == loadingViewController.userid {
+                            self.isHome = true
+                        } else {
+                            self.isHome = false
+                        }
+                        
 //                        print((self.res?.response?.matchData?.player1_avatar))
                         DispatchQueue.main.async {
                             let url = "\(self.urlClass.avatar)\((self.res?.response?.matchData?.player1_avatar)!)"
+                            
                             let urls = URL(string: url)
                             self.player1Avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
                             
@@ -115,14 +127,17 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                             self.player2Score.text = "\((self.res?.response?.matchData?.player2_result)!)"
                             if (self.res?.response?.isYourTurn)! == true {
                                 self.playGameOutlet.setTitle("بازی کن", for: UIControlState.normal)
+                                self.playGameOutlet.isUserInteractionEnabled = true
                             } else {
                                 self.playGameOutlet.setTitle("نوبت بازی حریف", for: UIControlState.normal)
+                                self.playGameOutlet.isUserInteractionEnabled = true
                             }
                             if (Int((self.res?.response?.matchData?.status)!)!) >= 2 {
                                 self.playGameOutlet.setTitle("خروج", for: UIControlState.normal)
+                                self.playGameOutlet.isUserInteractionEnabled = true
                             }
                             self.startMatchTV.reloadData()
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                                 PubProc.wb.hideWaiting()
                             })
                             
@@ -210,24 +225,24 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
         
         if self.res?.response?.detailData?[indexPath.row].player1_result_sheet != nil {
-        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_1)! == 0 {
+        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_1)! == "0" {
            cell.bl1.image = publicImages().redBall
         } else {
             cell.bl1.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_2)! == 0 {
+        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_2)! == "0" {
             cell.bl2.image = publicImages().redBall
         } else {
             cell.bl2.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_3)! == 0 {
+        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_3)! == "0" {
             cell.bl3.image = publicImages().redBall
         } else {
             cell.bl3.image = publicImages().greenBall
         }
-        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_4)! == 0 {
+        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_4)! == "0" {
             cell.bl4.image = publicImages().redBall
         } else {
             cell.bl4.image = publicImages().greenBall
@@ -296,6 +311,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var catState = String()
     
     @IBAction func playGameAction(_ sender: RoundButton) {
+        self.playGameOutlet.isUserInteractionEnabled = false
         let isFinished = (Int((self.res?.response?.matchData?.status)!)!)
 //        print(isFinished)
         if isFinished < 2 {
@@ -465,7 +481,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             }
         }
         
-        
         vc.images = images
         vc.titles = titles
         vc.ids = ids
@@ -477,8 +492,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             vc.selectedcategoryId = Int((self.res?.response?.detailData?[(self.res?.response?.detailData?.count)! - 1].game_type)!)!
             vc.matchData = self.res
             vc.catState = self.catState
-            
         }
+            vc.isHome = self.isHome
     }
         
         if let vc = segue.destination as? menuAlertViewController {

@@ -158,8 +158,8 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                     }
                     
                         DispatchQueue.main.async {
-                            
                             PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
                         }
                         
                     

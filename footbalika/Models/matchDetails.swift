@@ -48,10 +48,10 @@ public class matchDetails {
     }
     
     public struct  player1_result_sheet : Decodable {
-        let ans_1 : Int?
-        let ans_2 : Int?
-        let ans_3 : Int?
-        let ans_4 : Int?
+        let ans_1 : String?
+        let ans_2 : String?
+        let ans_3 : String?
+        let ans_4 : String?
     }
     
     public struct  player2_result_sheet : Decodable {

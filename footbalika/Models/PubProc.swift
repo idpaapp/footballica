@@ -24,10 +24,10 @@ public class PubProc {
     
     static var isSplash = true
     static var wb = waitingBall()
-    
-    
+    static var cV = connectionView()
+    static var showWarning = Bool()
     public class THandleDataBase{
-        var cV = connectionView()
+//        var cV = connectionView()
         public func readJson(wsName: String, JSONStr: String  , completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
             var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)
             
@@ -45,7 +45,7 @@ public class PubProc {
                     completionHandler(nil, (error! as NSError))
                     print("error=\(String(describing: error))")
                     DispatchQueue.main.async {
-                        self.cV.showWarning()
+                       cV.showWarning()
                     }
                     return
                 }
@@ -56,7 +56,7 @@ public class PubProc {
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response!))")
                     DispatchQueue.main.async {
-                    self.cV.showWarning()
+                    cV.showWarning()
                     }
                 }
                 

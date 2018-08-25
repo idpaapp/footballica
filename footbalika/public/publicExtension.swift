@@ -250,7 +250,7 @@ struct musicPlay {
             
             musicPlay.musicPlayer = try AVAudioPlayer(contentsOf: url)
             guard let playerQuize = musicPlay.musicPlayer else { return }
-            playerQuize.numberOfLoops = 0
+            playerQuize.numberOfLoops = -1
             playerQuize.prepareToPlay()
             playerQuize.play()
             

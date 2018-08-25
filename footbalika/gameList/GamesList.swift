@@ -39,6 +39,10 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                 
                 if data != nil {
                     
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    
                     //                print(data ?? "")
                     
                     do {
@@ -222,7 +226,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if UIDevice().userInterfaceIdiom == .phone {
-            return 180
+            return 160
         } else {
             return  UIScreen.main.bounds.height / 6
         }
@@ -230,7 +234,6 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     
     var selectedMatch = Int()
-    
      func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedMatch = indexPath.row
         self.performSegue(withIdentifier: "continueMatch", sender: self)
@@ -290,6 +293,10 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             DispatchQueue.main.async {
                 
                 if data != nil {
+                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
                     
                     //                print(data ?? "")
                     

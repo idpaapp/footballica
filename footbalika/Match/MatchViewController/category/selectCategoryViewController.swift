@@ -29,6 +29,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     var catState = String()
     var matchData : matchDetails.Response? = nil;
 
+   var isHome = Bool()
    var defaults = UserDefaults.standard
     var lastID = String()
     
@@ -117,6 +118,10 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
                 
                 if data != nil {
                     
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    
                     //                print(data ?? "")
                     
                     self.updateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
@@ -158,6 +163,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         vc.userid = "\(loadingViewController.userid)"
         vc.lastVC = self
         vc.matchData = self.matchData
+        vc.isHome = self.isHome
     }
     
     

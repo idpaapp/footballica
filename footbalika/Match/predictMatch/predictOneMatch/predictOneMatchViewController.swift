@@ -68,6 +68,7 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.dismiss(animated: true, completion: nil)
                 PubProc.wb.hideWaiting()
+                PubProc.cV.hideWarning()
         }
     }
     

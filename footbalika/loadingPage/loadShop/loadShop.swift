@@ -14,7 +14,8 @@ public class loadShop {
     public func loadingShop(userid : String , rest : Bool , completionHandler: @escaping () -> Void) {
         PubProc.HandleDataBase.readJson(wsName: "ws_loadShop", JSONStr: "{'mode':'mainPage' , 'userid' : '\(userid)'}") { data, error in
             DispatchQueue.main.async {
-                
+                    PubProc.cV.hideWarning()
+                    PubProc.wb.hideWaiting()
                 if data != nil {
                     
 //                                    print(data ?? "")

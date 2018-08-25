@@ -159,6 +159,9 @@ class matchViewController: UIViewController {
 
                         self.matchCreateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
 
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
                     if ((self.matchCreateRes)!).contains("GAME_NOT_AVAILABILE") {
                         self.alertTitle = "اخطار"
                         self.alertBody = "بازی های فعال شما از حد مجاز گذشته باید بازیاتو شارژ کنی یا صبر کنی تا یه بازی تموم بشه"
@@ -262,6 +265,9 @@ class matchViewController: UIViewController {
                     do {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                        }
                         self.performSegue(withIdentifier: "achievement", sender: self)
                         PubProc.wb.hideWaiting()
                     } catch {
@@ -300,6 +306,7 @@ class matchViewController: UIViewController {
                             self.menuState = "friendsList"
                             self.performSegue(withIdentifier: "achievement", sender: self)
                             PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
                         }
                         
                     } catch {

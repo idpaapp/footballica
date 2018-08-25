@@ -70,7 +70,7 @@ public class downloadAssets {
         
         PubProc.HandleDataBase.readJson(wsName: "reSyncGameData", JSONStr: "{'mode': 'SYNC_DATA' , 'GamehData' : \(postString)}") { data, error in
             DispatchQueue.main.async {
-                
+                    PubProc.cV.hideWarning()
                 if data != nil {
                     
 //                    print(data ?? "")
