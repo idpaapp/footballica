@@ -61,8 +61,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                             DispatchQueue.main.async {
                                 self.achievementCount = (self.res?.response?.count)!
                                 self.achievementsTV.reloadData()
-                                PubProc.wb.hideWaiting()
-                                PubProc.cV.hideWarning()
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                                    PubProc.wb.hideWaiting()
+                                    PubProc.cV.hideWarning()
+                                })
                             }
                         } catch {
                             self.leaderBoardJson()
@@ -383,7 +385,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.playerCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
             }
             
-            
             return cell
             
             
@@ -476,6 +477,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.contentView.backgroundColor = grayColor
 
                 if otherProfile == true {
+                    cell.profileCompletingTitleForeGround.text = ""
+                    cell.profileCompletingTitle.text = ""
                     if userButtons ==  true {
                     cell.completingProfile.isHidden = true
                         if self.isFriend {
@@ -504,7 +507,16 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.cancelFriendship.isHidden = true
                     cell.friendshipRequest.isHidden = true
                     cell.playRequest.isHidden = true
+                    if (login.res?.response?.mainInfo?.status!)! != "2" {
+                    cell.completingProfile.isHidden = false
+                    cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ثبت نام کنید", strokeWidth: -6.0)
+                    cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
+                    cell.profileCompletingTitleForeGround.text = "ثبت نام کنید"
+                    } else {
+                    cell.profileCompletingTitleForeGround.text = ""
+                    cell.profileCompletingTitle.text = ""
                     cell.completingProfile.isHidden = true
+                    }
                 }
                 
                 cell.playRequest.addTarget(self, action: #selector(playRequestGame), for: UIControlEvents.touchUpInside)
@@ -568,6 +580,14 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "googleEntranceCell", for: indexPath) as! googleEntranceCell
                 
                 return cell
+            } else if indexPath.row == 4 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "changeUserNameAndPasswordCell", for: indexPath) as! changeUserNameAndPasswordCell
+
+                cell.changePassword.addTarget(self, action: #selector(changePass), for: UIControlEvents.touchUpInside)
+                cell.changeUserName.addTarget(self, action: #selector(changeUser), for: UIControlEvents.touchUpInside)
+
+                
+                return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! settingsCell
                 
@@ -597,6 +617,19 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         }
         
     }
+    
+    var isPass = Bool()
+    @objc func changePass() {
+        self.isPass = true
+        self.performSegue(withIdentifier: "changePassAndUser", sender: self)
+    }
+    
+    @objc func changeUser() {
+        self.isPass = false
+        self.performSegue(withIdentifier: "changePassAndUser", sender: self)
+    }
+    
+    
     var collectingItemAchievement : String? = nil;
 
     @objc func achievementReceive(id : Int) {
@@ -740,7 +773,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         return 0
                     }
                 } else {
-                    return 0
+                    if (login.res?.response?.mainInfo?.status!)! != "2" {
+                        return 50
+                    } else {
+                        return 0
+                    }
                 }
             case 2 :
                 if UIDevice().userInterfaceIdiom == .phone {
@@ -776,6 +813,16 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 } else {
                     return 100
                 }
+                
+             } else if indexPath.row == 4 {
+                    
+                if UIDevice().userInterfaceIdiom == .phone {
+                    return 40
+                } else {
+                    return 50
+                }
+                    
+                    
             } else {
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 70
@@ -882,6 +929,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             vc.alertBody = "آیا از درخواست مسابقه اطمینان دارید؟"
             vc.alertTitle = "درخواست مسابقه"
             vc.state = "friendlyMatch"
+        }
+        
+        if let vc = segue.destination as? changePassAndUserNameViewController {
+            vc.isPasswordChange = self.isPass
         }
     }
     

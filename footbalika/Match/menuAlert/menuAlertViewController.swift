@@ -13,7 +13,7 @@ class menuAlertViewController: UIViewController {
     let showAlert = menuAlert()
     var alertTitle = String()
     var alertBody = String()
-    var alertAcceptLabel = String()
+    var alertAcceptLabel = "تأیید"
     var alertState = String()
     override var prefersStatusBarHidden: Bool {
         return true
@@ -24,6 +24,7 @@ class menuAlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.showAlert.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         UIApplication.shared.keyWindow!.addSubview(self.showAlert)
         UIApplication.shared.keyWindow!.bringSubview(toFront: self.showAlert)
@@ -84,6 +85,10 @@ class menuAlertViewController: UIViewController {
         }, completion : { (finish) in
             self.showAlert.removeFromSuperview()
             self.dismiss(animated: true, completion: nil)
+            if self.alertState == "userPassChange" {
+                let nc = NotificationCenter.default
+                nc.post(name: Notification.Name("changingUserPassNotification"), object: nil)
+            }
             })
         })
         if self.alertState == "matchField" {
@@ -93,6 +98,7 @@ class menuAlertViewController: UIViewController {
                 musicPlay().playMenuMusic()
             })
         }
+        
         
     }
     

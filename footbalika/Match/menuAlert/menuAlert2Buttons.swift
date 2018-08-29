@@ -30,6 +30,7 @@ class menuAlert2Buttons: UIView {
         self.subView.layer.cornerRadius = 10
         self.mainTitle.minimumScaleFactor = 00.5
         self.mainTitle.adjustsFontSizeToFitWidth = true
+        self.isOpaque = false
     }
     
     override init(frame: CGRect) {

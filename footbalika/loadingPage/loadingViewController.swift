@@ -105,8 +105,12 @@ class loadingViewController: UIViewController {
                         }
                         self.endProgress = 0.1
                         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
+                        if loadingViewController.userid != "0" {
                         login.init().loging(userid: loadingViewController.userid, rest: true, completionHandler: {
                         })
+                        } else {
+                            self.performSegue(withIdentifier: "loginUser", sender: self)
+                        }
                     }
                 } catch {
                     self.gameData()
@@ -122,7 +126,7 @@ class loadingViewController: UIViewController {
             }.resume()
     }
 
-    static var userid = "1"
+    static var userid = "0"
     var realm : Realm!
     
     var launchedBefore = Bool()
@@ -132,8 +136,8 @@ class loadingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let nc = NotificationCenter.default
-
         nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
 
         realm = try! Realm()
@@ -200,7 +204,7 @@ class loadingViewController: UIViewController {
             } else {
                 self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
                     }
-                }
+                  }
                 }
             }
         }

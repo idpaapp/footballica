@@ -103,14 +103,41 @@ class mainMatchFieldViewController: UIViewController  {
          PubProc.wb.showWaiting()
     }
     
-    
     var bombAndFreezRes : String? = nil
-    
     @objc func freezAction() {
-        self.gameTimer.invalidate()
+        if timerCount < 44 {
+        self.freezTimer.isEnabled = false
+        PubProc.isSplash = true
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
+            
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    self.bombAndFreezRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
+                    //                    print(self.bombRes)
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    if ((self.bombAndFreezRes)!).contains("TRANSACTION_COMPELETE") {
+                        self.gameTimer.invalidate()
+                    } else {
+                    }
+                    
+                } else {
+                    self.freezAction()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+        } else {
+            self.freezTimer.isEnabled = false
+        }
     }
-    
-    
+
     @objc func bombAction() {
         self.bomb.isEnabled = false
         PubProc.isSplash = true
@@ -376,7 +403,6 @@ class mainMatchFieldViewController: UIViewController  {
         currentDate = Date()
         time = time + 0.0165
         timerCount = timerCount + 1
-        print(timerCount)
         watchView.progressTintColor = .init(red: 222/255, green: 100/255, blue: 1/255, alpha: 1.0)
         watchView.updateProgress(time)
         watchView.thicknessRatio = 10
@@ -423,6 +449,7 @@ class mainMatchFieldViewController: UIViewController  {
             VC.matchField = self
         }
     }
+
     
     var time : CGFloat = 0
     var gameTimer : Timer!
@@ -557,6 +584,12 @@ class mainMatchFieldViewController: UIViewController  {
     }
     
     func hideQuestion() {
+        if self.freezTimer.isEnabled == false {
+            self.freezTimer.isEnabled = true
+            gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
+
+        }
+        
         self.freezTimer.isUserInteractionEnabled = false
         self.bomb.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {

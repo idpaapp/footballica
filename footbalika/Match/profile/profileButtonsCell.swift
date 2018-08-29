@@ -14,6 +14,9 @@ class profileButtonsCell: UITableViewCell {
     @IBOutlet weak var cancelFriendship: RoundButton!
     @IBOutlet weak var friendshipRequest: RoundButton!
     @IBOutlet weak var completingProfile: RoundButton!
+    @IBOutlet weak var profileCompletingTitle: UILabel!
+    @IBOutlet weak var profileCompletingTitleForeGround: UILabel!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

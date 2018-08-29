@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 
 class matchViewController: UIViewController {
+    
 
     @IBOutlet weak var startLabelForeGround: UILabel!
     @IBOutlet weak var startLabel: UILabel!
@@ -25,7 +26,6 @@ class matchViewController: UIViewController {
     @IBOutlet weak var coin: UILabel!
     @IBOutlet weak var xpProgress: UIProgressView!
     @IBOutlet weak var xpProgressBackGround: UIView!
-
     
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
@@ -61,9 +61,8 @@ class matchViewController: UIViewController {
     var alertBody = String()
     var alertAcceptLabel = String()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-    
+    @objc func fillData() {
+        
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
@@ -82,6 +81,14 @@ class matchViewController: UIViewController {
         
         let urls = URL(string: url)
         mainCupImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+    
+        fillData()
+        
         if UIDevice().userInterfaceIdiom == .phone  {
             startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
             friendlyLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "دوستانه", strokeWidth: -4.0)
@@ -102,6 +109,9 @@ class matchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(fillData), name: Notification.Name("changingUserPassNotification"), object: nil)
         
         
         self.startLabelForeGround.minimumScaleFactor = 0.5

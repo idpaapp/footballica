@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class menuAlert2ButtonsViewController: UIViewController {
         
         let showAlert = menuAlert2Buttons()
@@ -16,13 +17,22 @@ class menuAlert2ButtonsViewController: UIViewController {
         var alertAcceptLabel = String()
         var state = String()
         var jsonStr = String()
+        var alertState = String()
+
     
         override var prefersStatusBarHidden: Bool {
             return true
         }
-        
+    
+    @objc func changingUserPassNotification() {
+            self.dismissing()
+    }
+
         override func viewDidLoad() {
             super.viewDidLoad()
+
+            let nc = NotificationCenter.default
+            nc.addObserver(self, selector: #selector(changingUserPassNotification), name: Notification.Name("changingUserPassNotification"), object: nil)
             
             self.showAlert.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
             UIApplication.shared.keyWindow!.addSubview(self.showAlert)
@@ -62,6 +72,8 @@ class menuAlert2ButtonsViewController: UIViewController {
                 self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 13)!
                 self.showAlert.mainTitle.text = "\(self.alertBody)"
             }
+            
+            self.showAlert.isOpaque = false
         }
     
     
@@ -71,10 +83,10 @@ class menuAlert2ButtonsViewController: UIViewController {
         let status : String?
     }
     
+    
     @objc func accepting() {
         switch state {
         case "prediction":
-            print(jsonStr)
                     PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: jsonStr) { data, error in
                         DispatchQueue.main.async {
             
@@ -123,14 +135,100 @@ class menuAlert2ButtonsViewController: UIViewController {
                         self.ResponseFriendlyMatch = ((String(data: data!, encoding: String.Encoding.utf8) as String?)!)
                         //                print(data ?? "")
                         
-                        print(self.ResponseFriendlyMatch)
                         if self.ResponseFriendlyMatch.contains("OK") {
+                            self.alertBody = "درخواست دوستی با موفقیت انجام شد!"
+                            self.alertTitle = "فوتبالیکا"
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                        } else {
+                            self.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
+                            self.alertTitle = "فوتبالیکا"
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                        }
+                        
+                        PubProc.wb.hideWaiting()
+                    } else {
+                        self.accepting()
+                        print("Error Connection")
+                        print(error as Any)
+                        // handle error
+                    }
+                }
+                }.resume()
+            
+            
+        case "changePassword" :
+            PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "\(jsonStr)") { data, error in
+                DispatchQueue.main.async {
+                    
+                    if data != nil {
+                        
+                        do {
+                            
+                            login.res? = try JSONDecoder().decode(loginStructure.Response.self, from: data!)
+                            
+                            DispatchQueue.main.async {
+                                PubProc.cV.hideWarning()
+                            }
+                            //                print(data ?? "")
+                            
+                            print((login.res?.status!)!)
+                            if (login.res?.status?.contains("OK"))! {
+                                self.alertState = "userPassChange"
+                                self.alertBody = "کلمه عبور با موفقیت تغییر کرد"
+                                self.alertTitle = "فوتبالیکا"
+                                self.performSegue(withIdentifier: "notMore", sender: self)
+                            } else if (login.res?.status?.contains("OLD_PASSWORD_NOT_VALID"))! {
+                                self.alertState = ""
+                                self.alertBody = "کلمه ی عبور فعلی اشتباه است!"
+                                self.alertTitle = "خطا"
+                                 self.performSegue(withIdentifier: "notMore", sender: self)
+                            } else {
+                                self.alertState = ""
+                                self.alertBody = "اشکال در انجام عملیات لطفاً مجدداً سعی نمایید!"
+                                self.alertTitle = "خطا"
+                                self.performSegue(withIdentifier: "notMore", sender: self)
+                            }
+                            
+                             PubProc.wb.hideWaiting()
+                        } catch {
+                                print(error)
+                            }
+                        
+                    } else {
+                        self.accepting()
+                        print("Error Connection")
+                        print(error as Any)
+                        // handle error
+                    }
+                }
+                }.resume()
+            
+        case "changeUserName" :
+            PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "\(jsonStr)") { data, error in
+                DispatchQueue.main.async {
+                    
+                    if data != nil {
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                        }
+                        self.ResponseFriendlyMatch = ((String(data: data!, encoding: String.Encoding.utf8) as String?)!)
+                        //                print(data ?? "")
+                        
+                        if self.ResponseFriendlyMatch.contains("OK") {
+                            self.alertState = "userPassChange"
+                            self.alertBody = "نام کاربری با موفقیت تغییر کرد"
+                            self.alertTitle = "فوتبالیکا"
                             self.performSegue(withIdentifier: "notMore", sender: self)
                             PubProc.wb.hideWaiting()
                         } else {
+                            self.alertState = ""
+                            self.alertBody = "اشکال در عملیات لطفاً مجدداً سعی نمایید"
+                            self.alertTitle = "فوتبالیکا"
                             self.performSegue(withIdentifier: "notMore", sender: self)
                             PubProc.wb.hideWaiting()
                         }
+                        
+                        
                     } else {
                         self.accepting()
                         print("Error Connection")
@@ -144,21 +242,29 @@ class menuAlert2ButtonsViewController: UIViewController {
         }
     }
     
+    
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let vc = segue.destination as! menuAlertViewController
         if state == "friendlyMatch" {
-            if self.ResponseFriendlyMatch.contains("OK") {
-                vc.alertState = ""
-                vc.alertBody = "درخواست دوستی با موفقیت انجام شد!"
-                vc.alertTitle = "فوتبالیکا"
-                vc.alertAcceptLabel = "تأیید"
-            } else {
-                vc.alertState = ""
-                vc.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
-                vc.alertTitle = "فوتبالیکا"
-                vc.alertAcceptLabel = "تأیید"
-            }
+            vc.alertState = ""
+            vc.alertBody = self.alertBody
+            vc.alertTitle = self.alertTitle
+            vc.alertAcceptLabel = "تأیید"
+        } else if state == "changePassword" {
+//            print(self.ResponseFriendlyMatch)
+            vc.alertState = self.alertState
+            vc.alertBody = self.alertBody
+            vc.alertTitle = self.alertTitle
+            vc.alertAcceptLabel = "تأیید"
+        } else if state == "changeUserName" {
+//            print(self.ResponseFriendlyMatch)
+            vc.alertState = "userPassChange"
+            vc.alertBody = self.alertBody
+            vc.alertTitle = self.alertTitle
+            vc.alertAcceptLabel = self.alertAcceptLabel
         } else {
         vc.alertState = ""
         vc.alertBody = "زمان پیش بینی این بازی تمام شده است"

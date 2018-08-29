@@ -169,12 +169,14 @@ class menuViewController: UIViewController {
         } else {
              self.mainTitleForeGround.text = "تنظیمات"
             if UIDevice().userInterfaceIdiom == .phone {
-            self.menuHeight.constant = 318
+//            self.menuHeight.constant = 318
+            self.menuHeight.constant = 368
             self.menuWidth.constant = 280
             maintitle.AttributesOutLine(font: iPhonefonts, title: "تنظیمات", strokeWidth: -7.0)
             self.mainTitleForeGround.font = iPhonefonts
             } else {
-             self.menuHeight.constant = 418
+//             self.menuHeight.constant = 418
+            self.menuHeight.constant = 478
              self.menuWidth.constant = 370
             maintitle.AttributesOutLine(font: iPadfonts, title: "تنظیمات", strokeWidth: -7.0)
             self.mainTitleForeGround.font = iPadfonts
@@ -255,7 +257,7 @@ class menuViewController: UIViewController {
                 vC.friensRes = self.friensRes
                 vC.achievementCount = (self.friensRes?.response?.count)!
             default :
-                vC.achievementCount = 4
+                vC.achievementCount = 5
             }
         }
     }

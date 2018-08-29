@@ -14,7 +14,7 @@ public class loginStructure {
         let response : response?
     }
     public struct response : Decodable {
-        let mainInfo : loginMainInfo.response?
+        var mainInfo : loginMainInfo.response?
         let favoriteteams : [loginFavoriteteams.response]?
         let nots_achv : loginnots_achv.response?
 
