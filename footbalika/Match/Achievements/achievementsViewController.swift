@@ -223,11 +223,19 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
 //    let wb = waitingBall()
     
-    @objc func reloadingTV() {
-        pageState = "profile"
-        otherProfile = false
-        self.achievementsTV.reloadData()
+    @objc func reloadingTV(_ notification: NSNotification) {
+        if let dict = notification.userInfo as NSDictionary? {
+            if let isPassword = dict["isPass"] as? Bool{
+                if !isPassword {
+                    pageState = "profile"
+                    otherProfile = false
+                    self.profileName = (login.res?.response?.mainInfo?.username)!
+                    self.achievementsTV.reloadData()
+                }
+            }
+        }
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -235,9 +243,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
 //        self.waitingCB
 //        wb.showWaiting()
         
-        let nc = NotificationCenter.default
-        nc.addObserver(self, selector: #selector(reloadingTV), name: Notification.Name("changingUserPassNotification"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.reloadingTV(_:)), name: NSNotification.Name(rawValue: "changingUserPassNotification"), object: nil)
+
         self.leagues.addTarget(self, action: #selector(leaguesSelect), for: UIControlEvents.touchUpInside)
         
         self.tournament.addTarget(self, action: #selector(tournamentSelect), for: UIControlEvents.touchUpInside)

@@ -96,7 +96,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         
                         self.res = try JSONDecoder().decode(matchDetails.Response.self , from : data!)
                         
-                        
+                        print("player1ID\((self.res?.response?.matchData?.player1_id!)!)")
+                        print("player2ID\((self.res?.response?.matchData?.player2_id!)!)")
                         if (self.res?.response?.matchData?.player1_id!)! == loadingViewController.userid {
                             self.isHome = true
                         } else {

@@ -117,7 +117,11 @@ class menuViewController: UIViewController {
                     stadium = oPStadium
                 }
                 if UIScreen.main.nativeBounds.height == 2436 && stadium == "empty_std.jpg"{
-                  self.menuHeight.constant = UIScreen.main.bounds.height - 115
+                     if (login.res?.response?.mainInfo?.status!)! != "2" {
+                     self.menuHeight.constant = UIScreen.main.bounds.height - 115
+                     } else {
+                     self.menuHeight.constant = UIScreen.main.bounds.height - 167
+                    }
                 } else {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
                 }
@@ -130,7 +134,12 @@ class menuViewController: UIViewController {
                     if stadium != "empty_std.jpg" {
                         self.menuHeight.constant = UIScreen.main.bounds.height - 100
                     } else {
-                        self.menuHeight.constant = UIScreen.main.bounds.height - 230
+                        if (login.res?.response?.mainInfo?.status!)! != "2" {
+                            self.menuHeight.constant = 790
+                        } else {
+//                        self.menuHeight.constant = UIScreen.main.bounds.height - 230
+                            self.menuHeight.constant = 740
+                        }
                     }
                 } else {
                     let stadium = oPStadium
@@ -169,14 +178,20 @@ class menuViewController: UIViewController {
         } else {
              self.mainTitleForeGround.text = "تنظیمات"
             if UIDevice().userInterfaceIdiom == .phone {
-//            self.menuHeight.constant = 318
-            self.menuHeight.constant = 368
-            self.menuWidth.constant = 280
+                if (login.res?.response?.mainInfo?.status!)! != "2" {
+                    self.menuHeight.constant = 318
+                } else {
+                    self.menuHeight.constant = 368
+                }
+                self.menuWidth.constant = 280
             maintitle.AttributesOutLine(font: iPhonefonts, title: "تنظیمات", strokeWidth: -7.0)
             self.mainTitleForeGround.font = iPhonefonts
             } else {
-//             self.menuHeight.constant = 418
-            self.menuHeight.constant = 478
+                if (login.res?.response?.mainInfo?.status!)! != "2" {
+                    self.menuHeight.constant = 418
+                } else {
+                    self.menuHeight.constant = 478
+                }
              self.menuWidth.constant = 370
             maintitle.AttributesOutLine(font: iPadfonts, title: "تنظیمات", strokeWidth: -7.0)
             self.mainTitleForeGround.font = iPadfonts
@@ -257,7 +272,11 @@ class menuViewController: UIViewController {
                 vC.friensRes = self.friensRes
                 vC.achievementCount = (self.friensRes?.response?.count)!
             default :
+                if (login.res?.response?.mainInfo?.status!)! != "2" {
+                vC.achievementCount = 4
+                } else {
                 vC.achievementCount = 5
+                }
             }
         }
     }

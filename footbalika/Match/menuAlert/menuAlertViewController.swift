@@ -85,9 +85,14 @@ class menuAlertViewController: UIViewController {
         }, completion : { (finish) in
             self.showAlert.removeFromSuperview()
             self.dismiss(animated: true, completion: nil)
-            if self.alertState == "userPassChange"  || self.alertState == "signUp" {
+            if self.alertState == "userPassChange"  {
+                let passData : [String:Bool] = ["isPass" : true]
                 let nc = NotificationCenter.default
-                nc.post(name: Notification.Name("changingUserPassNotification"), object: nil)
+                nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
+            } else if self.alertState == "signUp" {
+                let passData : [String:Bool] = ["isPass" : false]
+                let nc = NotificationCenter.default
+                nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
             } else if self.alertState == "signUpError" {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                 self.menue2Alert.dismiss(animated: true, completion: nil)

@@ -68,6 +68,7 @@ class loadingViewController: UIViewController {
 //                print(data ?? "")
                 
                 do {
+                    
                     loadingViewController.loadGameData = try JSONDecoder().decode(gameDataModel.Response.self , from : data!)
                     
 //                    print((self.loadGameData?.response?.userXps[0].level!)!)
@@ -144,6 +145,8 @@ class loadingViewController: UIViewController {
         realm = try! Realm()
         gameData()
         versionCheck()
+        
+        
         launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 
         if self.launchedBefore  {
@@ -168,7 +171,7 @@ class loadingViewController: UIViewController {
         ballTimer = Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(ballProgressing), userInfo: nil, repeats: true)
         
         self.mainProgressBackGround.layer.cornerRadius = 5
-        self.ProgressBackGroundView.layer.cornerRadius = 3
+        self.ProgressBackGroundView.layer.cornerRadius = 5
 //        timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(progressing), userInfo: nil, repeats: true)
         self.loadingProgress.progress = 0
         self.loadingProgressLabel.text = "۰٪"

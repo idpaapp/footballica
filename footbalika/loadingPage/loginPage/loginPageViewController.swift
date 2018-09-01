@@ -106,9 +106,9 @@ class loginPageViewController: UIViewController {
                             PubProc.isSplash = true
                         }
                         //                print(data ?? "")
-                        self.dismissing()
                         print((login.res?.status!)!)
                         if (login.res?.status?.contains("OK"))! {
+                            self.dismissing()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
                             loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
@@ -168,10 +168,6 @@ class loginPageViewController: UIViewController {
                             UserDefaults.standard.set(userid, forKey: "userid")
                             loadShop.init().loadingShop(userid: userid, rest: true, completionHandler: {
                             })
-                        } else if (login.res?.status?.contains("PASSWORD_NOT_VALID"))! {
-                            self.alertBody = "کلمه ی عبور رو اشتباه زدی!"
-                            self.alertTitle = "اخطار"
-                            self.performSegue(withIdentifier: "loginAlert", sender: self)
                         } else {
                             self.alertBody = "اشکال در انجام عملیات لطفاً مجدداً سعی نمایید!"
                             self.alertTitle = "خطا"

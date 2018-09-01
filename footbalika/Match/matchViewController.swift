@@ -183,8 +183,6 @@ class matchViewController: UIViewController {
                         self.performSegue(withIdentifier: "startingMatch", sender: self)
                         PubProc.wb.hideWaiting()
                     }
-
-                    
                     
                 } else {
                     self.requestNewMatch()
@@ -203,6 +201,7 @@ class matchViewController: UIViewController {
             vC.menuState = self.menuState
             vC.friensRes = self.friendsRes
         }
+        
         if let vc = segue.destination as? giftsAndChargesViewController {
             vc.pageState = self.menuState
         }
@@ -237,6 +236,7 @@ class matchViewController: UIViewController {
         self.menuState = "gifts"
         self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
     }
+    
     @IBAction func gameCharge(_ sender: RoundButton) {
         self.menuState = "gameCharge"
         self.performSegue(withIdentifier: "giftsAndCharges", sender: self)

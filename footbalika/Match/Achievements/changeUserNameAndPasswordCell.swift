@@ -25,8 +25,8 @@ class changeUserNameAndPasswordCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-            changePasswordTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "تغییر کلمه عبور", strokeWidth: -6.0)
-            changePasswordTitleForeGround.font = fonts().iPadfonts25
+        changePasswordTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "تغییر کلمه عبور", strokeWidth: -6.0)
+        changePasswordTitleForeGround.font = fonts().iPadfonts25
         changePasswordTitleForeGround.text =  "تغییر کلمه عبور"
         changeUserNameTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "تغییر نام کاربری", strokeWidth: -6.0)
         changeUserNameTitleForeGround.font = fonts().iPadfonts25
