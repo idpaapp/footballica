@@ -35,16 +35,18 @@ public class gift : menuView {
     public var giftHeight : CGFloat = 525
     public var giftWidth : CGFloat = 310
     
-    
     public override func awakeFromNib() {
         super.awakeFromNib()
         
         self.isOpaque = false
         if UIDevice().userInterfaceIdiom == .phone {
             self.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جوایز", strokeWidth: -4.0)
+             self.topTitleForeGround.font = fonts().iPhonefonts
         } else {
             self.topTitle.AttributesOutLine(font: fonts().iPadfonts, title: "جوایز", strokeWidth: -4.0)
+            self.topTitleForeGround.font = fonts().iPadfonts
         }
+        self.topTitleForeGround.text = "جوایز"
         
     }
     

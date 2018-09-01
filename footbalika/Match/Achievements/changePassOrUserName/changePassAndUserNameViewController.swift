@@ -14,10 +14,13 @@ class changePassAndUserNameViewController: UIViewController {
         return true
     }
     
+    var isSignUp = Bool()
     var isPasswordChange = Bool()
-    @IBOutlet weak var mainHeight: NSLayoutConstraint!
-    @IBOutlet weak var mainWidth: NSLayoutConstraint!
-    @IBOutlet weak var totalView: UIView!
+    
+    //changeUser And Password Outlets
+    @IBOutlet weak var passMainHeight: NSLayoutConstraint!
+    @IBOutlet weak var passMainWidth: NSLayoutConstraint!
+    @IBOutlet weak var totalPassView: UIView!
     
     //changeUser Outlets
     @IBOutlet weak var userTitle: UILabel!
@@ -39,6 +42,25 @@ class changePassAndUserNameViewController: UIViewController {
     @IBOutlet weak var changePassTitle: UILabel!
     @IBOutlet weak var changePassTitleForeGround: UILabel!
     
+    //SignUp Outlets
+    @IBOutlet weak var signUpTotalView: UIView!
+    @IBOutlet weak var dismissSignUp: RoundButton!
+    @IBOutlet weak var singUpMainHeight: NSLayoutConstraint!
+    @IBOutlet weak var signUpMainWidth: NSLayoutConstraint!
+    @IBOutlet weak var signUpUserNameTitle: UILabel!
+    @IBOutlet weak var signUpUserNameTitleForeGround: UILabel!
+    @IBOutlet weak var signUpUserNameTextField: UITextField!
+    @IBOutlet weak var passSignUpTitle: UILabel!
+    @IBOutlet weak var passSignUpTitleForeGround: UILabel!
+    @IBOutlet weak var passSignUpTextField: UITextField!
+    @IBOutlet weak var ReagentCodeTitle: UILabel!
+    @IBOutlet weak var ReagentCodeTitleForeGround: UILabel!
+    @IBOutlet weak var ReagentCodeTextField: UITextField!
+    @IBOutlet weak var signUpAction: RoundButton!
+    @IBOutlet weak var signUpTitle: UILabel!
+    @IBOutlet weak var signUpTitleForeGround: UILabel!
+    
+    
     @objc func changingUserPassNotification() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             PubProc.wb.hideWaiting()
@@ -52,13 +74,40 @@ class changePassAndUserNameViewController: UIViewController {
 
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(changingUserPassNotification), name: Notification.Name("changingUserPassNotification"), object: nil)
-
         let placeHolderColor = UIColor.init(red: 202/255, green: 202/255, blue: 202/255, alpha: 1.0)
-        
         let font = fonts().iPhonefonts
         
-        if isPasswordChange {
+        if isSignUp {
             
+            self.signUpTotalView.isHidden = false
+            self.totalPassView.isHidden = true
+            self.dismissSignUp.addTarget(self, action: #selector(dismissingSignUP), for: UIControlEvents.touchUpInside)
+            signUpTotalView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+            self.signUpUserNameTextField.attributedPlaceholder = NSAttributedString(string: "نام کاربری" ,attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
+            self.passSignUpTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور",attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
+            self.ReagentCodeTextField.attributedPlaceholder = NSAttributedString(string: "کد معرف" ,attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
+            signUpUserNameTitle.AttributesOutLine(font: font, title: "نام کاربری", strokeWidth: -6.0)
+            signUpUserNameTitleForeGround.font = font
+            signUpUserNameTitleForeGround.text = "نام کاربری"
+            
+            passSignUpTitle.AttributesOutLine(font: font, title: "کلمه عبور", strokeWidth: -6.0)
+            passSignUpTitleForeGround.font = font
+            passSignUpTitleForeGround.text = "کلمه عبور"
+            
+            ReagentCodeTitle.AttributesOutLine(font: font, title: "کد معرف", strokeWidth: -6.0)
+            ReagentCodeTitleForeGround.font = font
+            ReagentCodeTitleForeGround.text = "کد معرف"
+            
+            signUpTitle.AttributesOutLine(font: font, title: "ثبت نام" , strokeWidth: -6.0)
+            signUpTitleForeGround.font = font
+            signUpTitleForeGround.text = "ثبت نام"
+
+            self.signUpAction.addTarget(self, action: #selector(signUP), for: UIControlEvents.touchUpInside)
+        } else {
+            
+            self.signUpTotalView.isHidden = true
+        if isPasswordChange {
+            self.totalPassView.isHidden = false
             self.currentPassTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور فعلی",attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
             
             self.newPassTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور جدید",attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
@@ -81,11 +130,11 @@ class changePassAndUserNameViewController: UIViewController {
 
             
             if UIDevice().userInterfaceIdiom == .phone {
-                mainHeight.constant = 250
-                mainWidth.constant = (UIScreen.main.bounds.width - 50)
+                passMainHeight.constant = 250
+                passMainWidth.constant = (UIScreen.main.bounds.width - 50)
             } else {
-                mainHeight.constant = 250
-                mainWidth.constant = 350
+                passMainHeight.constant = 250
+                passMainWidth.constant = 350
             }
             
         } else {
@@ -111,30 +160,42 @@ class changePassAndUserNameViewController: UIViewController {
             
             mainPassView.isHidden = true
             if UIDevice().userInterfaceIdiom == .phone {
-                mainHeight.constant = 190
-                mainWidth.constant = (UIScreen.main.bounds.width - 50)
+                passMainHeight.constant = 190
+                passMainWidth.constant = (UIScreen.main.bounds.width - 50)
             } else {
                 
-                mainHeight.constant = 180
-                mainWidth.constant = 350
+                passMainHeight.constant = 180
+                passMainWidth.constant = 350
                 
             }
         }
         
-        totalView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        totalPassView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
         
+        }
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        if isSignUp {
+            UIView.animate(withDuration: 0.3 , animations :{
+                self.signUpTotalView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+            } , completion : { (finish) in
+                UIView.animate(withDuration: 0.3 , animations :{
+                    self.signUpTotalView.transform = CGAffineTransform.identity
+                })
+            })
+        } else {
         UIView.animate(withDuration: 0.3 , animations :{
-            self.totalView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+            self.totalPassView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
         } , completion : { (finish) in
             UIView.animate(withDuration: 0.3 , animations :{
-                self.totalView.transform = CGAffineTransform.identity
+                self.totalPassView.transform = CGAffineTransform.identity
             })
         })
+        }
     }
     
     var alertBody = String()
@@ -196,6 +257,36 @@ class changePassAndUserNameViewController: UIViewController {
         }
     }
     
+    @objc func signUP() {
+        let texts = self.signUpUserNameTextField.text
+        let texts2 = self.passSignUpTextField.text
+        let texts3 = self.ReagentCodeTextField.text
+        if texts?.trimmingCharacters(in: .whitespacesAndNewlines) != "" ||  texts2?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+            
+            if ((texts2?.count)!) < 8  {
+                
+                self.alertBody = "کلمه ی عبور باید حداقل 8 کاراکتر باشد!"
+                self.alertTitle = "خطا"
+                self.alertState = "changePassword"
+                self.performSeguePage(identifier: "passAlert")
+                
+            } else {
+            
+                self.alertBody = "آیا برای ثبت نام اطمینان دارید؟"
+                self.alertState = "signUp"
+            self.jsonStr = "{'mode':'SignUp' , 'UserName' : '\(texts!)' , 'Password':'\(texts2!)' , 'RefCode':'\(texts3!)', 'userid':'\(loadingViewController.userid)'}"
+                self.performSeguePage(identifier: "passAccept")
+            }
+            
+        } else {
+            
+            self.alertBody = "لطفاً کلمه ی عبور و نام کاربری را وارد کنید"
+            self.alertTitle = "خطا"
+            self.alertState = "changePassword"
+            self.performSeguePage(identifier: "passAlert")
+        }
+    }
+    
     
     @objc func performSeguePage(identifier : String) {
         self.performSegue(withIdentifier: identifier, sender: self)
@@ -230,10 +321,10 @@ class changePassAndUserNameViewController: UIViewController {
     
     @objc func dismissPage() {
         UIView.animate(withDuration: 0.2 , animations :{
-            self.totalView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+            self.totalPassView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
         } , completion : { (finish) in
             UIView.animate(withDuration: 0.2 , animations :{
-                self.totalView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+                self.totalPassView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
             } , completion : { (finish) in
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
@@ -243,7 +334,18 @@ class changePassAndUserNameViewController: UIViewController {
     }
     
     
-    
-   
+    @objc func dismissingSignUP() {
+        UIView.animate(withDuration: 0.2 , animations :{
+            self.signUpTotalView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+        } , completion : { (finish) in
+            UIView.animate(withDuration: 0.2 , animations :{
+                self.signUpTotalView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+            } , completion : { (finish) in
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
+        })
+    }
 
 }

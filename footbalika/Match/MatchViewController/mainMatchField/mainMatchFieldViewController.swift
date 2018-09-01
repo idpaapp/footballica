@@ -120,6 +120,12 @@ class mainMatchFieldViewController: UIViewController  {
                     DispatchQueue.main.async {
                         PubProc.cV.hideWarning()
                     }
+                    
+                    login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                        let nc = NotificationCenter.default
+                        nc.post(name: Notification.Name("changingUserPassNotification"), object: nil)
+                    })
+                    
                     if ((self.bombAndFreezRes)!).contains("TRANSACTION_COMPELETE") {
                         self.gameTimer.invalidate()
                     } else {
@@ -154,6 +160,12 @@ class mainMatchFieldViewController: UIViewController  {
                     DispatchQueue.main.async {
                         PubProc.cV.hideWarning()
                     }
+                    
+                    login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                        let nc = NotificationCenter.default
+                        nc.post(name: Notification.Name("changingUserPassNotification"), object: nil)
+                    })
+                    
                     if ((self.bombAndFreezRes)!).contains("TRANSACTION_COMPELETE") {
                     
                         if (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 1 ||  (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 4 {

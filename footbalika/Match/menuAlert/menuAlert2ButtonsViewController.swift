@@ -237,6 +237,57 @@ class menuAlert2ButtonsViewController: UIViewController {
                     }
                 }
                 }.resume()
+            
+        case "signUp" :
+            PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "\(jsonStr)") { data, error in
+                DispatchQueue.main.async {
+                    
+                    if data != nil {
+                        
+                        do {
+                            
+                            login.res? = try JSONDecoder().decode(loginStructure.Response.self, from: data!)
+                            
+                            DispatchQueue.main.async {
+                                PubProc.cV.hideWarning()
+                            }
+                            //                print(data ?? "")
+                            
+                            
+                            print((login.res?.status!)!)
+                            if (login.res?.status?.contains("OK"))! {
+                                self.alertState = "userPassChange"
+                                self.alertBody = "ثبت نام با موفقیت انجام شد!"
+                                self.alertTitle = "فوتبالیکا"
+                                self.alertAcceptLabel = "تأیید"
+                                self.performSegue(withIdentifier: "notMore", sender: self)
+                            } else if (login.res?.status?.contains("USERNAME_NOT_VALID"))! {
+                                self.state = "signUpError"
+                                self.alertBody = "نام کاربری تکراری است!"
+                                self.alertTitle = "خطا"
+                                self.alertAcceptLabel = "تأیید"
+                                self.performSegue(withIdentifier: "notMore", sender: self)
+                            } else {
+                                self.state = "signUpError"
+                                self.alertBody = "اشکال در انجام عملیات لطفاً مجدداً سعی نمایید!"
+                                self.alertTitle = "خطا"
+                                self.alertAcceptLabel = "تأیید"
+                                self.performSegue(withIdentifier: "notMore", sender: self)
+                            }
+                            
+                            PubProc.wb.hideWaiting()
+                        } catch {
+                            print(error)
+                        }
+                        
+                    } else {
+                        self.accepting()
+                        print("Error Connection")
+                        print(error as Any)
+                        // handle error
+                    }
+                }
+                }.resume()
         default:
             print("otherStates")
         }
@@ -262,6 +313,16 @@ class menuAlert2ButtonsViewController: UIViewController {
         } else if state == "changeUserName" {
 //            print(self.ResponseFriendlyMatch)
             vc.alertState = "userPassChange"
+            vc.alertBody = self.alertBody
+            vc.alertTitle = self.alertTitle
+            vc.alertAcceptLabel = self.alertAcceptLabel
+        } else if state == "signUpError" {
+            vc.alertState = "signUpError"
+            vc.alertBody = self.alertBody
+            vc.alertTitle = self.alertTitle
+            vc.alertAcceptLabel = self.alertAcceptLabel
+        } else if state == "signUp" {
+            vc.alertState = "signUp"
             vc.alertBody = self.alertBody
             vc.alertTitle = self.alertTitle
             vc.alertAcceptLabel = self.alertAcceptLabel

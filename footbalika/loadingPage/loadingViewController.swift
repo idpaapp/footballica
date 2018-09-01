@@ -137,6 +137,7 @@ class loadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
 
@@ -212,6 +213,9 @@ class loadingViewController: UIViewController {
     
     @objc func updateProgress() {
         self.endProgress = self.endProgress + 0.1
+        if self.endProgress > 1.0 {
+          self.endProgress = 1.0
+        }
         print("self.endProgress\(self.endProgress)")
         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
     }

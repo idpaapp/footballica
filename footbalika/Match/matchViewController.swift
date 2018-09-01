@@ -62,7 +62,7 @@ class matchViewController: UIViewController {
     var alertAcceptLabel = String()
     
     @objc func fillData() {
-        
+        if (login.res?.response?.mainInfo?.status) != nil {
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
@@ -81,6 +81,7 @@ class matchViewController: UIViewController {
         
         let urls = URL(string: url)
         mainCupImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+        }
     }
     
     

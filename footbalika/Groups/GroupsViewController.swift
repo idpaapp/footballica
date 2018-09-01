@@ -221,7 +221,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             
             cell.noFriendTitleForeGround.text = noFriendsTitle
             cell.noFriendButtonTitleForeGround.text = noFriendsButtonTitle
-            
+            cell.noFriendButton.addTarget(self, action: #selector(searchingState), for: UIControlEvents.touchUpInside)
             return cell
         }
         }
@@ -347,14 +347,15 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.friendsTableView.reloadData()
     }
     
-    
-    @IBAction func searchAction(_ sender: RoundButton) {
-    
+    @objc func searchingState() {
         self.friendsOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
         self.searchOutlet.backgroundColor = UIColor.white
         state = "searchList"
         self.friendsTableView.reloadData()
+    }
     
+    @IBAction func searchAction(_ sender: RoundButton) {
+        searchingState()
     }
 
 }

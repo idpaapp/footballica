@@ -221,14 +221,22 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         leaderBoardJson()
 //        wb.showWaiting()
     }
-    
-    
 //    let wb = waitingBall()
+    
+    @objc func reloadingTV() {
+        pageState = "profile"
+        otherProfile = false
+        self.achievementsTV.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
 //        self.waitingCB
 //        wb.showWaiting()
+        
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(reloadingTV), name: Notification.Name("changingUserPassNotification"), object: nil)
         
         self.leagues.addTarget(self, action: #selector(leaguesSelect), for: UIControlEvents.touchUpInside)
         
@@ -302,7 +310,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       
+        
         switch pageState {
         case "Achievements":
             let cell = tableView.dequeueReusableCell(withIdentifier: "achievementsCell", for: indexPath) as! achievementsCell
@@ -512,6 +520,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ثبت نام کنید", strokeWidth: -6.0)
                     cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
                     cell.profileCompletingTitleForeGround.text = "ثبت نام کنید"
+                        cell.completingProfile.addTarget(self, action: #selector(signUp), for: UIControlEvents.touchUpInside)
                     } else {
                     cell.profileCompletingTitleForeGround.text = ""
                     cell.profileCompletingTitle.text = ""
@@ -620,13 +629,17 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     var isPass = Bool()
     @objc func changePass() {
+        if (login.res?.response?.mainInfo?.status!)! == "2" {
         self.isPass = true
         self.performSegue(withIdentifier: "changePassAndUser", sender: self)
+        }
     }
     
     @objc func changeUser() {
+        if (login.res?.response?.mainInfo?.status!)! == "2" {
         self.isPass = false
         self.performSegue(withIdentifier: "changePassAndUser", sender: self)
+        }
     }
     
     
@@ -763,11 +776,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         if uniqueId == "1" {
                             return 0 
                         } else {
-                       if UIDevice().userInterfaceIdiom == .phone {
                             return 50
-                        } else {
-                           return 50
-                        }
                         }
                     } else {
                         return 0
@@ -932,8 +941,16 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         }
         
         if let vc = segue.destination as? changePassAndUserNameViewController {
+            vc.isSignUp = self.isSignUp
             vc.isPasswordChange = self.isPass
         }
+    }
+    
+    var isSignUp = Bool()
+    @objc func signUp() {
+        self.isSignUp = true
+        self.pageState = "signUp"
+        self.performSegue(withIdentifier: "changePassAndUser", sender: self)
     }
     
     
