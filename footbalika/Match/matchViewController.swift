@@ -88,7 +88,7 @@ class matchViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
     
-        fillData()
+        
         
         if UIDevice().userInterfaceIdiom == .phone  {
             startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
@@ -104,6 +104,13 @@ class matchViewController: UIViewController {
             startLabelForeGround.font = fonts.init().iPadfonts
             
         }
+        
+        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+            self.fillData()
+            DispatchQueue.main.async {
+                PubProc.wb.hideWaiting()
+            }
+        })
         
         
     }

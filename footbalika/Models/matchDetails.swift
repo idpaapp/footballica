@@ -9,15 +9,18 @@
 import Foundation
 
 public class matchDetails {
+    
     public struct Response : Decodable {
         let status : String?
         let response : response?
     }
+    
     public struct  response : Decodable {
         let matchData : matchData?
         let detailData : [detailData]?
         let isYourTurn : Bool?
     }
+    
     public struct matchData : Decodable {
         let id : String?
         let player1_id : String?
@@ -34,6 +37,7 @@ public class matchDetails {
         let player2_username : String?
         let player2_level : String?
         let player2_avatar : String?
+        let stadium : String?
     }
     
     public struct detailData : Decodable {
@@ -60,4 +64,5 @@ public class matchDetails {
         let ans_4 : String?
         let ans_3 : String?
     }
+    
 }

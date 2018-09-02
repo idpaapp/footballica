@@ -98,6 +98,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         
                         print("player1ID\((self.res?.response?.matchData?.player1_id!)!)")
                         print("player2ID\((self.res?.response?.matchData?.player2_id!)!)")
+                        
                         if (self.res?.response?.matchData?.player1_id!)! == loadingViewController.userid {
                             self.isHome = true
                         } else {
@@ -495,6 +496,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             vc.catState = self.catState
         }
             vc.isHome = self.isHome
+            vc.stadium = (self.res?.response?.matchData?.stadium!)!
     }
         
         if let vc = segue.destination as? menuAlertViewController {
@@ -502,6 +504,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             vc.alertBody = "باید صبر کنی تا حریف بازیشو انجام بده"
             vc.alertAcceptLabel = "تأیید"
         }
+        
         if let vC = segue.destination as? menuViewController {
             vC.menuState = "profile"
         }

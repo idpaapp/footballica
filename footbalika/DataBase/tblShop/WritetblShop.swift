@@ -53,7 +53,7 @@ public class WritetblShop {
                         realms.add(TblShop, update: false)
                         WritetblShop.shopImagesID.append(TblShop.id)
                         WritetblShop.shopImagesPath.append(TblShop.image_path)
-                                        print("variable stored.")
+//                                        print("variable stored.")
                         //                print(self.tblMatchTypesArray.count)
                     }
 
@@ -71,7 +71,7 @@ public class WritetblShop {
                     realms.add(TblShop, update: false)
                     WritetblShop.shopImagesID.append(TblShop.id)
                     WritetblShop.shopImagesPath.append(TblShop.image_path)
-                                    print("variable stored.")
+//                                    print("variable stored.")
                     //                print(self.tblMatchTypesArray.count)
                 }
             })

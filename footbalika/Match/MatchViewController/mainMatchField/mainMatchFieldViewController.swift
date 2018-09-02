@@ -10,6 +10,7 @@ import UIKit
 import RPCircularProgress
 import KBImageView
 import Kingfisher
+import RealmSwift
 
 class mainMatchFieldViewController: UIViewController  {
     
@@ -18,6 +19,8 @@ class mainMatchFieldViewController: UIViewController  {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    var realm : Realm!
     
     @IBOutlet weak var bomb: RoundButton!
     
@@ -94,6 +97,7 @@ class mainMatchFieldViewController: UIViewController  {
     var answers = [[String]]()
     var lastVC: selectCategoryViewController!
     var isHome = Bool()
+    var stadium = String()
     
     var checkFinishGame = false
     var stadiumUrl = urls()
@@ -200,10 +204,17 @@ class mainMatchFieldViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        realm = try? Realm()
+        
+        let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(stadiumUrl.stadium)\(stadium)'")
+        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+        self.backGroundStadium.image = UIImage(data: dataDecoded as Data)
+        
+        
 //        let money = Int((login.res?.response?.mainInfo?.cashs)!)!
 //        let coin = Int((login.res?.response?.mainInfo?.coins)!)!
-        print(Int((login.res?.response?.mainInfo?.cashs)!)!)
-        print(Int((login.res?.response?.mainInfo?.coins)!)!)
+//        print(Int((login.res?.response?.mainInfo?.cashs)!)!)
+//        print(Int((login.res?.response?.mainInfo?.coins)!)!)
         
         self.bombPrice.text = (loadingSetting.res?.response?.bomb_price!)!
         self.freezTimePrice.text = (loadingSetting.res?.response?.freeze_price!)!
@@ -247,10 +258,6 @@ class mainMatchFieldViewController: UIViewController  {
         self.freezTimer.isExclusiveTouch = true
         self.bomb.isExclusiveTouch = true
 //        backGroundStadium.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
-
-        let url = "\(stadiumUrl.stadium)anfield.jpg"
-        let urls = URL(string: url)
-        backGroundStadium.kf.setImage(with: urls)
         
 //        print(url)
         

@@ -18,7 +18,7 @@ public class readAndWritetblStadiums {
         }
     }
     var WtblStadiums = WritetblStadiums()
-    public func writeToDBtblChargeTypes(id : Int ,title : String ,imagePath : String , extendedBase64Image : String ) {
+    public func writeToDBtblStadiumTypes(id : Int ,title : String ,imagePath : String , extendedBase64Image : String ) {
         
         DispatchQueue.main.async {
             if self.tblStadiumsArray.count != 0 {

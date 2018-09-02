@@ -32,6 +32,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
    var isHome = Bool()
    var defaults = UserDefaults.standard
     var lastID = String()
+    var stadium = String()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -164,6 +165,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         vc.lastVC = self
         vc.matchData = self.matchData
         vc.isHome = self.isHome
+        vc.stadium = self.stadium
     }
     
     

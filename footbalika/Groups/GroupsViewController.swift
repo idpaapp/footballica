@@ -88,6 +88,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     var resUser : usersSearchLists.Response? = nil
+    
     @objc func searchFunction() {
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode' : 'GetByRefID' , 'ref_id' : '\(self.searchText)' , 'userid' : '\(loadingViewController.userid)' }") { data, error in
             

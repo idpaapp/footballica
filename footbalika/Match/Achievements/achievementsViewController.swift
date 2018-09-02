@@ -150,6 +150,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     static var friendsRes : friendList.Response? = nil;
     var friendsId = [String]()
+    
     @objc func otherProfileJson() {
         PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid': \(loadingViewController.userid) }") { data, error in
             DispatchQueue.main.async {
@@ -161,6 +162,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     do {
                         
                         achievementsViewController.friendsRes = try JSONDecoder().decode(friendList.Response.self , from : data!)
+                        
                         
                         for i in 0...(achievementsViewController.friendsRes?.response?.count)! - 1 {
                             self.friendsId.append((achievementsViewController.friendsRes?.response?[i].friend_id!)!)
@@ -270,7 +272,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         switchStates.append(alerts)
     
         if otherProfile == true {
+            if pageState != "profile" {
             otherProfileJson()
+            }
         } else {
             
         }
@@ -491,49 +495,113 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 cell.contentView.backgroundColor = grayColor
 
-                if otherProfile == true {
-                    cell.profileCompletingTitleForeGround.text = ""
-                    cell.profileCompletingTitle.text = ""
-                    if userButtons ==  true {
-                    cell.completingProfile.isHidden = true
-                        if self.isFriend {
-                            cell.cancelFriendship.isHidden = false
-                            cell.friendshipRequest.isHidden = true
-                            cell.playRequest.isHidden = false
-                        } else {
-                        if uniqueId ==  "\(loadingViewController.userid)" {
-                            cell.cancelFriendship.isHidden = true
-                            cell.friendshipRequest.isHidden = true
-                            cell.playRequest.isHidden = true
-                        } else if self.friendsId.contains(uniqueId) {
-                        cell.cancelFriendship.isHidden = false
-                        cell.friendshipRequest.isHidden = true
-                        cell.playRequest.isHidden = false
-                    } else {
+                if (login.res?.response?.mainInfo?.id!)! == loadingViewController.userid {
+                    
+                    //userProfile
+                    if (login.res?.response?.mainInfo?.status!)! != "2" {
+                        //signUp Profile
+                        cell.completingProfile.isHidden = false
+                        cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ثبت نام کنید", strokeWidth: -6.0)
+                        cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
+                        cell.profileCompletingTitleForeGround.text = "ثبت نام کنید"
+                        cell.completingProfile.addTarget(self, action: #selector(signUp), for: UIControlEvents.touchUpInside)
                         cell.cancelFriendship.isHidden = true
-                        cell.friendshipRequest.isHidden = false
+                        cell.friendshipRequest.isHidden = true
+                        cell.playRequest.isHidden = true
+                    } else {
+                        //completed Profile
+                        cell.completingProfile.isHidden = true
+                        cell.cancelFriendship.isHidden = true
+                        cell.friendshipRequest.isHidden = true
                         cell.playRequest.isHidden = true
                     }
-                        }
+                    
                 } else {
-                    cell.completingProfile.isHidden = false
-                }
-                } else {
-                    cell.cancelFriendship.isHidden = true
-                    cell.friendshipRequest.isHidden = true
-                    cell.playRequest.isHidden = true
-                    if (login.res?.response?.mainInfo?.status!)! != "2" {
-                    cell.completingProfile.isHidden = false
-                    cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ثبت نام کنید", strokeWidth: -6.0)
-                    cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
-                    cell.profileCompletingTitleForeGround.text = "ثبت نام کنید"
-                        cell.completingProfile.addTarget(self, action: #selector(signUp), for: UIControlEvents.touchUpInside)
+                    //otherProfile
+                    if self.friendsId.contains(loadingViewController.userid) {
+                        //is Friend
+                        cell.completingProfile.isHidden = true
+                        cell.cancelFriendship.isHidden = false
+                        cell.playRequest.isHidden = false
+                        cell.friendshipRequest.isHidden = true
                     } else {
-                    cell.profileCompletingTitleForeGround.text = ""
-                    cell.profileCompletingTitle.text = ""
-                    cell.completingProfile.isHidden = true
+                       //is Not Friend
+                        cell.completingProfile.isHidden = true
+                        cell.cancelFriendship.isHidden = true
+                        cell.playRequest.isHidden = true
+                        cell.friendshipRequest.isHidden = false
+                        cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: -6.0)
+                        cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
+                        cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
                     }
+                    
+                    
                 }
+                
+                
+                
+//                if otherProfile == true {
+//
+//                    cell.friendshipRequest.isHidden = false
+//                    cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: -6.0)
+//                    cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
+//                    cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
+//
+//                    if userButtons ==  true {
+//
+//                    cell.completingProfile.isHidden = true
+//                        if self.isFriend {
+//                            cell.cancelFriendship.isHidden = false
+//                            cell.friendshipRequest.isHidden = true
+//                            cell.playRequest.isHidden = false
+//
+//                        } else {
+//
+//                        if uniqueId ==  "\(loadingViewController.userid)" {
+//                            cell.cancelFriendship.isHidden = true
+//                            cell.friendshipRequest.isHidden = true
+//                            cell.playRequest.isHidden = true
+//                        } else if self.friendsId.contains(uniqueId) {
+//                        cell.cancelFriendship.isHidden = false
+//                        cell.friendshipRequest.isHidden = true
+//                        cell.playRequest.isHidden = false
+//
+//                    } else {
+//                        cell.cancelFriendship.isHidden = true
+//                        cell.friendshipRequest.isHidden = false
+//                        cell.playRequest.isHidden = true
+//                    }
+//                        }
+//                } else {
+//                    cell.completingProfile.isHidden = false
+//                }
+//                } else {
+//
+//                    cell.cancelFriendship.isHidden = true
+//                    cell.friendshipRequest.isHidden = true
+//                    cell.playRequest.isHidden = true
+//                    if (login.res?.response?.mainInfo?.status!)! != "2" {
+//                        if (login.res?.response?.mainInfo?.id!)! == loadingViewController.userid {
+//                    cell.completingProfile.isHidden = false
+//                    cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ثبت نام کنید", strokeWidth: -6.0)
+//                    cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
+//                    cell.profileCompletingTitleForeGround.text = "ثبت نام کنید"
+//                        cell.completingProfile.addTarget(self, action: #selector(signUp), for: UIControlEvents.touchUpInside)
+//                        } else {
+//                            cell.friendshipRequest.isHidden = false
+//                            cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: -6.0)
+//                            cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
+//                            cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
+//                        }
+//                    } else {
+//
+//
+//                    cell.profileCompletingTitleForeGround.text = ""
+//                    cell.profileCompletingTitle.text = ""
+//                    cell.completingProfile.isHidden = true
+//
+//                    }
+//                }
                 
                 cell.playRequest.addTarget(self, action: #selector(playRequestGame), for: UIControlEvents.touchUpInside)
                 
@@ -778,23 +846,29 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 return 240
             }
             case 1 :
-                if otherProfile == true {
-                    if userButtons == true {
-                        if uniqueId == "1" {
-                            return 0 
-                        } else {
-                            return 50
-                        }
-                    } else {
+                
+                if (login.res?.response?.mainInfo?.id!)! == loadingViewController.userid && (login.res?.response?.mainInfo?.status!)! == "2"{
                         return 0
-                    }
                 } else {
-                    if (login.res?.response?.mainInfo?.status!)! != "2" {
-                        return 50
-                    } else {
-                        return 0
-                    }
+                    return 50
                 }
+//                if otherProfile == true {
+//                    if userButtons == true {
+//                        if uniqueId == "\(loadingViewController.userid)" {
+//                            return 0
+//                        } else {
+//                            return 50
+//                        }
+//                    } else {
+//                        return 0
+//                    }
+//                } else {
+//                    if (login.res?.response?.mainInfo?.status!)! != "2" {
+//                        return 50
+//                    } else {
+//                        return 0
+//                    }
+//                }
             case 2 :
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 280

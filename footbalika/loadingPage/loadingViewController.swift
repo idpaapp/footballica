@@ -69,6 +69,9 @@ class loadingViewController: UIViewController {
                 
                 do {
                     
+                    
+                    
+                    
                     loadingViewController.loadGameData = try JSONDecoder().decode(gameDataModel.Response.self , from : data!)
                     
 //                    print((self.loadGameData?.response?.userXps[0].level!)!)
@@ -100,10 +103,11 @@ class loadingViewController: UIViewController {
                             let ID = Int((loadingViewController.loadGameData?.response?.stadiumData[i].id!)!)
                             let id = ID!
                             let title = ((loadingViewController.loadGameData?.response?.stadiumData[i].title!)!)
-                            let imagePath = ((loadingViewController.loadGameData?.response?.stadiumData[i].image_path!)!)
-                            let extendImage = ((loadingViewController.loadGameData?.response?.stadiumData[i].extended_image!)!)
-                            self.writeStadiums.writeToDBtblChargeTypes(id: id, title: title, imagePath: imagePath, extendedBase64Image: extendImage)
+                            let imagePath = ((loadingViewController.loadGameData?.response?.stadiumData[i].extended_image!)!)
+                            let extendImage = ""
+                            self.writeStadiums.writeToDBtblStadiumTypes(id: id, title: title, imagePath: imagePath, extendedBase64Image: extendImage)
                         }
+                        
                         self.endProgress = 0.1
                         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
                         if loadingViewController.userid != "0" {
@@ -138,14 +142,12 @@ class loadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
 
         realm = try! Realm()
         gameData()
         versionCheck()
-        
         
         launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
 
@@ -219,7 +221,6 @@ class loadingViewController: UIViewController {
         if self.endProgress > 1.0 {
           self.endProgress = 1.0
         }
-        print("self.endProgress\(self.endProgress)")
         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
     }
     
