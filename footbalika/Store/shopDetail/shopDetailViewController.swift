@@ -417,6 +417,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
             vc.ImageItem = (realmID.first?.img_base64)!
             vc.TitleItem = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].title)!)"
+            vc.isShopItem = true
         }
         
         if let vc = segue.destination as?  menuAlertViewController {

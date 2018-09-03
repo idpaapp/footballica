@@ -27,13 +27,19 @@ class ItemViewController: UIViewController {
     var alphaTimer : Timer!
     var TitleItem = String()
     var ImageItem = String()
+    var isShopItem = Bool()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         soundPlay().playBuyItem()
+        
+        if isShopItem {
         let dataDecoded:NSData = NSData(base64Encoded: ImageItem, options: NSData.Base64DecodingOptions(rawValue: 0))!
         itemImage.image = UIImage(data: dataDecoded as Data)
+        } else {
+          itemImage.image = UIImage(named: "\(ImageItem)")
+        }
         
         if UIDevice().userInterfaceIdiom == .phone {
           headerTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(TitleItem)", strokeWidth: -6.0)
@@ -68,11 +74,8 @@ class ItemViewController: UIViewController {
 //                self.itemImage.transform = CGAffineTransform.identity
 //                self.doneOutlet.transform = CGAffineTransform.identity
 //        })
-                
         
-
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

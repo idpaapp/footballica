@@ -22,8 +22,19 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     @objc func addGiftMenu() {
         
         self.giftMenu.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        self.giftMenu.menuWidth.constant = self.giftMenu.giftWidth
+        
+        if UIScreen.main.bounds.height < self.giftMenu.giftHeight {
+            self.giftMenu.giftHeight = 475
+        } else {
+            self.giftMenu.giftHeight = 605
+        }
+        if (login.res?.response?.mainInfo?.status!)! == "2" {
+            self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight - 80
+        } else {
         self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight
+        }
+        
+        self.giftMenu.menuWidth.constant = self.giftMenu.giftWidth
         self.giftMenu.center = centerScreen().centerScreens
         self.giftMenu.menuTableView.register(UINib(nibName: "menuCell", bundle: nil), forCellReuseIdentifier: "menuCell")
         UIApplication.shared.keyWindow!.addSubview(self.giftMenu)
@@ -76,7 +87,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if pageState == "gifts" {
-        return 6
+        return self.giftMenu.giftsImages.count
         } else {
         return gameChargeCount
         }
@@ -89,18 +100,19 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         
         cell.menuImage.image = UIImage(named: "\(self.giftMenu.giftsImages[indexPath.row])")
         cell.menuLeftImage.image = UIImage(named: "ic_coin")
+            
         switch indexPath.row {
         case 0:
             cell.menuLeftView.isHidden = true
         default:
             cell.menuLeftView.isHidden = false
         }
+            
         cell.menuLeftLabel.text = self.giftMenu.giftsNumbers[indexPath.row]
         cell.menuLabel.text = self.giftMenu.giftsTitles[indexPath.row]
         cell.selectMenu.tag = indexPath.row
         cell.selectMenu.addTarget(self, action: #selector(selectedMenu), for: UIControlEvents.touchUpInside)
         return cell
-            
             
         } else {
             
@@ -172,25 +184,94 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             }
             }.resume()
     }
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     
-        if let vc = segue.destination as? menuAlertViewController {
-            vc.alertTitle = self.alertTitle
-            vc.alertBody = self.alertBody
-            vc.alertAcceptLabel = self.alertAcceptLabel
-        }
-    }
+
     
     @objc func selectedMenu(_ sender : UIButton!) {
         if pageState == "gifts" {
+           
+             if (login.res?.response?.mainInfo?.status!)! == "2" {
+                
+                switch sender.tag {
+                case 0 :
+                    print("giftCode")
+                    giftsCode()
+                case 1 :
+                    print("supportUs")
+                    supportingUs()
+                case 2 :
+                    print("inviteFriends")
+                    invitingFriends()
+                case 3 :
+                    print("googleSignIn")
+                    googleSignIn()
+                case 4 :
+                    print("reportProblem")
+                    reportingProblem()
+                default :
+                    print("suggestions")
+                    suggestions()
+                }
+             } else {
+                switch sender.tag {
+                case 0 :
+                    print("giftCode")
+                    giftsCode()
+                case 1 :
+                    print("supportUs")
+                    supportingUs()
+                case 2 :
+                    print("inviteFriends")
+                    invitingFriends()
+                case 3 :
+                    print("signIn")
+                    self.isSignUp = true
+                    self.isPasswordChange = false
+                    self.performSegue(withIdentifier : "signUpGift", sender: self)
+                case 4 :
+                    print("googleSignIn")
+                    googleSignIn()
+                case 5 :
+                    print("reportProblem")
+                    reportingProblem()
+                default :
+                    print("suggestions")
+                    suggestions()
+                }
+            }
             
         } else {
-//        print((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
         let id = Int((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
         self.chargeGame(id : id!)
         }
+    }
+    
+    @objc func giftsCode() {
+        
+    }
+    
+    @objc func supportingUs() {
+        
+    }
+    
+    
+    @objc func invitingFriends() {
+         let shareText = "دوست خوبم،\n با لینک زیر فوتبالیکا رو نصب کن و موقع ثبت نام کد معرف رو وارد کن تا \((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!) تا سکه رایگان بگیری. \n مایکت \n https://myket.ir/app/com.dpa_me.adelica \n بازار \n https://cafebazaar.ir/app/com.dpa_me.adelica/?l=fa \n سیب اپ \n https://new.sibapp.com/applications/footbalika \n کد معرف: \((login.res?.response?.mainInfo?.ref_id!)!.replacingOccurrences(of: "#", with: ""))"
+        let vc = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
+        present(vc, animated: true)
+    }
+    
+    @objc func googleSignIn() {
+        
+    }
+    
+    @objc func reportingProblem() {
+        self.reportTitle = "گزارش مشکل"
+        self.performSegue(withIdentifier: "massage", sender: self)
+    }
+
+    @objc func suggestions() {
+        self.reportTitle = " انتقاد و پیشنهاد"
+        self.performSegue(withIdentifier: "massage", sender: self)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -200,6 +281,28 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         return 100
         }
     }
+    
+    var isSignUp = Bool()
+    var isPasswordChange = Bool()
+    var reportTitle = String()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if let vc = segue.destination as? menuAlertViewController {
+            vc.alertTitle = self.alertTitle
+            vc.alertBody = self.alertBody
+            vc.alertAcceptLabel = self.alertAcceptLabel
+        }
+        
+        if let vc = segue.destination as? changePassAndUserNameViewController {
+            vc.isSignUp = self.isSignUp
+            vc.isPasswordChange = self.isPasswordChange
+        }
+        
+        if let vc = segue.destination as? massageViewController {
+            vc.massagePageTitle = self.reportTitle
+        }
+    }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

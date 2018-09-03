@@ -74,7 +74,7 @@ class changePassAndUserNameViewController: UIViewController {
 
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(changingUserPassNotification), name: Notification.Name("changingUserPassNotification"), object: nil)
-        let placeHolderColor = UIColor.init(red: 202/255, green: 202/255, blue: 202/255, alpha: 1.0)
+        
         let font = fonts().iPhonefonts
         
         if isSignUp {
@@ -83,9 +83,9 @@ class changePassAndUserNameViewController: UIViewController {
             self.totalPassView.isHidden = true
             self.dismissSignUp.addTarget(self, action: #selector(dismissingSignUP), for: UIControlEvents.touchUpInside)
             signUpTotalView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-            self.signUpUserNameTextField.attributedPlaceholder = NSAttributedString(string: "نام کاربری" ,attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
-            self.passSignUpTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور",attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
-            self.ReagentCodeTextField.attributedPlaceholder = NSAttributedString(string: "کد معرف" ,attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
+            self.signUpUserNameTextField.attributedPlaceholder = NSAttributedString(string: "نام کاربری" ,attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
+            self.passSignUpTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور",attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
+            self.ReagentCodeTextField.attributedPlaceholder = NSAttributedString(string: "کد معرف" ,attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
             signUpUserNameTitle.AttributesOutLine(font: font, title: "نام کاربری", strokeWidth: -6.0)
             signUpUserNameTitleForeGround.font = font
             signUpUserNameTitleForeGround.text = "نام کاربری"
@@ -108,9 +108,9 @@ class changePassAndUserNameViewController: UIViewController {
             self.signUpTotalView.isHidden = true
         if isPasswordChange {
             self.totalPassView.isHidden = false
-            self.currentPassTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور فعلی",attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
+            self.currentPassTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور فعلی",attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
             
-            self.newPassTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور جدید",attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
+            self.newPassTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور جدید",attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
             
             currentPassTitle.AttributesOutLine(font: font, title: "کلمه عبور فعلی", strokeWidth: -6.0)
             currentPassTitleForeGround.font = font
@@ -139,10 +139,11 @@ class changePassAndUserNameViewController: UIViewController {
             
         } else {
             
-            self.changeUserTextField.attributedPlaceholder = NSAttributedString(string: "نام کاربری" ,attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
+            self.changeUserTextField.attributedPlaceholder = NSAttributedString(string: "نام کاربری" ,attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
             
             let coin = Int((login.res?.response?.mainInfo?.coins)!)
-            if coin! < 100 {
+            let requireCoin = Int((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)
+            if coin! < requireCoin {
                 self.changeUserAction.isEnabled = false
             } else {
                 self.changeUserAction.isEnabled = true
@@ -154,9 +155,9 @@ class changePassAndUserNameViewController: UIViewController {
             userTitleForeGround.font = font
             userTitleForeGround.text = "نام کاربری"
             
-            userRequire.AttributesOutLine(font: font, title: "100", strokeWidth: -7.0)
+            userRequire.AttributesOutLine(font: font, title: "\((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)", strokeWidth: -7.0)
             userRequireForeGround.font = font
-            userRequireForeGround.text = "100"
+            userRequireForeGround.text = "\((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)"
             
             mainPassView.isHidden = true
             if UIDevice().userInterfaceIdiom == .phone {
@@ -333,7 +334,6 @@ class changePassAndUserNameViewController: UIViewController {
         })
     }
     
-    
     @objc func dismissingSignUP() {
         UIView.animate(withDuration: 0.2 , animations :{
             self.signUpTotalView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
@@ -347,5 +347,4 @@ class changePassAndUserNameViewController: UIViewController {
             })
         })
     }
-
 }

@@ -495,8 +495,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 cell.contentView.backgroundColor = grayColor
 
-                if (login.res?.response?.mainInfo?.id!)! == loadingViewController.userid {
-                    
+                if (login.res?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() {
                     //userProfile
                     if (login.res?.response?.mainInfo?.status!)! != "2" {
                         //signUp Profile

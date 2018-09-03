@@ -147,6 +147,7 @@
 		5CE8507720F5D98500BB303A /* questionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8507620F5D98500BB303A /* questionsList.swift */; };
 		5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */; };
 		5CE8507B20F5FCB900BB303A /* wrong_answer.wav in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8507920F5FCB900BB303A /* wrong_answer.wav */; };
+		5CF96F28213D3E6400B15CC7 /* massageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CF96F27213D3E6400B15CC7 /* massageViewController.swift */; };
 		5CFF0C7121283C0B007DF3EB /* predictOneMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFF0C7021283C0B007DF3EB /* predictOneMatchViewController.swift */; };
 		DA43467F46209DB4E9C5B9DE /* Pods_footbalika.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92AE449EB012E59CD33A9860 /* Pods_footbalika.framework */; };
 /* End PBXBuildFile section */
@@ -307,6 +308,7 @@
 		5CE8507620F5D98500BB303A /* questionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = questionsList.swift; sourceTree = "<group>"; };
 		5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctAnswer.mp3; sourceTree = "<group>"; };
 		5CE8507920F5FCB900BB303A /* wrong_answer.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = wrong_answer.wav; sourceTree = "<group>"; };
+		5CF96F27213D3E6400B15CC7 /* massageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = massageViewController.swift; sourceTree = "<group>"; };
 		5CFF0C7021283C0B007DF3EB /* predictOneMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictOneMatchViewController.swift; sourceTree = "<group>"; };
 		708CCABC5FECE0274167520F /* Pods-footbalika.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-footbalika.debug.xcconfig"; path = "Pods/Target Support Files/Pods-footbalika/Pods-footbalika.debug.xcconfig"; sourceTree = "<group>"; };
 		7515AA704A7F5C6185BED045 /* Pods-footbalika.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-footbalika.release.xcconfig"; path = "Pods/Target Support Files/Pods-footbalika/Pods-footbalika.release.xcconfig"; sourceTree = "<group>"; };
@@ -679,6 +681,7 @@
 				5CC4045120E2074300EC97FF /* gameCharges.swift */,
 				5C6F537F20E0A8D90037748F /* menuView.swift */,
 				5C6F538120E0A8F10037748F /* menuView.xib */,
+				5CF96F26213D3E4400B15CC7 /* massages */,
 			);
 			path = giftsAndCharges;
 			sourceTree = "<group>";
@@ -810,6 +813,14 @@
 				5CCB9BCF20F1DFB400B92355 /* selectCategoryCell.swift */,
 			);
 			path = category;
+			sourceTree = "<group>";
+		};
+		5CF96F26213D3E4400B15CC7 /* massages */ = {
+			isa = PBXGroup;
+			children = (
+				5CF96F27213D3E6400B15CC7 /* massageViewController.swift */,
+			);
+			path = massages;
 			sourceTree = "<group>";
 		};
 		5CFF0C6F21283BC9007DF3EB /* predictOneMatch */ = {
@@ -1050,6 +1061,7 @@
 				5C43CC2720D772D900E25F57 /* tblMatchTypes.swift in Sources */,
 				5CBB993C20DE25BF00C17884 /* loadingSettingStructure.swift in Sources */,
 				5C84D4F620CCFD2500A9DC67 /* ViewController.swift in Sources */,
+				5CF96F28213D3E6400B15CC7 /* massageViewController.swift in Sources */,
 				5C84D51E20CCFFBE00A9DC67 /* challengesViewController.swift in Sources */,
 				5C9FFCD620D8D1F3007A11C0 /* WritetblMatchTypes.swift in Sources */,
 				5C84D51C20CCFF9B00A9DC67 /* storeCell.swift in Sources */,

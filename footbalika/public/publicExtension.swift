@@ -14,6 +14,11 @@ public class centerScreen {
     public var centerScreens = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
 }
 
+public class publicColors {
+    public var placeHolderColor = UIColor.init(red: 202/255, green: 202/255, blue: 202/255, alpha: 1.0)
+    public var textFieldTintTextColor = UIColor.init(red: 251/255, green: 251/255, blue: 251/255, alpha: 1.0)
+}
+
 public class publicImages {
     public var correctAnswerImage = UIImage(named: "green_answer_btn")
     public var wrongAnswerImage = UIImage(named: "red_answer_btn")

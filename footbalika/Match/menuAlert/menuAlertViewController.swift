@@ -119,6 +119,22 @@ class menuAlertViewController: UIViewController {
                 self.dismiss(animated: true, completion: nil)
             })
         }
+        
+//        if self.alertState == "report" {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+//                self.dismiss(animated: true, completion: nil)
+//            })
+//        }
+    }
+    
+    var m = massageViewController()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        if self.alertState == "report" {
+            DispatchQueue.main.async {
+                self.m.dismiss(animated: false, completion: nil)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {

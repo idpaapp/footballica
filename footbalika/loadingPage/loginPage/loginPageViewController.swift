@@ -94,6 +94,7 @@ class loginPageViewController: UIViewController {
     }
     
     @objc func normalLogin() {
+        
         let texts = self.userNameTextField.text
         let texts2 = self.passwordTextField.text
         PubProc.isSplash = false
