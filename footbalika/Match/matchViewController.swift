@@ -10,7 +10,6 @@ import UIKit
 import Kingfisher
 
 class matchViewController: UIViewController {
-    
 
     @IBOutlet weak var startLabelForeGround: UILabel!
     @IBOutlet weak var startLabel: UILabel!
@@ -26,6 +25,7 @@ class matchViewController: UIViewController {
     @IBOutlet weak var coin: UILabel!
     @IBOutlet weak var xpProgress: UIProgressView!
     @IBOutlet weak var xpProgressBackGround: UIView!
+    @IBOutlet weak var giftOutlet: RoundButton!
     
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
@@ -115,8 +115,16 @@ class matchViewController: UIViewController {
         
     }
     
+    @objc func shakeFunstion() {
+        self.giftOutlet.shake()
+    }
+    
+    var shakeTimer : Timer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.shakeTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.shakeFunstion), userInfo: nil, repeats: true)
         
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(fillData), name: Notification.Name("changingUserPassNotification"), object: nil)

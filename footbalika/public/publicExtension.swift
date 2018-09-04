@@ -14,6 +14,7 @@ public class centerScreen {
     public var centerScreens = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
 }
 
+
 public class publicColors {
     public var placeHolderColor = UIColor.init(red: 202/255, green: 202/255, blue: 202/255, alpha: 1.0)
     public var textFieldTintTextColor = UIColor.init(red: 251/255, green: 251/255, blue: 251/255, alpha: 1.0)
@@ -40,8 +41,21 @@ public class fonts {
 public class colors {
     public var lightBrownBackGroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
 }
+
+extension UIButton {
+    func shake(){
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 3
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x - 5, y: self.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + 5, y: self.center.y))
+        self.layer.add(animation, forKey: "position")
+    }
+}
+
 extension UILabel {
-    public func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
+     func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
         let strokeTextAttributes: [NSAttributedStringKey: Any] = [.strokeColor: UIColor.black, .foregroundColor: UIColor.white, .strokeWidth : strokeWidth , .strikethroughColor : UIColor.white , .font: font]
         self.attributedText = NSMutableAttributedString(string: title , attributes: strokeTextAttributes)
     }
@@ -357,7 +371,6 @@ public extension UITextField {
         self.leftViewMode = .always
         self.layer.masksToBounds = true
         
-        
         switch padding {
             
         case .left(let spacing):
@@ -382,9 +395,8 @@ public extension UITextField {
     }
 }
 
-public extension String {
-    
-    public var replacedArabicDigitsWithEnglish: String {
+extension String {
+     var replacedArabicDigitsWithEnglish: String {
         var str = self
         let map = ["۰": "0",
                    "۱": "1",
@@ -410,5 +422,7 @@ public extension String {
         return str
     }
 }
+
+
 
 

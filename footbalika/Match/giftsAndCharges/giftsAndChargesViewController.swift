@@ -8,8 +8,10 @@
 
 import UIKit
 import Kingfisher
+import SafariServices
 
-class giftsAndChargesViewController: UIViewController , UITableViewDataSource , UITableViewDelegate {
+
+class giftsAndChargesViewController: UIViewController , UITableViewDataSource , UITableViewDelegate , SFSafariViewControllerDelegate {
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -187,6 +189,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
 
     
     @objc func selectedMenu(_ sender : UIButton!) {
+        soundPlay().playClick()
         if pageState == "gifts" {
            
              if (login.res?.response?.mainInfo?.status!)! == "2" {
@@ -223,10 +226,12 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                     print("inviteFriends")
                     invitingFriends()
                 case 3 :
+                    if (login.res?.response?.mainInfo?.status!)! != "2" {
                     print("signIn")
                     self.isSignUp = true
                     self.isPasswordChange = false
                     self.performSegue(withIdentifier : "signUpGift", sender: self)
+                    }
                 case 4 :
                     print("googleSignIn")
                     googleSignIn()
@@ -246,16 +251,26 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     }
     
     @objc func giftsCode() {
-        
+        self.isGift = true
+        self.performSegue(withIdentifier: "massage", sender: self)
     }
     
-    @objc func supportingUs() {
-        
+    var TitleItem = String()
+    var ImageItem = String()
+    var isShopItem = Bool()
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        self.TitleItem = "جایزه حمایت"
+        self.ImageItem = "ic_coin"
+        self.isShopItem = false
+        self.performSegue(withIdentifier: "showGiftReward", sender: self)
     }
     
     
     @objc func invitingFriends() {
+        
          let shareText = "دوست خوبم،\n با لینک زیر فوتبالیکا رو نصب کن و موقع ثبت نام کد معرف رو وارد کن تا \((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!) تا سکه رایگان بگیری. \n مایکت \n https://myket.ir/app/com.dpa_me.adelica \n بازار \n https://cafebazaar.ir/app/com.dpa_me.adelica/?l=fa \n سیب اپ \n https://new.sibapp.com/applications/footbalika \n کد معرف: \((login.res?.response?.mainInfo?.ref_id!)!.replacingOccurrences(of: "#", with: ""))"
+        
         let vc = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
         present(vc, animated: true)
     }
@@ -266,12 +281,88 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     
     @objc func reportingProblem() {
         self.reportTitle = "گزارش مشکل"
+        self.isGift = false
         self.performSegue(withIdentifier: "massage", sender: self)
     }
 
     @objc func suggestions() {
         self.reportTitle = " انتقاد و پیشنهاد"
+        self.isGift = false
         self.performSegue(withIdentifier: "massage", sender: self)
+    }
+    
+    struct Response : Decodable {
+        let status : String?
+    }
+    
+    var supportRes : Response? = nil
+    
+    @objc func supportingUs() {
+        //        USER_SUPPORTS
+        
+        
+        PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "{'mode':'USER_SUPPORTS' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+            
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    do {
+                        
+                        self.supportRes? = try JSONDecoder().decode(Response.self, from: data!)
+                        
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                        }
+                        //                print(data ?? "")
+                        
+                        print((String(data: data!, encoding: String.Encoding.utf8) as String?)!)
+                        
+                        if ((String(data: data!, encoding: String.Encoding.utf8) as String?)!.contains("USER_SUPPORTS_US")) {
+                            
+                            let appURL = NSURL(string: "sibapp://")!
+                            if UIApplication.shared.canOpenURL(appURL as URL) {
+                                if #available(iOS 10.0 , *) {
+                                    UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
+                                } else {
+                                    UIApplication.shared.openURL(appURL as URL)
+                                }
+                                
+                            } else {
+                                //redirect to safari because the user doesn't have SibApp
+                                if let url = URL(string: "https://new.sibapp.com/applications/footbalika") {
+                                    let svc = SFSafariViewController(url: url)
+                                    self.present(svc, animated: true, completion: nil)
+                                    svc.delegate = self
+                                }
+                            }
+                            
+                        } else if ((String(data: data!, encoding: String.Encoding.utf8) as String?)!.contains("USER_SUPPORTS_BEFORE")) {
+                            self.alertBody = "شما قبلاً از ما حمایت کرده اید!"
+                            self.alertTitle = "فوتبالیکا"
+                            self.alertAcceptLabel = "تأیید"
+                            self.performSegue(withIdentifier: "giftAlert", sender: self)
+                        } else {
+                            self.alertBody = "اشکال در انجام عملیات لطفاً مجدداً سعی نمایید!"
+                            self.alertTitle = "خطا"
+                            self.alertAcceptLabel = "تأیید"
+                            self.performSegue(withIdentifier: "giftAlert", sender: self)
+                        }
+                        
+                        PubProc.wb.hideWaiting()
+                    } catch {
+                        print(error)
+                    }
+                    
+                } else {
+                    self.supportingUs()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+        
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -285,6 +376,8 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     var isSignUp = Bool()
     var isPasswordChange = Bool()
     var reportTitle = String()
+    var isGift = Bool()
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if let vc = segue.destination as? menuAlertViewController {
@@ -300,6 +393,13 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         
         if let vc = segue.destination as? massageViewController {
             vc.massagePageTitle = self.reportTitle
+            vc.isGift = self.isGift
+        }
+        
+        if let vc = segue.destination as? ItemViewController {
+            vc.TitleItem = self.TitleItem
+            vc.ImageItem = self.ImageItem
+            vc.isShopItem = self.isShopItem
         }
     }
     
