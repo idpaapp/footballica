@@ -33,6 +33,9 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     do {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                        }
                         self.performSegue(withIdentifier: "showPF", sender: self)                        
                     } catch {
                         self.getUserData(id : id)

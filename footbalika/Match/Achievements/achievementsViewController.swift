@@ -475,13 +475,13 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.profileLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\(profileName)", strokeWidth: -3.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\(profileID)", strokeWidth: -3.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\(profileName)", strokeWidth: -4.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\(profileID)", strokeWidth: -4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPhonefonts
                 } else {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileName)", strokeWidth: -3.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileID)", strokeWidth: -3.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileName)", strokeWidth: -4.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileID)", strokeWidth: -4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPadfonts
                 }
                 cell.profileCup.text = profileCups
@@ -495,7 +495,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 cell.contentView.backgroundColor = grayColor
 
-                if (login.res?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() {
+                
+                if (login.res?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() && !otherProfile {
                     //userProfile
                     if (login.res?.response?.mainInfo?.status!)! != "2" {
                         //signUp Profile
@@ -536,71 +537,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                     
                 }
-                
-                
-                
-//                if otherProfile == true {
-//
-//                    cell.friendshipRequest.isHidden = false
-//                    cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: -6.0)
-//                    cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
-//                    cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
-//
-//                    if userButtons ==  true {
-//
-//                    cell.completingProfile.isHidden = true
-//                        if self.isFriend {
-//                            cell.cancelFriendship.isHidden = false
-//                            cell.friendshipRequest.isHidden = true
-//                            cell.playRequest.isHidden = false
-//
-//                        } else {
-//
-//                        if uniqueId ==  "\(loadingViewController.userid)" {
-//                            cell.cancelFriendship.isHidden = true
-//                            cell.friendshipRequest.isHidden = true
-//                            cell.playRequest.isHidden = true
-//                        } else if self.friendsId.contains(uniqueId) {
-//                        cell.cancelFriendship.isHidden = false
-//                        cell.friendshipRequest.isHidden = true
-//                        cell.playRequest.isHidden = false
-//
-//                    } else {
-//                        cell.cancelFriendship.isHidden = true
-//                        cell.friendshipRequest.isHidden = false
-//                        cell.playRequest.isHidden = true
-//                    }
-//                        }
-//                } else {
-//                    cell.completingProfile.isHidden = false
-//                }
-//                } else {
-//
-//                    cell.cancelFriendship.isHidden = true
-//                    cell.friendshipRequest.isHidden = true
-//                    cell.playRequest.isHidden = true
-//                    if (login.res?.response?.mainInfo?.status!)! != "2" {
-//                        if (login.res?.response?.mainInfo?.id!)! == loadingViewController.userid {
-//                    cell.completingProfile.isHidden = false
-//                    cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ثبت نام کنید", strokeWidth: -6.0)
-//                    cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
-//                    cell.profileCompletingTitleForeGround.text = "ثبت نام کنید"
-//                        cell.completingProfile.addTarget(self, action: #selector(signUp), for: UIControlEvents.touchUpInside)
-//                        } else {
-//                            cell.friendshipRequest.isHidden = false
-//                            cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: -6.0)
-//                            cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
-//                            cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
-//                        }
-//                    } else {
-//
-//
-//                    cell.profileCompletingTitleForeGround.text = ""
-//                    cell.profileCompletingTitle.text = ""
-//                    cell.completingProfile.isHidden = true
-//
-//                    }
-//                }
                 
                 cell.playRequest.addTarget(self, action: #selector(playRequestGame), for: UIControlEvents.touchUpInside)
                 
@@ -729,6 +665,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     DispatchQueue.main.async {
                         PubProc.cV.hideWarning()
                     }
+                    
                     self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
 
                     if ((self.collectingItemAchievement)!).contains("OK") {

@@ -71,6 +71,37 @@ import AVFoundation
     @IBInspectable  var bottomRight: Bool = false
     @IBInspectable  var cornerEdgesAllow: Bool = true
     
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.layer.masksToBounds = true
+        self.clipsToBounds = true
+        if cornerEdgesAllow == true {
+            var options = UIRectCorner()
+            if topLeft {
+                options =  options.union(.topLeft)
+            }
+            if topRight {
+                options =  options.union(.topRight)
+            }
+            if bottomLeft {
+                options =  options.union(.bottomLeft)
+            }
+            if bottomRight {
+                options =  options.union(.bottomRight)
+            }
+            
+            let path = UIBezierPath(roundedRect:self.bounds,
+                                    byRoundingCorners: options ,
+                                    cornerRadii: CGSize(width: self.cornerEdges, height: self.cornerEdges))
+            
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = path.cgPath
+            self.layer.mask = maskLayer
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -78,30 +109,6 @@ import AVFoundation
         self.addTarget(self, action: #selector(buttonUp), for: .touchUpOutside)
         self.addTarget(self, action: #selector(buttonUpAndDown), for: .touchUpInside)
         
-        if cornerEdgesAllow == true {
-        var options = UIRectCorner()
-        if topLeft {
-            options =  options.union(.topLeft)
-        }
-        if topRight {
-            options =  options.union(.topRight)
-        }
-        if bottomLeft {
-            options =  options.union(.bottomLeft)
-        }
-        if bottomRight {
-            options =  options.union(.bottomRight)
-        }
-        
-        let path = UIBezierPath(roundedRect:self.bounds,
-                                byRoundingCorners:options,
-                                cornerRadii: CGSize(width: self.cornerEdges, height: self.cornerEdges))
-        
-        let maskLayer = CAShapeLayer()
-        
-        maskLayer.path = path.cgPath
-        self.layer.mask = maskLayer
     }
-    } 
     
 }

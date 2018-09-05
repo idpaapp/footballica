@@ -150,7 +150,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         
         var roundCellCount = ceil(CGFloat((loadShop.res?.response?[1].items?[shopIndex].package_awards?.count)!)/3)
         if roundCellCount == 0 {
-            roundCellCount = 1
+            roundCellCount = 2
         }
         
         if UIDevice().userInterfaceIdiom == .phone {

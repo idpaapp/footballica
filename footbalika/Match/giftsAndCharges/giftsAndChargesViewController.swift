@@ -36,7 +36,14 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight
         }
         
+    
+        if UIDevice().userInterfaceIdiom == .phone {
         self.giftMenu.menuWidth.constant = self.giftMenu.giftWidth
+        } else {
+        self.giftMenu.menuWidth.constant = 500
+        }
+        
+        
         self.giftMenu.center = centerScreen().centerScreens
         self.giftMenu.menuTableView.register(UINib(nibName: "menuCell", bundle: nil), forCellReuseIdentifier: "menuCell")
         UIApplication.shared.keyWindow!.addSubview(self.giftMenu)
@@ -51,7 +58,11 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         
         self.gameChargeMenu.awakeFromNib()
         self.gameChargeMenu.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        if UIDevice().userInterfaceIdiom == .phone {
         self.gameChargeMenu.menuWidth.constant = self.gameChargeMenu.gameChargesWidth
+        } else {
+        self.gameChargeMenu.menuWidth.constant = 500
+        }
         self.gameChargeMenu.menuHeight.constant = self.gameChargeMenu.gameChargesHeight
         self.gameChargeMenu.center = centerScreen().centerScreens
         self.gameChargeMenu.menuTableView.register(UINib(nibName: "menuCell", bundle: nil), forCellReuseIdentifier: "menuCell")
@@ -155,9 +166,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                     
                     //                print(data ?? "")
                     
-                    
                         self.chargeRes = String(data: data!, encoding: String.Encoding.utf8) as String?
-
                     
                     if ((self.chargeRes)!).contains("TRANSACTION_COMPELETE") {
                         self.alertTitle = "فوتبالیکا"
@@ -175,11 +184,10 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                             PubProc.wb.hideWaiting()
                             PubProc.cV.hideWarning()
                         }
-                        
                     
                 } else {
                     self.chargeGame(id : id)
-                    print("Error Connection")
+//                    print("Error Connection")
                     print(error as Any)
                     // handle error
                 }
@@ -196,50 +204,50 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                 
                 switch sender.tag {
                 case 0 :
-                    print("giftCode")
+//                    print("giftCode")
                     giftsCode()
                 case 1 :
-                    print("supportUs")
+//                    print("supportUs")
                     supportingUs()
                 case 2 :
-                    print("inviteFriends")
+//                    print("inviteFriends")
                     invitingFriends()
                 case 3 :
-                    print("googleSignIn")
+//                    print("googleSignIn")
                     googleSignIn()
                 case 4 :
-                    print("reportProblem")
+//                    print("reportProblem")
                     reportingProblem()
                 default :
-                    print("suggestions")
+//                    print("suggestions")
                     suggestions()
                 }
              } else {
                 switch sender.tag {
                 case 0 :
-                    print("giftCode")
+//                    print("giftCode")
                     giftsCode()
                 case 1 :
-                    print("supportUs")
+//                    print("supportUs")
                     supportingUs()
                 case 2 :
-                    print("inviteFriends")
+//                    print("inviteFriends")
                     invitingFriends()
                 case 3 :
                     if (login.res?.response?.mainInfo?.status!)! != "2" {
-                    print("signIn")
+//                    print("signIn")
                     self.isSignUp = true
                     self.isPasswordChange = false
                     self.performSegue(withIdentifier : "signUpGift", sender: self)
                     }
                 case 4 :
-                    print("googleSignIn")
+//                    print("googleSignIn")
                     googleSignIn()
                 case 5 :
-                    print("reportProblem")
+//                    print("reportProblem")
                     reportingProblem()
                 default :
-                    print("suggestions")
+//                    print("suggestions")
                     suggestions()
                 }
             }
@@ -298,8 +306,6 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     var supportRes : Response? = nil
     
     @objc func supportingUs() {
-        //        USER_SUPPORTS
-        
         
         PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "{'mode':'USER_SUPPORTS' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
             
@@ -356,7 +362,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                     
                 } else {
                     self.supportingUs()
-                    print("Error Connection")
+//                    print("Error Connection")
                     print(error as Any)
                     // handle error
                 }

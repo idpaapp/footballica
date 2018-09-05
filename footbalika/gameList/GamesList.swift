@@ -91,6 +91,17 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+        
+        let path = UIBezierPath(roundedRect:self.currentGames.bounds,
+                                byRoundingCorners: [.topLeft, .topRight] ,
+                                cornerRadii: CGSize(width: 10, height: 10))
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = path.cgPath
+        self.currentGames.layer.mask = maskLayer
+        
         gameLists()
         currentGamesListColor()
         NotificationCenter.default.addObserver(self, selector: #selector(gameLists), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)

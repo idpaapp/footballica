@@ -90,6 +90,10 @@ class mainMatchFieldViewController: UIViewController  {
     
     @IBOutlet weak var freezTimePriceImage: UIImageView!
     
+    @IBOutlet weak var beforeStartStackView: UIStackView!
+    
+    
+    
     var level = String()
     var category = String()
     var last_questions = String()
@@ -478,7 +482,6 @@ class mainMatchFieldViewController: UIViewController  {
         gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
         
     }
-
     
     var currentQuestion = 0
     var correctAnswer = Int()
@@ -502,6 +505,8 @@ class mainMatchFieldViewController: UIViewController  {
 //                }
 //            }
 //        }
+        
+        
         startDate = Date()
         UIView.animate(withDuration: 0.5) {
             self.topViewTopConstraint.constant = 0
@@ -511,6 +516,7 @@ class mainMatchFieldViewController: UIViewController  {
         beforeStartView.isHidden = true
         beforeStartCountDown.isHidden = true
         beforeStartTitle.isHidden = true
+        beforeStartStackView.isHidden = true
         scoreLabel.text = "امتیاز شما : \(Score) از ۴"
             DispatchQueue.main.async {
                 musicPlay().playQuizeMusic()

@@ -66,7 +66,7 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         pageControl.pageIndicatorTintColor = UIColor.clear
         
         pageControl.currentPageIndicatorTintColor = UIColor.clear
-        
+        pageControl.isHidden = true
         self.view.backgroundColor = UIColor.clear
         self.delegate = self
         self.dataSource = self
