@@ -192,7 +192,7 @@ class menuViewController: UIViewController {
                 } else {
                     self.menuHeight.constant = 478
                 }
-             self.menuWidth.constant = 370
+             self.menuWidth.constant = 500
             maintitle.AttributesOutLine(font: iPadfonts, title: "تنظیمات", strokeWidth: -7.0)
             self.mainTitleForeGround.font = iPadfonts
             }

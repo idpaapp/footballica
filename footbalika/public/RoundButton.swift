@@ -39,7 +39,6 @@ import AVFoundation
         })
     }
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         sharedInit()
@@ -53,7 +52,7 @@ import AVFoundation
         layer.cornerRadius = value
     }
     
-    @IBInspectable var cornerRadius: CGFloat = 15 {
+    @IBInspectable var cornerRadius: CGFloat = 0 {
         didSet {
             refreshCorners(value: cornerRadius)
         }

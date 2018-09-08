@@ -16,6 +16,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     @IBOutlet weak var leaderBoardConstraint: NSLayoutConstraint!
     @IBOutlet weak var pageTitle: UILabel!
     @IBOutlet weak var pageTitleForeGround: UILabel!
+    @IBOutlet weak var predictWidthView: NSLayoutConstraint!
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -196,10 +197,21 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        if UIDevice().userInterfaceIdiom == .phone {
+            predictWidthView.constant = (UIScreen.main.bounds.width * 8) / 9
+        } else {
+            if UIDevice().userInterfaceIdiom == .pad
+                && UIScreen.main.nativeBounds.size.height >= 2224 {
+                predictWidthView.constant = 600
+            } else {
+            predictWidthView.constant = (UIScreen.main.bounds.width * 4) / 5
+            }
+        }
+        
+        
         todayJson()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshAfterPredict(notification:)), name: Notification.Name("refreshPrediction"), object: nil)
-
         
         topLabelFunction(text: "امتیاز شما")
         scoreAnimation()

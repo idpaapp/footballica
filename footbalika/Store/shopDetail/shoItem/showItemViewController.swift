@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class showItemViewController: UIViewController {
 
@@ -24,6 +25,7 @@ class showItemViewController: UIViewController {
     var price = String()
     var myVitrin = Bool()
     var priceType = String()
+    var isPackage = false
     
     @IBOutlet weak var itemPriceIcon: UIImageView!
     @IBOutlet weak var itemPriceTitle: UILabel!
@@ -48,8 +50,15 @@ class showItemViewController: UIViewController {
         }
         itemSubTitleForeGround.text = "\(subTitle)"
         itemTitleForeGround.text = "\(mainTitle)"
+        if !isPackage {
         let dataDecoded:NSData = NSData(base64Encoded: mainImage, options: NSData.Base64DecodingOptions(rawValue: 0))!
         itemImage.image = UIImage(data: dataDecoded as Data)
+        } else {
+            let url = URL(string : mainImage )
+            itemImage.kf.setImage(with: url , options : [.transition(ImageTransition.fade(0.5))])
+            self.itemImage.clipsToBounds = true
+            self.itemImage.layer.cornerRadius = 10
+        }
         if myVitrin {
             itemPriceIcon.image = UIImage()
              if UIDevice().userInterfaceIdiom == .phone {
@@ -101,7 +110,7 @@ class showItemViewController: UIViewController {
             } else {
                 dismissing()
                 NotificationCenter.default.post(name: Notification.Name("openBuyWebsite"), object: nil, userInfo: nil)
-                print("openSafari")
+//                print("openSafari")
             }
         }
     }

@@ -17,6 +17,8 @@ public class readAndWritetblStadiums {
             return realm.objects(tblStadiums.self)
         }
     }
+    
+    
     var WtblStadiums = WritetblStadiums()
     public func writeToDBtblStadiumTypes(id : Int ,title : String ,imagePath : String , extendedBase64Image : String ) {
         

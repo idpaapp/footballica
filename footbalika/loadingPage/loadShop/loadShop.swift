@@ -29,14 +29,15 @@ public class loadShop {
                         if rest {
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("updateProgress"), object: nil)
-                        for i in 0...(loadShop.res?.response?[1].items?.count)! - 1 {
-                            if loadShop.res?.response?[1].items?[i].package_awards?.count != 0 {
-                            for j in 0...(loadShop.res?.response?[1].items?[i].package_awards?.count)! - 1 {
+                        let index = loadShop.res?.response?.index(where: { $0.type == 2})
+                        for i in 0...(loadShop.res?.response?[index!].items?.count)! - 1 {
+                            if loadShop.res?.response?[index!].items?[i].package_awards?.count != 0 {
+                            for j in 0...(loadShop.res?.response?[index!].items?[i].package_awards?.count)! - 1 {
                                 
-                            let ID = Int((loadShop.res?.response?[1].items?[i].package_awards?[j].id!)!)
+                            let ID = Int((loadShop.res?.response?[index!].items?[i].package_awards?[j].id!)!)
                             let id = ID!
 //                            let title = ((self.res?.response?[1].items?[i].title!)!)
-                            let imagePath = ((loadShop.res?.response?[1].items?[i].package_awards?[j].image_path!)!)
+                            let imagePath = ((loadShop.res?.response?[index!].items?[i].package_awards?[j].image_path!)!)
                             let base64 = ""
                             self.writeShops.writeToDBtblhop(shopID: id, shopImage_Path: imagePath, shopImage_Base64: base64)
                             }

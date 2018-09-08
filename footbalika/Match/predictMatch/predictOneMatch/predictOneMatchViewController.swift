@@ -48,7 +48,7 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
             print(homeScore)
         } else {
             homeScore = 0
-            print(homeScore)
+//            print(homeScore)
         }
         
         
@@ -59,7 +59,7 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
             print(awayScore)
         } else {
             awayScore = 0
-            print(awayScore)
+//            print(awayScore)
         }
     }
     

@@ -31,7 +31,10 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         }
     }
     
+    var mainShopIndex = Int()
     @objc func rData() {
+        let index = loadShop.res?.response?.index(where: { $0.type == 2})
+        self.mainShopIndex = index!
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
@@ -78,30 +81,56 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (loadShop.res?.response?[1].items?.count)!
+        if (loadShop.res?.response?.count)! == 1 {
+        return (loadShop.res?.response?[self.mainShopIndex].items?.count)!
+        } else {
+        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.item >= self.mainShopIndex {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
-        
-        
-        let url = "\(((loadShop.res?.response?[1].items?[indexPath.item].image!)!))"
+            
+        let url = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].image!)!))"
         let urls = URL(string: url)
         cell.storeImage.kf.setImage(with: urls , options : [.transition(ImageTransition.fade(0.5))])
         
-        
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -7.0)
+        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
         cell.storeLabelForeGround.font = iPhonefonts
         } else {
-            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))", strokeWidth: -7.0)
+            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
             cell.storeLabelForeGround.font = iPadfonts
         }
-        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[1].items?[indexPath.item].title!)!))"
-        cell.storeSelect.tag = indexPath.item
+        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))"
+        cell.storeSelect.tag = indexPath.item - self.mainShopIndex
         cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
         return cell
+        } else {
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell
+            
+            let url = "\(((loadShop.res?.response?[indexPath.item].items?[0].image!)!))"
+            let urls = URL(string: url)
+            let processor = RoundCornerImageProcessor(cornerRadius: 10)
+            cell.packageButton.kf.setBackgroundImage(with: urls , for: UIControlState.normal, options : [.transition(ImageTransition.fade(0.5)) , .processor(processor)])
+
+            cell.packageButton.tag = indexPath.item
+            cell.packageButton.addTarget(self, action: #selector(packageSelected), for: UIControlEvents.touchUpInside)
+            cell.packageButton.clipsToBounds = true
+            cell.packageButton.layer.cornerRadius = 10
+            return cell
+        }
     }
+    
+    var selectedPackage = Int()
+    @objc func packageSelected(_ sender : UIButton!) {
+        self.selectedPackage = sender.tag
+        self.performSegue(withIdentifier : "packageItem" , sender : self)
+    }
+    
     
     @objc func selectingStore(_ sender : UIButton!) {
         selectedShop = sender.tag
@@ -114,18 +143,33 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? shopDetailViewController {
             
-            if (loadShop.res?.response?[1].items?[selectedShop].type)! == "3" {
+            if (loadShop.res?.response?[self.mainShopIndex].items?[selectedShop].type)! == "3" {
                 vc.myVitrin = true
             } else {
                vc.myVitrin = false
             }
             
+            vc.mainShopIndex = self.mainShopIndex
             vc.shopIndex = selectedShop
         }
+        
+        if let vc = segue.destination as? showItemViewController {
+            vc.mainTitle = ((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!)
+            vc.mainImage = ((loadShop.res?.response?[self.selectedPackage].items?[0].image!)!)
+            vc.price = ((loadShop.res?.response?[self.selectedPackage].items?[0].price!)!)
+            vc.myVitrin = true
+            vc.priceType = ((loadShop.res?.response?[self.selectedPackage].items?[0].price_type!)!)
+            vc.isPackage = true
+        }
+        
+        
+        
     }
     
     
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if indexPath.item >= self.mainShopIndex {
             if UIDevice().userInterfaceIdiom == .phone  {
                 if UIScreen.main.nativeBounds.height == 2436 {
                     //iPhone X
@@ -136,7 +180,19 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             } else {
                 return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3 , height: 230)
             }
+        } else {
+            if UIDevice().userInterfaceIdiom == .phone  {
+                if UIScreen.main.nativeBounds.height == 2436 {
+                    //iPhone X
+                    return CGSize(width: UIScreen.main.bounds.width - 30 , height: 130)
+                } else {
+                    return CGSize(width: UIScreen.main.bounds.width - 30 , height: 130)
+                }
+            } else {
+                return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) , height: 230)
+            }
         }
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -145,8 +201,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     
     @objc func openCoinOrMoney(Title : String) {
-        for i in 0...(loadShop.res?.response?[1].items?.count)! - 1 {
-            if ((loadShop.res?.response?[1].items?[i].title!)!).contains(Title) {
+        for i in 0...(loadShop.res?.response?[self.mainShopIndex].items?.count)! - 1 {
+            if ((loadShop.res?.response?[self.mainShopIndex].items?[i].title!)!).contains(Title) {
                 selectedShop = i
                 break
             }

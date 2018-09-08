@@ -18,6 +18,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
 
     var shopIndex = Int()
     var myVitrin = Bool()
+    var mainShopIndex = Int()
     var realm : Realm!
     
     override var prefersStatusBarHidden: Bool {
@@ -36,6 +37,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     DispatchQueue.main.async {
                         PubProc.cV.hideWarning()
                     }
+                    
                     //                      print(data ?? "")
                     
                     self.chooseRes = String(data: data!, encoding: String.Encoding.utf8) as String?
@@ -53,8 +55,8 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                                         DispatchQueue.main.async{
                                             loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
                                                 NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
-                                                print(((loadShop.res?.response?[1].items?[self.shopIndex].title!)!))
-                                                if  ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[1].items?[self.shopIndex].title!)!) != "پول"  {
+                                                print(((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].title!)!))
+                                                if  ((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].title!)!) != "پول"  {
                                                     self.shopDetailsCV.reloadData()
                                                     PubProc.wb.hideWaiting()
                                                     self.sizingPage()
@@ -129,6 +131,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
 //        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            
             let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)','userid':'\(loadingViewController.userid)'}") as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
             let searchURL : NSURL = NSURL(string: urlStr as String)!
@@ -148,7 +151,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         intCash = Int((login.res?.response?.mainInfo?.cashs)!)!
         intCoin = Int((login.res?.response?.mainInfo?.coins)!)!
         
-        var roundCellCount = ceil(CGFloat((loadShop.res?.response?[1].items?[shopIndex].package_awards?.count)!)/3)
+        var roundCellCount = ceil(CGFloat((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?.count)!)/3)
         if roundCellCount == 0 {
             roundCellCount = 2
         }
@@ -214,7 +217,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return (loadShop.res?.response?[1].items?[shopIndex].package_awards?.count)!
+        return (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?.count)!
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -223,30 +226,30 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         var title = String()
         var price = String()
         
-        if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price_type)! == "0"  {
+        if (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].price_type)! == "0"  {
             if myVitrin {
                price = "استفاده"
             } else {
             price = "مجانی"
             }
-        } else  if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price_type)! == "1"  {
+        } else  if (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].price_type)! == "1"  {
             if myVitrin {
                 price = "استفاده"
             } else {
-            price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!) تومان"
+            price = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].price)!) تومان"
             }
         } else {
             if myVitrin {
                 price = "استفاده"
             } else {
-            price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price)!)"
+            price = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].price)!)"
             }
         }
         
-        if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].type)! == "2" || (loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].type)! == "1" {
-            title = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].qty)!)"
+        if (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].type)! == "2" || (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].type)! == "1" {
+            title = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].qty)!)"
         } else {
-            title = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].title)!)"
+            title = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].title)!)"
         }
         
         if UIDevice().userInterfaceIdiom == .phone {
@@ -274,14 +277,14 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         
         cell.shopDetailPriceForeGround.text = "\(price)"
         cell.shopDetailTitleForeGround.text = "\(title)"
-        let intID = Int((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].id!)!)
+        let intID = Int((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].id!)!)
         let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
         let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
         cell.shopDetailImage.image = UIImage(data: dataDecoded as Data)
         cell.selectShopDetail.tag = indexPath.item
         cell.selectShopDetail.addTarget(self, action: #selector(showItem), for: UIControlEvents.touchUpInside)
         
-        switch "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[indexPath.item].price_type)!)" {
+        switch "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].price_type)!)" {
         case "1":
             cell.shopDetailTypeImage.image = UIImage()
             cell.shopDetailTypeImage.isHidden = true
@@ -338,11 +341,11 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     @objc func showItem(_ sender : UIButton!) {
         selectedItem = sender.tag
         var showAlert = false
-        let priceInt = Int((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price)!)
+        let priceInt = Int((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].price)!)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             if self.myVitrin == false {
-                if  ((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "2" ||  ((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "3" {
-                    if  ((loadShop.res?.response?[1].items?[self.self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "2" {
+                if  ((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "2" ||  ((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "3" {
+                    if  ((loadShop.res?.response?[self.mainShopIndex].items?[self.self.shopIndex].package_awards?[self.selectedItem].price_type)!) == "2" {
                     
                         if priceInt! > self.intCoin {
                         showAlert = true
@@ -392,31 +395,31 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? showItemViewController {
-            vc.mainTitle = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].title)!)"
-            let intID = Int((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id!)!)
+            vc.mainTitle = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].title)!)"
+            let intID = Int((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].id!)!)
             let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
             vc.mainImage = (realmID.first?.img_base64)!
-            if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].type)! == "2" || (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].type)! == "1" {
-                vc.subTitle = (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].qty)!
+            if (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].type)! == "2" || (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].type)! == "1" {
+                vc.subTitle = (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].qty)!
             }
             vc.myVitrin = self.myVitrin
             
-            if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price_type)! == "0"  {
+            if (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].price_type)! == "0"  {
                     vc.price = "مجانی"
-            } else  if (loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price_type)! == "1"  {
-                    vc.price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price)!) تومان"
+            } else  if (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].price_type)! == "1"  {
+                    vc.price = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].price)!) تومان"
             } else {
-                    vc.price = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price)!)"
+                    vc.price = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].price)!)"
             }
             
-             vc.priceType = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].price_type)!)"            
+             vc.priceType = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].price_type)!)"
         }
         
         if let vc = segue.destination as? ItemViewController {
-            let intID = Int((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id!)!)
+            let intID = Int((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].id!)!)
             let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
             vc.ImageItem = (realmID.first?.img_base64)!
-            vc.TitleItem = "\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].title)!)"
+            vc.TitleItem = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].title)!)"
             vc.isShopItem = true
         }
         

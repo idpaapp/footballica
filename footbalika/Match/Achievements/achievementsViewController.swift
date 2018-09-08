@@ -259,14 +259,17 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         if pageState == "LeaderBoard" {
             leaderBoardJson()
             self.leaderBoardState = "MAIN_LEADERBORAD"
+            leaguesSelect()
             achievementLeaderBoardTopConstraint.constant = 40
             self.achievementsTV.layer.cornerRadius = 10
         } else {
            achievementLeaderBoardTopConstraint.constant = 0
         }
+        
          if self.pageState == "alerts" {
             alertsJson()
         }
+        
         switchStates.append(playgameSounds)
         switchStates.append(playMenuMusic)
         switchStates.append(alerts)
@@ -495,7 +498,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 cell.contentView.backgroundColor = grayColor
 
-                
                 if (login.res?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() && !otherProfile {
                     //userProfile
                     if (login.res?.response?.mainInfo?.status!)! != "2" {
@@ -518,6 +520,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                 } else {
                     //otherProfile
+                    
                     if self.friendsId.contains(loadingViewController.userid) {
                         //is Friend
                         cell.completingProfile.isHidden = true
