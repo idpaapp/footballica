@@ -11,14 +11,18 @@ import UIKit
 
 class menuAlert2ButtonsViewController: UIViewController {
         
-        let showAlert = menuAlert2Buttons()
-        var alertTitle = String()
-        var alertBody = String()
-        var alertAcceptLabel = String()
-        var state = String()
-        var jsonStr = String()
-        var alertState = String()
-
+    
+    let showAlert = menuAlert2Buttons()
+    var alertTitle = String()
+    var alertBody = String()
+    var alertAcceptLabel = String()
+    var state = String()
+    var jsonStr = String()
+    var alertState = String()
+    var matchId = String()
+    var delegate: DismissDelegate?
+    
+    
     
         override var prefersStatusBarHidden: Bool {
             return true
@@ -124,6 +128,11 @@ class menuAlert2ButtonsViewController: UIViewController {
                             }
                         }
                     }.resume()
+            
+        case "surrender" :
+            self.dismissing()
+            delegate?.dismissVC(id : self.matchId )
+//            startMatchViewController().surrenderring(match_id : self.matchId)
         case "friendlyMatch" :
             PubProc.HandleDataBase.readJson(wsName: "ws_handleFriends", JSONStr: "\(jsonStr)") { data, error in
                 DispatchQueue.main.async {

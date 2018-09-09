@@ -10,8 +10,16 @@ import UIKit
 import Kingfisher
 import RealmSwift
 
-class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
+protocol DismissDelegate{
+    func dismissVC(id : String)
+}
 
+class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , DismissDelegate {
+
+    func dismissVC(id : String){
+        surrenderring(match_id : id)
+    }
+    
     var isHome = Bool()
     @IBAction func selectPlayer1(_ sender: RoundButton) {
         getUserData(id : (self.res?.response?.matchData?.player1_id)!)
@@ -20,7 +28,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     @IBAction func selectPlayer2(_ sender: RoundButton) {
         getUserData(id : (self.res?.response?.matchData?.player2_id)!)
     }
-    
     
     @objc func getUserData(id : String) {
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false'}") { data, error in
@@ -79,12 +86,12 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var res : matchDetails.Response? = nil;
     var matchID = String()
 
-    func loadMatchData() {
+    func loadMatchData(id : String) {
         
-        print(self.matchID)
+        print(id)
         self.playGameOutlet.isUserInteractionEnabled = false
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(self.matchID) , 'userid' : \(loadingViewController.userid)}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(id) , 'userid' : \(loadingViewController.userid)}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -152,7 +159,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         print(error)
                     }
                 } else {
-                    self.loadMatchData()
+                    self.loadMatchData(id: id)
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -169,7 +176,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var lastID = String()
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadMatchData()
+        loadMatchData(id: self.matchID)
         categoryArraySet()
         lastID = defaults.string(forKey: "lastMatchId") ?? String()
         NotificationCenter.default.addObserver(self, selector: #selector(updateGameReault), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
@@ -182,10 +189,12 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var updateRes : String? = nil;
     
     @objc func updateGameReault() {
+        
         let JsonStr = defaults.string(forKey: "gameLeft") ?? String()
+        print(JsonStr)
+        if JsonStr != "" {
         PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "\(JsonStr)") { data, error in
             DispatchQueue.main.async {
-                
                 if data != nil {
                     
                     //                print(data ?? "")
@@ -193,7 +202,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     self.updateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
                     
                     if ((self.updateRes)!).contains("ok") {
-                        self.loadMatchData()
+                        self.loadMatchData(id: self.matchID)
                         self.defaults.set("", forKey: "gameLeft")
 //                        print(self.updateRes!)
                     } else {
@@ -208,6 +217,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                 }
             }
             }.resume()
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -344,6 +354,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     
     @objc func turnAlert() {
+        self.alertTitle = "اخطار"
+        self.alertBody = "باید صبر کنی تا حریف بازیشو انجام بده"
         self.performSegue(withIdentifier: "matchFieldAlert", sender: self)
     }
     
@@ -503,14 +515,53 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     }
         
         if let vc = segue.destination as? menuAlertViewController {
-            vc.alertTitle = "اخطار"
-            vc.alertBody = "باید صبر کنی تا حریف بازیشو انجام بده"
+            vc.alertTitle = self.alertTitle
+            vc.alertBody = self.alertBody
             vc.alertAcceptLabel = "تأیید"
         }
         
         if let vC = segue.destination as? menuViewController {
             vC.menuState = "profile"
         }
+        
+        
+        if let vc = segue.destination as? menuAlert2ButtonsViewController {
+            vc.alertTitle = "فوتبالیکا"
+            vc.alertBody = "در صورت تسلیم شدن شما بازنده ی بازی خواهید شد.آیا اطمینان دارید؟"
+            vc.state = "surrender"
+            vc.matchId = self.matchID
+            vc.delegate = self
+        }
+        
+        
     }
+    
+    var alertTitle = String()
+    var alertBody  = String()
+    
+    public func surrenderring(match_id : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'UPDT_GAME_DEFER' , 'match_id' : '\(match_id)' , 'player_id' : '\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                if data != nil {
+                    PubProc.cV.hideWarning()
+                    PubProc.wb.hideWaiting()
+                    NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
+                        self.dismiss(animated: true, completion: nil)
+                } else {
+                    self.surrenderring(match_id: match_id)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
+    
+    @IBAction func surrenderAction(_ sender: RoundButton) {
+        self.performSegue(withIdentifier: "surrender", sender: self)
+    }
+    
+    
     
 }

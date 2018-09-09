@@ -76,6 +76,7 @@ import AVFoundation
         
         self.layer.masksToBounds = true
         self.clipsToBounds = true
+        
         if cornerEdgesAllow == true {
             var options = UIRectCorner()
             if topLeft {

@@ -37,7 +37,7 @@ public class PubProc {
             
             requestNo.httpMethod = "POST"
             let postStringNo = PubProc.HandleString.ReplaceQoutedToDbQouted(str: JSONStr)
-//            print(postStringNo)
+            print(postStringNo)
             requestNo.httpBody = postStringNo.data(using: .utf8)
             
             let taskNo = URLSession.shared.dataTask(with: requestNo, completionHandler: { (data, response, error) in

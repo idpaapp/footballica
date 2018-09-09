@@ -44,9 +44,18 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        rData()
         loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
-        PubProc.wb.hideWaiting()
+            login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                PubProc.wb.hideWaiting()
+                self.xpProgress.progress = 0.0
+                DispatchQueue.main.async {
+                    UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                        self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
+                        self.rData()
+                        PubProc.wb.hideWaiting()
+                    })
+                }
+            })
         })
     }
     
@@ -173,11 +182,13 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             if UIDevice().userInterfaceIdiom == .phone  {
                 if UIScreen.main.nativeBounds.height == 2436 {
                     //iPhone X
-                    return CGSize(width: UIScreen.main.bounds.width / 3 - 20 , height: 130)
+                    return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
                 } else {
-                    return CGSize(width: UIScreen.main.bounds.width / 3 - 20 , height: 130)
+                    //Normal iPhone
+                    return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
                 }
             } else {
+                //iPad
                 return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3 , height: 230)
             }
         } else {
@@ -186,9 +197,11 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                     //iPhone X
                     return CGSize(width: UIScreen.main.bounds.width - 30 , height: 130)
                 } else {
+                    //Normal iPhone
                     return CGSize(width: UIScreen.main.bounds.width - 30 , height: 130)
                 }
             } else {
+                //iPad
                 return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) , height: 230)
             }
         }
@@ -227,14 +240,5 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         let pageIndexDict:[String: Int] = ["button": 4]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-        
-        self.xpProgress.progress = 0.0
-        DispatchQueue.main.async {
-
-            UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
-
-            })
-        }
     }
 }

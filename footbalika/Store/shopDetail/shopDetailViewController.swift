@@ -29,7 +29,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     
     @objc func chooseItem() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleCoins", JSONStr: "{'item_id' : '\((loadShop.res?.response?[1].items?[shopIndex].package_awards?[selectedItem].id)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleCoins", JSONStr: "{'item_id' : '\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].id)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
             DispatchQueue.main.async {
                 
                 

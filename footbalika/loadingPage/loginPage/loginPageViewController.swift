@@ -135,6 +135,7 @@ class loginPageViewController: UIViewController {
                         
                         PubProc.wb.hideWaiting()
                     } catch {
+                        self.normalLogin()
                         print(error)
                     }
                     
