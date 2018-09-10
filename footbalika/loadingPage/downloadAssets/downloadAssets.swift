@@ -92,7 +92,8 @@ public class downloadAssets {
                     do {
                         
                         self.res = try JSONDecoder().decode(Response.self , from : data!)
-
+                        
+                        
                         if ((self.res?.chargeTypes?.count)!) != 0 {
                             self.chargeTypesDl()
                         }
@@ -106,7 +107,7 @@ public class downloadAssets {
                         if ((self.res?.stadiumData?.count)!) != 0 {
                             self.stadiumDl()
                         }
-
+                        
                     } catch {
                         self.downloadingAssets(postString : postString)
                         print(error)

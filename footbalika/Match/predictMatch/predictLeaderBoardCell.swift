@@ -9,16 +9,13 @@
 import UIKit
 
 class predictLeaderBoardCell: UITableViewCell {
-
     
     @IBOutlet weak var number: UILabel!
-    
     @IBOutlet weak var userAvatar: UIImageView!
-    
     @IBOutlet weak var userName: UILabel!
-    
     @IBOutlet weak var userScore: UILabel!
     
+    @IBOutlet weak var selectLeaderBoardUser: RoundButton!
     
     
     

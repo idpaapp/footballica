@@ -22,8 +22,13 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBOutlet weak var searchOutlet: RoundButton!
     var state = "friendsList"
     var searchCount = 1
-    @objc func getFriendsList() {
-        
+    
+    @objc func getFriendsList(isSplash : Bool) {
+        if isSplash {
+        PubProc.isSplash = true
+        } else {
+        PubProc.isSplash = false
+        }
         PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
@@ -37,12 +42,12 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     
                     do {
                         
-                        self.res = try JSONDecoder().decode(friendList.Response.self , from : data!)
-                        
+                        GroupsViewController.friendsRes = try JSONDecoder().decode(friendList.Response.self , from : data!)
+                        PubProc.isSplash = false
                         
                         
                         DispatchQueue.main.async {
-                            if self.res?.response?.count == 0 {
+                            if GroupsViewController.friendsRes?.response?.count == 0 {
                                 self.friendsTableView.isScrollEnabled = false
                             }
                             self.friendsTableView.reloadData()
@@ -52,11 +57,11 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         }
                         
                     } catch {
-                        self.getFriendsList()
+                        self.getFriendsList(isSplash: isSplash)
                         print(error)
                     }
                 } else {
-                    self.getFriendsList()
+                    self.getFriendsList(isSplash: isSplash)
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -66,13 +71,26 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         
     }
     
-    var res : friendList.Response? = nil
+    static var friendsRes : friendList.Response? = nil
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        getFriendsList(isSplash: true)
+    }
+    
+    
+    @objc func refreshUserData(notification : Notification) {
+        getFriendsList(isSplash: false)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getFriendsList()
+        getFriendsList(isSplash: true)
         friendsActionColor()
         friendsTableView.keyboardDismissMode = .onDrag
+        NotificationCenter.default.addObserver(self, selector: #selector(self.refreshUserData(notification:)), name: NSNotification.Name(rawValue: "refreshUsersAfterCancelling"), object: nil)
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -121,11 +139,11 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
 //                        print((self.resUser?.response?[0].avatar!)!)
                         
                     } catch {
-                        self.getFriendsList()
+                        self.searchFunction()
                         print(error)
                     }
                 } else {
-                    self.getFriendsList()
+                    self.searchFunction()
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -138,11 +156,11 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         if state == "searchList" {
             return searchCount
         } else {
-        if self.res != nil {
-            if self.res?.response?.count == 0 {
+        if GroupsViewController.friendsRes != nil {
+            if GroupsViewController.friendsRes?.response?.count == 0 {
                 return 1
             } else {
-            return (self.res?.response?.count)!
+            return (GroupsViewController.friendsRes?.response?.count)!
             }
         } else {
             return 0
@@ -184,21 +202,21 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             
         } else {
             
-        if self.res?.response?.count != 0 {
+        if GroupsViewController.friendsRes?.response?.count != 0 {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! friendCell
 
-        let url = "\(urlClass.avatar)\((self.res?.response?[indexPath.row].avatar!)!)"
+        let url = "\(urlClass.avatar)\((GroupsViewController.friendsRes?.response?[indexPath.row].avatar!)!)"
         let urls = URL(string : url)
         cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
-        if self.res?.response?[indexPath.row].badge_name != nil {
-        let url2 = "\(urlClass.badge)\((self.res?.response?[indexPath.row].badge_name!)!)"
+        if GroupsViewController.friendsRes?.response?[indexPath.row].badge_name != nil {
+        let url2 = "\(urlClass.badge)\((GroupsViewController.friendsRes?.response?[indexPath.row].badge_name!)!)"
         let urls2 = URL(string : url2)
         cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
         }
-            print("\((self.res?.response?[indexPath.row].id!)!)")
-        cell.friendCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
-        cell.friendName.text = "\((self.res?.response?[indexPath.row].username!)!)"
+            print("\((GroupsViewController.friendsRes?.response?[indexPath.row].id!)!)")
+        cell.friendCup.text = "\((GroupsViewController.friendsRes?.response?[indexPath.row].cups!)!)"
+        cell.friendName.text = "\((GroupsViewController.friendsRes?.response?[indexPath.row].username!)!)"
         cell.selectFriend.tag = indexPath.row
         cell.selectFriend.addTarget(self, action: #selector(selectingProfile), for: UIControlEvents.touchUpInside)
         cell.selectFriendName.tag = indexPath.row
@@ -230,7 +248,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if state == "friendsList" {
-        if self.res?.response?.count != 0 {
+        if GroupsViewController.friendsRes?.response?.count != 0 {
         if UIDevice().userInterfaceIdiom == .phone {
             return 80
         } else {
@@ -256,14 +274,15 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @objc func selectingProfile(_ sender : UIButton!) {
         selectedProfile = sender.tag
         if state == "searchList" {
-        self.performSegue(withIdentifier: "showUserProfile", sender: self)
+            getProfile(userid: ((self.resUser?.response?[selectedProfile - 1].id!)!))
+//        self.performSegue(withIdentifier: "showUserProfile", sender: self)
         } else {
-        getProfile()
+            getProfile(userid: (GroupsViewController.friendsRes?.response?[selectedProfile].friend_id!)!)
         }
     }
     
-    @objc func getProfile() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\((self.res?.response?[selectedProfile].friend_id!)!)' , 'load_stadium' : 'false'}") { data, error in
+    @objc func getProfile(userid : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -275,16 +294,17 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     do {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        
                         self.performSegue(withIdentifier: "showUserProfile", sender: self)
                         DispatchQueue.main.async {
                             PubProc.wb.hideWaiting()
                         }
                     } catch {
-                        self.getProfile()
+                        self.getProfile(userid: userid)
                         print(error)
                     }
                 } else {
-                    self.getProfile()
+                    self.getProfile(userid: userid)
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -295,26 +315,28 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if let vc = segue.destination as? menuViewController {
-            if state == "searchList" {
-            vc.menuState = "profile"
-            vc.otherProfiles = true
-            vc.oPStadium = ((self.resUser?.response?[selectedProfile - 1].stadium!)!)
-            vc.opName = ((self.resUser?.response?[selectedProfile - 1].username!)!)
-            vc.opAvatar = "\(urlClass.avatar)\(((self.resUser?.response?[selectedProfile - 1].avatar!)!))"
-            vc.opBadge = "\(urlClass.badge)\(((self.resUser?.response?[selectedProfile - 1].badge_name!)!))"
-            vc.opID = ((self.resUser?.response?[selectedProfile - 1].ref_id!)!)
-            vc.opCups = ((self.resUser?.response?[selectedProfile - 1].cups!)!)
-            vc.opLevel = ((self.resUser?.response?[selectedProfile - 1].level!)!)
-            vc.opWinCount = ((self.resUser?.response?[selectedProfile - 1].win_count!)!)
-            vc.opCleanSheetCount = ((self.resUser?.response?[selectedProfile - 1].clean_sheet_count!)!)
-            vc.opLoseCount = ((self.resUser?.response?[selectedProfile - 1].lose_count!)!)
-            vc.opMostScores = ((self.resUser?.response?[selectedProfile - 1].max_points_gain!)!)
-            vc.opDrawCount = ((self.resUser?.response?[selectedProfile - 1].draw_count!)!)
-            vc.opMaximumWinCount = ((self.resUser?.response?[selectedProfile - 1].max_wins_count!)!)
-            vc.opMaximumScore = ((self.resUser?.response?[selectedProfile - 1].max_point!)!)
-            vc.uniqueId = ((self.resUser?.response?[selectedProfile - 1].id!)!)
-            } else {
+//            if state == "searchList" {
+//            vc.menuState = "profile"
+//            vc.otherProfiles = true
+//            vc.oPStadium = ((self.resUser?.response?[selectedProfile - 1].stadium!)!)
+//            vc.opName = ((self.resUser?.response?[selectedProfile - 1].username!)!)
+//            vc.opAvatar = "\(urlClass.avatar)\(((self.resUser?.response?[selectedProfile - 1].avatar!)!))"
+//            vc.opBadge = "\(urlClass.badge)\(((self.resUser?.response?[selectedProfile - 1].badge_name!)!))"
+//            vc.opID = ((self.resUser?.response?[selectedProfile - 1].ref_id!)!)
+//            vc.opCups = ((self.resUser?.response?[selectedProfile - 1].cups!)!)
+//            vc.opLevel = ((self.resUser?.response?[selectedProfile - 1].level!)!)
+//            vc.opWinCount = ((self.resUser?.response?[selectedProfile - 1].win_count!)!)
+//            vc.opCleanSheetCount = ((self.resUser?.response?[selectedProfile - 1].clean_sheet_count!)!)
+//            vc.opLoseCount = ((self.resUser?.response?[selectedProfile - 1].lose_count!)!)
+//            vc.opMostScores = ((self.resUser?.response?[selectedProfile - 1].max_points_gain!)!)
+//            vc.opDrawCount = ((self.resUser?.response?[selectedProfile - 1].draw_count!)!)
+//            vc.opMaximumWinCount = ((self.resUser?.response?[selectedProfile - 1].max_wins_count!)!)
+//            vc.opMaximumScore = ((self.resUser?.response?[selectedProfile - 1].max_point!)!)
+//            vc.uniqueId = ((self.resUser?.response?[selectedProfile - 1].id!)!)
+//
+//            } else {
                 vc.menuState = "profile"
                 vc.otherProfiles = true
                 vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
@@ -332,7 +354,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 vc.opMaximumWinCount = ((login.res?.response?.mainInfo?.max_wins_count!)!)
                 vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
                 vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
-            }
+//            }
         }
     }
     

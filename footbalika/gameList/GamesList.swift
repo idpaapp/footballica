@@ -20,9 +20,9 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     @objc private func refreshWeatherData(_ sender: Any) {
         // Fetch Weather Data
         if self.gameListState == "currentGames"{
-            gameLists(mode: "UNFINISHED_GAMES")
+            gameLists(mode: "UNFINISHED_GAMES", isSplash: false)
         } else {
-            gameLists(mode: "FINISHED_GAMES")
+            gameLists(mode: "FINISHED_GAMES", isSplash: false)
         }
     }
     
@@ -31,9 +31,9 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             PubProc.wb.hideWaiting()
             if self.gameListState == "currentGames"{
-                self.gameLists(mode: "UNFINISHED_GAMES")
+                self.gameLists(mode: "UNFINISHED_GAMES", isSplash: false)
             } else {
-                self.gameLists(mode: "FINISHED_GAMES")
+                self.gameLists(mode: "FINISHED_GAMES", isSplash: false)
             }
         }
     }
@@ -46,13 +46,18 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         if self.gameListState == "currentGames"{
-            gameLists(mode: "UNFINISHED_GAMES")
+            gameLists(mode: "UNFINISHED_GAMES", isSplash: true)
         } else {
-            gameLists(mode: "FINISHED_GAMES")
+            gameLists(mode: "FINISHED_GAMES", isSplash: true)
         }
     }
     
-    @objc func gameLists(mode : String) {
+    @objc func gameLists(mode : String , isSplash : Bool) {
+        if isSplash {
+            PubProc.isSplash = true
+        } else {
+           PubProc.isSplash = false
+        }
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchListData", JSONStr: "{'mode': '\(mode)','userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
@@ -68,7 +73,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                         
                         self.res = try JSONDecoder().decode(gamesList.Response.self , from : data!)
                         
-                        
+                        PubProc.isSplash = false
 //                        guard let res = self.res else {
 //                            print("res not found")
 //                            return
@@ -88,11 +93,11 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                         }
                         
                     } catch {
-                        self.gameLists(mode: mode)
+                        self.gameLists(mode: mode, isSplash: isSplash)
                         print(error)
                     }
                 } else {
-                    self.gameLists(mode: mode)
+                    self.gameLists(mode: mode, isSplash: isSplash)
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -116,7 +121,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         maskLayer.path = path.cgPath
         self.currentGames.layer.mask = maskLayer
         
-        gameLists(mode: "UNFINISHED_GAMES")
+        gameLists(mode: "UNFINISHED_GAMES", isSplash: true)
         currentGamesListColor()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshingGameList), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
 
@@ -278,7 +283,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     @IBAction func showCurrentGames(_ sender: RoundButton) {
         currentGamesListColor()
         self.gameListState = "currentGames"
-        gameLists(mode: "UNFINISHED_GAMES")
+        gameLists(mode: "UNFINISHED_GAMES", isSplash: false)
 //        self.gameListTV.reloadData()
     }
     
@@ -286,7 +291,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         self.currentGames.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
         self.endedGames.backgroundColor = UIColor.white
         self.gameListState = "endedGames"
-        gameLists(mode: "FINISHED_GAMES")
+        gameLists(mode: "FINISHED_GAMES", isSplash: false)
 //        self.gameListTV.reloadData()
     }
     

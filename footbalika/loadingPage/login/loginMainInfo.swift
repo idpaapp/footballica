@@ -49,5 +49,6 @@ public class loginMainInfo {
         let extra_games : String?
         let finish_extra_time : String?
         let extra_type : String?
+        let is_my_friend : Int?
     }
 }

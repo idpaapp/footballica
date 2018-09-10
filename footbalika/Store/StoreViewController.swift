@@ -44,6 +44,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        PubProc.isSplash = true
         loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
             login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
                 PubProc.wb.hideWaiting()
@@ -53,6 +54,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                         self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
                         self.rData()
                         PubProc.wb.hideWaiting()
+                        PubProc.isSplash = false
                     })
                 }
             })
@@ -113,10 +115,12 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
             cell.storeLabelForeGround.font = iPadfonts
         }
+            
         cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))"
         cell.storeSelect.tag = indexPath.item - self.mainShopIndex
         cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
         return cell
+            
         } else {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell

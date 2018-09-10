@@ -11,12 +11,12 @@ import Kingfisher
 import RealmSwift
 
 protocol DismissDelegate{
-    func dismissVC(id : String)
+    func dismissAndSurrender(id : String)
 }
 
 class startMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , DismissDelegate {
 
-    func dismissVC(id : String){
+    func dismissAndSurrender(id : String){
         surrenderring(match_id : id)
     }
     
@@ -561,7 +561,5 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     @IBAction func surrenderAction(_ sender: RoundButton) {
         self.performSegue(withIdentifier: "surrender", sender: self)
     }
-    
-    
     
 }

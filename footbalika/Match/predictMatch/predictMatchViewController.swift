@@ -131,9 +131,14 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             cell.userName.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].username!)!)"
             cell.number.text = "\(indexPath.row + 1)"
             cell.userScore.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].cups!)!)"
+            cell.selectLeaderBoardUser.tag = indexPath.row
+            cell.selectLeaderBoardUser.addTarget(self, action: #selector(getUserInfo), for: UIControlEvents.touchUpInside)
             return cell
         }
     }
+    
+    
+    
     
     
     var selectedPredict = Int()
@@ -152,11 +157,33 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
 //        }
 //    }
     
+    var urlClass = urls()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let vc = segue.destination as! predictOneMatchViewController
+        if let vc = segue.destination as? predictOneMatchViewController {
         vc.homeImg = "\((self.todayRes?.response?[selectedPredict].home_image!)!)"
         vc.awayImg = "\((self.todayRes?.response?[selectedPredict].away_image!)!)"
         vc.predictionId = Int((self.todayRes?.response?[selectedPredict].id!)!)!
+        }
+        
+        if let vc = segue.destination as? menuViewController {
+            vc.menuState = "profile"
+            vc.otherProfiles = true
+            vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
+            vc.opName = (login.res?.response?.mainInfo?.username!)!
+            vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
+            vc.opBadge = "\(urlClass.badge)\(((login.res?.response?.mainInfo?.badge_name!)!))"
+            vc.opID = ((login.res?.response?.mainInfo?.ref_id!)!)
+            vc.opCups = ((login.res?.response?.mainInfo?.cups!)!)
+            vc.opLevel = ((login.res?.response?.mainInfo?.level!)!)
+            vc.opWinCount = ((login.res?.response?.mainInfo?.win_count!)!)
+            vc.opCleanSheetCount = ((login.res?.response?.mainInfo?.clean_sheet_count!)!)
+            vc.opLoseCount = ((login.res?.response?.mainInfo?.lose_count!)!)
+            vc.opMostScores = ((login.res?.response?.mainInfo?.max_points_gain!)!)
+            vc.opDrawCount = ((login.res?.response?.mainInfo?.draw_count!)!)
+            vc.opMaximumWinCount = ((login.res?.response?.mainInfo?.max_wins_count!)!)
+            vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
+            vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
+        }
     }
 
     @IBOutlet weak var predictMatchTV: UITableView!
@@ -168,6 +195,42 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     @IBOutlet weak var pastOutlet: RoundButton!
     
     var state = "today"
+    
+    @objc func getUserInfo(_ sender : UIButton!) {
+        getProfile(userid : (self.predictLeaderBoardRes?.response?[sender.tag].id!)!)
+    }
+    
+    @objc func getProfile(userid : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    PubProc.cV.hideWarning()
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        
+                        self.performSegue(withIdentifier: "showProfile", sender: self)
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                        }
+                    } catch {
+                        self.getProfile(userid: userid)
+                        print(error)
+                    }
+                } else {
+                    self.getProfile(userid: userid)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
     
     func scoreAnimation() {
         if yourScoreTitle.transform.isIdentity {
@@ -208,7 +271,6 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             predictWidthView.constant = (UIScreen.main.bounds.width * 4) / 5
             }
         }
-        
         
         todayJson()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshAfterPredict(notification:)), name: Notification.Name("refreshPrediction"), object: nil)
@@ -386,7 +448,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     @IBAction func dismissing(_ sender: RoundButton) {
         self.dismiss(animated : true , completion: nil)
     }
-    
+
     
     
 }

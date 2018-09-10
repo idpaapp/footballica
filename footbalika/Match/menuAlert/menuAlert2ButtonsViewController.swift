@@ -21,7 +21,7 @@ class menuAlert2ButtonsViewController: UIViewController {
     var alertState = String()
     var matchId = String()
     var delegate: DismissDelegate?
-    
+    var userid = String()
     
     
         override var prefersStatusBarHidden: Bool {
@@ -131,7 +131,7 @@ class menuAlert2ButtonsViewController: UIViewController {
             
         case "surrender" :
             self.dismissing()
-            delegate?.dismissVC(id : self.matchId )
+            delegate?.dismissAndSurrender(id : self.matchId )
 //            startMatchViewController().surrenderring(match_id : self.matchId)
         case "friendlyMatch" :
             PubProc.HandleDataBase.readJson(wsName: "ws_handleFriends", JSONStr: "\(jsonStr)") { data, error in
@@ -164,6 +164,45 @@ class menuAlert2ButtonsViewController: UIViewController {
                 }
                 }.resume()
             
+            
+        case "cancelFrindShip" :
+            
+//            print("cancel Frindship")
+            
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleFriends", JSONStr: "\(jsonStr)") { data, error in
+                DispatchQueue.main.async {
+                    
+                    if data != nil {
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                        }
+                        
+                        self.ResponseFriendlyMatch = ((String(data: data!, encoding: String.Encoding.utf8) as String?)!)
+                        print(self.jsonStr)
+                        print(self.ResponseFriendlyMatch)
+                        //                print(data ?? "")
+                        
+                        if self.ResponseFriendlyMatch.contains("OK") {
+                            
+                            let pageIndexDict:[String: String] = ["userID": self.userid]
+                            NotificationCenter.default.post(name: Notification.Name("refreshUsersAfterCancelling"), object: nil, userInfo: pageIndexDict)
+                            self.dismissing()
+                            
+                        } else {
+                            self.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
+                            self.alertTitle = "فوتبالیکا"
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                        }
+                        
+                        PubProc.wb.hideWaiting()
+                    } else {
+                        self.accepting()
+                        print("Error Connection")
+                        print(error as Any)
+                        // handle error
+                    }
+                }
+                }.resume()
             
         case "changePassword" :
             PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "\(jsonStr)") { data, error in
@@ -332,6 +371,11 @@ class menuAlert2ButtonsViewController: UIViewController {
             vc.alertAcceptLabel = self.alertAcceptLabel
         } else if state == "signUp" {
             vc.alertState = "signUp"
+            vc.alertBody = self.alertBody
+            vc.alertTitle = self.alertTitle
+            vc.alertAcceptLabel = self.alertAcceptLabel
+        } else if state == "cancelFrindShip" {
+            vc.alertState = "cancelFrindShip"
             vc.alertBody = self.alertBody
             vc.alertTitle = self.alertTitle
             vc.alertAcceptLabel = self.alertAcceptLabel

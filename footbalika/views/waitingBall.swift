@@ -32,12 +32,13 @@ public class waitingBall: UIView {
     
     
     public func showWaiting() {
+        DispatchQueue.main.async {
         self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         UIApplication.shared.keyWindow!.addSubview(self)
         UIApplication.shared.keyWindow!.bringSubview(toFront: self)
         self.waitingImage.loadGif(name: "progress")
-        
         self.isOpaque = false
+        }
     }
     
     public func hideWaiting() {
