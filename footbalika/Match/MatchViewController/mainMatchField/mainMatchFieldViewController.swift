@@ -112,6 +112,7 @@ class mainMatchFieldViewController: UIViewController  {
     }
     
     var bombAndFreezRes : String? = nil
+    var isFreez = false
     @objc func freezAction() {
         if timerCount < 44 {
         self.freezTimer.isEnabled = false
@@ -123,7 +124,7 @@ class mainMatchFieldViewController: UIViewController  {
                 if data != nil {
                     
                     self.bombAndFreezRes = String(data: data!, encoding: String.Encoding.utf8) as String?
-                    
+                    self.isFreez = true
                     //                    print(self.bombRes)
                     DispatchQueue.main.async {
                         PubProc.cV.hideWarning()
@@ -205,20 +206,16 @@ class mainMatchFieldViewController: UIViewController  {
             }.resume()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var money = Int()
+    var coin = Int()
+    
+    @objc func checkBombAndFreez() {
         
-        realm = try? Realm()
+        let money = Int((login.res?.response?.mainInfo?.cashs)!)!
+        let coin = Int((login.res?.response?.mainInfo?.coins)!)!
         
-        let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(stadiumUrl.stadium)\(stadium)'")
-        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-        self.backGroundStadium.image = UIImage(data: dataDecoded as Data)
-        
-        
-//        let money = Int((login.res?.response?.mainInfo?.cashs)!)!
-//        let coin = Int((login.res?.response?.mainInfo?.coins)!)!
-//        print(Int((login.res?.response?.mainInfo?.cashs)!)!)
-//        print(Int((login.res?.response?.mainInfo?.coins)!)!)
+        //        print(Int((login.res?.response?.mainInfo?.cashs)!)!)
+        //        print(Int((login.res?.response?.mainInfo?.coins)!)!)
         
         self.bombPrice.text = (loadingSetting.res?.response?.bomb_price!)!
         self.freezTimePrice.text = (loadingSetting.res?.response?.freeze_price!)!
@@ -226,8 +223,22 @@ class mainMatchFieldViewController: UIViewController  {
         switch (loadingSetting.res?.response?.bomb_price_type!)! {
         case "2":
             self.bombPriceImage.image = UIImage(named: "ic_coin")
+            if coin < Int((loadingSetting.res?.response?.bomb_price!)!)! {
+                self.bomb.isEnabled = false
+                self.bombPrice.textColor = colors().notEnoughColor
+            } else {
+                self.bomb.isEnabled = true
+                self.bombPrice.textColor = .white
+            }
         case "3":
             self.bombPriceImage.image = UIImage(named: "money")
+            if money < Int((loadingSetting.res?.response?.bomb_price!)!)! {
+                self.bomb.isEnabled = false
+                self.bombPrice.textColor = colors().notEnoughColor
+            } else {
+                self.bomb.isEnabled = true
+                self.bombPrice.textColor = .white
+            }
         default:
             self.bombPriceImage.image = UIImage()
         }
@@ -235,11 +246,38 @@ class mainMatchFieldViewController: UIViewController  {
         switch (loadingSetting.res?.response?.freeze_price_type!)! {
         case "2":
             self.freezTimePriceImage.image = UIImage(named: "ic_coin")
+            if coin < Int((loadingSetting.res?.response?.freeze_price!)!)! {
+                self.freezTimer.isEnabled = false
+                self.freezTimePrice.textColor = colors().notEnoughColor
+            } else {
+                self.freezTimer.isEnabled = true
+                self.freezTimePrice.textColor = .white
+            }
         case "3":
             self.freezTimePriceImage.image = UIImage(named: "money")
+            if money < Int((loadingSetting.res?.response?.freeze_price!)!)! {
+                self.freezTimer.isEnabled = false
+                self.freezTimePrice.textColor = colors().notEnoughColor
+            } else {
+                self.freezTimer.isEnabled = true
+                self.freezTimePrice.textColor = .white
+            }
         default:
             self.freezTimePriceImage.image = UIImage()
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        realm = try? Realm()
+        let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(stadiumUrl.stadium)\(stadium)'")
+        print(stadium)
+        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+        self.backGroundStadium.image = UIImage(data: dataDecoded as Data)
+        
+        
+        checkBombAndFreez()
         
 //        if money < 300 {
 //            self.freezTimer.isEnabled = false
@@ -570,6 +608,7 @@ class mainMatchFieldViewController: UIViewController  {
             self.bomb.isUserInteractionEnabled = true
             self.freezTimer.isUserInteractionEnabled = true
             self.bomb.isEnabled = true
+            self.checkBombAndFreez()
             if UIDevice().userInterfaceIdiom == .phone {
                 if UIScreen.main.nativeBounds.height == 2436 {
                     //iPhone X
@@ -609,17 +648,18 @@ class mainMatchFieldViewController: UIViewController  {
     }
     
     func hideQuestion() {
-        if self.freezTimer.isEnabled == false {
-            self.freezTimer.isEnabled = true
+        if self.isFreez {
+            checkBombAndFreez()
             gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
-
-        }
+            self.isFreez = false
+        } else {}
         
         self.freezTimer.isUserInteractionEnabled = false
         self.bomb.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
         self.imageQuestionTitle.text = " "
         }
+        
         let doubleCheckTimer : CGFloat = time
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             if self.currentQuestion < 3 &&  doubleCheckTimer == self.time {

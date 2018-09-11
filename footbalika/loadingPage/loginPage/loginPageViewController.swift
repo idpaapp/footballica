@@ -88,10 +88,10 @@ class loginPageViewController: UIViewController {
     }
     
     
-    @objc func emptyStadium() {
-        let stadium = readAndWritetblStadiums()
-        stadium.writeToDBtblStadiumTypes(id: 0, title: "empty_std", imagePath: ("\(urls().stadium)\((login.res?.response?.mainInfo?.stadium!)!)"), extendedBase64Image: "")
-    }
+//    @objc func emptyStadium() {
+//        let stadium = readAndWritetblStadiums()
+//        stadium.writeToDBtblStadiumTypes(id: 500, title: "empty_std", imagePath: ("\(urls().stadium)\((login.res?.response?.mainInfo?.stadium!)!)"), extendedBase64Image: "")
+//    }
     
     @objc func normalLogin() {
         
@@ -115,7 +115,7 @@ class loginPageViewController: UIViewController {
                         print((login.res?.status!)!)
                         if (login.res?.status?.contains("OK"))! {
                             self.dismissing()
-                            self.emptyStadium()
+//                            self.emptyStadium()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
                             loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
@@ -169,7 +169,7 @@ class loginPageViewController: UIViewController {
                         //                print(data ?? "")
                         if (login.res?.status?.contains("OK"))! {
                             self.dismissing()
-                            self.emptyStadium()
+//                            self.emptyStadium()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
                             loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!

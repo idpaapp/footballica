@@ -10,6 +10,7 @@ import UIKit
 
 class menuAlertViewController: UIViewController {
 
+    var delegate: DA2Delegate?
     let showAlert = menuAlert()
     var alertTitle = String()
     var alertBody = String()
@@ -94,9 +95,13 @@ class menuAlertViewController: UIViewController {
                 let nc = NotificationCenter.default
                 nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
             } else if self.alertState == "signUpError" {
+                self.delegate?.dismissingMA2()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                self.menue2Alert.dismiss(animated: true, completion: nil)
+//                self.menue2Alert.dismiss(animated: true, completion: nil)
+//                  self.delegate?.dismissingMA2()
                 })
+            } else if self.alertState == "requestFriendShip" {
+                self.delegate?.dismissingMA2()
             }
             })
         })
@@ -107,10 +112,7 @@ class menuAlertViewController: UIViewController {
                 musicPlay().playMenuMusic()
             })
         }
-        
-        
     }
-    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)

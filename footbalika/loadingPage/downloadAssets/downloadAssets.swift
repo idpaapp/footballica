@@ -17,10 +17,13 @@ public class downloadAssets {
         let stadiumData : [stadiumDataDownload.stadiumData]?
     }
     
+    
     var res : Response? = nil;
     var chargeRead = readAndWritetblChargeTypes()
     var matchTypeRead = readAndWritetblMatchTypes()
     var stadiumData = readAndWritetblStadiums()
+    
+    
     public func getIDs() {
         
         var stadiumType = ["id" : Int(),"image_path" : String()] as [String : Any]
@@ -92,7 +95,6 @@ public class downloadAssets {
                     do {
                         
                         self.res = try JSONDecoder().decode(Response.self , from : data!)
-                        
                         
                         if ((self.res?.chargeTypes?.count)!) != 0 {
                             self.chargeTypesDl()

@@ -69,9 +69,6 @@ class loadingViewController: UIViewController {
                 
                 do {
                     
-                    
-                    
-                    
                     loadingViewController.loadGameData = try JSONDecoder().decode(gameDataModel.Response.self , from : data!)
                     
 //                    print((self.loadGameData?.response?.userXps[0].level!)!)
@@ -106,6 +103,8 @@ class loadingViewController: UIViewController {
                             let imagePath = ((loadingViewController.loadGameData?.response?.stadiumData[i].extended_image!)!)
                             let extendImage = ""
                             self.writeStadiums.writeToDBtblStadiumTypes(id: id, title: title, imagePath: imagePath, extendedBase64Image: extendImage)
+                            print(title)
+                            print(imagePath)
                         }
                         
                         self.endProgress = 0.1
@@ -113,6 +112,7 @@ class loadingViewController: UIViewController {
                         if loadingViewController.userid != "0" {
                         login.init().loging(userid: loadingViewController.userid, rest: true, completionHandler: {
                         })
+                            
                         } else {
                             self.performSegue(withIdentifier: "loginUser", sender: self)
                         }

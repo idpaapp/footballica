@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if UIScreen.main.nativeBounds.height == 2436 {
                 self.window = UIWindow(frame: UIScreen.main.bounds)
                 let storyBoard = UIStoryboard(name: "iPhoneX", bundle: nil)
-                
                 let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
                 self.window?.rootViewController = viewController
                 self.window?.makeKeyAndVisible()
@@ -31,7 +30,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 self.window = UIWindow(frame: UIScreen.main.bounds)
                 let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                
                 let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
                 self.window?.rootViewController = viewController
                 self.window?.makeKeyAndVisible()
@@ -40,7 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             self.window = UIWindow(frame: UIScreen.main.bounds)
             let storyBoard = UIStoryboard(name: "iPad", bundle: nil)
-            
             let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
             self.window?.rootViewController = viewController
             self.window?.makeKeyAndVisible()
@@ -59,7 +56,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let playMenuMusics = UserDefaults.standard.bool(forKey: "menuMusic")
         if playMenuMusics {
         if musicPlay.musicPlayer?.isPlaying == true {
-            musicPlay.musicPlayer?.pause()
+            DispatchQueue.main.async {
+                musicPlay.musicPlayer?.pause()
+                print("music Off")
+            }
         }
         }
     }

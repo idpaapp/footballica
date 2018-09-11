@@ -182,6 +182,21 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        var packageScreenSize = CGSize()
+        if UIDevice().userInterfaceIdiom == .phone  {
+            if UIScreen.main.nativeBounds.height == 2436 {
+                //iphone X
+                packageScreenSize = CGSize(width: UIScreen.main.bounds.width - 30 , height: 0.57 * (UIScreen.main.bounds.width - 30))
+            } else {
+                //Normal iPhone
+                packageScreenSize = CGSize(width: UIScreen.main.bounds.width - 30 , height: 0.57 * (UIScreen.main.bounds.width - 30))
+            }
+        } else {
+            //iPad
+            packageScreenSize = CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) , height: 0.57 * (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)))
+
+        }
+        
         if indexPath.item >= self.mainShopIndex {
             if UIDevice().userInterfaceIdiom == .phone  {
                 if UIScreen.main.nativeBounds.height == 2436 {
@@ -193,21 +208,10 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                 }
             } else {
                 //iPad
-                return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3 , height: 230)
+                return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3  + 3, height: 230)
             }
         } else {
-            if UIDevice().userInterfaceIdiom == .phone  {
-                if UIScreen.main.nativeBounds.height == 2436 {
-                    //iPhone X
-                    return CGSize(width: UIScreen.main.bounds.width - 30 , height: 130)
-                } else {
-                    //Normal iPhone
-                    return CGSize(width: UIScreen.main.bounds.width - 30 , height: 130)
-                }
-            } else {
-                //iPad
-                return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) , height: 230)
-            }
+            return packageScreenSize
         }
     }
     

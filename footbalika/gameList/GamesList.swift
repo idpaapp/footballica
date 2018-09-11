@@ -212,7 +212,11 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
 //        } else {
         
             cell.result.text = "\((self.res?.response[indexPath.row].player1_result)!) _ \((self.res?.response[indexPath.row].player2_result)!)"
+        if self.res?.response[indexPath.row].p_game_start != nil {
             cell.timeLabel.text = (self.res?.response[indexPath.row].p_game_start)!
+        } else {
+            cell.timeLabel.text = "چندی قبل"
+        }
             cell.player1Level.text = (self.res?.response[indexPath.row].player1_level)!
             cell.player1Cup.text = (self.res?.response[indexPath.row].player1_cup)!
             cell.player1Name.text = (self.res?.response[indexPath.row].player1_username)!

@@ -87,8 +87,6 @@ class matchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-    
-        
         
         if UIDevice().userInterfaceIdiom == .phone  {
             startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
@@ -104,11 +102,12 @@ class matchViewController: UIViewController {
             startLabelForeGround.font = fonts.init().iPadfonts
             
         }
-        
+        PubProc.isSplash = true
         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
             self.fillData()
             DispatchQueue.main.async {
                 PubProc.wb.hideWaiting()
+                PubProc.isSplash = false
             }
         })
         
@@ -148,7 +147,10 @@ class matchViewController: UIViewController {
         self.xpProgress.progress = 0.0
         DispatchQueue.main.async {
         UIView.animate(withDuration: 0.3, animations: { () -> Void in
-            self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
+   
+            if  login.res?.response?.mainInfo?.max_points_gain != nil {
+                self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
+            }
         })
         }
     }

@@ -8,9 +8,12 @@
 
 import UIKit
 
+protocol DA2Delegate{
+    func dismissingMA2()
+}
 
-class menuAlert2ButtonsViewController: UIViewController {
-        
+class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
+    
     
     let showAlert = menuAlert2Buttons()
     var alertTitle = String()
@@ -23,6 +26,9 @@ class menuAlert2ButtonsViewController: UIViewController {
     var delegate: DismissDelegate?
     var userid = String()
     
+    @objc func dismissingMA2() {
+         self.dismissing()
+    }
     
         override var prefersStatusBarHidden: Bool {
             return true
@@ -204,6 +210,49 @@ class menuAlert2ButtonsViewController: UIViewController {
                 }
                 }.resume()
             
+            
+        case "requestFriendShip" :
+            
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleFriends", JSONStr: "\(jsonStr)") { data, error in
+                DispatchQueue.main.async {
+                    
+                    if data != nil {
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                        }
+                        
+                        self.ResponseFriendlyMatch = ((String(data: data!, encoding: String.Encoding.utf8) as String?)!)
+                        
+//                        print(self.jsonStr)
+//                        print(self.ResponseFriendlyMatch)
+                        //                print(data ?? "")
+                        print(self.ResponseFriendlyMatch)
+                        
+                        if self.ResponseFriendlyMatch.contains("OK") {
+                            
+                            let pageIndexDict:[String: String] = ["userID": self.userid]
+                            NotificationCenter.default.post(name: Notification.Name("refreshUsersAfterCancelling"), object: nil, userInfo: pageIndexDict)
+                            self.dismissing()
+                        } else if self.ResponseFriendlyMatch.contains("Request_sent") {
+                            self.alertBody = "شما قبلاً درخواست دوستی ارسال کرده اید!"
+                            self.alertTitle = "فوتبالیکا"
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                        } else {
+                            self.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
+                            self.alertTitle = "فوتبالیکا"
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                        }
+                        
+                        PubProc.wb.hideWaiting()
+                    } else {
+                        self.accepting()
+                        print("Error Connection")
+                        print(error as Any)
+                        // handle error
+                    }
+                }
+                }.resume()
+            
         case "changePassword" :
             PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "\(jsonStr)") { data, error in
                 DispatchQueue.main.async {
@@ -347,6 +396,7 @@ class menuAlert2ButtonsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         let vc = segue.destination as! menuAlertViewController
+        vc.delegate = self
         if state == "friendlyMatch" {
             vc.alertState = ""
             vc.alertBody = self.alertBody
@@ -379,6 +429,11 @@ class menuAlert2ButtonsViewController: UIViewController {
             vc.alertBody = self.alertBody
             vc.alertTitle = self.alertTitle
             vc.alertAcceptLabel = self.alertAcceptLabel
+        } else if state == "requestFriendShip" {
+            vc.alertState = "requestFriendShip"
+            vc.alertBody = self.alertBody
+            vc.alertTitle = self.alertTitle
+            vc.alertAcceptLabel = "تأیید"
         } else {
         vc.alertState = ""
         vc.alertBody = "زمان پیش بینی این بازی تمام شده است"
@@ -393,11 +448,17 @@ class menuAlert2ButtonsViewController: UIViewController {
             }, completion: { (finish) in
                 UIView.animate(withDuration: 0.2, animations: {
                     self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+//                    self.showAlert.removeFromSuperview()
+//                    self.dismiss(animated: true, completion: nil)
                 }, completion : { (finish) in
-                    self.showAlert.removeFromSuperview()
-                    self.dismiss(animated: true, completion: nil)
+//                    self.showAlert.removeFromSuperview()
+//                    self.dismiss(animated: true, completion: nil)
                 })
             })
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.showAlert.removeFromSuperview()
+                self.dismiss(animated: true, completion: nil)
+            }
         }
         
         override func didReceiveMemoryWarning() {

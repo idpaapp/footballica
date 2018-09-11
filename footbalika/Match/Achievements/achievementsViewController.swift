@@ -43,7 +43,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var userButtons = Bool()
     var leaderBoardState = String()
     var isFriend = Bool()
-//    let waitingCB = waiting().showWaiting()
     
     @objc func leaderBoardJson() {
         
@@ -94,11 +93,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
 //    }
     
     var alertsRes : allAlerts.Response? = nil ;
-    var alertTypes = [String]()
-    var alertTitles = [String]()
-    var alertBody = [String]()
-    var alertDate = [String]()
-    var userAvatar = [String]()
     
     @objc func alertsJson() {
         PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode':'READ', 'userid':'\(loadingViewController.userid)'}") { data, error in
@@ -111,22 +105,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     do {
                         
                         self.alertsRes = try JSONDecoder().decode(allAlerts.Response.self , from : data!)
-                        
-                        for i in 0...(self.alertsRes?.response?.count)! - 1 {
-                            self.alertTypes.append((self.alertsRes?.response?[i].type!)!)
-                            if (self.alertsRes?.response?[i].type!)! == "2" {
-                            self.alertTitles.append((self.alertsRes?.response?[i].subject!)!)
-                            self.alertBody.append((self.alertsRes?.response?[i].contents!)!)
-                            self.userAvatar.append((self.alertsRes?.response?[i].image_path!)!)
-                            } else {
-                            self.alertTitles.append((self.alertsRes?.response?[i].username!)!)
-                            self.alertBody.append((self.alertsRes?.response?[i].subject!)!)
-                            self.userAvatar.append((self.alertsRes?.response?[i].avatar!)!)
-                            }
-                            
-                            self.alertDate.append((self.alertsRes?.response?[i].p_message_date!)!)
-                            
-                        }
                         
                         DispatchQueue.main.async {
                             self.achievementCount = (self.alertsRes?.response?.count)!
@@ -439,31 +417,35 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             return cell
             
         case "alerts":
-            if self.alertTypes[indexPath.row] == "2" {
+
+            if (self.alertsRes?.response?[indexPath.row].type!)! == "2" {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "alertType1Cell", for: indexPath) as! alertType1Cell
                 
-                cell.alertTitle.text = self.alertTitles[indexPath.row]
-                cell.alertBody.text = self.alertBody[indexPath.row]
-                cell.alertDate.text = self.alertDate[indexPath.row]
-                let url = "http://volcan.ir/adelica/images/news/\(self.userAvatar[indexPath.row])"
+                cell.alertTitle.text = (self.alertsRes?.response?[indexPath.row].subject!)!
+                cell.alertBody.text = (self.alertsRes?.response?[indexPath.row].contents!)!
+                cell.alertDate.text = (self.alertsRes?.response?[indexPath.row].p_message_date!)!
+                let url = "http://volcan.ir/adelica/images/news/\((self.alertsRes?.response?[indexPath.row].image_path!)!)"
                 let urls = URL(string : url)
                 cell.alertImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
                 return cell
-                
+
             } else {
-                
                 let cell = tableView.dequeueReusableCell(withIdentifier: "alertTypeChooseCell", for: indexPath) as! alertTypeChooseCell
                 
-                cell.alertTitle.text = self.alertTitles[indexPath.row]
-                cell.alertDate.text = self.alertDate[indexPath.row]
-                let url = "\(urlClass.avatar)\(self.userAvatar[indexPath.row])"
+                cell.alertTitle.text = (self.alertsRes?.response?[indexPath.row].username!)!
+                cell.alertDate.text = (self.alertsRes?.response?[indexPath.row].p_message_date!)!
+                let url = "\(urlClass.avatar)\((self.alertsRes?.response?[indexPath.row].avatar!)!)"
                 let urls = URL(string : url)
                 cell.userAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
-                cell.alertBody.text = self.alertBody[indexPath.row]
+                cell.alertBody.text = (self.alertsRes?.response?[indexPath.row].subject!)!
+                cell.accept.tag = indexPath.row
+                cell.accept.addTarget(self, action: #selector(acceptingGameOrFriend), for: UIControlEvents.touchUpInside)
+                cell.cancel.tag = indexPath.row
+                cell.cancel.addTarget(self, action: #selector(cancelGameOrFriend), for: UIControlEvents.touchUpInside)
                 return cell
-                
             }
+
         case "profile":
             
             switch indexPath.row {
@@ -501,6 +483,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.contentView.backgroundColor = grayColor
 
                 if (login.res?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() && !otherProfile {
+                    
                     //userProfile
                     if (login.res?.response?.mainInfo?.status!)! != "2" {
                         //signUp Profile
@@ -515,6 +498,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         cell.friendshipRequest.isHidden = true
                         cell.playRequest.isHidden = true
                     } else {
+                        
                         //completed Profile
                         cell.completingProfile.isHidden = true
                         cell.cancelFriendship.isHidden = true
@@ -525,6 +509,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     }
                     
                 } else {
+                    
                     //otherProfile
                         if ((login.res?.response?.mainInfo?.is_my_friend!)!) == 1 {
                         //is Friend
@@ -534,8 +519,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         cell.friendshipRequest.isHidden = true
                         cell.profileCompletingTitleForeGround.isHidden = true
                         cell.profileCompletingTitle.isHidden = true
-                        
                     } else {
+                            
                        //is Not Friend
                         cell.completingProfile.isHidden = true
                         cell.cancelFriendship.isHidden = true
@@ -546,6 +531,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: -6.0)
                         cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
                         cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
+                        cell.friendshipRequest.addTarget(self, action: #selector(requestFriendShip) , for: UIControlEvents.touchUpInside)
+
                     }
                 }
                 
@@ -555,6 +542,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 return cell
                 
             case 2 :
+                
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile2Cell", for: indexPath) as! profile2Cell
                 cell.secondProfileTitleForeGround.text = "آمار و نتایج بازی ها"
                 if UIDevice().userInterfaceIdiom == .phone {
@@ -647,6 +635,87 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         }
         
     }
+    
+    
+    @objc func acceptingGameOrFriend(_ sender : UIButton!) {
+        if ((self.alertsRes?.response?[sender.tag].type!)!) == "1" {
+            // accept friendship Request
+            acceptOrRejectFriendShipRequest(mode: "CONFIRM_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
+            
+        } else {
+           //accept gameRequest
+            
+            
+            
+            
+        }
+    }
+    
+    
+    @objc func cancelGameOrFriend(_ sender : UIButton!) {
+        
+        if ((self.alertsRes?.response?[sender.tag].type!)!) == "1" {
+            //reject friendship Request
+            acceptOrRejectFriendShipRequest(mode: "REJECT_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
+            
+        } else {
+            //reject gameRequest
+            
+            
+            
+        }
+        
+    }
+    
+    @objc func acceptOrRejectFriendShipRequest(mode: String , user1_id : String , user2_id: String , message_id : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleFriends", JSONStr: "{'mode' : '\(mode)' ,'user1_id':'\(user1_id)' , 'user2_id' : '\(user2_id)' , 'message_id' : '\(message_id)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    self.messageRead(id: message_id)
+                    
+//                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
+//
+//                    if ((self.collectingItemAchievement)!).contains("OK") {
+//                        self.messageRead()
+//                    } else {
+//                        self.messageRead()
+//                    }
+                    
+                } else {
+                    self.acceptOrRejectFriendShipRequest(mode: mode, user1_id: user1_id, user2_id: user2_id, message_id: message_id)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
+    
+    @objc func messageRead(id : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'SET_READ' ,'message_id':'\(id)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    self.alertsJson()
+                    
+                } else {
+                    self.messageRead(id: id)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
+    
     
     @objc func cancellingFriendShip() {
         self.stateOfFriendAlert = "cancelFriendlyMatch"
@@ -776,7 +845,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 return 100
             }
         case "alerts":
-            if self.alertTypes[indexPath.row] == "2" {
+            if (self.alertsRes?.response?[indexPath.row].type!)! == "2" {
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 350
                 } else {
@@ -890,13 +959,12 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     
-    
     @objc func selectedFriend(_ sender : UIButton!) {
         profileIndex = sender.tag
         getUserInfo(id: Int((self.friensRes?.response![profileIndex].friend_id!)!)!, isResfresh: false)
     }
     
-    @objc func showProfile(){
+    @objc func showProfile() {
         self.performSegue(withIdentifier: "otherProfiles", sender: self)
     }
     
@@ -995,6 +1063,13 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 vc.alertTitle = "فوتبالیکا"
                 vc.state = "cancelFrindShip"
                 vc.userid = (login.res?.response?.mainInfo?.id!)!
+            } else if self.stateOfFriendAlert == "requestFriendShip" {
+                vc.jsonStr = "{'mode':'FRIEND_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((login.res?.response?.mainInfo?.id!)!)'}"
+                vc.alertAcceptLabel = "بلی"
+                vc.alertBody = "آیا برای ارسال درخواست دوستی اطمینان دارید؟"
+                vc.alertTitle = "فوتبالیکا"
+                vc.state = "requestFriendShip"
+                vc.userid = (login.res?.response?.mainInfo?.id!)!
             } else {
                 //no need this will execute in the first line
 //                vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((login.res?.response?.mainInfo?.id!)!)'}"
@@ -1016,6 +1091,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         self.isSignUp = true
         self.pageState = "signUp"
         self.performSegue(withIdentifier: "changePassAndUser", sender: self)
+    }
+    
+    @objc func requestFriendShip() {
+        self.stateOfFriendAlert = "requestFriendShip"
+        self.performSegue(withIdentifier: "askForFriendlyMatch", sender: self)
     }
     
     var stateOfFriendAlert = String()
