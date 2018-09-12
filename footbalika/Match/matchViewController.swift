@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 
 class matchViewController: UIViewController {
 
@@ -26,6 +27,8 @@ class matchViewController: UIViewController {
     @IBOutlet weak var xpProgress: UIProgressView!
     @IBOutlet weak var xpProgressBackGround: UIView!
     @IBOutlet weak var giftOutlet: RoundButton!
+    var matchID = String()
+    
     
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
@@ -60,6 +63,7 @@ class matchViewController: UIViewController {
     var alertTitle = String()
     var alertBody = String()
     var alertAcceptLabel = String()
+    var realm : Realm!
     
     @objc func fillData() {
         if (login.res?.response?.mainInfo?.status) != nil {
@@ -74,11 +78,17 @@ class matchViewController: UIViewController {
         cup.text = (login.res?.response?.mainInfo?.cups)!
         self.xpProgress.progress = 0.0
         let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
-        let urlsurlAvatar = URL(string: urlAvatar)
-        avatar.kf.setImage(with: urlsurlAvatar ,options:[.transition(ImageTransition.fade(0.5))])
         
+            let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(urlAvatar)'")
+            if realmID.count != 0 {
+                let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                self.avatar.image = UIImage(data: dataDecoded as Data)
+            } else {
+                let urlsurlAvatar = URL(string: urlAvatar)
+                self.avatar.kf.setImage(with: urlsurlAvatar ,options:[.transition(ImageTransition.fade(0.5))])
+            }
+            
         let url = "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)"
-        
         let urls = URL(string: url)
         mainCupImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
         }
@@ -118,16 +128,35 @@ class matchViewController: UIViewController {
         self.giftOutlet.shake()
     }
     
+    @objc func startNewMatch(_ notification: NSNotification) {
+        DispatchQueue.main.async {
+            PubProc.wb.showWaiting()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() +
+        0.5) {
+             PubProc.wb.hideWaiting()
+            if let dict = notification.userInfo as NSDictionary? {
+                if let match_id = dict["matchID"] as? String{
+                    self.matchID = match_id
+                    self.performSegue(withIdentifier: "startingMatch", sender: self)
+                }
+            }
+        }
+    }
+    
     var shakeTimer : Timer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        realm = try? Realm()
         self.shakeTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.shakeFunstion), userInfo: nil, repeats: true)
         
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(fillData), name: Notification.Name("changingUserPassNotification"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.startNewMatch(_:)), name: NSNotification.Name(rawValue: "startNewMatch"), object: nil)
+
         
         self.startLabelForeGround.minimumScaleFactor = 0.5
         self.startLabel.minimumScaleFactor = 0.5
@@ -197,6 +226,7 @@ class matchViewController: UIViewController {
                         self.performSegue(withIdentifier: "showAlert2Btn", sender: self)
                         PubProc.wb.hideWaiting()
                     } else {
+                        self.matchID = (self.matchCreateRes)!
                         self.performSegue(withIdentifier: "startingMatch", sender: self)
                         PubProc.wb.hideWaiting()
                     }
@@ -236,7 +266,7 @@ class matchViewController: UIViewController {
         }
         
         if let Vc = segue.destination as? startMatchViewController {
-            Vc.matchID = (self.matchCreateRes)!
+            Vc.matchID = self.matchID
         }
     }
     

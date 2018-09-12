@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+ import RealmSwift
 
 class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource {
 
@@ -22,7 +23,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     @IBOutlet weak var achievementLeaderBoardTopConstraint: NSLayoutConstraint!
     
     var pageState = String()
-    
+    var realm : Realm!
 //    var waitingClass = waitingBall()
     
     var settingsTitle = ["صداهای بازی",
@@ -108,7 +109,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         
                         DispatchQueue.main.async {
                             self.achievementCount = (self.alertsRes?.response?.count)!
-                            self.achievementsTV.reloadData()
+                            UIView.performWithoutAnimation {
+                                self.achievementsTV.reloadData()
+                            }
                             PubProc.wb.hideWaiting()
                             PubProc.cV.hideWarning()
                         }
@@ -223,6 +226,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        realm = try? Realm()
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadingTV(_:)), name: NSNotification.Name(rawValue: "changingUserPassNotification"), object: nil)
         
@@ -360,16 +366,32 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             cell.number.text = "\(indexPath.row + 1)"
             cell.playerName.text = "\((self.res?.response?[indexPath.row].username!)!)"
             let url = "\(urlClass.avatar)\((self.res?.response?[indexPath.row].avatar!)!)"
+            
+            let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+            if realmID.count != 0 {
+            let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+            cell.avatar.image = UIImage(data: dataDecoded as Data)
+            } else {
             let urls = URL(string : url)
             cell.avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            }
+            
             var url2 = String()
             if self.res?.response?[indexPath.row].badge_name != nil {
             url2 = "\(urlClass.badge)\((self.res?.response?[indexPath.row].badge_name!)!)"
             } else {
             url2 = "\(urlClass.badge)"
             }
-            let urls2 = URL(string : url2)
-            cell.playerLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+            
+            let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
+            if realmID2.count != 0 {
+                let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                cell.playerLogo.image = UIImage(data: dataDecoded as Data)
+            } else {
+                let urls2 = URL(string : url2)
+                cell.playerLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+            }
+            
             cell.selectLeaderBoard.tag = indexPath.row
             cell.selectLeaderBoard.addTarget(self, action: #selector(selectLeaderBoard), for: UIControlEvents.touchUpInside)
             
@@ -380,7 +402,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             } else if self.leaderBoardState == "TOURNAMENT" {
                cell.cupImage.image = UIImage(named: "ic_gem")
                cell.playerCup.textAlignment = .center
-               cell.playerCup.text = "\((self.res?.response?[indexPath.row].gem!)!)"
+                if self.res?.response?[indexPath.row].gem != nil {
+                cell.playerCup.text = "\((self.res?.response?[indexPath.row].gem!)!)"
+                }
             } else {
                 cell.cupImage.image = UIImage()
                 cell.playerCup.textAlignment = .left
@@ -396,16 +420,37 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             
             cell.friendName.text = "\((self.friensRes?.response?[indexPath.row].username!)!)"
             let url = "\(urlClass.avatar)\((self.friensRes?.response?[indexPath.row].avatar!)!)"
-            let urls = URL(string : url)
-            cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            
+            let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+            if realmID.count != 0 {
+                let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
+            } else {
+                let urls = URL(string : url)
+                cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            }
+            
+           
             var url2 = String()
-            if self.res?.response?[indexPath.row].badge_name != nil {
+            if self.friensRes?.response?[indexPath.row].badge_name != nil {
                 url2 = "\(urlClass.badge)\((self.friensRes?.response?[indexPath.row].badge_name!)!)"
             } else {
                 url2 = "\(urlClass.badge)"
             }
-            let urls2 = URL(string : url2)
-            cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+
+            if url2 == "http://volcan.ir/adelica/images/badge/" {
+                cell.friendLogo.image = UIImage()
+            } else {
+                let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
+                print(url2)
+                if realmID2.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.friendLogo.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls2 = URL(string : url2)
+                    cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                }
+            }
             
             cell.selectFriend.tag = indexPath.row
             cell.selectFriend.addTarget(self, action: #selector(selectedFriend), for: UIControlEvents.touchUpInside)
@@ -426,8 +471,16 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.alertBody.text = (self.alertsRes?.response?[indexPath.row].contents!)!
                 cell.alertDate.text = (self.alertsRes?.response?[indexPath.row].p_message_date!)!
                 let url = "http://volcan.ir/adelica/images/news/\((self.alertsRes?.response?[indexPath.row].image_path!)!)"
-                let urls = URL(string : url)
-                cell.alertImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                
+                let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+                if realmID.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.alertImage.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls = URL(string : url)
+                    cell.alertImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                }
+               
                 return cell
 
             } else {
@@ -436,8 +489,16 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.alertTitle.text = (self.alertsRes?.response?[indexPath.row].username!)!
                 cell.alertDate.text = (self.alertsRes?.response?[indexPath.row].p_message_date!)!
                 let url = "\(urlClass.avatar)\((self.alertsRes?.response?[indexPath.row].avatar!)!)"
-                let urls = URL(string : url)
-                cell.userAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                
+                let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+                if realmID.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.userAvatar.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls = URL(string : url)
+                    cell.userAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                }
+                
                 cell.alertBody.text = (self.alertsRes?.response?[indexPath.row].subject!)!
                 cell.accept.tag = indexPath.row
                 cell.accept.addTarget(self, action: #selector(acceptingGameOrFriend), for: UIControlEvents.touchUpInside)
@@ -454,12 +515,35 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile1Cell", for: indexPath) as! profile1Cell
                 cell.contentView.backgroundColor = grayColor
                 cell.firstProfileTitleForeGround.text = "مشخصات بازیکن"
-                let url =  profileAvatar                
-                let urls = URL(string : url)
-                cell.profileAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                
+                
+                let url =  profileAvatar
+                
+                let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+                if realmID.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.profileAvatar.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls = URL(string : url)
+                    cell.profileAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                }
+                
                 let url2 = profileBadge
-                let urls2 = URL(string : url2)
-                cell.profileLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+
+                print(url2)
+                if url2 == "http://volcan.ir/adelica/images/badge/" {
+                   cell.profileLogo.image = UIImage()
+                } else {
+                let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
+                if realmID2.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.profileLogo.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls2 = URL(string : url2)
+                    cell.profileLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                    }
+                }
+                
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
                     cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\(profileName)", strokeWidth: -4.0)
@@ -588,8 +672,17 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 }
                 
                 let url = profileStadium
-                let urls = URL(string : url)
-                cell.stadiumImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                
+                let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(url)'")
+                if realmID.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.stadiumImage.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls = URL(string : url)
+                    cell.stadiumImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                }
+                
+                
                 
                 return cell
             }
@@ -645,8 +738,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         } else {
            //accept gameRequest
             
-            
-            
+            acceptFriendlyMatch(userid: (self.alertsRes?.response?[sender.tag].reciver_id!)!, friendid: (self.alertsRes?.response?[sender.tag].sender_id!)!, massageId: (self.alertsRes?.response?[sender.tag].id!)!)
             
         }
     }
@@ -654,16 +746,33 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     @objc func cancelGameOrFriend(_ sender : UIButton!) {
         
-        if ((self.alertsRes?.response?[sender.tag].type!)!) == "1" {
-            //reject friendship Request
+            //reject friendship Request & reject gameRequest
             acceptOrRejectFriendShipRequest(mode: "REJECT_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
-            
-        } else {
-            //reject gameRequest
-            
-            
-            
-        }
+        
+    }
+    
+    @objc func acceptFriendlyMatch(userid: String , friendid: String , massageId : String) {
+        
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode' : 'START_FRIENDLY_GAME' ,'userid':'\(userid)' , 'friendid' : '\(friendid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    print((String(data: data!, encoding: String.Encoding.utf8) as String?)!)
+                    
+                    
+                    self.messageRead(id: massageId, matchID: (String(data: data!, encoding: String.Encoding.utf8) as String?)!)
+                    
+                } else {
+                    self.acceptFriendlyMatch(userid: userid, friendid: friendid, massageId: massageId)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
         
     }
     
@@ -675,7 +784,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                     //                print(data ?? "")
                     
-                    self.messageRead(id: message_id)
+                    self.alertsJson()
                     
 //                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
 //
@@ -696,7 +805,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     
-    @objc func messageRead(id : String) {
+    @objc func messageRead(id : String , matchID : String) {
         PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'SET_READ' ,'message_id':'\(id)'}") { data, error in
             DispatchQueue.main.async {
                 
@@ -704,10 +813,20 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                     //                print(data ?? "")
                     
-                    self.alertsJson()
-                    
+//                    self.alertsJson()
+
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                    }
+                    if matchID.contains("UNFINISHED_MATCH") {
+                        self.dismiss(animated: false, completion: nil)
+                    } else {
+                    let info : [String : String] = ["matchID" : matchID]
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startNewMatch"), object: nil, userInfo: info)
+                    self.dismiss(animated: false, completion: nil)
+                    }
                 } else {
-                    self.messageRead(id: id)
+                    self.messageRead(id: id, matchID: matchID)
                     print("Error Connection")
                     print(error as Any)
                     // handle error

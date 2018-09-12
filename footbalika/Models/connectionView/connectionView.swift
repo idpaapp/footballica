@@ -25,7 +25,7 @@ public class connectionView: UIView {
     }
     
     override public func draw(_ rect: CGRect) {
-        self.mainView.layer.cornerRadius = 10
+        self.mainView.layer.cornerRadius = 12
     }
     
     public func showWarning() {
@@ -39,11 +39,15 @@ public class connectionView: UIView {
         self.isOpaque = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                 UIView.animate(withDuration: 0.5) {
-                    self.connectionViewConstraint.constant = -10
+                    if UIScreen.main.nativeBounds.height == 2436 {
+                        self.connectionViewConstraint.constant = -20
+                    } else {
+                        self.connectionViewConstraint.constant = -10
+                    }
                     self.contentView.layoutIfNeeded()
                 }
             })
-        }
+            }
         }
     }
     

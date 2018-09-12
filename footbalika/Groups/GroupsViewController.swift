@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 
 class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate {
     
@@ -16,6 +17,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.searchText = searchText
     }
     
+    var realm : Realm!
     
     @IBOutlet weak var friendsTableView: UITableView!
     @IBOutlet weak var friendsOutlet: RoundButton!
@@ -75,7 +77,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        getFriendsList(isSplash: true)
+//        getFriendsList(isSplash: true)
     }
     
     
@@ -86,7 +88,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getFriendsList(isSplash: true)
+        realm = try? Realm()
+//        getFriendsList(isSplash: true)
         friendsActionColor()
         friendsTableView.keyboardDismissMode = .onDrag
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshUserData(notification:)), name: NSNotification.Name(rawValue: "refreshUsersAfterCancelling"), object: nil)
@@ -103,6 +106,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         let pageIndexDict:[String: Int] = ["button": 3]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
+        getFriendsList(isSplash: true)
     }
     
     var resUser : usersSearchLists.Response? = nil
@@ -184,13 +188,33 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! friendCell
                 
                 let url = "\(urlClass.avatar)\((self.resUser?.response?[indexPath.row - 1].avatar!)!)"
-                let urls = URL(string : url)
-                cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                
+                let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+                if realmID.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls = URL(string : url)
+                    cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                }
+               
                 if self.resUser?.response?[indexPath.row - 1].badge_name != nil {
                     let url2 = "\(urlClass.badge)\((self.resUser?.response?[indexPath.row - 1].badge_name!)!)"
-                    let urls2 = URL(string : url2)
-                    cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                    
+                    if url2 == "http://volcan.ir/adelica/images/badge/" {
+                        cell.friendLogo.image = UIImage()
+                    } else {
+                    let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
+                    if realmID.count != 0 {
+                        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                        cell.friendLogo.image = UIImage(data: dataDecoded as Data)
+                    } else {
+                        let urls2 = URL(string : url2)
+                        cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                        }
+                    }
                 }
+                
                 cell.friendCup.text = "\((self.resUser?.response?[indexPath.row - 1].cups!)!)"
                 cell.friendName.text = "\((self.resUser?.response?[indexPath.row - 1].username!)!)"
                 cell.selectFriend.tag = indexPath.row
@@ -207,12 +231,31 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! friendCell
 
         let url = "\(urlClass.avatar)\((GroupsViewController.friendsRes?.response?[indexPath.row].avatar!)!)"
-        let urls = URL(string : url)
-        cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            
+                let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+                if realmID.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls = URL(string : url)
+                    cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                }
+        
         if GroupsViewController.friendsRes?.response?[indexPath.row].badge_name != nil {
         let url2 = "\(urlClass.badge)\((GroupsViewController.friendsRes?.response?[indexPath.row].badge_name!)!)"
-        let urls2 = URL(string : url2)
-        cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+            
+            if url2 == "http://volcan.ir/adelica/images/badge/" {
+                cell.friendLogo.image = UIImage()
+            } else {
+                let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
+                if realmID.count != 0 {
+                    let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    cell.friendLogo.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    let urls2 = URL(string : url2)
+                    cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                }
+            }
         }
             print("\((GroupsViewController.friendsRes?.response?[indexPath.row].id!)!)")
         cell.friendCup.text = "\((GroupsViewController.friendsRes?.response?[indexPath.row].cups!)!)"

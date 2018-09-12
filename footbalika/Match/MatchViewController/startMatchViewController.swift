@@ -119,12 +119,25 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         DispatchQueue.main.async {
                             let url = "\(self.urlClass.avatar)\((self.res?.response?.matchData?.player1_avatar)!)"
                             
-                            let urls = URL(string: url)
-                            self.player1Avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                            let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+                            if realmID.count != 0 {
+                                let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                                self.player1Avatar.image = UIImage(data: dataDecoded as Data)
+                            } else {
+                                let urls = URL(string: url)
+                                self.player1Avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                            }
                             
                             let url2 = "\(self.urlClass.avatar)\((self.res?.response?.matchData?.player2_avatar)!)"
-                            let urls2 = URL(string: url2)
-                            self.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                            
+                            let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
+                            if realmID2.count != 0 {
+                                let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                                self.player2Avatar.image = UIImage(data: dataDecoded as Data)
+                            } else {
+                                let urls2 = URL(string: url2)
+                                self.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                            }
                             
                             self.player1Name.text = "\((self.res?.response?.matchData?.player1_username)!)"
                             

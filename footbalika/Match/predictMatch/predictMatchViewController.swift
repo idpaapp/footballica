@@ -252,7 +252,6 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     var todayRes : prediction.Response? = nil
     var predictLeaderBoardRes : predictionLeaderBoard.Response? = nil
     var pastRes : prediction.Response? = nil
-
     
     @objc func refreshAfterPredict(notification: Notification){
         todayJson()

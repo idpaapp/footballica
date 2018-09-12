@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import RealmSwift
 
 class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate {
 
@@ -25,6 +26,8 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             gameLists(mode: "FINISHED_GAMES", isSplash: false)
         }
     }
+    
+    var realm : Realm!
     
     @objc func refreshingGameList() {
         PubProc.wb.showWaiting()
@@ -45,11 +48,11 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        if self.gameListState == "currentGames"{
-            gameLists(mode: "UNFINISHED_GAMES", isSplash: true)
-        } else {
-            gameLists(mode: "FINISHED_GAMES", isSplash: true)
-        }
+//        if self.gameListState == "currentGames"{
+//            gameLists(mode: "UNFINISHED_GAMES", isSplash: true)
+//        } else {
+//            gameLists(mode: "FINISHED_GAMES", isSplash: true)
+//        }
     }
     
     @objc func gameLists(mode : String , isSplash : Bool) {
@@ -113,6 +116,8 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        realm = try? Realm()
+        
         let path = UIBezierPath(roundedRect:self.currentGames.bounds,
                                 byRoundingCorners: [.topLeft, .topRight] ,
                                 cornerRadii: CGSize(width: 10, height: 10))
@@ -121,7 +126,6 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         maskLayer.path = path.cgPath
         self.currentGames.layer.mask = maskLayer
         
-        gameLists(mode: "UNFINISHED_GAMES", isSplash: true)
         currentGamesListColor()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshingGameList), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
 
@@ -147,6 +151,11 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         let pageIndexDict:[String: Int] = ["button": 0]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
+        if self.gameListState == "currentGames"{
+            gameLists(mode: "UNFINISHED_GAMES", isSplash: true)
+        } else {
+            gameLists(mode: "FINISHED_GAMES", isSplash: true)
+        }
     }
 
     
@@ -221,15 +230,31 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             cell.player1Cup.text = (self.res?.response[indexPath.row].player1_cup)!
             cell.player1Name.text = (self.res?.response[indexPath.row].player1_username)!
             let url = "\(urlClass.avatar)\((self.res?.response[indexPath.row].player1_avatar)!)"
+        
+        let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+        if realmID.count != 0 {
+            let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+            cell.player1Avatar.image = UIImage(data: dataDecoded as Data)
+        } else {
             let urls = URL(string : url)
             cell.player1Avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
-            
+        }
+        
             cell.player2Level.text = (self.res?.response[indexPath.row].player2_level)!
             cell.player2Cup.text = (self.res?.response[indexPath.row].player2_cup)!
             cell.player2Name.text = (self.res?.response[indexPath.row].player2_username)!
+        
             let url2 = "\(urlClass.avatar)\((self.res?.response[indexPath.row].player2_avatar)!)"
+        let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
+        if realmID2.count != 0 {
+            let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+            cell.player2Avatar.image = UIImage(data: dataDecoded as Data)
+        } else {
             let urls2 = URL(string : url2)
             cell.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+        }
+        
+        
         
         if (self.res?.response[indexPath.row].status_result)! == "MY_TURN" {
             cell.turnLabel.text = "نوبت شما"
@@ -267,7 +292,8 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         if UIDevice().userInterfaceIdiom == .phone {
             return 160
         } else {
-            return  UIScreen.main.bounds.height / 7
+//            return  UIScreen.main.bounds.height / 7
+            return 180
         }
     }
     

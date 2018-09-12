@@ -151,8 +151,9 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                         //                print(data ?? "")
                         
                         if self.ResponseFriendlyMatch.contains("OK") {
-                            self.alertBody = "درخواست دوستی با موفقیت انجام شد!"
+                            self.alertBody = "درخواست مسابقه با موفقیت انجام شد!"
                             self.alertTitle = "فوتبالیکا"
+                            self.alertState = "friendlyMatch"
                             self.performSegue(withIdentifier: "notMore", sender: self)
                         } else {
                             self.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
@@ -398,7 +399,7 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
         let vc = segue.destination as! menuAlertViewController
         vc.delegate = self
         if state == "friendlyMatch" {
-            vc.alertState = ""
+            vc.alertState = self.alertState
             vc.alertBody = self.alertBody
             vc.alertTitle = self.alertTitle
             vc.alertAcceptLabel = "تأیید"
@@ -434,6 +435,13 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
             vc.alertBody = self.alertBody
             vc.alertTitle = self.alertTitle
             vc.alertAcceptLabel = "تأیید"
+            
+//        } else if state == "friendlyMatch" {
+//            vc.alertState = "friendlyMatch"
+//            vc.alertBody = self.alertBody
+//            vc.alertTitle = self.alertTitle
+//            vc.alertAcceptLabel = "تأیید"
+            
         } else {
         vc.alertState = ""
         vc.alertBody = "زمان پیش بینی این بازی تمام شده است"

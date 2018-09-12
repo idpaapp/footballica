@@ -16,12 +16,12 @@ class menuAlertViewController: UIViewController {
     var alertBody = String()
     var alertAcceptLabel = "تأیید"
     var alertState = String()
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     var matchField : mainMatchFieldViewController!
-    var menue2Alert : menuAlert2ButtonsViewController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,14 +97,16 @@ class menuAlertViewController: UIViewController {
             } else if self.alertState == "signUpError" {
                 self.delegate?.dismissingMA2()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-//                self.menue2Alert.dismiss(animated: true, completion: nil)
 //                  self.delegate?.dismissingMA2()
                 })
             } else if self.alertState == "requestFriendShip" {
                 self.delegate?.dismissingMA2()
+            } else if self.alertState == "friendlyMatch" {
+                self.delegate?.dismissingMA2()
             }
             })
         })
+        
         if self.alertState == "matchField" {
             self.view.isUserInteractionEnabled = false
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {

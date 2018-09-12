@@ -121,7 +121,7 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
     @objc func checkGiftCode() {
         
         if self.titleForSend.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-            PubProc.HandleDataBase.readJson(wsName: "ws_handleRewardCode", JSONStr: "{'strcode' : '\(self.titleForSend)' , 'userid':'\(loadingViewController.userid)'}") { data, error in
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleRewardCode", JSONStr: "{'strcode' : '\(self.titleForSend.replacedArabicDigitsWithEnglish)' , 'userid':'\(loadingViewController.userid)'}") { data, error in
                 DispatchQueue.main.async {
                     
                     if data != nil {

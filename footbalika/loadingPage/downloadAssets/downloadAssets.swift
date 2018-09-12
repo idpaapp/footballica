@@ -26,6 +26,8 @@ public class downloadAssets {
     
     public func getIDs() {
         
+        DispatchQueue.main.async {
+            
         var stadiumType = ["id" : Int(),"image_path" : String()] as [String : Any]
         
         var s = [AnyObject]()
@@ -69,8 +71,7 @@ public class downloadAssets {
             let jsonPost = [["MatchTypes" : m , "ChargeTypes" : c , "StadiumData" : s]] as [[String : Any]]
         let jsonData = try? JSONSerialization.data(withJSONObject: jsonPost, options: [])
         let jsonString = String(data: jsonData!, encoding: .utf8)!
-        downloadingAssets(postString : jsonString)
-        downloadShop.init().getIDs()
+            self.downloadingAssets(postString : jsonString)
         }
         
 //        StadiumData
@@ -78,8 +79,8 @@ public class downloadAssets {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let nc = NotificationCenter.default
             nc.post(name: Notification.Name("updateProgress"), object: nil)
+            }
         }
-        
         
     }
     
@@ -96,6 +97,8 @@ public class downloadAssets {
                         
                         self.res = try JSONDecoder().decode(Response.self , from : data!)
                         
+                        DispatchQueue.main.async {
+                            
                         if ((self.res?.chargeTypes?.count)!) != 0 {
                             self.chargeTypesDl()
                         }
@@ -109,7 +112,10 @@ public class downloadAssets {
                         if ((self.res?.stadiumData?.count)!) != 0 {
                             self.stadiumDl()
                         }
-                        
+                            
+                        downloadShop.init().getIDs()
+                            
+                        }
                     } catch {
                         self.downloadingAssets(postString : postString)
                         print(error)
