@@ -49,7 +49,9 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         print(error)
                     }
                 } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                     self.getUserData(id : id)
+                    })
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -168,11 +170,15 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                             
                         }
                     } catch {
-//                        self.loadMatchData()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                            self.loadMatchData(id: id)
+                        })
                         print(error)
                     }
                 } else {
-                    self.loadMatchData(id: id)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                        self.loadMatchData(id: id)
+                    })
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -223,7 +229,9 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     }
                     
                 } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                     self.updateGameReault()
+                    })
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -561,7 +569,9 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                         self.dismiss(animated: true, completion: nil)
                 } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                     self.surrenderring(match_id: match_id)
+                    })
                     print("Error Connection")
                     print(error as Any)
                     // handle error

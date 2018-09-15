@@ -81,7 +81,10 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.openCoinsOrMoney(notification:)), name: Notification.Name("openCoinsOrMoney"), object: nil)
 
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(showBoughtItem), name: Notification.Name("showingBoughtItem"), object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(choosePackage), name: Notification.Name("packageSelected"), object: nil)
+
         self.storeCV.allowsMultipleSelection = false
         self.xpProgressBackGround.layer.cornerRadius = 3
         xp.minimumScaleFactor = 0.5
@@ -95,6 +98,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         if (loadShop.res?.response?.count)! == 1 {
         return (loadShop.res?.response?[self.mainShopIndex].items?.count)!
         } else {
+            print((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1)
         return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1
         }
     }
@@ -124,7 +128,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         } else {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell
-            
+            print(indexPath.item)
             let url = "\(((loadShop.res?.response?[indexPath.item].items?[0].image!)!))"
             let urls = URL(string: url)
             let processor = RoundCornerImageProcessor(cornerRadius: 10)
@@ -142,6 +146,84 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     @objc func packageSelected(_ sender : UIButton!) {
         self.selectedPackage = sender.tag
         self.performSegue(withIdentifier : "packageItem" , sender : self)
+    }
+    
+    static var packageShowAfterWeb = String()
+    
+    @objc func choosePackage() {
+        
+        if (loadShop.res?.response?[self.selectedPackage].items?[0].price_type!)! == "0" || (loadShop.res?.response?[self.selectedPackage].items?[0].price_type!)! == "2" || (loadShop.res?.response?[self.selectedPackage].items?[0].price_type!)! == "3" {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handlePackages", JSONStr: "{'package_id' : '\((loadShop.res?.response?[self.selectedPackage].items?[0].id!)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    
+                    //                      print(data ?? "")
+                    
+                    let chooseRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
+                    print((chooseRes)!)
+                    
+                    if ((chooseRes)!).contains("TRANSACTION_COMPELETE") {
+                        DispatchQueue.main.async {
+                            login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                                
+                                self.performSegue(withIdentifier: "showItem", sender: self)
+                                self.view.isUserInteractionEnabled = true
+                                //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                    DispatchQueue.main.async{
+                                        loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                            NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
+                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
+                                            if  ((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!) != "سکه" || ((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!) != "پول"  {
+                                                self.storeCV.reloadData()
+                                                PubProc.wb.hideWaiting()
+                                            }
+                                        })
+                                    }
+                                //                                })
+                            })
+
+                        }
+                    } else  if ((chooseRes)!).contains("NOT_ENOUGH_RESOURCE") {
+                        self.view.isUserInteractionEnabled = true
+                        self.notEnough = "شما به اندازه ی کافی پول یا سکه ندارید"
+                        self.performSegue(withIdentifier: "shopAlert", sender: self)
+                        PubProc.wb.hideWaiting()
+                    } else {
+                        self.view.isUserInteractionEnabled = true
+                        self.notEnough = "تراکنش نا موفق بود!"
+                        self.performSegue(withIdentifier: "shopAlert", sender: self)
+                        PubProc.wb.hideWaiting()
+                    }
+                } else {
+                    self.choosePackage()
+                    self.view.isUserInteractionEnabled = true
+                    print("Error Connection")
+                    print(error as Any)
+                    PubProc.wb.hideWaiting()
+                    // handle error
+                }
+            }
+            }.resume()
+            
+        } else {
+            
+            StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[self.selectedPackage].items?[0].id!)!)' 'item_type' : 'package'}"
+            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'package_id':'\((loadShop.res?.response?[self.selectedPackage].items?[0].id!)!)','userid':'\(loadingViewController.userid)'}") as NSString
+            let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
+            let searchURL : NSURL = NSURL(string: urlStr as String)!
+            print(searchURL)
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(searchURL as URL, options: [:])
+            } else {
+                // Fallback on earlier versions
+                UIApplication.shared.openURL(URL(string: "\(urlStr)")!)
+            }
+        }
     }
     
     
@@ -175,11 +257,20 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             vc.isPackage = true
         }
         
+        if let vc = segue.destination as? ItemViewController {
+            vc.TitleItem = (loadShop.res?.response?[self.selectedPackage].items?[0].title!)!
+            vc.ImageItem = (loadShop.res?.response?[self.selectedPackage].items?[0].image!)!
+            vc.isPackage = true
+        }
         
-        
+        if let vc = segue.destination as? menuAlertViewController {
+            vc.alertTitle = "اخطار"
+            vc.alertBody = "\(self.notEnough)"
+            vc.alertAcceptLabel = "تأیید"
+        }
     }
     
-    
+    var notEnough = String()
      func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         var packageScreenSize = CGSize()
@@ -220,7 +311,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         // Dispose of any resources that can be recreated.
     }
     
-    
     @objc func openCoinOrMoney(Title : String) {
         for i in 0...(loadShop.res?.response?[self.mainShopIndex].items?.count)! - 1 {
             if ((loadShop.res?.response?[self.mainShopIndex].items?[i].title!)!).contains(Title) {
@@ -232,7 +322,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.performSegue(withIdentifier: "shopDetail", sender: self)
         }
-        
     }
     
     @IBAction func addMoney(_ sender: RoundButton) {
@@ -241,6 +330,15 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     @IBAction func addCoin(_ sender: RoundButton) {
         openCoinOrMoney(Title: "سکه")
+    }
+    
+    @objc func showBoughtItem() {
+        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+            loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                StoreViewController.packageShowAfterWeb = ""
+                self.performSegue(withIdentifier: "showItem", sender: self)
+            })
+        })
     }
     
     override func viewDidAppear(_ animated: Bool) {

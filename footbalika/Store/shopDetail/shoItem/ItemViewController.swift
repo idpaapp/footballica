@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ItemViewController: UIViewController {
     
@@ -28,17 +29,23 @@ class ItemViewController: UIViewController {
     var TitleItem = String()
     var ImageItem = String()
     var isShopItem = Bool()
-    
+    var isPackage = Bool()
     override func viewDidLoad() {
         super.viewDidLoad()
         
         soundPlay().playBuyItem()
         
+        if !isPackage {
         if isShopItem {
         let dataDecoded:NSData = NSData(base64Encoded: ImageItem, options: NSData.Base64DecodingOptions(rawValue: 0))!
         itemImage.image = UIImage(data: dataDecoded as Data)
         } else {
           itemImage.image = UIImage(named: "\(ImageItem)")
+        }
+        } else {
+            let url = ImageItem
+            let urls = URL(string: url)
+            itemImage.kf.setImage(with: urls , options:[.transition(ImageTransition.fade(0.5))] )
         }
         
         if UIDevice().userInterfaceIdiom == .phone {

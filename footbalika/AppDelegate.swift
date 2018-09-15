@@ -71,6 +71,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 musicPlay.musicPlayer?.play()
         }
 
+        if StoreViewController.packageShowAfterWeb != "" {
+        print(StoreViewController.packageShowAfterWeb)
+        NotificationCenter.default.post(name: Notification.Name("showingBoughtItem"), object: nil, userInfo: nil)
+        }
 //        NotificationCenter.default.post(name: Notification.Name("updateTimer"), object: nil)
     }
 

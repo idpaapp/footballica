@@ -137,6 +137,33 @@ class mainMatchFieldViewController: UIViewController  {
                     
                     if ((self.bombAndFreezRes)!).contains("TRANSACTION_COMPELETE") {
                         self.gameTimer.invalidate()
+                        
+                        switch (loadingSetting.res?.response?.freeze_price_type!)! {
+                        case self.coinCase :
+                            self.coin = self.coin - Int((loadingSetting.res?.response?.freeze_price!)!)!
+                            if self.coin < Int((loadingSetting.res?.response?.freeze_price!)!)! {
+                                self.freezTimer.isEnabled = false
+                                self.freezTimePrice.textColor = colors().notEnoughColor
+                            } else {
+                                self.freezTimer.isEnabled = true
+                                self.freezTimePrice.textColor = .white
+                            }
+                        case self.moneyCase :
+                            self.money = self.money - Int((loadingSetting.res?.response?.freeze_price!)!)!
+
+                            if self.money < Int((loadingSetting.res?.response?.freeze_price!)!)! {
+                                self.freezTimer.isEnabled = false
+                                self.freezTimePrice.textColor = colors().notEnoughColor
+                            } else {
+                                self.freezTimer.isEnabled = true
+                                self.freezTimePrice.textColor = .white
+                            }
+                        default:
+                            self.freezTimePriceImage.image = UIImage()
+                            self.freezTimer.isEnabled = true
+                            self.freezTimePrice.textColor = .white
+                        }
+                        
                     } else {
                     }
                     
@@ -153,6 +180,10 @@ class mainMatchFieldViewController: UIViewController  {
         }
     }
 
+    
+    let coinCase = "2"
+    let moneyCase = "3"
+    
     @objc func bombAction() {
         self.bomb.isEnabled = false
         PubProc.isSplash = true
@@ -184,6 +215,7 @@ class mainMatchFieldViewController: UIViewController  {
                     
                             self.answer2Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
                             self.answer3Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+                            
                         } else {
                             
                             self.answer1Outlet.isUserInteractionEnabled = false
@@ -191,6 +223,32 @@ class mainMatchFieldViewController: UIViewController  {
                             self.answer1Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
                             self.answer4Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
                         }
+                        
+                        switch (loadingSetting.res?.response?.bomb_price_type!)! {
+                        case self.coinCase:
+                            self.coin = self.coin - Int((loadingSetting.res?.response?.bomb_price!)!)!
+                            if self.coin < Int((loadingSetting.res?.response?.bomb_price!)!)! {
+                                self.bomb.isEnabled = false
+                                self.bombPrice.textColor = colors().notEnoughColor
+                            } else {
+                                self.bomb.isEnabled = true
+                                self.bombPrice.textColor = .white
+                            }
+                        case self.moneyCase :
+                            self.money = self.money - Int((loadingSetting.res?.response?.bomb_price!)!)!
+                            if self.money < Int((loadingSetting.res?.response?.bomb_price!)!)! {
+                                self.bomb.isEnabled = false
+                                self.bombPrice.textColor = colors().notEnoughColor
+                            } else {
+                                self.bomb.isEnabled = true
+                                self.bombPrice.textColor = .white
+                            }
+                        default:
+                            self.bombPriceImage.image = UIImage()
+                            self.bomb.isEnabled = true
+                            self.bombPrice.textColor = .white
+                        }
+
                         
                     } else {
                         
@@ -211,9 +269,7 @@ class mainMatchFieldViewController: UIViewController  {
     
     @objc func checkBombAndFreez() {
         
-        let money = Int((login.res?.response?.mainInfo?.cashs)!)!
-        let coin = Int((login.res?.response?.mainInfo?.coins)!)!
-        
+
         //        print(Int((login.res?.response?.mainInfo?.cashs)!)!)
         //        print(Int((login.res?.response?.mainInfo?.coins)!)!)
         
@@ -221,7 +277,7 @@ class mainMatchFieldViewController: UIViewController  {
         self.freezTimePrice.text = (loadingSetting.res?.response?.freeze_price!)!
         
         switch (loadingSetting.res?.response?.bomb_price_type!)! {
-        case "2":
+        case self.coinCase :
             self.bombPriceImage.image = UIImage(named: "ic_coin")
             if coin < Int((loadingSetting.res?.response?.bomb_price!)!)! {
                 self.bomb.isEnabled = false
@@ -230,7 +286,7 @@ class mainMatchFieldViewController: UIViewController  {
                 self.bomb.isEnabled = true
                 self.bombPrice.textColor = .white
             }
-        case "3":
+        case self.moneyCase :
             self.bombPriceImage.image = UIImage(named: "money")
             if money < Int((loadingSetting.res?.response?.bomb_price!)!)! {
                 self.bomb.isEnabled = false
@@ -244,7 +300,7 @@ class mainMatchFieldViewController: UIViewController  {
         }
         
         switch (loadingSetting.res?.response?.freeze_price_type!)! {
-        case "2":
+        case self.coinCase :
             self.freezTimePriceImage.image = UIImage(named: "ic_coin")
             if coin < Int((loadingSetting.res?.response?.freeze_price!)!)! {
                 self.freezTimer.isEnabled = false
@@ -253,7 +309,7 @@ class mainMatchFieldViewController: UIViewController  {
                 self.freezTimer.isEnabled = true
                 self.freezTimePrice.textColor = .white
             }
-        case "3":
+        case self.moneyCase :
             self.freezTimePriceImage.image = UIImage(named: "money")
             if money < Int((loadingSetting.res?.response?.freeze_price!)!)! {
                 self.freezTimer.isEnabled = false
@@ -270,12 +326,14 @@ class mainMatchFieldViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.money = Int((login.res?.response?.mainInfo?.cashs)!)!
+        self.coin = Int((login.res?.response?.mainInfo?.coins)!)!
+        
         realm = try? Realm()
         let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(stadiumUrl.stadium)\(stadium)'")
         print(stadium)
         let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
         self.backGroundStadium.image = UIImage(data: dataDecoded as Data)
-        
         
         checkBombAndFreez()
         

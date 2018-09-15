@@ -26,7 +26,7 @@ public class PubProc {
     static var wb = waitingBall()
     static var cV = connectionView()
     static var showWarning = Bool()
-    public class THandleDataBase{
+    public class THandleDataBase {
 //        var cV = connectionView()
         public func readJson(wsName: String, JSONStr: String  , completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
             var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)

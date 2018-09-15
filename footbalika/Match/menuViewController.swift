@@ -65,7 +65,7 @@ class menuViewController: UIViewController {
             self.mainTitleForeGround.text = "دستاوردها"
             if UIDevice().userInterfaceIdiom == .phone {
                 self.menuHeight.constant = ((8 * UIScreen.main.bounds.height) / 9)
-                self.menuWidth.constant = 280
+                self.menuWidth.constant = UIScreen.main.bounds.width - 20
                 maintitle.AttributesOutLine(font: iPhonefonts, title: "دستاوردها", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPhonefonts
             } else {

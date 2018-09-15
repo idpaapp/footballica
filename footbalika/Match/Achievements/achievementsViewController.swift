@@ -8,7 +8,7 @@
 
 import UIKit
 import Kingfisher
- import RealmSwift
+import RealmSwift
 
 class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource {
 
@@ -316,11 +316,33 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         case "Achievements":
             let cell = tableView.dequeueReusableCell(withIdentifier: "achievementsCell", for: indexPath) as! achievementsCell
             
+            if (loadingAchievements.res?.response?[indexPath.row].coin_reward!)! == "0" {
+              cell.coinLabel.text = ""
+              cell.coinImage.isHidden = true
+            } else {
             cell.coinLabel.text = (loadingAchievements.res?.response?[indexPath.row].coin_reward!)!
+                cell.coinImage.isHidden = false
+            }
+            
+            
+            
+            if (loadingAchievements.res?.response?[indexPath.row].cash_reward!)! == "0" {
+            cell.moneyLabel.text = ""
+            cell.moneyImage.isHidden = true
+            } else {
             cell.moneyLabel.text = (loadingAchievements.res?.response?[indexPath.row].cash_reward!)!
+            cell.moneyImage.isHidden = false
+            }
             
             cell.acievementTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].title!)!)"
+            
             let intProgress = Int((loadingAchievements.res?.response?[indexPath.row].progress)!)!
+            
+            let url = "\(urlClass.icons)\((loadingAchievements.res?.response?[indexPath.row].img_logo!)!)"
+            
+            let urls = URL(string : url)
+            cell.achievementImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            
             if intProgress < 10 {
             if UIDevice().userInterfaceIdiom == .phone {
                 cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
@@ -873,7 +895,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
 
                     if ((self.collectingItemAchievement)!).contains("OK") {
-                        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, completionHandler: {
+                        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
                         DispatchQueue.main.async {
                             self.achievementsTV.reloadData()
                             PubProc.wb.hideWaiting()

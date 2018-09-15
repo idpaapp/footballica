@@ -29,7 +29,6 @@ class matchViewController: UIViewController {
     @IBOutlet weak var giftOutlet: RoundButton!
     var matchID = String()
     
-    
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
         scrollPageViewController(index: 4)
@@ -185,8 +184,13 @@ class matchViewController: UIViewController {
     }
     
     @IBAction func achievements(_ sender: RoundButton) {
-        self.menuState = "Achievements"
-        self.performSegue(withIdentifier: "achievement", sender: self)
+        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
+            DispatchQueue.main.async {
+                PubProc.wb.hideWaiting()
+            }
+            self.menuState = "Achievements"
+            self.performSegue(withIdentifier: "achievement", sender: self)
+            })
     }
     
     @IBAction func setting(_ sender: RoundButton) {

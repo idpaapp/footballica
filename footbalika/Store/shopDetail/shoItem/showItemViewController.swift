@@ -100,6 +100,7 @@ class showItemViewController: UIViewController {
     
     
     @IBAction func useOrBuyItem(_ sender: RoundButton) {
+        if !isPackage {
         if myVitrin {
         NotificationCenter.default.post(name: Notification.Name("buyOrChoose"), object: nil, userInfo: nil)
         dismissing()
@@ -111,7 +112,12 @@ class showItemViewController: UIViewController {
                 dismissing()
                 NotificationCenter.default.post(name: Notification.Name("openBuyWebsite"), object: nil, userInfo: nil)
 //                print("openSafari")
+            
             }
+            }
+        } else {
+            dismissing()
+            NotificationCenter.default.post(name: Notification.Name("packageSelected"), object: nil, userInfo: nil)
         }
     }
     

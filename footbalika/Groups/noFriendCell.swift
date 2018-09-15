@@ -26,6 +26,7 @@ class noFriendCell: UITableViewCell {
             noFriendTitleForeGround.font = fonts().iPadfonts
             noFriendButtonTitleForeGround.font = fonts().iPadfonts
         }
+        
         noFriendTitle.adjustsFontSizeToFitWidth = true
         noFriendTitle.minimumScaleFactor = 0.5
         noFriendTitleForeGround.adjustsFontSizeToFitWidth = true
@@ -34,6 +35,7 @@ class noFriendCell: UITableViewCell {
         noFriendButtonTitle.minimumScaleFactor = 0.5
         noFriendButtonTitleForeGround.adjustsFontSizeToFitWidth = true
         noFriendButtonTitleForeGround.minimumScaleFactor = 0.5
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

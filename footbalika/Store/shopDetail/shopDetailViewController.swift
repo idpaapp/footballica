@@ -42,6 +42,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     
                     self.chooseRes = String(data: data!, encoding: String.Encoding.utf8) as String?
 
+                    
                     if ((self.chooseRes)!).contains("TRANSACTION_COMPELETE") {
                         DispatchQueue.main.async {
                             login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
@@ -130,7 +131,9 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
 //            svc.delegate = self
 //        }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)' 'item_type' : 'coin'}"
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             
             let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)','userid':'\(loadingViewController.userid)'}") as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
@@ -169,6 +172,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                 shopDetailHeight.constant = height
                 
             } else {
+                
                 shopDetailWidth.constant = UIScreen.main.bounds.width - 10
                 var height = CGFloat()
                 if UIScreen.main.bounds.height > 568 {
@@ -187,7 +191,15 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             
         } else {
             shopDetailWidth.constant = UIScreen.main.bounds.width - (UIScreen.main.bounds.width / 5)
-            var height = 53 + ((roundCellCount * 230) + (roundCellCount * 10))
+            
+            let width = UIScreen.main.bounds.width - (UIScreen.main.bounds.width / 5)
+            if  width > 614.4 {
+                shopDetailWidth.constant = 614.4
+            } else {
+                shopDetailWidth.constant = width
+            }
+            
+            var height = 60 + ((roundCellCount * 230) + (roundCellCount * 10))
             if height >= (UIScreen.main.bounds.height - 50) {
                 height = UIScreen.main.bounds.height - 50
                 self.shopDetailsCV.isScrollEnabled = true
@@ -196,6 +208,39 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             }
             shopDetailHeight.constant = height
         }
+    }
+    
+    @objc func showBoughtItem() {
+        
+        PubProc.HandleDataBase.readJson(wsName: "ws_verifyPurchase.php", JSONStr: "\(StoreViewController.packageShowAfterWeb)") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                      print(data ?? "")
+                    
+                    let trans = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    StoreViewController.packageShowAfterWeb = ""
+                    if ((trans)!).contains("TRANSACTION_OK") {
+                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                            loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                self.performSegue(withIdentifier: "showItem", sender: self)
+                            })
+                        })
+                        PubProc.wb.hideWaiting()
+                    }
+                } else {
+                    self.showBoughtItem()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
     }
     
     override func viewDidLoad() {
@@ -207,6 +252,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
 
         NotificationCenter.default.addObserver(self, selector: #selector(openWbsite), name: Notification.Name("openBuyWebsite"), object: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(showBoughtItem), name: Notification.Name("showingBoughtItem"), object: nil)
         
         if dismissButton != nil {
             dismissButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
