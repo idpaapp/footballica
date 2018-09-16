@@ -24,7 +24,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     var pageState = String()
     var realm : Realm!
-//    var waitingClass = waitingBall()
     
     var settingsTitle = ["صداهای بازی",
                          "موسیقی بازی",
@@ -378,7 +377,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             }
             cell.achievementDesc.text = "\((loadingAchievements.res?.response?[indexPath.row].describtion!)!)"
             let progressAchievement = (Float((loadingAchievements.res?.response?[indexPath.row].progress)!)!) / 10.0
-            print("progress\(progressAchievement)")
+//            print("progress\(progressAchievement)")
             cell.achievementProgress.progress = progressAchievement
             return cell
             
@@ -464,7 +463,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.friendLogo.image = UIImage()
             } else {
                 let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
-                print(url2)
+//                print(url2)
                 if realmID2.count != 0 {
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.friendLogo.image = UIImage(data: dataDecoded as Data)
@@ -534,10 +533,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             switch indexPath.row {
                 
             case 0 :
+                
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile1Cell", for: indexPath) as! profile1Cell
                 cell.contentView.backgroundColor = grayColor
                 cell.firstProfileTitleForeGround.text = "مشخصات بازیکن"
-                
                 
                 let url =  profileAvatar
                 
@@ -1022,23 +1021,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         return 50
                     }
                 }
-//                if otherProfile == true {
-//                    if userButtons == true {
-//                        if uniqueId == "\(loadingViewController.userid)" {
-//                            return 0
-//                        } else {
-//                            return 50
-//                        }
-//                    } else {
-//                        return 0
-//                    }
-//                } else {
-//                    if (login.res?.response?.mainInfo?.status!)! != "2" {
-//                        return 50
-//                    } else {
-//                        return 0
-//                    }
-//                }
             case 2 :
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 280

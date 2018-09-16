@@ -184,6 +184,11 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
             vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
         }
+        
+        if let vc = segue.destination as? helpViewController {
+            vc.desc = self.helpDescTitle
+            vc.acceptTitle = self.helpAcceptTitle
+        }
     }
 
     @IBOutlet weak var predictMatchTV: UITableView!
@@ -448,6 +453,30 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         self.dismiss(animated : true , completion: nil)
     }
 
+    var helpDescTitle = [String]()
+    var helpAcceptTitle = [String]()
+    
+    @objc func predictionHelping() {
+        getHelp().gettingHelp(mode: "PREDICTION_HELP", completionHandler: {
+            for i in 0...(helpViewController.helpRes?.response?.count)! - 1 {
+                if helpViewController.helpRes?.response?[i].desc_text != nil {
+                    self.helpDescTitle.append((helpViewController.helpRes?.response?[i].desc_text!)!)
+                } else {
+                    self.helpDescTitle.append("")
+                }
+                if helpViewController.helpRes?.response?[i].key_title != nil {
+                    self.helpAcceptTitle.append((helpViewController.helpRes?.response?[i].key_title!)!)
+                } else {
+                    self.helpAcceptTitle.append("")
+                }
+            }
+            self.performSegue(withIdentifier: "predictionHelp", sender: self)
+        })
+    }
+    
+    @IBAction func predictionHelp(_ sender: RoundButton) {
+        predictionHelping()
+    }
     
     
 }

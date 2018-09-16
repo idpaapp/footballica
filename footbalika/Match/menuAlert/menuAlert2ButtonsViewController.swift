@@ -25,6 +25,7 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
     var matchId = String()
     var delegate: DismissDelegate?
     var userid = String()
+    weak var gameChargeDelegate : GameChargeDelegate?
     
     @objc func dismissingMA2() {
          self.dismissing()
@@ -386,8 +387,17 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                     }
                 }
                 }.resume()
+            
+        case "outOfGameCharge" :
+            self.dismiss(animated: true, completion: nil)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            DispatchQueue.main.async {
+                self.dismissing()
+                self.gameChargeDelegate?.openGameChargePage()
+            }
         default:
             print("otherStates")
+            self.dismissing()
         }
     }
     
@@ -451,6 +461,7 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
     }
         
         @objc func dismissing() {
+            self.view.isUserInteractionEnabled = false
             UIView.animate(withDuration: 0.2, animations: {
                 self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
             }, completion: { (finish) in
@@ -464,6 +475,7 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                 })
             })
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.view.isUserInteractionEnabled = true
                 self.showAlert.removeFromSuperview()
                 self.dismiss(animated: true, completion: nil)
             }

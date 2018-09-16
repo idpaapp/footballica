@@ -10,7 +10,18 @@ import UIKit
 import Kingfisher
 import RealmSwift
 
-class matchViewController: UIViewController {
+protocol GameChargeDelegate : class {
+    func openGameChargePage()
+}
+
+class matchViewController: UIViewController , GameChargeDelegate {
+    
+    func openGameChargePage() {
+        DispatchQueue.main.async {
+            self.openGameChargingPage()
+        }
+    }
+    
 
     @IBOutlet weak var startLabelForeGround: UILabel!
     @IBOutlet weak var startLabel: UILabel!
@@ -227,6 +238,7 @@ class matchViewController: UIViewController {
                         self.alertTitle = "اخطار"
                         self.alertBody = "بازی های فعال شما از حد مجاز گذشته باید بازیاتو شارژ کنی یا صبر کنی تا یه بازی تموم بشه"
                         self.alertAcceptLabel = "تأیید"
+                        self.menuState = "outOfGameCharge"
                         self.performSegue(withIdentifier: "showAlert2Btn", sender: self)
                         PubProc.wb.hideWaiting()
                     } else {
@@ -266,7 +278,9 @@ class matchViewController: UIViewController {
         if let viewCon = segue.destination as? menuAlert2ButtonsViewController {
             viewCon.alertTitle = self.alertTitle
             viewCon.alertBody = self.alertBody
+            viewCon.state = self.menuState
             viewCon.alertAcceptLabel = self.alertAcceptLabel
+            viewCon.gameChargeDelegate = self
         }
         
         if let Vc = segue.destination as? startMatchViewController {
@@ -288,9 +302,13 @@ class matchViewController: UIViewController {
         self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
     }
     
-    @IBAction func gameCharge(_ sender: RoundButton) {
+    @objc func openGameChargingPage() {
         self.menuState = "gameCharge"
         self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
+    }
+    
+    @IBAction func gameCharge(_ sender: RoundButton) {
+        openGameChargingPage()
     }
     
     

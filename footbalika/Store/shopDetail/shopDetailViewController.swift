@@ -212,7 +212,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     
     @objc func showBoughtItem() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_verifyPurchase.php", JSONStr: "\(StoreViewController.packageShowAfterWeb)") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_verifyPurchase", JSONStr: "\(StoreViewController.packageShowAfterWeb)") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -475,8 +475,16 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             vc.alertAcceptLabel = "تأیید"
         }
         
+        if let vc = segue.destination as? helpViewController {
+            vc.desc = ["\(self.helpDescTitle)"]
+            vc.acceptTitle = ["\(self.helpAcceptTitle)"]
+        }
+        
     }
     
+    
+    var helpDescTitle = String()
+    var helpAcceptTitle = String()
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -490,5 +498,26 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func showShopHelp(_ sender: RoundButton) {
+        showingHelp()
+    }
+    
+    @objc func showingHelp() {
+        
+        getHelp().gettingHelp(mode: "SHOP_HELP", completionHandler: {
+            if helpViewController.helpRes?.response?[self.shopIndex].desc_text != nil {
+                self.helpDescTitle = (helpViewController.helpRes?.response?[self.shopIndex].desc_text!)!
+            } else {
+                self.helpDescTitle = ""
+            }
+            
+            if helpViewController.helpRes?.response?[self.shopIndex].key_title != nil {
+                self.helpAcceptTitle = (helpViewController.helpRes?.response?[self.shopIndex].key_title!)!
+            } else {
+                self.helpAcceptTitle = ""
+            }
+            self.performSegue(withIdentifier: "helping", sender: self)
+        })
+    }
     
 }

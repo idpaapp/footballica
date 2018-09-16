@@ -20,6 +20,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         surrenderring(match_id : id)
     }
     
+    @IBOutlet weak var surrenderOutlet: RoundButton!
+    
     var isHome = Bool()
     @IBAction func selectPlayer1(_ sender: RoundButton) {
         getUserData(id : (self.res?.response?.matchData?.player1_id)!)
@@ -155,13 +157,16 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                             if (self.res?.response?.isYourTurn)! == true {
                                 self.playGameOutlet.setTitle("بازی کن", for: UIControlState.normal)
                                 self.playGameOutlet.isUserInteractionEnabled = true
+                                self.surrenderOutlet.isHidden = false
                             } else {
                                 self.playGameOutlet.setTitle("نوبت بازی حریف", for: UIControlState.normal)
                                 self.playGameOutlet.isUserInteractionEnabled = true
+                                self.surrenderOutlet.isHidden = false
                             }
                             if (Int((self.res?.response?.matchData?.status)!)!) >= 2 {
                                 self.playGameOutlet.setTitle("خروج", for: UIControlState.normal)
                                 self.playGameOutlet.isUserInteractionEnabled = true
+                                self.surrenderOutlet.isHidden = true
                             }
                             self.startMatchTV.reloadData()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -190,6 +195,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.view.isUserInteractionEnabled = true
+        self.surrenderOutlet.isHidden = true
         PubProc.wb.showWaiting()
     }
     var lastID = String()
@@ -554,6 +560,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             vc.delegate = self
         }
         
+        if let vc = segue.destination as? helpViewController {
+            vc.desc = self.helpDescTitle
+            vc.acceptTitle = self.helpAcceptTitle
+        }
+        
         
     }
     
@@ -580,6 +591,31 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             }.resume()
     }
     
+    @IBAction func matchHelping(_ sender: RoundButton) {
+        matchHelp()
+    }
+    
+    
+    var helpDescTitle = [String]()
+    var helpAcceptTitle = [String]()
+    
+    @objc func matchHelp() {
+        getHelp().gettingHelp(mode: "MATCH_HELP", completionHandler: {
+            for i in 0...(helpViewController.helpRes?.response?.count)! - 1 {
+                if helpViewController.helpRes?.response?[i].desc_text != nil {
+                    self.helpDescTitle.append((helpViewController.helpRes?.response?[i].desc_text!)!)
+                } else {
+                    self.helpDescTitle.append("")
+                }
+                if helpViewController.helpRes?.response?[i].key_title != nil {
+                    self.helpAcceptTitle.append((helpViewController.helpRes?.response?[i].key_title!)!)
+                } else {
+                    self.helpAcceptTitle.append("")
+                }
+            }
+            self.performSegue(withIdentifier: "matchHelping", sender: self)
+        })
+    }
     
     @IBAction func surrenderAction(_ sender: RoundButton) {
         self.performSegue(withIdentifier: "surrender", sender: self)

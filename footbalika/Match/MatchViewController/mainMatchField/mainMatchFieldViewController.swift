@@ -602,12 +602,12 @@ class mainMatchFieldViewController: UIViewController  {
 //            }
 //        }
         
-        
         startDate = Date()
         UIView.animate(withDuration: 0.5) {
             self.topViewTopConstraint.constant = 0
             self.bottomViewBottomConstraint.constant = 0
         }
+        
         
         beforeStartView.isHidden = true
         beforeStartCountDown.isHidden = true
