@@ -1,23 +1,32 @@
 //
-//  mainMatchFieldViewController.swift
+//  tutorialViewController.swift
 //  footbalika
 //
-//  Created by Saeed Rahmatolahi on 4/19/1397 AP.
+//  Created by Saeed Rahmatolahi on 6/26/1397 AP.
 //  Copyright © 1397 AP Saeed Rahmatolahi. All rights reserved.
 //
+
 
 import UIKit
 import RPCircularProgress
 import KBImageView
 import Kingfisher
 import RealmSwift
+protocol TutorialsDelegate {
+    func showRest()
+}
 
-class mainMatchFieldViewController: UIViewController  {
+
+class tutorialViewController: UIViewController , TutorialsDelegate {
     
     var matchData : matchDetails.Response? = nil;
-
+    
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    func showRest() {
+        self.restMatchFunction()
     }
     
     var realm : Realm!
@@ -40,7 +49,7 @@ class mainMatchFieldViewController: UIViewController  {
     
     @IBOutlet weak var watchTimerConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var watchView: RPCircularProgress!
+    @IBOutlet weak var watchView : RPCircularProgress!
     
     @IBOutlet weak var handWatchImage: UIImageView!
     
@@ -92,128 +101,33 @@ class mainMatchFieldViewController: UIViewController  {
     
     @IBOutlet weak var beforeStartStackView: UIStackView!
     
-    var level = String()
-    var category = String()
-    var last_questions = String()
-    var userid = String()
-    var answers = [[String]]()
-    var lastVC: selectCategoryViewController!
-    var isHome = Bool()
-    var stadium = String()
-    
     var checkFinishGame = false
     var stadiumUrl = urls()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-         PubProc.wb.showWaiting()
+        PubProc.wb.showWaiting()
     }
     
     var bombAndFreezRes : String? = nil
     var isFreez = false
     
     @objc func freezAction() {
-        if timerCount < 44 {
         self.freezTimer.isEnabled = false
-        PubProc.isSplash = true
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
-            
-            DispatchQueue.main.async {
-                
-                if data != nil {
-                    
-                    self.bombAndFreezRes = String(data: data!, encoding: String.Encoding.utf8) as String?
-                    self.isFreez = true
-                    //                    print(self.bombRes)
-                    DispatchQueue.main.async {
-                        PubProc.cV.hideWarning()
-                    }
-                    
-                    login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
-                        let nc = NotificationCenter.default
-                        nc.post(name: Notification.Name("changingUserPassNotification"), object: nil)
-                    })
-                    
-                    if ((self.bombAndFreezRes)!).contains("TRANSACTION_COMPELETE") {
-                        self.gameTimer.invalidate()
-                        
-                        switch (loadingSetting.res?.response?.freeze_price_type!)! {
-                        case self.coinCase :
-                            self.coin = self.coin - Int((loadingSetting.res?.response?.freeze_price!)!)!
-                            if self.coin < Int((loadingSetting.res?.response?.freeze_price!)!)! {
-                                self.freezTimer.isEnabled = false
-                                self.freezTimePrice.textColor = colors().notEnoughColor
-                            } else {
-                                self.freezTimer.isEnabled = true
-                                self.freezTimePrice.textColor = .white
-                            }
-                        case self.moneyCase :
-                            self.money = self.money - Int((loadingSetting.res?.response?.freeze_price!)!)!
-
-                            if self.money < Int((loadingSetting.res?.response?.freeze_price!)!)! {
-                                self.freezTimer.isEnabled = false
-                                self.freezTimePrice.textColor = colors().notEnoughColor
-                            } else {
-                                self.freezTimer.isEnabled = true
-                                self.freezTimePrice.textColor = .white
-                            }
-                        default:
-                            self.freezTimePriceImage.image = UIImage()
-                            self.freezTimer.isEnabled = true
-                            self.freezTimePrice.textColor = .white
-                        }
-                        
-                    } else {
-                    }
-                    
-                } else {
-                    self.freezAction()
-                    print("Error Connection")
-                    print(error as Any)
-                    // handle error
-                }
-            }
-            }.resume()
-        } else {
-            self.freezTimer.isEnabled = false
-        }
+        self.gameTimer.invalidate()
     }
-
     
     let coinCase = "2"
     let moneyCase = "3"
     
     @objc func bombAction() {
         self.bomb.isEnabled = false
-        PubProc.isSplash = true
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
-            
-            DispatchQueue.main.async {
-                
-                if data != nil {
-                    
-                    
-                    self.bombAndFreezRes = String(data: data!, encoding: String.Encoding.utf8) as String?
-                    
-//                    print(self.bombRes)
-                    DispatchQueue.main.async {
-                        PubProc.cV.hideWarning()
-                    }
-                    
-                    login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
-                        let nc = NotificationCenter.default
-                        nc.post(name: Notification.Name("changingUserPassNotification"), object: nil)
-                    })
-                    
-                    if ((self.bombAndFreezRes)!).contains("TRANSACTION_COMPELETE") {
-                    
                         if (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 1 ||  (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 4 {
                             
                             self.answer2Outlet.isUserInteractionEnabled = false
                             self.answer3Outlet.isUserInteractionEnabled = false
-                    
-                            self.answer2Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
-                            self.answer3Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+                        self.answer2Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+                        self.answer3Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
                             
                         } else {
                             
@@ -222,45 +136,6 @@ class mainMatchFieldViewController: UIViewController  {
                             self.answer1Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
                             self.answer4Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
                         }
-                        
-                        switch (loadingSetting.res?.response?.bomb_price_type!)! {
-                        case self.coinCase:
-                            self.coin = self.coin - Int((loadingSetting.res?.response?.bomb_price!)!)!
-                            if self.coin < Int((loadingSetting.res?.response?.bomb_price!)!)! {
-                                self.bomb.isEnabled = false
-                                self.bombPrice.textColor = colors().notEnoughColor
-                            } else {
-                                self.bomb.isEnabled = true
-                                self.bombPrice.textColor = .white
-                            }
-                        case self.moneyCase :
-                            self.money = self.money - Int((loadingSetting.res?.response?.bomb_price!)!)!
-                            if self.money < Int((loadingSetting.res?.response?.bomb_price!)!)! {
-                                self.bomb.isEnabled = false
-                                self.bombPrice.textColor = colors().notEnoughColor
-                            } else {
-                                self.bomb.isEnabled = true
-                                self.bombPrice.textColor = .white
-                            }
-                        default:
-                            self.bombPriceImage.image = UIImage()
-                            self.bomb.isEnabled = true
-                            self.bombPrice.textColor = .white
-                        }
-
-                        
-                    } else {
-                        
-                    }
-
-                } else {
-                    self.bombAction()
-                    print("Error Connection")
-                    print(error as Any)
-                    // handle error
-                }
-            }
-            }.resume()
     }
     
     var money = Int()
@@ -268,7 +143,6 @@ class mainMatchFieldViewController: UIViewController  {
     
     @objc func checkBombAndFreez() {
         
-
         //        print(Int((login.res?.response?.mainInfo?.cashs)!)!)
         //        print(Int((login.res?.response?.mainInfo?.coins)!)!)
         
@@ -278,22 +152,8 @@ class mainMatchFieldViewController: UIViewController  {
         switch (loadingSetting.res?.response?.bomb_price_type!)! {
         case self.coinCase :
             self.bombPriceImage.image = UIImage(named: "ic_coin")
-            if coin < Int((loadingSetting.res?.response?.bomb_price!)!)! {
-                self.bomb.isEnabled = false
-                self.bombPrice.textColor = colors().notEnoughColor
-            } else {
-                self.bomb.isEnabled = true
-                self.bombPrice.textColor = .white
-            }
         case self.moneyCase :
             self.bombPriceImage.image = UIImage(named: "money")
-            if money < Int((loadingSetting.res?.response?.bomb_price!)!)! {
-                self.bomb.isEnabled = false
-                self.bombPrice.textColor = colors().notEnoughColor
-            } else {
-                self.bomb.isEnabled = true
-                self.bombPrice.textColor = .white
-            }
         default:
             self.bombPriceImage.image = UIImage()
         }
@@ -301,22 +161,8 @@ class mainMatchFieldViewController: UIViewController  {
         switch (loadingSetting.res?.response?.freeze_price_type!)! {
         case self.coinCase :
             self.freezTimePriceImage.image = UIImage(named: "ic_coin")
-            if coin < Int((loadingSetting.res?.response?.freeze_price!)!)! {
-                self.freezTimer.isEnabled = false
-                self.freezTimePrice.textColor = colors().notEnoughColor
-            } else {
-                self.freezTimer.isEnabled = true
-                self.freezTimePrice.textColor = .white
-            }
         case self.moneyCase :
             self.freezTimePriceImage.image = UIImage(named: "money")
-            if money < Int((loadingSetting.res?.response?.freeze_price!)!)! {
-                self.freezTimer.isEnabled = false
-                self.freezTimePrice.textColor = colors().notEnoughColor
-            } else {
-                self.freezTimer.isEnabled = true
-                self.freezTimePrice.textColor = .white
-            }
         default:
             self.freezTimePriceImage.image = UIImage()
         }
@@ -329,25 +175,12 @@ class mainMatchFieldViewController: UIViewController  {
         self.coin = Int((login.res?.response?.mainInfo?.coins)!)!
         
         realm = try? Realm()
-        let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(stadiumUrl.stadium)\(stadium)'")
-        print(stadium)
+        let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(stadiumUrl.stadium)empty_std.jpg'")
         let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
         self.backGroundStadium.image = UIImage(data: dataDecoded as Data)
         
         checkBombAndFreez()
-        
-//        if money < 300 {
-//            self.freezTimer.isEnabled = false
-//        } else {
-//            self.freezTimer.isEnabled = true
-//        }
-//
-//        if coin < 5 {
-//            self.bomb.isEnabled = false
-//        } else {
-//            self.bomb.isEnabled = true
-//        }
-        
+    
         self.bomb.addTarget(self, action: #selector(bombAction), for: UIControlEvents.touchUpInside)
         self.freezTimer.addTarget(self, action: #selector(freezAction), for: UIControlEvents.touchUpInside)
         self.answer1Outlet.isExclusiveTouch = true
@@ -356,20 +189,19 @@ class mainMatchFieldViewController: UIViewController  {
         self.answer4Outlet.isExclusiveTouch = true
         self.freezTimer.isExclusiveTouch = true
         self.bomb.isExclusiveTouch = true
-//        backGroundStadium.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
         
-//        print(url)
+        //        backGroundStadium.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
+        //        print(url)
         
         self.questionTitle.adjustsFontSizeToFitWidth = true
         self.questionTitle.minimumScaleFactor = 0.5
         
         self.imageQuestionTitle.text = ""
-        lastVC.dismiss(animated: true, completion: nil)
         question1Ball.image = publicImages().emptyImage
         question2Ball.image = publicImages().emptyImage
         question3Ball.image = publicImages().emptyImage
         question4Ball.image = publicImages().emptyImage
-
+        
         self.timerLabel.text = ""
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.bounds.width == 320 {
@@ -411,7 +243,7 @@ class mainMatchFieldViewController: UIViewController  {
             } else {
                 
                 //Other iPhones
-//                questionsTopConstraint.constant = (UIScreen.main.bounds.height / 3) + 50
+                //                questionsTopConstraint.constant = (UIScreen.main.bounds.height / 3) + 50
                 questionsTopConstraint.constant = (UIScreen.main.bounds.height / 3) + (UIScreen.main.bounds.height / 11) + 50
                 questionTitleConstraint.constant = -((UIScreen.main.bounds.height / 3) + 50)
                 self.answer1Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5) + 30)
@@ -432,15 +264,24 @@ class mainMatchFieldViewController: UIViewController  {
             self.answer4Constraint.constant = -((2 * UIScreen.main.bounds.width / 5 ) + 30)
         }
         
-        
         readMatchData()
     }
     
     var res : questionsList.Response? = nil;
     
+    func getTutorialHelp() {
+        
+        getHelp().gettingHelp(mode: "START_GAME", completionHandler: {
+            self.tID = (helpViewController.helpRes?.response?[0].id!)!
+             self.performSegue(withIdentifier: "showTutorialHelp", sender: self)
+        })
+    }
+    
+    
     func readMatchData() {
         //match Data Json
-        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'\(level)','category':'\(category)','last_questions':'','userid':'\(loadingViewController.userid)'}") { data, error in
+        
+        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'1','category':'\(Int(arc4random_uniform(6) + 1))','last_questions':'','userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -457,8 +298,12 @@ class mainMatchFieldViewController: UIViewController  {
                         
                         print("questionsIDs = Q1:\((self.res?.response?[0].id!)!) - Q2:\((self.res?.response?[1].id!)!) - Q3:\((self.res?.response?[2].id!)!) - Q4:\((self.res?.response?[3].id!)!)")
                         
+//                        print("questionsIDs = Q1:\((self.res?.response?[0].ans_correct_id!)!) - Q2:\((self.res?.response?[1].ans_correct_id!)!) - Q3:\((self.res?.response?[2].ans_correct_id!)!) - Q4:\((self.res?.response?[3].ans_correct_id!)!)")
+                        
+                        
+                        self.getTutorialHelp()
+                        
                         DispatchQueue.main.async {
-                            self.restMatchFunction()
                             PubProc.wb.hideWaiting()
                         }
                         
@@ -474,7 +319,7 @@ class mainMatchFieldViewController: UIViewController  {
                 }
             }
             }.resume()
-       
+        
     }
     
     
@@ -489,7 +334,7 @@ class mainMatchFieldViewController: UIViewController  {
     }
     
     func beforeMatchTimer() {
-
+        
         beforeStartCountDown.text = "3"
         beforeStartTitle.text = "واسه شروع اماده ای؟"
         soundPlay().playBeepSound()
@@ -511,13 +356,10 @@ class mainMatchFieldViewController: UIViewController  {
     
     var timerCount = -1
     let AlertState = "matchField"
-    var startDate = Date()
-    var currentDate = Date()
     var startGame = false
     
     @objc func updateWatch() {
         startGame = true
-        currentDate = Date()
         time = time + 0.0165
         timerCount = timerCount + 1
         watchView.progressTintColor = .init(red: 222/255, green: 100/255, blue: 1/255, alpha: 1.0)
@@ -529,48 +371,48 @@ class mainMatchFieldViewController: UIViewController  {
             if timerCount == 41 {
                 thirdSoundPlay().playThirdSound()
             }
-        if timerCount == 45 {
-             if self.checkFinishGame == false {
-            checkFinishGame = true
-            DispatchQueue.main.async {
-                musicPlay().playQuizeMusic()
-                self.view.isUserInteractionEnabled = false
-                self.DisableEnableInterFace(State : false)
-                PubProc.isSplash = false
-                self.gameTimer.invalidate()
-                self.performSegue(withIdentifier: "gameOver", sender: self)
-                NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                    self.view.isUserInteractionEnabled = true
-                })
-                soundPlay().playEndGameSound()
+            if timerCount == 45 {
+                if self.checkFinishGame == false {
+                    checkFinishGame = true
+                    DispatchQueue.main.async {
+                        musicPlay().playQuizeMusic()
+                        self.view.isUserInteractionEnabled = false
+                        self.DisableEnableInterFace(State : false)
+                        PubProc.isSplash = false
+                        self.gameTimer.invalidate()
+                        soundPlay().playEndGameSound()
+                    }
                 }
             }
-        }
             if timerCount > 45 {
                 self.timerLabel.text = "45"
             } else {
-            self.timerLabel.text = "\(timerCount)"
+                self.timerLabel.text = "\(timerCount)"
             }
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let VC = segue.destination as? menuAlertViewController {
-            self.watchView.updateProgress(75)
-            self.timerLabel.text = "45"
-            VC.alertTitle = "اخطار"
-            VC.alertBody = "وقت تمام شد"
-            VC.alertAcceptLabel = "تأیید"
-            VC.alertState = AlertState
-            VC.matchField = self
+//        if let VC = segue.destination as? menuAlertViewController {
+//            self.watchView.updateProgress(75)
+//            self.timerLabel.text = "45"
+//            VC.alertTitle = "اخطار"
+//            VC.alertBody = "وقت تمام شد"
+//            VC.alertAcceptLabel = "تأیید"
+//            VC.alertState = AlertState
+//        }
+        
+        if let vc = segue.destination as? helpViewController {
+            vc.tDelegate = self
+            vc.id = self.tID
+            vc.state = "START_GAME"
         }
     }
-
     
+    var tID = String()
     var time : CGFloat = 0
     var gameTimer : Timer!
-    
+    var ButtonTimer : Timer!
     func timerHand() {
         
         gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
@@ -582,45 +424,26 @@ class mainMatchFieldViewController: UIViewController  {
     var Score = Int()
     
     func startMatch() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 45) {
-//            if self.checkFinishGame == false {
-//                self.gameTimer.invalidate()
-//                self.checkFinishGame = true
-//                DispatchQueue.main.async {
-//                    musicPlay().playQuizeMusic()
-//                    self.view.isUserInteractionEnabled = false
-//                    self.DisableEnableInterFace(State : false)
-//                    self.performSegue(withIdentifier: "gameOver", sender: self)
-//                    NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-//                    soundPlay().playEndGameSound()
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-//                        self.view.isUserInteractionEnabled = true
-//                    })
-//                }
-//            }
-//        }
         
-        startDate = Date()
         UIView.animate(withDuration: 0.5) {
             self.topViewTopConstraint.constant = 0
             self.bottomViewBottomConstraint.constant = 0
         }
-        
         
         beforeStartView.isHidden = true
         beforeStartCountDown.isHidden = true
         beforeStartTitle.isHidden = true
         beforeStartStackView.isHidden = true
         scoreLabel.text = "امتیاز شما : \(Score) از ۴"
-            DispatchQueue.main.async {
-                musicPlay().playQuizeMusic()
-            }
+        DispatchQueue.main.async {
+            musicPlay().playQuizeMusic()
+        }
         timerHand()
         
         correctAnswer = (self.res?.response?[currentQuestion].ans_correct_id!)!
         var questionImage = String()
         if self.res?.response?[currentQuestion].q_image != nil {
-           questionImage = (self.res?.response?[currentQuestion].q_image!)!
+            questionImage = (self.res?.response?[currentQuestion].q_image!)!
         } else {
             questionImage = ""
         }
@@ -698,50 +521,80 @@ class mainMatchFieldViewController: UIViewController  {
                 self.view.layoutIfNeeded()
                 
             }
-
+            
         }
+        
+        showCorrectAnswer()
         currentQuestion = currentQuestion + 1
     }
+    
+    @objc func showCorrectAnswer() {
+        
+         ButtonTimer = Timer.scheduledTimer(timeInterval: 1.4, target: self, selector: #selector(animatingButton), userInfo: nil, repeats: true)
+    }
+    
+    @objc func animatingButton() {
+        
+        var bounchingObject = UIButton()
+        switch correctAnswer {
+        case 1:
+            bounchingObject = self.answer1Outlet
+        case 2:
+            bounchingObject = self.answer2Outlet
+        case 3:
+            bounchingObject = self.answer3Outlet
+        default:
+            bounchingObject = self.answer4Outlet
+        }
+        
+        UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
+            bounchingObject.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        }, completion: { (finish) in
+            UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
+                bounchingObject.transform = CGAffineTransform.identity
+            }, completion: { (finish) in
+                
+            })
+        })
+        
+    }
+    
+    
     
     func hideQuestion() {
         if self.isFreez {
             checkBombAndFreez()
             gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
+           
             self.isFreez = false
         } else {}
         
         self.freezTimer.isUserInteractionEnabled = false
         self.bomb.isUserInteractionEnabled = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-        self.imageQuestionTitle.text = " "
+            self.imageQuestionTitle.text = " "
         }
         
         let doubleCheckTimer : CGFloat = time
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             if self.currentQuestion < 3 &&  doubleCheckTimer == self.time {
-                    self.time = self.time + 0.0165
-                    self.timerCount = self.timerCount + 1
+                self.time = self.time + 0.0165
+                self.timerCount = self.timerCount + 1
                 if self.timerCount >= 45 {
                     if self.checkFinishGame == false {
-                    self.checkFinishGame = true
-                    self.view.isUserInteractionEnabled = false
-                    DispatchQueue.main.async {
-                        if musicPlay.musicPlayer?.isPlaying == true {
-                            musicPlay().playQuizeMusic()
-                        } else {}
-                        self.DisableEnableInterFace(State : false)
-                        self.performSegue(withIdentifier: "gameOver", sender: self)
-                        NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                            self.view.isUserInteractionEnabled = true
-                        })
-                        soundPlay().playEndGameSound()
+                        self.checkFinishGame = true
+                        self.view.isUserInteractionEnabled = false
+                        DispatchQueue.main.async {
+                            if musicPlay.musicPlayer?.isPlaying == true {
+                                musicPlay().playQuizeMusic()
+                            } else {}
+                            soundPlay().playEndGameSound()
                         }
                     }
                 } else {
                     if musicPlay.musicPlayer?.isPlaying == true {
                     } else {musicPlay().playQuizeMusic()}
-                self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateWatch), userInfo: nil, repeats: true)
+                    self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateWatch), userInfo: nil, repeats: true)
                 }
             }
         }
@@ -773,15 +626,16 @@ class mainMatchFieldViewController: UIViewController  {
             })
         } else {
             if self.checkFinishGame == false {
-            self.checkFinishGame = true
-            musicPlay().playQuizeMusic()
-            self.gameTimer.invalidate()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                musicPlay().playMenuMusic()
+                self.checkFinishGame = true
+                musicPlay().playQuizeMusic()
+                self.gameTimer.invalidate()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    musicPlay().playMenuMusic()
+                }
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
-            dismiss(animated: true, completion: nil)
-            NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-        }
         }
     }
     
@@ -792,26 +646,28 @@ class mainMatchFieldViewController: UIViewController  {
         self.answer4Outlet.isUserInteractionEnabled = State
     }
     
-    
-    
     @IBAction func answer1Action(_ sender: RoundButton) {
         checkAnswer(answerSelectedIndex: 1)
         DisableEnableInterFace(State : false)
+        self.ButtonTimer.invalidate()
     }
     
     @IBAction func answer2Action(_ sender: RoundButton) {
         checkAnswer(answerSelectedIndex: 2)
         DisableEnableInterFace(State : false)
+        self.ButtonTimer.invalidate()
     }
     
     @IBAction func answer3Action(_ sender: RoundButton) {
         checkAnswer(answerSelectedIndex: 3)
         DisableEnableInterFace(State : false)
+        self.ButtonTimer.invalidate()
     }
     
     @IBAction func answer4Action(_ sender: RoundButton) {
         checkAnswer(answerSelectedIndex: 4)
         DisableEnableInterFace(State : false)
+        self.ButtonTimer.invalidate()
     }
     
     func checkAnswer(answerSelectedIndex : Int) {
@@ -828,7 +684,7 @@ class mainMatchFieldViewController: UIViewController  {
             case 3:
                 self.answer3Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
             default :
-               self.answer4Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+                self.answer4Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
             }
         } else {
             soundPlay().playWrongAnswerSound()
@@ -867,72 +723,72 @@ class mainMatchFieldViewController: UIViewController  {
     let defaults = UserDefaults.standard
     func ballCheck() {
         for i in 0...3 {
-        switch balls[i] {
-        case 0:
-            switch i {
+            switch balls[i] {
             case 0:
-                UIView.transition(with: question1Ball,
-                                  duration: 0.5,
-                                  options: .transitionCrossDissolve,
-                                  animations: { self.question1Ball.image = publicImages().redBall },
-                                  completion: nil)
+                switch i {
+                case 0:
+                    UIView.transition(with: question1Ball,
+                                      duration: 0.5,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.question1Ball.image = publicImages().redBall },
+                                      completion: nil)
+                case 1:
+                    UIView.transition(with: question2Ball,
+                                      duration: 0.5,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.question2Ball.image = publicImages().redBall },
+                                      completion: nil)
+                case 2 :
+                    UIView.transition(with: question3Ball,
+                                      duration: 0.5,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.question3Ball.image = publicImages().redBall },
+                                      completion: nil)
+                default :
+                    UIView.transition(with: question4Ball,
+                                      duration: 0.3,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.question4Ball.image = publicImages().redBall },
+                                      completion: nil)
+                }
             case 1:
-                UIView.transition(with: question2Ball,
-                                  duration: 0.5,
-                                  options: .transitionCrossDissolve,
-                                  animations: { self.question2Ball.image = publicImages().redBall },
-                                  completion: nil)
-            case 2 :
-                UIView.transition(with: question3Ball,
-                                  duration: 0.5,
-                                  options: .transitionCrossDissolve,
-                                  animations: { self.question3Ball.image = publicImages().redBall },
-                                  completion: nil)
-            default :
-                UIView.transition(with: question4Ball,
-                                  duration: 0.3,
-                                  options: .transitionCrossDissolve,
-                                  animations: { self.question4Ball.image = publicImages().redBall },
-                                  completion: nil)
-            }
-        case 1:
-            switch i {
-            case 0:
-                UIView.transition(with: question1Ball,
-                                  duration: 0.5,
-                                  options: .transitionCrossDissolve,
-                                  animations: { self.question1Ball.image = publicImages().greenBall },
-                                  completion: nil)
-            case 1:
-                UIView.transition(with: question2Ball,
-                                  duration: 0.5,
-                                  options: .transitionCrossDissolve,
-                                  animations: { self.question2Ball.image = publicImages().greenBall },
-                                  completion: nil)
-            case 2 :
-                UIView.transition(with: question3Ball,
-                                  duration: 0.5,
-                                  options: .transitionCrossDissolve,
-                                  animations: { self.question3Ball.image = publicImages().greenBall },
-                                  completion: nil)
-            default :
-                UIView.transition(with: question4Ball,
-                                  duration: 0.3,
-                                  options: .transitionCrossDissolve,
-                                  animations: { self.question4Ball.image = publicImages().greenBall },
-                                  completion: nil)
-            }
-        default:
-            switch i {
-            case 0:
-                question1Ball.image = publicImages().emptyImage
-            case 1:
-                question2Ball.image = publicImages().emptyImage
-            case 2 :
-                question3Ball.image = publicImages().emptyImage
-            default :
-                question4Ball.image = publicImages().emptyImage
-                    }
+                switch i {
+                case 0:
+                    UIView.transition(with: question1Ball,
+                                      duration: 0.5,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.question1Ball.image = publicImages().greenBall },
+                                      completion: nil)
+                case 1:
+                    UIView.transition(with: question2Ball,
+                                      duration: 0.5,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.question2Ball.image = publicImages().greenBall },
+                                      completion: nil)
+                case 2 :
+                    UIView.transition(with: question3Ball,
+                                      duration: 0.5,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.question3Ball.image = publicImages().greenBall },
+                                      completion: nil)
+                default :
+                    UIView.transition(with: question4Ball,
+                                      duration: 0.3,
+                                      options: .transitionCrossDissolve,
+                                      animations: { self.question4Ball.image = publicImages().greenBall },
+                                      completion: nil)
+                }
+            default:
+                switch i {
+                case 0:
+                    question1Ball.image = publicImages().emptyImage
+                case 1:
+                    question2Ball.image = publicImages().emptyImage
+                case 2 :
+                    question3Ball.image = publicImages().emptyImage
+                default :
+                    question4Ball.image = publicImages().emptyImage
+                }
             }
         }
         updateGameResault()
@@ -948,27 +804,11 @@ class mainMatchFieldViewController: UIViewController  {
                 storeArray.append(balls[i])
             }
         }
-        
-        var playerSide = String()
-        var playerReault = Int()
-        
-        if self.isHome == true {
-            playerSide = "1"
-        } else {
-            playerSide = "2"
-        }
-        
-        playerReault = storeArray.filter{$0 == 1}.count
-        
-        let gameArray = "{'mode':'UPDT_GAME_RESULT','is_home':'\(self.isHome)','match_id':\(((matchData?.response?.matchData?.id!)!)),'game_type':\(self.category),'last_questions':'\((self.res?.response?[0].id!)!),\((self.res?.response?[1].id!)!),\((self.res?.response?[2].id!)!),\((self.res?.response?[3].id!)!)','player\(playerSide)_result':\(playerReault),'player\(playerSide)_result_sheet':'{\\'ans_1\\':\\'\(storeArray[0])\\',\\'ans_2\\':\\'\(storeArray[1])\\',\\'ans_3\\':\\'\(storeArray[2])\\',\\'ans_4\\':\\'\(storeArray[3])\\'}'}"
-        
-        defaults.set(gameArray, forKey: "gameLeft")
-        
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
 }

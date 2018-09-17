@@ -14,7 +14,11 @@ protocol GameChargeDelegate : class {
     func openGameChargePage()
 }
 
-class matchViewController: UIViewController , GameChargeDelegate {
+protocol TutorialDelegate {
+    func tutorialPage()
+}
+
+class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate {
     
     func openGameChargePage() {
         DispatchQueue.main.async {
@@ -22,7 +26,11 @@ class matchViewController: UIViewController , GameChargeDelegate {
         }
     }
     
-
+    func tutorialPage() {
+        self.performSegue(withIdentifier: "showTutorial", sender: self)
+    }
+    
+    
     @IBOutlet weak var startLabelForeGround: UILabel!
     @IBOutlet weak var startLabel: UILabel!
     @IBOutlet weak var profileName: UILabel!
@@ -155,9 +163,33 @@ class matchViewController: UIViewController , GameChargeDelegate {
     }
     
     var shakeTimer : Timer!
+    var helpDescs = [String]()
+    var acceptTitles = [String]()
+    let tutorial = UserDefaults.standard.bool(forKey: "tutorial")
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if tutorial {
+            
+            getHelp().gettingHelp(mode: "WELCOME", completionHandler: {
+                for i in 0...(helpViewController.helpRes?.response?.count)! - 1 {
+                    if helpViewController.helpRes?.response?[i].desc_text != nil {
+                        self.helpDescs.append((helpViewController.helpRes?.response?[i].desc_text!)!)
+                    } else {
+                        self.helpDescs.append("")
+                    }
+                    if helpViewController.helpRes?.response?[i].key_title != nil {
+                        self.acceptTitles.append((helpViewController.helpRes?.response?[i].key_title!)!)
+                    } else {
+                        self.acceptTitles.append("")
+                    }
+                }
+                self.performSegue(withIdentifier : "tutorialHelp" , sender : self)
+            })
+        }
+        
         
         realm = try? Realm()
         self.shakeTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.shakeFunstion), userInfo: nil, repeats: true)
@@ -286,6 +318,13 @@ class matchViewController: UIViewController , GameChargeDelegate {
         if let Vc = segue.destination as? startMatchViewController {
             Vc.matchID = self.matchID
         }
+        
+        if let vc = segue.destination as? helpViewController {
+            vc.desc = self.helpDescs
+            vc.acceptTitle = self.acceptTitles
+            vc.state = "WELCOME"
+            vc.delegate = self
+        }
     }
     
     @IBAction func showLeagus(_ sender: UIButton) {
@@ -310,7 +349,6 @@ class matchViewController: UIViewController , GameChargeDelegate {
     @IBAction func gameCharge(_ sender: RoundButton) {
         openGameChargingPage()
     }
-    
     
     @IBAction func questionsBank(_ sender: RoundButton) {
         self.alertTitle = "اخطار"
@@ -402,6 +440,4 @@ class matchViewController: UIViewController , GameChargeDelegate {
             }
             }.resume()
     }
-    
-
 }

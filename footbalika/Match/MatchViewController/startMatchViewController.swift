@@ -563,6 +563,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         if let vc = segue.destination as? helpViewController {
             vc.desc = self.helpDescTitle
             vc.acceptTitle = self.helpAcceptTitle
+            vc.state = "MATCH_HELP"
         }
         
         
@@ -600,6 +601,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var helpAcceptTitle = [String]()
     
     @objc func matchHelp() {
+        
         getHelp().gettingHelp(mode: "MATCH_HELP", completionHandler: {
             for i in 0...(helpViewController.helpRes?.response?.count)! - 1 {
                 if helpViewController.helpRes?.response?[i].desc_text != nil {

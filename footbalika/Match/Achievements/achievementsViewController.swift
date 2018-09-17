@@ -13,13 +13,9 @@ import RealmSwift
 class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource {
 
     @IBOutlet weak var leagues: RoundButton!
-    
     @IBOutlet weak var tournament: RoundButton!
-    
     @IBOutlet weak var predict3Month: RoundButton!
-    
     @IBOutlet weak var achievementsTV: UITableView!
-    
     @IBOutlet weak var achievementLeaderBoardTopConstraint: NSLayoutConstraint!
     
     var pageState = String()

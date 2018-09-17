@@ -116,9 +116,12 @@ class loginPageViewController: UIViewController {
                             PubProc.cV.hideWarning()
                             PubProc.isSplash = true
                         }
+                        
                         //                print(data ?? "")
                         print((login.res?.status!)!)
+                        
                         if (login.res?.status?.contains("OK"))! {
+                            self.defaults.set(false , forKey: "tutorial")
                             self.dismissing()
                             self.emptyStadium()
                             let nc = NotificationCenter.default
@@ -154,6 +157,7 @@ class loginPageViewController: UIViewController {
             }.resume()
     }
     
+    let defaults = UserDefaults.standard
     
     @objc func newUserAction() {
         PubProc.isSplash = false
@@ -173,6 +177,7 @@ class loginPageViewController: UIViewController {
                         }
                         //                print(data ?? "")
                         if (login.res?.status?.contains("OK"))! {
+                            self.defaults.set(true , forKey: "tutorial")
                             self.dismissing()
                             self.emptyStadium()
                             let nc = NotificationCenter.default

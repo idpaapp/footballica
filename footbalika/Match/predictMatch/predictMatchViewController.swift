@@ -188,6 +188,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         if let vc = segue.destination as? helpViewController {
             vc.desc = self.helpDescTitle
             vc.acceptTitle = self.helpAcceptTitle
+            vc.state = "PREDICTION_HELP"
         }
     }
 

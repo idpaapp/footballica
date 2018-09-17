@@ -103,8 +103,8 @@ class loadingViewController: UIViewController {
                             let imagePath = ((loadingViewController.loadGameData?.response?.stadiumData[i].extended_image!)!)
                             let extendImage = ""
                             self.writeStadiums.writeToDBtblStadiumTypes(id: id, title: title, imagePath: imagePath, extendedBase64Image: extendImage)
-                            print(title)
-                            print(imagePath)
+//                            print(title)
+//                            print(imagePath)
                         }
                         
                         self.endProgress = 0.1
@@ -150,6 +150,7 @@ class loadingViewController: UIViewController {
         versionCheck()
         
         launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        
 
         if self.launchedBefore  {
 
@@ -157,7 +158,7 @@ class loadingViewController: UIViewController {
             playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
             alerts = UserDefaults.standard.bool(forKey: "alerts")
             loadingViewController.userid = defaults.string(forKey: "userid") ?? String()
-            
+            defaults.set(false , forKey: "tutorial")
         } else {
 
             let userid = "\(loadingViewController.userid)"
@@ -167,6 +168,7 @@ class loadingViewController: UIViewController {
             defaults.set(true, forKey: "gameSounds")
             defaults.set("", forKey: "lastMatchId")
             defaults.set("", forKey: "gameLeft")
+            defaults.set(true , forKey: "tutorial")
             
         }
         

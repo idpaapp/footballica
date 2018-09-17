@@ -478,6 +478,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         if let vc = segue.destination as? helpViewController {
             vc.desc = ["\(self.helpDescTitle)"]
             vc.acceptTitle = ["\(self.helpAcceptTitle)"]
+            vc.state = "SHOP_HELP"
         }
         
     }

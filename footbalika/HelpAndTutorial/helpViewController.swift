@@ -20,11 +20,18 @@ class helpViewController: UIViewController {
     @IBOutlet weak var helpDescription: UILabel!
     var desc = [String]()
     var acceptTitle = [String]()
-    var currentSlide = 0
+    var currentSlide : Int = 0
+    var state = String()
+    var id = String()
+    var delegate : TutorialDelegate?
+    var tDelegate : TutorialsDelegate?
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    
+    
     static var helpRes : help.Response? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,21 +52,46 @@ class helpViewController: UIViewController {
     }
     
     @objc func slideShowing() {
+        if self.state == "START_GAME" {
+            let hID = ((helpViewController.helpRes?.response?.filter {$0.id == self.id})!)
+            print((hID.first?.desc_text!)!)
+            helpDescription.text = (hID.first?.desc_text!)!
+            acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\((hID.first?.key_title!)!)", strokeWidth: -6.0)
+            acceptLabelForeGround.font = fonts().iPhonefonts
+            acceptLabelForeGround.text = "\((hID.first?.key_title!)!)"
+        } else {
         helpDescription.text = self.desc[self.currentSlide]
         acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.acceptTitle[self.currentSlide])", strokeWidth: -6.0)
         acceptLabelForeGround.font = fonts().iPhonefonts
         acceptLabelForeGround.text = "\(self.acceptTitle[self.currentSlide])"
-    }
-    
-    @objc func nextOrDismiss() {
-        self.currentSlide = self.currentSlide + 1
-        if self.currentSlide == self.desc.count {
-            self.dismiss(animated: true, completion: nil)
-        } else {
-            slideShowing()
         }
     }
     
+    @objc func nextOrDismiss() {
+        DispatchQueue.main.async {
+            self.currentSlide = self.currentSlide + 1
+            switch self.state {
+            case "WELCOME" :
+                if self.currentSlide == self.desc.count {
+                    self.dismiss(animated: true, completion: nil)
+                    self.delegate?.tutorialPage()
+                } else {
+                    self.slideShowing()
+                }
+            case "START_GAME" :
+                self.dismiss(animated: true, completion: nil)
+                if self.id == "4" {
+                    self.tDelegate?.showRest()
+                }
+            default :
+                if self.currentSlide == self.desc.count {
+                    self.dismiss(animated: true, completion: nil)
+                } else {
+                    self.slideShowing()
+                }
+            }
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
