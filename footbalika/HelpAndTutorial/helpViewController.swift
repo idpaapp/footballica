@@ -51,20 +51,48 @@ class helpViewController: UIViewController {
         }
     }
     
+    func normalTutorialHelp() {
+        let hID = ((helpViewController.helpRes?.response?.filter {$0.id == self.id})!)
+        helpDescription.text = (hID.first?.desc_text!)!
+        acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\((hID.first?.key_title!)!)", strokeWidth: -6.0)
+        acceptLabelForeGround.font = fonts().iPhonefonts
+        acceptLabelForeGround.text = "\((hID.first?.key_title!)!)"
+    }
+    
     @objc func slideShowing() {
         if self.state == "START_GAME" {
-            let hID = ((helpViewController.helpRes?.response?.filter {$0.id == self.id})!)
-            print((hID.first?.desc_text!)!)
-            helpDescription.text = (hID.first?.desc_text!)!
-            acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\((hID.first?.key_title!)!)", strokeWidth: -6.0)
-            acceptLabelForeGround.font = fonts().iPhonefonts
-            acceptLabelForeGround.text = "\((hID.first?.key_title!)!)"
+            
+            switch self.id {
+            case "4" :
+                normalTutorialHelp()
+            case "7" :
+                normalTutorialHelp()
+            case "8" :
+                normalTutorialHelp()
+            case "9" :
+                normalTutorialHelp()
+            case "10" :
+                normalTutorialHelp()
+            default :
+                let hID = ((helpViewController.helpRes?.response?.filter {$0.id == "5"})!)
+                self.desc.append((hID.first?.desc_text!)!)
+                self.acceptTitle.append((hID.first?.key_title!)!)
+                let hID2 = ((helpViewController.helpRes?.response?.filter {$0.id == "6"})!)
+                self.desc.append((hID2.first?.desc_text!)!)
+                self.acceptTitle.append((hID2.first?.key_title!)!)
+                self.showingHelp()
+            }
+            
         } else {
+            self.showingHelp()
+        }
+    }
+    
+    @objc func showingHelp() {
         helpDescription.text = self.desc[self.currentSlide]
         acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.acceptTitle[self.currentSlide])", strokeWidth: -6.0)
         acceptLabelForeGround.font = fonts().iPhonefonts
         acceptLabelForeGround.text = "\(self.acceptTitle[self.currentSlide])"
-        }
     }
     
     @objc func nextOrDismiss() {
@@ -73,25 +101,51 @@ class helpViewController: UIViewController {
             switch self.state {
             case "WELCOME" :
                 if self.currentSlide == self.desc.count {
-                    self.dismiss(animated: true, completion: nil)
+                    self.dismissing()
                     self.delegate?.tutorialPage()
                 } else {
                     self.slideShowing()
                 }
             case "START_GAME" :
-                self.dismiss(animated: true, completion: nil)
-                if self.id == "4" {
+                switch self.id {
+                case "4" :
+                    self.dismissing()
                     self.tDelegate?.showRest()
+                case "7" :
+                    self.dismissing()
+                    self.tDelegate?.showUsingBomb()
+                case "8" :
+                    self.dismissing()
+                    self.tDelegate?.enableAllButtons()
+                case "9" :
+                    self.dismissing()
+                    
+                case "10" :
+                    self.dismissing()
+                    self.tDelegate?.enableAllButtons()
+                default :
+                    if self.currentSlide == self.desc.count {
+                        self.dismissing()
+                        self.tDelegate?.showUsingFreeze()
+                    } else {
+                        self.showingHelp()
+                    }
                 }
+                
             default :
                 if self.currentSlide == self.desc.count {
-                    self.dismiss(animated: true, completion: nil)
+                    self.dismissing()
                 } else {
                     self.slideShowing()
                 }
             }
         }
     }
+    
+    @objc func dismissing() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         

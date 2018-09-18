@@ -12,9 +12,14 @@ import RPCircularProgress
 import KBImageView
 import Kingfisher
 import RealmSwift
+
 protocol TutorialsDelegate {
     func showRest()
+    func showUsingFreeze()
+    func showUsingBomb()
+    func enableAllButtons()
 }
+
 
 
 class tutorialViewController: UIViewController , TutorialsDelegate {
@@ -29,7 +34,64 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         self.restMatchFunction()
     }
     
+    func showUsingFreeze() {
+        self.timerHand()
+        DisableEnableInterFace(State : false)
+        self.bomb.isUserInteractionEnabled = false
+        self.freezTimer.isUserInteractionEnabled = true
+        self.freezTimeArrow.isHidden = false
+        self.ButtonTimer.invalidate()
+        self.gameTimer.invalidate()
+        self.arrowTimer = Timer.scheduledTimer(timeInterval: 1.0 , target: self, selector: #selector(freezeArrowAnimation), userInfo: nil, repeats: true)
+        self.view.layoutIfNeeded()
+    }
+    
+    
+    func showUsingBomb() {
+        self.timerHand()
+        DisableEnableInterFace(State : false)
+        self.bomb.isUserInteractionEnabled = true
+        self.freezTimer.isUserInteractionEnabled = false
+        self.bombArrow.isHidden = false
+        self.ButtonTimer.invalidate()
+        self.gameTimer.invalidate()
+        self.arrowTimer = Timer.scheduledTimer(timeInterval: 1.0 , target: self, selector: #selector(bombArrowAnimation), userInfo: nil, repeats: true)
+        self.view.layoutIfNeeded()
+    }
+    
+    func enableAllButtons() {
+        self.timerHand()
+        DisableEnableInterFace(State : true)
+        self.view.isUserInteractionEnabled = true
+    }
+    
+    @objc func bombArrowAnimation() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.bombArrow.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
+        } , completion : { (finish) in
+            UIView.animate(withDuration: 0.5, animations: {
+                self.bombArrow.transform = CGAffineTransform.identity
+            })
+        })
+    }
+    
+    @objc func freezeArrowAnimation() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.freezTimeArrow.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
+        } , completion : { (finish) in
+            UIView.animate(withDuration: 0.5, animations: {
+                self.freezTimeArrow.transform = CGAffineTransform.identity
+            })
+        })
+    }
+    
     var realm : Realm!
+    
+    var arrowTimer : Timer!
+    
+    @IBOutlet weak var freezTimeArrow: UIImageView!
+    
+    @IBOutlet weak var bombArrow: UIImageView!
     
     @IBOutlet weak var bomb: RoundButton!
     
@@ -101,7 +163,6 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
     
     @IBOutlet weak var beforeStartStackView: UIStackView!
     
-    var checkFinishGame = false
     var stadiumUrl = urls()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,15 +174,24 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
     var isFreez = false
     
     @objc func freezAction() {
-        self.freezTimer.isEnabled = false
+        self.isFreez = true
+        DisableEnableInterFace(State : true)
+        self.freezTimer.isUserInteractionEnabled = false
+        self.arrowTimer.invalidate()
+        self.freezTimeArrow.isHidden = true
         self.gameTimer.invalidate()
+        showCorrectAnswer()
     }
     
     let coinCase = "2"
     let moneyCase = "3"
     
     @objc func bombAction() {
-        self.bomb.isEnabled = false
+        DisableEnableInterFace(State : true)
+        self.bomb.isUserInteractionEnabled = false
+        self.bombArrow.isHidden = true
+        self.arrowTimer.invalidate()
+        showCorrectAnswer()
                         if (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 1 ||  (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 4 {
                             
                             self.answer2Outlet.isUserInteractionEnabled = false
@@ -171,6 +241,8 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.freezTimeArrow.isHidden = true
+        self.bombArrow.isHidden = true
         self.money = Int((login.res?.response?.mainInfo?.cashs)!)!
         self.coin = Int((login.res?.response?.mainInfo?.coins)!)!
         
@@ -273,7 +345,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         
         getHelp().gettingHelp(mode: "START_GAME", completionHandler: {
             self.tID = (helpViewController.helpRes?.response?[0].id!)!
-             self.performSegue(withIdentifier: "showTutorialHelp", sender: self)
+            self.performSegue(withIdentifier: "showTutorialHelp", sender: self)
         })
     }
     
@@ -298,7 +370,6 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                         
                         print("questionsIDs = Q1:\((self.res?.response?[0].id!)!) - Q2:\((self.res?.response?[1].id!)!) - Q3:\((self.res?.response?[2].id!)!) - Q4:\((self.res?.response?[3].id!)!)")
                         
-//                        print("questionsIDs = Q1:\((self.res?.response?[0].ans_correct_id!)!) - Q2:\((self.res?.response?[1].ans_correct_id!)!) - Q3:\((self.res?.response?[2].ans_correct_id!)!) - Q4:\((self.res?.response?[3].ans_correct_id!)!)")
                         
                         
                         self.getTutorialHelp()
@@ -372,8 +443,6 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                 thirdSoundPlay().playThirdSound()
             }
             if timerCount == 45 {
-                if self.checkFinishGame == false {
-                    checkFinishGame = true
                     DispatchQueue.main.async {
                         musicPlay().playQuizeMusic()
                         self.view.isUserInteractionEnabled = false
@@ -381,8 +450,10 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                         PubProc.isSplash = false
                         self.gameTimer.invalidate()
                         soundPlay().playEndGameSound()
+                        self.tID = "10"
+                         self.ButtonTimer.invalidate()
+                        self.performSegue(withIdentifier: "showTutorialHelp", sender: self)
                     }
-                }
             }
             if timerCount > 45 {
                 self.timerLabel.text = "45"
@@ -413,10 +484,11 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
     var time : CGFloat = 0
     var gameTimer : Timer!
     var ButtonTimer : Timer!
+    
     func timerHand() {
-        
-        gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
-        
+        DispatchQueue.main.async {
+        self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateWatch), userInfo: nil, repeats: true)
+        }
     }
     
     var currentQuestion = 0
@@ -524,8 +596,20 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
             
         }
         
-        showCorrectAnswer()
+        
         currentQuestion = currentQuestion + 1
+        
+        if currentQuestion == 1 {
+            showCorrectAnswer()
+            self.bomb.isUserInteractionEnabled = false
+            self.freezTimer.isUserInteractionEnabled = false
+        }
+        
+        if currentQuestion == 4 {
+            self.bomb.isUserInteractionEnabled = false
+            self.freezTimer.isUserInteractionEnabled = false
+            self.ButtonTimer.invalidate()
+        }
     }
     
     @objc func showCorrectAnswer() {
@@ -556,7 +640,6 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                 
             })
         })
-        
     }
     
     
@@ -575,26 +658,20 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
             self.imageQuestionTitle.text = " "
         }
         
-        let doubleCheckTimer : CGFloat = time
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            if self.currentQuestion < 3 &&  doubleCheckTimer == self.time {
+            if self.currentQuestion < 3  {
                 self.time = self.time + 0.0165
                 self.timerCount = self.timerCount + 1
                 if self.timerCount >= 45 {
-                    if self.checkFinishGame == false {
-                        self.checkFinishGame = true
-                        self.view.isUserInteractionEnabled = false
                         DispatchQueue.main.async {
                             if musicPlay.musicPlayer?.isPlaying == true {
                                 musicPlay().playQuizeMusic()
                             } else {}
                             soundPlay().playEndGameSound()
                         }
-                    }
                 } else {
                     if musicPlay.musicPlayer?.isPlaying == true {
                     } else {musicPlay().playQuizeMusic()}
-                    self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateWatch), userInfo: nil, repeats: true)
                 }
             }
         }
@@ -625,8 +702,6 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                 self.showQuestion(questionTitle: "\((self.res?.response?[self.currentQuestion].title!)!)", answer1: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[self.currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
             })
         } else {
-            if self.checkFinishGame == false {
-                self.checkFinishGame = true
                 musicPlay().playQuizeMusic()
                 self.gameTimer.invalidate()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -635,8 +710,35 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
                 }
+        }
+        
+        if currentQuestion == 1 {
+            DispatchQueue.main.async {
+            self.tID = ""
+            self.gameTimer.invalidate()
+            self.ButtonTimer.invalidate()
+            self.performSegue(withIdentifier: "showTutorialHelp", sender: self)
             }
         }
+        
+        if currentQuestion == 2 {
+            DispatchQueue.main.async {
+            self.tID = "7"
+            self.gameTimer.invalidate()
+            self.ButtonTimer.invalidate()
+            self.performSegue(withIdentifier: "showTutorialHelp", sender: self)
+            }
+        }
+        
+        if currentQuestion == 3 {
+            DispatchQueue.main.async {
+             self.tID = "8"
+             self.gameTimer.invalidate()
+             self.ButtonTimer.invalidate()
+             self.performSegue(withIdentifier: "showTutorialHelp", sender: self)
+            }
+        }
+        
     }
     
     @objc func DisableEnableInterFace(State : Bool) {
@@ -793,7 +895,6 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         }
         updateGameResault()
     }
-    
     
     func updateGameResault() {
         var storeArray = [Int]()

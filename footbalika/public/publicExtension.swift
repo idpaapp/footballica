@@ -55,6 +55,18 @@ extension UIButton {
     }
 }
 
+extension UIImageView {
+    func upAndDown(){
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 1.4
+        animation.repeatCount = 0
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: self.center.x, y: self.center.y - 10))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x, y: self.center.y + 10))
+        self.layer.add(animation, forKey: "position")
+    }
+}
+
 extension UILabel {
      func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
         let strokeTextAttributes: [NSAttributedStringKey: Any] = [.strokeColor: UIColor.black, .foregroundColor: UIColor.white, .strokeWidth : strokeWidth , .strikethroughColor : UIColor.white , .font: font]
