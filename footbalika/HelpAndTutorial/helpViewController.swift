@@ -25,6 +25,7 @@ class helpViewController: UIViewController {
     var id = String()
     var delegate : TutorialDelegate?
     var tDelegate : TutorialsDelegate?
+    var shopDelegate : ShopTutorialDelegate?
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -83,6 +84,14 @@ class helpViewController: UIViewController {
                 self.showingHelp()
             }
             
+        } else if self.state == "shopTutorial" {
+            let hID = ((helpViewController.helpRes?.response?.filter {$0.id == "11"})!)
+            self.desc.append((hID.first?.desc_text!)!)
+            self.acceptTitle.append((hID.first?.key_title!)!)
+            let hID2 = ((helpViewController.helpRes?.response?.filter {$0.id == "12"})!)
+            self.desc.append((hID2.first?.desc_text!)!)
+            self.acceptTitle.append((hID2.first?.key_title!)!)
+            self.showingHelp()
         } else {
             self.showingHelp()
         }
@@ -119,7 +128,14 @@ class helpViewController: UIViewController {
                     self.tDelegate?.enableAllButtons()
                 case "9" :
                     self.dismissing()
-                    
+                    self.tDelegate?.finishGameTutorial()
+                    musicPlay().playQuizeMusic()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        musicPlay().playMenuMusic()
+                    }
+                    scrollToPage().scrollPageViewController(index: 4)
+                    scrollToPage().menuButtonChanged(index: 4)
+                    NotificationCenter.default.post(name: Notification.Name("showShopTutorial"), object: nil, userInfo: nil)
                 case "10" :
                     self.dismissing()
                     self.tDelegate?.enableAllButtons()
@@ -132,6 +148,13 @@ class helpViewController: UIViewController {
                     }
                 }
                 
+            case "shopTutorial" :
+                if self.currentSlide == self.desc.count {
+                    self.dismissing()
+                    self.shopDelegate?.shopTutorialSelect()
+                } else {
+                    self.showingHelp()
+                }
             default :
                 if self.currentSlide == self.desc.count {
                     self.dismissing()

@@ -10,6 +10,20 @@ import Foundation
 import UIKit
 import AVFoundation
 
+
+public class scrollToPage {
+    public func scrollPageViewController(index : Int) {
+        let pageIndexDict:[String: Int] = ["pageIndex": index]
+        NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
+    }
+    
+    public func menuButtonChanged(index : Int) {
+        let pageIndexDict:[String: Int] = ["button": index]
+        NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
+    }
+    
+}
+
 public class centerScreen {
     public var centerScreens = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
 }
@@ -53,7 +67,32 @@ extension UIButton {
         animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x + 5, y: self.center.y))
         self.layer.add(animation, forKey: "position")
     }
+    
+    func bouncing() {
+        UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
+            self.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+        }, completion: { (finish) in
+            UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
+                self.transform = CGAffineTransform.identity
+            }, completion: { (finish) in
+                
+            })
+        })
+    }
+    
+    func negativeBouncing() {
+        UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
+            self.transform = .init(scaleX: 0.7, y: 0.7)
+        }, completion: { (finish) in
+            UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
+                self.transform = .identity
+            }, completion: { (finish) in
+                
+            })
+        })
+    }
 }
+
 
 extension UIImageView {
     func upAndDown(){

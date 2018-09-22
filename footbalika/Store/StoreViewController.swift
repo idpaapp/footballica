@@ -9,9 +9,19 @@
 import UIKit
 import Kingfisher
 
-class StoreViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
-   
+protocol ShopTutorialDelegate {
+     func shopTutorialSelect()
+}
 
+class StoreViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , ShopTutorialDelegate {
+    
+    
+    
+    func shopTutorialSelect() {
+        self.storeCV.reloadData()
+    }
+
+    var isTutorial = Bool()
     @IBOutlet weak var storeCV: UICollectionView!
     @IBOutlet weak var coins: UILabel!
     @IBOutlet weak var money: UILabel!
@@ -65,6 +75,11 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         rData()
     }
     
+    @objc func showShopTutorial(notification : Notification) {
+        getHelp().gettingHelp(mode: "SHOP", completionHandler: {
+        self.performSegue(withIdentifier: "shopTutorials", sender: self)
+        })
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +91,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         if storeRightConstraint != nil {
             storeRightConstraint.constant = UIScreen.main.bounds.width / 10
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showShopTutorial(notification:)), name: Notification.Name("showShopTutorial"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData(notification:)), name: Notification.Name("refreshUserData"), object: nil)
         
@@ -93,43 +110,51 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
 
     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
+    var bouncingObject = UIButton()
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (loadShop.res?.response?.count)! == 1 {
         return (loadShop.res?.response?[self.mainShopIndex].items?.count)!
         } else {
-            print((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1)
-        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1
+//            print((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1)
+//        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1
+        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + 1
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if indexPath.item >= self.mainShopIndex {
+//        if indexPath.item >= self.mainShopIndex {
+        if indexPath.item > 0 {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
             
-        let url = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].image!)!))"
+        let url = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - 1].image!)!))"
         let urls = URL(string: url)
         cell.storeImage.kf.setImage(with: urls , options : [.transition(ImageTransition.fade(0.5))])
         
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
+        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - 1].title!)!))", strokeWidth: -7.0)
         cell.storeLabelForeGround.font = iPhonefonts
         } else {
-            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
+            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - 1].title!)!))", strokeWidth: -7.0)
             cell.storeLabelForeGround.font = iPadfonts
         }
             
-        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))"
-        cell.storeSelect.tag = indexPath.item - self.mainShopIndex
+        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - 1].title!)!))"
+        cell.storeSelect.tag = indexPath.item - 1
         cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
+            if isTutorial {
+                cell.storeSelect.isUserInteractionEnabled = false
+            } else {
+                cell.storeSelect.isUserInteractionEnabled = true
+            }
         return cell
             
         } else {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell
             print(indexPath.item)
-            let url = "\(((loadShop.res?.response?[indexPath.item].items?[0].image!)!))"
+            let url = "\(((loadShop.res?.response?[0].items?[0].image!)!))"
             let urls = URL(string: url)
             let processor = RoundCornerImageProcessor(cornerRadius: 10)
             cell.packageButton.kf.setBackgroundImage(with: urls , for: UIControlState.normal, options : [.transition(ImageTransition.fade(0.5)) , .processor(processor)])
@@ -138,10 +163,11 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             cell.packageButton.addTarget(self, action: #selector(packageSelected), for: UIControlEvents.touchUpInside)
             cell.packageButton.clipsToBounds = true
             cell.packageButton.layer.cornerRadius = 10
+            cell.index = 0
             return cell
         }
     }
-    
+        
     var selectedPackage = Int()
     @objc func packageSelected(_ sender : UIButton!) {
         self.selectedPackage = sender.tag
@@ -268,6 +294,11 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             vc.alertBody = "\(self.notEnough)"
             vc.alertAcceptLabel = "تأیید"
         }
+        
+        if let vc = segue.destination as? helpViewController {
+            vc.shopDelegate = self
+            vc.state = "shopTutorial"
+        }
     }
     
     var notEnough = String()
@@ -288,7 +319,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
 
         }
         
-        if indexPath.item >= self.mainShopIndex {
+        if indexPath.item > 0  {
             if UIDevice().userInterfaceIdiom == .phone  {
                 if UIScreen.main.nativeBounds.height == 2436 {
                     //iPhone X
@@ -325,11 +356,20 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     }
     
     @IBAction func addMoney(_ sender: RoundButton) {
-        openCoinOrMoney(Title: "پول")
+        if isTutorial {
+            
+        } else {
+            openCoinOrMoney(Title: "پول")
+        }
     }
     
     @IBAction func addCoin(_ sender: RoundButton) {
-        openCoinOrMoney(Title: "سکه")
+        if isTutorial {
+            
+        } else {
+            openCoinOrMoney(Title: "سکه")
+        }
+        
     }
     
     @objc func showBoughtItem() {

@@ -50,8 +50,8 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
-        scrollPageViewController(index: 4)
-        menuButtonChanged(index: 4)
+        scrollToPage().scrollPageViewController(index: 4)
+        scrollToPage().menuButtonChanged(index: 4)
         let pageIndexDict:[String: String] = ["title": "پول"]
         NotificationCenter.default.post(name: Notification.Name("openCoinsOrMoney"), object: nil, userInfo: pageIndexDict)
         self.view.isUserInteractionEnabled = true
@@ -59,22 +59,22 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
 
     @IBAction func addCoin(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
-        scrollPageViewController(index: 4)
-        menuButtonChanged(index: 4)
+        scrollToPage().scrollPageViewController(index: 4)
+        scrollToPage().menuButtonChanged(index: 4)
         let pageIndexDict:[String: String] = ["title": "سکه"]
         NotificationCenter.default.post(name: Notification.Name("openCoinsOrMoney"), object: nil, userInfo: pageIndexDict)
         self.view.isUserInteractionEnabled = true
     }
     
-    @objc func menuButtonChanged(index : Int) {
-        let pageIndexDict:[String: Int] = ["button": index]
-        NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
-    }
-    
-    @objc func scrollPageViewController(index : Int) {
-        let pageIndexDict:[String: Int] = ["pageIndex": index]
-        NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-    }
+//    @objc func menuButtonChanged(index : Int) {
+//        let pageIndexDict:[String: Int] = ["button": index]
+//        NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
+//    }
+//
+//    @objc func scrollPageViewController(index : Int) {
+//        let pageIndexDict:[String: Int] = ["pageIndex": index]
+//        NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
+//    }
     
     var urlClass = urls()
     var menuState = String()

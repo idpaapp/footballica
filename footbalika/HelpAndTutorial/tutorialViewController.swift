@@ -18,6 +18,7 @@ protocol TutorialsDelegate {
     func showUsingFreeze()
     func showUsingBomb()
     func enableAllButtons()
+    func finishGameTutorial()
 }
 
 
@@ -32,6 +33,10 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
     
     func showRest() {
         self.restMatchFunction()
+    }
+    
+    func finishGameTutorial() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     func showUsingFreeze() {
@@ -630,16 +635,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         default:
             bounchingObject = self.answer4Outlet
         }
-        
-        UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
-            bounchingObject.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
-        }, completion: { (finish) in
-            UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
-                bounchingObject.transform = CGAffineTransform.identity
-            }, completion: { (finish) in
-                
-            })
-        })
+        bounchingObject.bouncing()
     }
     
     
@@ -702,13 +698,11 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                 self.showQuestion(questionTitle: "\((self.res?.response?[self.currentQuestion].title!)!)", answer1: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[self.currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
             })
         } else {
-                musicPlay().playQuizeMusic()
-                self.gameTimer.invalidate()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    musicPlay().playMenuMusic()
-                }
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
+                    self.tID = "9"
+                    self.ButtonTimer.invalidate()
+                    self.gameTimer.invalidate()
+                    self.performSegue(withIdentifier: "showTutorialHelp", sender: self)
                 }
         }
         
