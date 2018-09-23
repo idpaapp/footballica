@@ -11,7 +11,6 @@ import UIKit
 import RPCircularProgress
 import KBImageView
 import Kingfisher
-import RealmSwift
 
 protocol TutorialsDelegate {
     func showRest()
@@ -47,6 +46,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         self.freezTimeArrow.isHidden = false
         self.ButtonTimer.invalidate()
         self.gameTimer.invalidate()
+        freezeArrowAnimation()
         self.arrowTimer = Timer.scheduledTimer(timeInterval: 1.0 , target: self, selector: #selector(freezeArrowAnimation), userInfo: nil, repeats: true)
         self.view.layoutIfNeeded()
     }
@@ -60,6 +60,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         self.bombArrow.isHidden = false
         self.ButtonTimer.invalidate()
         self.gameTimer.invalidate()
+        bombArrowAnimation()
         self.arrowTimer = Timer.scheduledTimer(timeInterval: 1.0 , target: self, selector: #selector(bombArrowAnimation), userInfo: nil, repeats: true)
         self.view.layoutIfNeeded()
     }
@@ -89,8 +90,6 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
             })
         })
     }
-    
-    var realm : Realm!
     
     var arrowTimer : Timer!
     
@@ -185,6 +184,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         self.arrowTimer.invalidate()
         self.freezTimeArrow.isHidden = true
         self.gameTimer.invalidate()
+        animatingButton()
         showCorrectAnswer()
     }
     
@@ -196,6 +196,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         self.bomb.isUserInteractionEnabled = false
         self.bombArrow.isHidden = true
         self.arrowTimer.invalidate()
+        animatingButton()
         showCorrectAnswer()
                         if (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 1 ||  (self.res?.response?[self.currentQuestion - 1].ans_correct_id!)! == 4 {
                             
@@ -251,11 +252,8 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         self.money = Int((login.res?.response?.mainInfo?.cashs)!)!
         self.coin = Int((login.res?.response?.mainInfo?.coins)!)!
         
-        realm = try? Realm()
-        let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(stadiumUrl.stadium)empty_std.jpg'")
-        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-        self.backGroundStadium.image = UIImage(data: dataDecoded as Data)
-        
+        self.backGroundStadium.image = UIImage(named : "empty_std")
+
         checkBombAndFreez()
     
         self.bomb.addTarget(self, action: #selector(bombAction), for: UIControlEvents.touchUpInside)
@@ -605,6 +603,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         currentQuestion = currentQuestion + 1
         
         if currentQuestion == 1 {
+            animatingButton()
             showCorrectAnswer()
             self.bomb.isUserInteractionEnabled = false
             self.freezTimer.isUserInteractionEnabled = false
@@ -624,18 +623,16 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
     
     @objc func animatingButton() {
         
-        var bounchingObject = UIButton()
         switch correctAnswer {
         case 1:
-            bounchingObject = self.answer1Outlet
+            self.answer1Outlet.bouncing()
         case 2:
-            bounchingObject = self.answer2Outlet
+            self.answer2Outlet.bouncing()
         case 3:
-            bounchingObject = self.answer3Outlet
+            self.answer3Outlet.bouncing()
         default:
-            bounchingObject = self.answer4Outlet
+            self.answer4Outlet.bouncing()
         }
-        bounchingObject.bouncing()
     }
     
     

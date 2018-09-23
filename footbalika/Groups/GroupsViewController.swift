@@ -10,7 +10,20 @@ import UIKit
 import Kingfisher
 import RealmSwift
 
-class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate {
+protocol TutorialGroupsDelegate {
+    func finishTutorial()
+}
+
+class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate{
+    
+    let defaults = UserDefaults.standard
+    
+    func finishTutorial() {
+        scrollToPage().scrollPageViewController(index: 2)
+        scrollToPage().menuButtonChanged(index: 2)
+        defaults.set(false , forKey: "tutorial")
+        matchViewController.isTutorial = false
+    }
     
     var searchText = String()
     func didEditedSearchTextField(searchText: String) {
@@ -77,6 +90,12 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        if matchViewController.isTutorial {
+            searchingState()
+        } else {
+            
+        }
+        
 //        getFriendsList(isSplash: true)
     }
     
@@ -86,6 +105,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     
+     @objc func showTutorial(notification : Notification) {
+        self.performSegue(withIdentifier: "lastTutorialPage", sender: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         realm = try? Realm()
@@ -94,6 +117,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         friendsTableView.keyboardDismissMode = .onDrag
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshUserData(notification:)), name: NSNotification.Name(rawValue: "refreshUsersAfterCancelling"), object: nil)
 
+        if matchViewController.isTutorial {
+            NotificationCenter.default.addObserver(self, selector: #selector(self.showTutorial(notification:)), name: Notification.Name("showShopTutorial"), object: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -398,6 +424,11 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
                 vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
 //            }
+        }
+        
+        if let vc = segue.destination as? helpViewController {
+            vc.state = "lastTutorialPage"
+            vc.groupsDelegate = self
         }
     }
     

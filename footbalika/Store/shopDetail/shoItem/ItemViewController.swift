@@ -30,6 +30,7 @@ class ItemViewController: UIViewController {
     var ImageItem = String()
     var isShopItem = Bool()
     var isPackage = Bool()
+    var delegate : ItemViewControllerDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -107,7 +108,12 @@ class ItemViewController: UIViewController {
     }
     
     @IBAction func dismissView(_ sender: RoundButton) {
-        self.dismiss(animated: true, completion: nil)
+        if matchViewController.isTutorial {
+            delegate?.continueHelp()
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
 }

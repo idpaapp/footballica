@@ -130,7 +130,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             startLabelForeGround.font = fonts.init().iPadfonts
             
         }
+        
+        if matchViewController.isTutorial {
+         PubProc.isSplash = false
+        } else {
         PubProc.isSplash = true
+        }
         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
             self.fillData()
             DispatchQueue.main.async {
@@ -165,13 +170,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var shakeTimer : Timer!
     var helpDescs = [String]()
     var acceptTitles = [String]()
-    let tutorial = UserDefaults.standard.bool(forKey: "tutorial")
-    
+    static var  isTutorial = UserDefaults.standard.bool(forKey: "tutorial")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if tutorial {
+        if matchViewController.isTutorial {
             
             getHelp().gettingHelp(mode: "WELCOME", completionHandler: {
                 for i in 0...(helpViewController.helpRes?.response?.count)! - 1 {

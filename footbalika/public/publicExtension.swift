@@ -79,18 +79,6 @@ extension UIButton {
             })
         })
     }
-    
-    func negativeBouncing() {
-        UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
-            self.transform = .init(scaleX: 0.7, y: 0.7)
-        }, completion: { (finish) in
-            UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
-                self.transform = .identity
-            }, completion: { (finish) in
-                
-            })
-        })
-    }
 }
 
 

@@ -195,6 +195,8 @@ class loadingViewController: UIViewController {
                 } else {
                     self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
                 }
+                
+                downloadStadiums.init().getIDs()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                     self.timer.invalidate()
                     self.ballTimer.invalidate()

@@ -17,7 +17,7 @@ class packageCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        if (loadShop.res?.response?[index].bouncing!)! == false {
+        if matchViewController.isTutorial {
         bouncingTimer = Timer.scheduledTimer(timeInterval: 1.4, target: self, selector: #selector(bouncingAction), userInfo: nil, repeats: true)
         } else {}
     }

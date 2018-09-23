@@ -72,7 +72,7 @@ public class downloadShop {
                         if ((self.res?.count)!) != 0 {
                             self.shopDl()
                         }
-                        
+                                                
                     } catch {
 //                        self.downloadingAssets(postString : postString)
                         print(error)

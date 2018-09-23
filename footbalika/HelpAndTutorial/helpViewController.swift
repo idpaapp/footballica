@@ -26,6 +26,7 @@ class helpViewController: UIViewController {
     var delegate : TutorialDelegate?
     var tDelegate : TutorialsDelegate?
     var shopDelegate : ShopTutorialDelegate?
+    var groupsDelegate : TutorialGroupsDelegate?
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -92,6 +93,18 @@ class helpViewController: UIViewController {
             self.desc.append((hID2.first?.desc_text!)!)
             self.acceptTitle.append((hID2.first?.key_title!)!)
             self.showingHelp()
+            
+        }  else if self.state == "goToGroups" {
+            let hID = ((helpViewController.helpRes?.response?.filter {$0.id == "13"})!)
+            self.desc.append((hID.first?.desc_text!)!)
+            self.acceptTitle.append((hID.first?.key_title!)!)
+            self.showingHelp()
+            
+        } else if self.state == "lastTutorialPage" {
+            let hID = ((helpViewController.helpRes?.response?.filter {$0.id == "14"})!)
+            self.desc.append((hID.first?.desc_text!)!)
+            self.acceptTitle.append((hID.first?.key_title!)!)
+            self.showingHelp()
         } else {
             self.showingHelp()
         }
@@ -155,6 +168,14 @@ class helpViewController: UIViewController {
                 } else {
                     self.showingHelp()
                 }
+                
+            case "goToGroups" :
+                self.dismissing()
+                self.shopDelegate?.goToGroupsPage()
+                NotificationCenter.default.post(name: Notification.Name("showShopTutorial"), object: nil, userInfo: nil)
+            case "lastTutorialPage" :
+                self.dismissing()
+                self.groupsDelegate?.finishTutorial()
             default :
                 if self.currentSlide == self.desc.count {
                     self.dismissing()

@@ -11,17 +11,34 @@ import Kingfisher
 
 protocol ShopTutorialDelegate {
      func shopTutorialSelect()
+     func goToGroupsPage()
+    
 }
 
-class StoreViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , ShopTutorialDelegate {
+protocol ItemViewControllerDelegate {
+     func continueHelp()
+}
+
+class StoreViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , ShopTutorialDelegate , ItemViewControllerDelegate {
     
+    func continueHelp() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.tutorialState = "goToGroups"
+            self.performSegue(withIdentifier: "shopTutorials", sender: self)
+        }
+    }
     
-    
+        
     func shopTutorialSelect() {
         self.storeCV.reloadData()
     }
+    
+    func goToGroupsPage() {
+        scrollToPage().scrollPageViewController(index: 3)
+        scrollToPage().menuButtonChanged(index: 3)
+    }
 
-    var isTutorial = Bool()
+    
     @IBOutlet weak var storeCV: UICollectionView!
     @IBOutlet weak var coins: UILabel!
     @IBOutlet weak var money: UILabel!
@@ -75,11 +92,17 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         rData()
     }
     
+    var tutorialState = String()
     @objc func showShopTutorial(notification : Notification) {
         getHelp().gettingHelp(mode: "SHOP", completionHandler: {
-        self.performSegue(withIdentifier: "shopTutorials", sender: self)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                self.tutorialState = "shopTutorial"
+                self.performSegue(withIdentifier: "shopTutorials", sender: self)
+            })
         })
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,33 +140,33 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         return (loadShop.res?.response?[self.mainShopIndex].items?.count)!
         } else {
 //            print((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1)
-//        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1
-        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + 1
+        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1
+//        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + 1
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-//        if indexPath.item >= self.mainShopIndex {
-        if indexPath.item > 0 {
+        if indexPath.item >= self.mainShopIndex {
+//        if indexPath.item > 0 {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
             
-        let url = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - 1].image!)!))"
+        let url = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].image!)!))"
         let urls = URL(string: url)
         cell.storeImage.kf.setImage(with: urls , options : [.transition(ImageTransition.fade(0.5))])
         
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - 1].title!)!))", strokeWidth: -7.0)
+        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
         cell.storeLabelForeGround.font = iPhonefonts
         } else {
-            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - 1].title!)!))", strokeWidth: -7.0)
+            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
             cell.storeLabelForeGround.font = iPadfonts
         }
             
-        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - 1].title!)!))"
-        cell.storeSelect.tag = indexPath.item - 1
+        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))"
+        cell.storeSelect.tag = indexPath.item - self.mainShopIndex
         cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
-            if isTutorial {
+            if matchViewController.isTutorial {
                 cell.storeSelect.isUserInteractionEnabled = false
             } else {
                 cell.storeSelect.isUserInteractionEnabled = true
@@ -203,7 +226,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                                     DispatchQueue.main.async{
                                         loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
                                             NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
-                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
+//                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
+                                            self.rData()
                                             if  ((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!) != "سکه" || ((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!) != "پول"  {
                                                 self.storeCV.reloadData()
                                                 PubProc.wb.hideWaiting()
@@ -287,6 +311,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             vc.TitleItem = (loadShop.res?.response?[self.selectedPackage].items?[0].title!)!
             vc.ImageItem = (loadShop.res?.response?[self.selectedPackage].items?[0].image!)!
             vc.isPackage = true
+            vc.delegate = self
         }
         
         if let vc = segue.destination as? menuAlertViewController {
@@ -297,7 +322,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         
         if let vc = segue.destination as? helpViewController {
             vc.shopDelegate = self
-            vc.state = "shopTutorial"
+            vc.state = self.tutorialState
         }
     }
     
@@ -316,10 +341,9 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         } else {
             //iPad
             packageScreenSize = CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) , height: 0.57 * (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)))
-
         }
         
-        if indexPath.item > 0  {
+        if indexPath.item >= self.mainShopIndex  {
             if UIDevice().userInterfaceIdiom == .phone  {
                 if UIScreen.main.nativeBounds.height == 2436 {
                     //iPhone X
@@ -356,7 +380,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     }
     
     @IBAction func addMoney(_ sender: RoundButton) {
-        if isTutorial {
+        if matchViewController.isTutorial {
             
         } else {
             openCoinOrMoney(Title: "پول")
@@ -364,7 +388,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     }
     
     @IBAction func addCoin(_ sender: RoundButton) {
-        if isTutorial {
+        if matchViewController.isTutorial {
             
         } else {
             openCoinOrMoney(Title: "سکه")

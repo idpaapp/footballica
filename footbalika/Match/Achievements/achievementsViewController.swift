@@ -689,7 +689,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 }
                 
                 let url = profileStadium
-                
+                print(url)
                 let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(url)'")
                 if realmID.count != 0 {
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!

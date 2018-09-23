@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class loginPageViewController: UIViewController {
 
+    @IBOutlet weak var gIDSignInButton: GIDSignInButton!
     @IBOutlet weak var mainLoginView: UIView!
     @IBOutlet weak var mainTitle: UILabel!
     @IBOutlet weak var mainTitleForeGround: UILabel!
@@ -66,6 +68,14 @@ class loginPageViewController: UIViewController {
         self.normalEnter.addTarget(self, action: #selector(normalEnterAction), for: UIControlEvents.touchUpInside)
         
         self.newUser.addTarget(self, action: #selector(newUserAction), for: UIControlEvents.touchUpInside)
+        
+        self.enterGoogle.addTarget(self, action: #selector(googleSignIn), for: UIControlEvents.touchUpInside)
+        
+    }
+    
+    
+    @objc func googleSignIn() {
+        
     }
     
     
@@ -90,13 +100,12 @@ class loginPageViewController: UIViewController {
         
     }
     
-    
-    @objc func emptyStadium() {
-        let stadium = readAndWritetblStadiums()
-        stadium.writeToDBtblStadiumTypes(id: 500, title: "استادیوم خالی", imagePath: ("\(urls().stadium)empty_std.jpg"), extendedBase64Image: "")
-        
-//        print("\(urls().stadium)\((login.res?.response?.mainInfo?.stadium!)!)")
-    }
+//    @objc func emptyStadium() {
+//        let stadium = readAndWritetblStadiums()
+//        stadium.writeToDBtblStadiumTypes(id: 500, title: "استادیوم خالی", imagePath: ("\(urls().stadium)empty_std.jpg"), extendedBase64Image: "")
+//
+////        print("\(urls().stadium)\((login.res?.response?.mainInfo?.stadium!)!)")
+//    }
     
     @objc func normalLogin() {
         
@@ -123,7 +132,7 @@ class loginPageViewController: UIViewController {
                         if (login.res?.status?.contains("OK"))! {
                             self.defaults.set(false , forKey: "tutorial")
                             self.dismissing()
-                            self.emptyStadium()
+//                            self.emptyStadium()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
                             loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
@@ -179,7 +188,7 @@ class loginPageViewController: UIViewController {
                         if (login.res?.status?.contains("OK"))! {
                             self.defaults.set(true , forKey: "tutorial")
                             self.dismissing()
-                            self.emptyStadium()
+//                            self.emptyStadium()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
                             loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!

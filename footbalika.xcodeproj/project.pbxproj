@@ -59,6 +59,7 @@
 		5C523CCB2121AFD100642077 /* progress.gif in Resources */ = {isa = PBXBuildFile; fileRef = 5C523CCA2121AFD100642077 /* progress.gif */; };
 		5C67B1272127F133000D5ADD /* prediction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C67B1262127F133000D5ADD /* prediction.swift */; };
 		5C67B1292127FA46000D5ADD /* predictionLeaderBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C67B1282127FA46000D5ADD /* predictionLeaderBoard.swift */; };
+		5C6B217E215779C400D655D0 /* downloadStadiums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6B217D215779C400D655D0 /* downloadStadiums.swift */; };
 		5C6ED3D420CFEA6F005DF73F /* BallThumb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6ED3D320CFEA6F005DF73F /* BallThumb.swift */; };
 		5C6ED3D620CFF5A8005DF73F /* settingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6ED3D520CFF5A8005DF73F /* settingsCell.swift */; };
 		5C6F538020E0A8D90037748F /* menuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F537F20E0A8D90037748F /* menuView.swift */; };
@@ -147,6 +148,7 @@
 		5CCB9BCB20F1D51000B92355 /* urls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCB9BCA20F1D51000B92355 /* urls.swift */; };
 		5CCB9BCE20F1DBA300B92355 /* selectCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCB9BCD20F1DBA200B92355 /* selectCategoryViewController.swift */; };
 		5CCB9BD020F1DFB400B92355 /* selectCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCB9BCF20F1DFB400B92355 /* selectCategoryCell.swift */; };
+		5CDED2512157CABC00BCC0D7 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CDED2502157CABB00BCC0D7 /* credentials.plist */; };
 		5CE8507520F5CC8300BB303A /* beep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8507420F5CC8300BB303A /* beep.mp3 */; };
 		5CE8507720F5D98500BB303A /* questionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8507620F5D98500BB303A /* questionsList.swift */; };
 		5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */; };
@@ -224,6 +226,7 @@
 		5C523CCA2121AFD100642077 /* progress.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = progress.gif; sourceTree = "<group>"; };
 		5C67B1262127F133000D5ADD /* prediction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = prediction.swift; sourceTree = "<group>"; };
 		5C67B1282127FA46000D5ADD /* predictionLeaderBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictionLeaderBoard.swift; sourceTree = "<group>"; };
+		5C6B217D215779C400D655D0 /* downloadStadiums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = downloadStadiums.swift; sourceTree = "<group>"; };
 		5C6ED3D320CFEA6F005DF73F /* BallThumb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallThumb.swift; sourceTree = "<group>"; };
 		5C6ED3D520CFF5A8005DF73F /* settingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsCell.swift; sourceTree = "<group>"; };
 		5C6F537F20E0A8D90037748F /* menuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuView.swift; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 		5CCB9BCA20F1D51000B92355 /* urls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urls.swift; sourceTree = "<group>"; };
 		5CCB9BCD20F1DBA200B92355 /* selectCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectCategoryViewController.swift; sourceTree = "<group>"; };
 		5CCB9BCF20F1DFB400B92355 /* selectCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectCategoryCell.swift; sourceTree = "<group>"; };
+		5CDED2502157CABB00BCC0D7 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		5CE8507420F5CC8300BB303A /* beep.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep.mp3; sourceTree = "<group>"; };
 		5CE8507620F5D98500BB303A /* questionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = questionsList.swift; sourceTree = "<group>"; };
 		5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctAnswer.mp3; sourceTree = "<group>"; };
@@ -360,6 +364,7 @@
 			isa = PBXGroup;
 			children = (
 				5C1AAAFA20EC9BEE002A2EEA /* downloadAssets.swift */,
+				5C6B217D215779C400D655D0 /* downloadStadiums.swift */,
 				5C42A6B2210D8D3200890149 /* downloadShop.swift */,
 			);
 			path = downloadAssets;
@@ -593,6 +598,7 @@
 				5C84D4F720CCFD2500A9DC67 /* Main.storyboard */,
 				5C84D4FC20CCFD2700A9DC67 /* LaunchScreen.storyboard */,
 				5C84D4FF20CCFD2700A9DC67 /* Info.plist */,
+				5CDED2502157CABB00BCC0D7 /* credentials.plist */,
 			);
 			path = footbalika;
 			sourceTree = "<group>";
@@ -887,6 +893,7 @@
 				5C84D4EE20CCFD2500A9DC67 /* Resources */,
 				D9D2C5313026FA04D22ED44E /* [CP] Embed Pods Frameworks */,
 				5CCD52FA211ED3A800E43A7E /* Embed Frameworks */,
+				63DCC373FF20A0B2DE035DF8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -942,6 +949,7 @@
 			files = (
 				5C234F0020FA105500926611 /* referee_whistle_end.mp3 in Resources */,
 				5C3418A520EB6C50001F93A4 /* menuAlert2Buttons.xib in Resources */,
+				5CDED2512157CABC00BCC0D7 /* credentials.plist in Resources */,
 				5C2AC1AF20CFA3F10029F8CA /* menu.mp3 in Resources */,
 				5CE8507B20F5FCB900BB303A /* wrong_answer.wav in Resources */,
 				5CE8507520F5CC8300BB303A /* beep.mp3 in Resources */,
@@ -970,6 +978,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		63DCC373FF20A0B2DE035DF8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-footbalika/Pods-footbalika-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-footbalika/Pods-footbalika-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D9D2C5313026FA04D22ED44E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -977,6 +1003,9 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-footbalika/Pods-footbalika-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/KBImageView/KBImageView.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
@@ -986,6 +1015,9 @@
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KBImageView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
@@ -1034,6 +1066,7 @@
 				5C80B42620E74B04000E5035 /* allAlerts.swift in Sources */,
 				5CAEEFFA20D648BC00514842 /* userXps.swift in Sources */,
 				5C4E36E120D911AE00B1DAB0 /* loginnots_achv.swift in Sources */,
+				5C6B217E215779C400D655D0 /* downloadStadiums.swift in Sources */,
 				5C9FFCE420D8DC20007A11C0 /* readAndWritetblChargeTypes.swift in Sources */,
 				5C84D52520CCFFE600A9DC67 /* matchViewController.swift in Sources */,
 				5C84D52320CCFFE600A9DC67 /* GradientView.swift in Sources */,

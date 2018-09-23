@@ -14,32 +14,18 @@ public class downloadAssets {
     struct Response : Decodable{
         let matchTypes : [matchTypesDownload.matchTypes]?
         let chargeTypes : [chargeTypesDownload.chargeTypes]?
-        let stadiumData : [stadiumDataDownload.stadiumData]?
     }
     
     
     var res : Response? = nil;
     var chargeRead = readAndWritetblChargeTypes()
     var matchTypeRead = readAndWritetblMatchTypes()
-    var stadiumData = readAndWritetblStadiums()
     
     
     public func getIDs() {
         
         DispatchQueue.main.async {
             
-        var stadiumType = ["id" : Int(),"image_path" : String()] as [String : Any]
-        
-        var s = [AnyObject]()
-        if WritetblStadiums.stadiumTypeImagesID.count != 0 {
-            for i in 0...WritetblStadiums.stadiumTypeImagesID.count - 1 {
-                stadiumType.updateValue("\(WritetblStadiums.stadiumTypeImagesPath[i])", forKey: "image_path")
-                stadiumType.updateValue("\(WritetblStadiums.stadiumTypeImagesID[i])", forKey: "id")
-                
-                s.append(stadiumType as AnyObject)
-                
-            }
-        }
         
         var matchType = ["id" : Int(),"image_path" : String()] as [String : Any]
 
@@ -65,10 +51,10 @@ public class downloadAssets {
             }
         }
         
-        if m.count == 0 && c.count == 0 && s.count == 0 {
+        if m.count == 0 && c.count == 0 {
         downloadShop.init().getIDs()
         } else {
-            let jsonPost = [["MatchTypes" : m , "ChargeTypes" : c , "StadiumData" : s]] as [[String : Any]]
+            let jsonPost = [["MatchTypes" : m , "ChargeTypes" : c]] as [[String : Any]]
         let jsonData = try? JSONSerialization.data(withJSONObject: jsonPost, options: [])
         let jsonString = String(data: jsonData!, encoding: .utf8)!
             self.downloadingAssets(postString : jsonString)
@@ -109,9 +95,9 @@ public class downloadAssets {
                         
 //                        print((self.res?.stadiumData))
                         
-                        if ((self.res?.stadiumData?.count)!) != 0 {
-                            self.stadiumDl()
-                        }
+//                        if ((self.res?.stadiumData?.count)!) != 0 {
+//                            self.stadiumDl()
+//                        }
                             
                         downloadShop.init().getIDs()
                             
@@ -130,11 +116,11 @@ public class downloadAssets {
             }.resume()
     }
     
-    func stadiumDl() {
-        for i in 0...((self.res?.stadiumData?.count)!) - 1 {
-            stadiumData.writeToDBtblStadiumTypes(id: Int((self.res?.stadiumData?[i].id!)!)!, title: "", imagePath: (self.res?.stadiumData?[i].image_path!)!, extendedBase64Image: (self.res?.stadiumData?[i].image_base64!)!)
-        }
-    }
+//    func stadiumDl() {
+//        for i in 0...((self.res?.stadiumData?.count)!) - 1 {
+//            stadiumData.writeToDBtblStadiumTypes(id: Int((self.res?.stadiumData?[i].id!)!)!, title: "", imagePath: (self.res?.stadiumData?[i].image_path!)!, extendedBase64Image: (self.res?.stadiumData?[i].image_base64!)!)
+//        }
+//    }
     
     
     func matchTypeDl() {
