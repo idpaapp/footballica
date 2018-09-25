@@ -87,6 +87,10 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TtT-ae-ulg">
                         <rect key="frame" x="0.0" y="0.0" width="345" height="90.5"/>
                     </button>
+                    <view alpha="0.10000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n6j-vf-87X" customClass="GIDSignInButton">
+                        <rect key="frame" x="-0.5" y="-0.5" width="345" height="91"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -94,15 +98,20 @@
                     <constraint firstItem="Ri6-am-7nu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="1Mp-xK-MdN"/>
                     <constraint firstAttribute="bottom" secondItem="TtT-ae-ulg" secondAttribute="bottom" id="GBx-tA-Ao4"/>
                     <constraint firstAttribute="trailing" secondItem="Ri6-am-7nu" secondAttribute="trailing" constant="5" id="N63-wa-ILP"/>
+                    <constraint firstItem="n6j-vf-87X" firstAttribute="centerX" secondItem="TtT-ae-ulg" secondAttribute="centerX" id="OBC-lZ-37G"/>
                     <constraint firstItem="TtT-ae-ulg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Rdu-lf-q1U"/>
+                    <constraint firstItem="n6j-vf-87X" firstAttribute="width" secondItem="TtT-ae-ulg" secondAttribute="width" id="Tdw-rk-HYI"/>
                     <constraint firstItem="TtT-ae-ulg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Tzo-Et-MaS"/>
                     <constraint firstAttribute="bottom" secondItem="Ri6-am-7nu" secondAttribute="bottom" constant="5" id="XkZ-AV-ZEL"/>
                     <constraint firstAttribute="trailing" secondItem="TtT-ae-ulg" secondAttribute="trailing" id="Xqm-1Z-aMI"/>
+                    <constraint firstItem="n6j-vf-87X" firstAttribute="height" secondItem="TtT-ae-ulg" secondAttribute="height" id="iML-jr-vQa"/>
+                    <constraint firstItem="n6j-vf-87X" firstAttribute="centerY" secondItem="TtT-ae-ulg" secondAttribute="centerY" id="wJp-5r-xyE"/>
                     <constraint firstItem="Ri6-am-7nu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="xHN-oD-I6t"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="googleSignIn" destination="n6j-vf-87X" id="67W-Mu-XGC"/>
                 <outlet property="mainView" destination="Ri6-am-7nu" id="6Ye-lY-hoU"/>
                 <outlet property="menuImage" destination="hCb-dN-Gjr" id="fXM-Gi-ouZ"/>
                 <outlet property="menuLabel" destination="w14-US-z0g" id="Moy-AZ-LAe"/>

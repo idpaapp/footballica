@@ -9,9 +9,8 @@
 import UIKit
 import GoogleSignIn
 
-class loginPageViewController: UIViewController {
+class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignInDelegate {
 
-    @IBOutlet weak var gIDSignInButton: GIDSignInButton!
     @IBOutlet weak var mainLoginView: UIView!
     @IBOutlet weak var mainTitle: UILabel!
     @IBOutlet weak var mainTitleForeGround: UILabel!
@@ -36,9 +35,84 @@ class loginPageViewController: UIViewController {
         return true
     }
     
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
+              withError error: Error!) {
+        if let error = error {
+            print("\(error.localizedDescription)")
+        } else {
+            self.view.isUserInteractionEnabled = false
+            // Perform any operations on signed in user here.
+            let email = user.profile.email
+            print(email!)
+            GoogleSigningIn(email : email!)
+        }
+    }
+
+    @objc func GoogleSigningIn(email : String) {
+        PubProc.isSplash = false
+        PubProc.wb.hideWaiting()
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GoogleSignIn' , 'email' : '\(email)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    do {
+                        
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self, from: data!)
+                        
+                        self.view.isUserInteractionEnabled = true
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                            PubProc.isSplash = true
+                        }
+                        
+                        //                print(data ?? "")
+                        print((login.res?.status!)!)
+                        
+                        if (login.res?.status?.contains("NEW_USER"))! || (login.res?.status?.contains("OK"))! {
+                            
+                            if (login.res?.status?.contains("NEW_USER"))! {
+                            self.defaults.set(true , forKey: "tutorial")
+                            } else {
+                            self.defaults.set(false , forKey: "tutorial")
+                            }
+                            self.dismissing()
+                            let nc = NotificationCenter.default
+                            nc.post(name: Notification.Name("updateProgress"), object: nil)
+                            loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
+                            let userid = "\(loadingViewController.userid)"
+                            UserDefaults.standard.set(userid, forKey: "userid")
+                            loadShop.init().loadingShop(userid: userid, rest: true, completionHandler: {
+                            })
+                            PubProc.wb.hideWaiting()
+                        } else {
+                            self.GoogleSigningIn(email : email)
+                        }
+                        
+                    } catch {
+                        self.GoogleSigningIn(email : email)
+                        print(error)
+                    }
+                    
+                } else {
+                    self.GoogleSigningIn(email : email)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        // Initialize sign-in
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
+        
         self.mainLoginView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
         self.mainTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ورود به سیستم", strokeWidth: -6.0)
         self.mainTitleForeGround.font = fonts().iPhonefonts
@@ -73,9 +147,9 @@ class loginPageViewController: UIViewController {
         
     }
     
-    
     @objc func googleSignIn() {
-        
+        PubProc.wb.showWaiting()
+        GIDSignIn.sharedInstance().signIn()
     }
     
     
@@ -99,13 +173,6 @@ class loginPageViewController: UIViewController {
         }
         
     }
-    
-//    @objc func emptyStadium() {
-//        let stadium = readAndWritetblStadiums()
-//        stadium.writeToDBtblStadiumTypes(id: 500, title: "استادیوم خالی", imagePath: ("\(urls().stadium)empty_std.jpg"), extendedBase64Image: "")
-//
-////        print("\(urls().stadium)\((login.res?.response?.mainInfo?.stadium!)!)")
-//    }
     
     @objc func normalLogin() {
         
@@ -132,7 +199,6 @@ class loginPageViewController: UIViewController {
                         if (login.res?.status?.contains("OK"))! {
                             self.defaults.set(false , forKey: "tutorial")
                             self.dismissing()
-//                            self.emptyStadium()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
                             loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
@@ -188,7 +254,6 @@ class loginPageViewController: UIViewController {
                         if (login.res?.status?.contains("OK"))! {
                             self.defaults.set(true , forKey: "tutorial")
                             self.dismissing()
-//                            self.emptyStadium()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
                             loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!

@@ -8,13 +8,42 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {    
 
     var window: UIWindow?
 
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool
+    {
+        return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    }
+    
+    func signIn(_ signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+                withError error: NSError!)
+    {
+        if (error == nil) {
+            // Perform any operations on signed in user here.
+        } else {
+            print("\(error.localizedDescription)")
+        }
+    }
+    
+    func signIn(_ signIn: GIDSignIn!, didDisconnectWithUser user:GIDGoogleUser!,
+                withError error: NSError!) {
+        print("user disconnected")
+        // Perform any operations when the user disconnects from app here.
+        // ...
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        
+        // Initialize sign-in
+        
+        GIDSignIn.sharedInstance().clientID = "520243797362-c4vbajl2astro69oi18eh8cs405jto7i.apps.googleusercontent.com"
+        
         // Override point for customization after application launch.
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.toolbarDoneBarButtonItemText = "انجام شد"

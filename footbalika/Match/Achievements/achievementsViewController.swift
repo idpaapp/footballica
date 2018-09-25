@@ -9,8 +9,9 @@
 import UIKit
 import Kingfisher
 import RealmSwift
+ import GoogleSignIn
 
-class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource {
+class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource , GIDSignInUIDelegate , GIDSignInDelegate{
 
     @IBOutlet weak var leagues: RoundButton!
     @IBOutlet weak var tournament: RoundButton!
@@ -224,6 +225,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         
         realm = try? Realm()
         
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadingTV(_:)), name: NSNotification.Name(rawValue: "changingUserPassNotification"), object: nil)
         
@@ -706,9 +709,33 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
            
         default:
             if indexPath.row == 0 {
+                
+                if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "googleEntranceCell", for: indexPath) as! googleEntranceCell
                 
+                    cell.googleSignIn.addTarget(self, action: #selector(googleSigningIn), for: UIControlEvents.touchUpInside)
+                    
+                    
                 return cell
+                
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "googleSignOutCell", for: indexPath) as! googleSignOutCell
+                    
+                    if UIDevice().userInterfaceIdiom == .phone {
+                        cell.userEmail.AttributesOutLine(font: fonts().iPhonefonts, title: "\((login.res?.response?.mainInfo?.email!)!)", strokeWidth: -7.0)
+                        cell.userEmailForeGround.font = fonts().iPhonefonts
+                    } else {
+                        cell.userEmail.AttributesOutLine(font: fonts().iPadfonts, title: "\((login.res?.response?.mainInfo?.email!)!)", strokeWidth: -7.0)
+                        cell.userEmailForeGround.font = fonts().iPadfonts
+                    }
+                    
+                    cell.userEmailForeGround.text = "\((login.res?.response?.mainInfo?.email!)!)"
+                    
+                    cell.signOut.addTarget(self, action: #selector(googleSigningOut), for: UIControlEvents.touchUpInside)
+                    
+                    return cell
+                }
+
             } else if indexPath.row == 4 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "changeUserNameAndPasswordCell", for: indexPath) as! changeUserNameAndPasswordCell
 
@@ -746,6 +773,82 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         
     }
     
+    @objc func googleSigningIn() {
+        PubProc.wb.showWaiting()
+       GIDSignIn.sharedInstance().signIn()
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
+              withError error: Error!) {
+        if let error = error {
+            print("\(error.localizedDescription)")
+        } else {
+            self.view.isUserInteractionEnabled = false
+            // Perform any operations on signed in user here.
+            let email = user.profile.email
+            print(email!)
+            GoogleSigningIn(email : email!)
+        }
+    }
+    
+    @objc func GoogleSigningIn(email : String) {
+        PubProc.isSplash = false
+        PubProc.wb.hideWaiting()
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GoogleSignIn' , 'email' : '\(email)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    do {
+                        
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self, from: data!)
+                        
+                        self.view.isUserInteractionEnabled = true
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                            PubProc.isSplash = true
+                        }
+                        
+                        //                print(data ?? "")
+                        print((login.res?.status!)!)
+                        
+                        if (login.res?.status?.contains("NEW_USER"))! || (login.res?.status?.contains("OK"))! {
+                            
+                            self.dismiss(animated: true, completion: nil)
+
+                            loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
+                            let userid = "\(loadingViewController.userid)"
+                            UserDefaults.standard.set(userid, forKey: "userid")
+                            loadShop.init().loadingShop(userid: userid, rest: true, completionHandler: {
+                                let nc = NotificationCenter.default
+                                nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : nil)
+                            })
+                            PubProc.wb.hideWaiting()
+                        } else {
+                            self.GoogleSigningIn(email : email)
+                        }
+                        
+                    } catch {
+                        self.GoogleSigningIn(email : email)
+                        print(error)
+                    }
+                    
+                } else {
+                    self.GoogleSigningIn(email : email)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+        
+    }
+    
+    @objc func googleSigningOut() {
+        GIDSignIn.sharedInstance().signOut()
+        //google SingnOut
+        
+    }
     
     @objc func acceptingGameOrFriend(_ sender : UIButton!) {
         if ((self.alertsRes?.response?[sender.tag].type!)!) == "1" {
@@ -754,9 +857,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             
         } else {
            //accept gameRequest
-            
             acceptFriendlyMatch(userid: (self.alertsRes?.response?[sender.tag].reciver_id!)!, friendid: (self.alertsRes?.response?[sender.tag].sender_id!)!, massageId: (self.alertsRes?.response?[sender.tag].id!)!)
-            
         }
     }
     
@@ -889,6 +990,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                     self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
 
+                    print(((self.collectingItemAchievement)!))
                     if ((self.collectingItemAchievement)!).contains("OK") {
                         loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
                         DispatchQueue.main.async {
@@ -913,7 +1015,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     @objc func receivingGift(_ sender : UIButton!) {
-        print(sender.tag)
         let aId = Int((loadingAchievements.res?.response?[sender.tag].id!)!)
         achievementReceive(id : aId!)
     }
@@ -1046,10 +1147,19 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             
         default :
             if indexPath.row == 0 {
-                if UIDevice().userInterfaceIdiom == .phone {
+                
+                 if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
+                    if UIDevice().userInterfaceIdiom == .phone {
                     return 60
-                } else {
+                    } else {
                     return 100
+                    }
+                 } else {
+                    if UIDevice().userInterfaceIdiom == .phone {
+                        return 120
+                    } else {
+                        return 160
+                    }
                 }
                 
              } else if indexPath.row == 4 {
@@ -1097,6 +1207,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     DispatchQueue.main.async {
                         PubProc.cV.hideWarning()
                     }
+                    
                     //                print(data ?? "")
                     
                     do {

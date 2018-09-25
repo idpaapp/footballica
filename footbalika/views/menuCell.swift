@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import GoogleSignIn
 
 class menuCell: UITableViewCell {
 
+    @IBOutlet weak var googleSignIn: GIDSignInButton!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var menuImage: UIImageView!
     @IBOutlet weak var menuLeftView: UIView!

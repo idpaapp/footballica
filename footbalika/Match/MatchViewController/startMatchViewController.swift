@@ -91,8 +91,6 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var matchID = String()
 
     func loadMatchData(id : String) {
-        
-        print(id)
         self.playGameOutlet.isUserInteractionEnabled = false
         
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(id) , 'userid' : \(loadingViewController.userid)}") { data, error in

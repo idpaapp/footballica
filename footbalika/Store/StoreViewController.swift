@@ -37,7 +37,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         scrollToPage().scrollPageViewController(index: 3)
         scrollToPage().menuButtonChanged(index: 3)
     }
-
     
     @IBOutlet weak var storeCV: UICollectionView!
     @IBOutlet weak var coins: UILabel!
@@ -71,6 +70,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        self.rData()
         PubProc.isSplash = true
         loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
             login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
@@ -101,8 +101,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             })
         })
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,7 +144,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        print(indexPath.item)
         if indexPath.item >= self.mainShopIndex {
 //        if indexPath.item > 0 {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
@@ -236,7 +234,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                                     }
                                 //                                })
                             })
-
                         }
                     } else  if ((chooseRes)!).contains("NOT_ENOUGH_RESOURCE") {
                         self.view.isUserInteractionEnabled = true

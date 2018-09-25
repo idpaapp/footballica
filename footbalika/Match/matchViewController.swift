@@ -31,6 +31,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     
+    @IBOutlet weak var wholeMainPageButtons: NSLayoutConstraint!
     @IBOutlet weak var startLabelForeGround: UILabel!
     @IBOutlet weak var startLabel: UILabel!
     @IBOutlet weak var profileName: UILabel!
@@ -175,6 +176,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if wholeMainPageButtons != nil {
+            if UIScreen.main.bounds.height < 568 {
+                wholeMainPageButtons.constant = 20
+            } else {
+                wholeMainPageButtons.constant = 50
+            }
+        }
+        
         if matchViewController.isTutorial {
             
             getHelp().gettingHelp(mode: "WELCOME", completionHandler: {
@@ -253,11 +262,13 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     @IBAction func StartAMatch(_ sender: RoundButton) {
+        PubProc.wb.showWaiting()
         requestNewMatch()
     }
     
     var matchCreateRes : String? = nil;
     @objc func requestNewMatch() {
+        PubProc.wb.hideWaiting()
         PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'START_RANDOM_GAME','userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 

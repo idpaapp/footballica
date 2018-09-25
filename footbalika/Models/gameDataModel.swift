@@ -20,7 +20,7 @@ public class gameDataModel {
         let gameCharge : [gameCharge.response]
         let stadiumData : [stadiumData.response]
         let userXps : [userXps.response]
-        let onLineTime : Int?
+        let onLineTime : Float?
         let androidForceUpdateVersion : Int?
         let server_update : Int?
         let hasPrediction : Int?

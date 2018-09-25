@@ -9,9 +9,10 @@
 import UIKit
 import Kingfisher
 import SafariServices
+import GoogleSignIn
 
 
-class giftsAndChargesViewController: UIViewController , UITableViewDataSource , UITableViewDelegate , SFSafariViewControllerDelegate {
+class giftsAndChargesViewController: UIViewController , UITableViewDataSource , UITableViewDelegate , SFSafariViewControllerDelegate , GIDSignInUIDelegate , GIDSignInDelegate {
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -31,9 +32,17 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             self.giftMenu.giftHeight = 605
         }
         if (login.res?.response?.mainInfo?.status!)! == "2" {
+            if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
             self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight - 80
+            } else {
+             self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight - 160
+            }
         } else {
-        self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight
+            if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
+                self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight
+            } else {
+                self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight - 80
+            }
         }
         
     
@@ -89,13 +98,75 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         }
     }
     
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if let error = error {
+            print("\(error.localizedDescription)")
+        } else {
+            
+            // Perform any operations on signed in user here.
+            let email = user.profile.email
+            print(email!)
+            GoogleSigningIn(email : email!)
+        }
+    }
+    
+    @objc func GoogleSigningIn(email : String) {
+        PubProc.isSplash = false
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GoogleSignIn' , 'email' : '\(email)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    do {
+                        
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self, from: data!)
+                        
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                            PubProc.isSplash = true
+                        }
+                        
+                        //                print(data ?? "")
+                        print((login.res?.status!)!)
+                        
+                        if (login.res?.status?.contains("NEW_USER"))! || (login.res?.status?.contains("OK"))! {
+                            
+                            self.dismissing()
+                            loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
+                            let userid = "\(loadingViewController.userid)"
+                            UserDefaults.standard.set(userid, forKey: "userid")
+                            PubProc.wb.hideWaiting()
+                        } else {
+                            self.GoogleSigningIn(email : email)
+                        }
+                        
+                    } catch {
+                        self.GoogleSigningIn(email : email)
+                        print(error)
+                    }
+                    
+                } else {
+                    self.GoogleSigningIn(email : email)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+        
+    }
+    
+    
     var gameChargeCount = Int()
     override func viewDidLoad() {
         super.viewDidLoad()
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
         giftMenu.menuTableView.dataSource = self
         giftMenu.menuTableView.delegate = self
         gameChargeMenu.menuTableView.dataSource = self
         gameChargeMenu.menuTableView.delegate = self
+        
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -111,6 +182,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         if pageState == "gifts" {
         let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell") as!  menuCell
         
+        
         cell.menuImage.image = UIImage(named: "\(self.giftMenu.giftsImages[indexPath.row])")
         cell.menuLeftImage.image = UIImage(named: "ic_coin")
             
@@ -121,6 +193,12 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             cell.menuLeftView.isHidden = false
         }
             
+            if self.giftMenu.giftsImages[indexPath.row] == "google_plus" {
+                cell.googleSignIn.isHidden = false
+            } else {
+                cell.googleSignIn.isHidden = true
+            }
+            
         cell.menuLeftLabel.text = self.giftMenu.giftsNumbers[indexPath.row]
         cell.menuLabel.text = self.giftMenu.giftsTitles[indexPath.row]
         cell.selectMenu.tag = indexPath.row
@@ -130,6 +208,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell") as!  menuCell
+            
             
             let url = "\(self.gameChargeMenu.gameChargesImages[indexPath.row])"
             let urls = URL(string : url)
@@ -142,6 +221,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                 cell.menuLeftImage.image = UIImage(named: "money")
             }
         
+            cell.googleSignIn.isHidden = true
             cell.menuLeftLabel.text = self.gameChargeMenu.gameChargesNumbers[indexPath.row]
             cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
             cell.selectMenu.tag = indexPath.row
@@ -199,59 +279,30 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     @objc func selectedMenu(_ sender : UIButton!) {
         soundPlay().playClick()
         if pageState == "gifts" {
-           
-             if (login.res?.response?.mainInfo?.status!)! == "2" {
-                
-                switch sender.tag {
-                case 0 :
-//                    print("giftCode")
-                    giftsCode()
-                case 1 :
-//                    print("supportUs")
-                    supportingUs()
-                case 2 :
-//                    print("inviteFriends")
-                    invitingFriends()
-                case 3 :
-//                    print("googleSignIn")
-                    googleSignIn()
-                case 4 :
-//                    print("reportProblem")
-                    reportingProblem()
-                default :
-//                    print("suggestions")
-                    suggestions()
-                }
-             } else {
-                switch sender.tag {
-                case 0 :
-//                    print("giftCode")
-                    giftsCode()
-                case 1 :
-//                    print("supportUs")
-                    supportingUs()
-                case 2 :
-//                    print("inviteFriends")
-                    invitingFriends()
-                case 3 :
-                    if (login.res?.response?.mainInfo?.status!)! != "2" {
-//                    print("signIn")
-                    self.isSignUp = true
-                    self.isPasswordChange = false
-                    self.performSegue(withIdentifier : "signUpGift", sender: self)
-                    }
-                case 4 :
-//                    print("googleSignIn")
-                    googleSignIn()
-                case 5 :
-//                    print("reportProblem")
-                    reportingProblem()
-                default :
-//                    print("suggestions")
-                    suggestions()
-                }
+            switch self.giftMenu.giftsImages[sender.tag] {
+            case "ic_gift" :
+                print("giftCode")
+                giftsCode()
+            case "like" :
+                print("supportUs")
+                supportingUs()
+            case "invite_friend" :
+                print("inviteFriends")
+                invitingFriends()
+            case "ic_avatar_large" :
+                print("signIn")
+                self.isSignUp = true
+                self.isPasswordChange = false
+                self.performSegue(withIdentifier : "signUpGift", sender: self)
+            case "google_plus" :
+                googleSignIn()
+            case "ic_bug" :
+                reportingProblem()
+            case "ic_comment" :
+                suggestions()
+            default :
+                print("other")
             }
-            
         } else {
         let id = Int((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
         self.chargeGame(id : id!)
@@ -284,7 +335,15 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     }
     
     @objc func googleSignIn() {
-        
+        if (login.res?.response?.mainInfo?.email_connected!)! == "1" {
+            self.alertTitle = "اخطار"
+            self.alertBody = "شما قبلاً با اکانت گوگل خود وارد شده اید"
+            self.alertAcceptLabel = "تأیید"
+            self.performSegue(withIdentifier: "giftAlert", sender: self)
+        } else {
+            //signIn
+            
+        }
     }
     
     @objc func reportingProblem() {

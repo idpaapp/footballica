@@ -11,41 +11,46 @@ import UIKit
 
 public class gift : menuView {
     
-    public var giftsImages = ["ic_gift",
-                              "like",
-                       "invite_friend",
-                       "ic_avatar_large",
-                       "google_plus",
-                       "ic_bug",
-                       "ic_comment"]
-    
-    public var giftsTitles = ["وارد کردن کد هدیه",
-                              "حمایت از ما",
-                       "دعوت دوستان",
-                       "تکمیل ثبت نام",
-                       "اتصال به حساب گوگل",
-                       "گزارش مشکل",
-                       "انتقاد و پیشنهاد"]
-    
-    public var giftsNumbers = ["",
-                               "\((loadingViewController.loadGameData?.response?.giftRewards?.invited_user!)!)",
-                        "\((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!)",
-        "\((loadingViewController.loadGameData?.response?.giftRewards?.sign_up!)!)",
-        "\((loadingViewController.loadGameData?.response?.giftRewards?.google_sign_in!)!)",
-        "\((loadingViewController.loadGameData?.response?.giftRewards?.report_bug!)!)",
-        "\((loadingViewController.loadGameData?.response?.giftRewards?.comment!)!)"]
-    
+    public var giftsImages = [String]()
+    public var giftsTitles = [String]()
+    public var giftsNumbers = [String]()
     public var giftHeight : CGFloat = 525
     public var giftWidth : CGFloat = 310
     
     public override func awakeFromNib() {
         super.awakeFromNib()
         
-        if (login.res?.response?.mainInfo?.status!)! == "2" {
-         giftsNumbers.remove(at: 3)
-        giftsTitles.remove(at: 3)
-        giftsImages.remove(at: 3)
+        giftsImages.append("ic_gift")
+        giftsTitles.append("وارد کردن کد هدیه")
+        giftsNumbers.append("")
+        
+        giftsImages.append("like")
+        giftsTitles.append("حمایت از ما")
+        giftsNumbers.append("\((loadingViewController.loadGameData?.response?.giftRewards?.invited_user!)!)")
+        
+        giftsImages.append("invite_friend")
+        giftsTitles.append("دعوت دوستان")
+        giftsNumbers.append("\((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!)")
+        
+        if (login.res?.response?.mainInfo?.status!)! != "2" {
+        giftsImages.append("ic_avatar_large")
+        giftsTitles.append("تکمیل ثبت نام")
+        giftsNumbers.append("\((loadingViewController.loadGameData?.response?.giftRewards?.sign_up!)!)")
         }
+
+        if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
+        giftsImages.append("google_plus")
+        giftsTitles.append("اتصال به حساب گوگل")
+        giftsNumbers.append("\((loadingViewController.loadGameData?.response?.giftRewards?.google_sign_in!)!)")
+        }
+
+        giftsImages.append("ic_bug")
+        giftsTitles.append("گزارش مشکل")
+        giftsNumbers.append("\((loadingViewController.loadGameData?.response?.giftRewards?.report_bug!)!)")
+
+        giftsImages.append("ic_comment")
+        giftsTitles.append("انتقاد و پیشنهاد")
+        giftsNumbers.append("\((loadingViewController.loadGameData?.response?.giftRewards?.comment!)!)")
         
         self.isOpaque = false
         if UIDevice().userInterfaceIdiom == .phone {

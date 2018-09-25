@@ -179,18 +179,34 @@ class menuViewController: UIViewController {
              self.mainTitleForeGround.text = "تنظیمات"
             if UIDevice().userInterfaceIdiom == .phone {
                 if (login.res?.response?.mainInfo?.status!)! != "2" {
-                    self.menuHeight.constant = 318
+                    if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
+                    self.menuHeight.constant = 358
+                    } else {
+                    self.menuHeight.constant = 378
+                    }
                 } else {
-                    self.menuHeight.constant = 368
+                    if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
+                        self.menuHeight.constant = 408
+                    } else {
+                        self.menuHeight.constant = 428
+                    }
                 }
                 self.menuWidth.constant = 280
             maintitle.AttributesOutLine(font: iPhonefonts, title: "تنظیمات", strokeWidth: -7.0)
             self.mainTitleForeGround.font = iPhonefonts
             } else {
                 if (login.res?.response?.mainInfo?.status!)! != "2" {
-                    self.menuHeight.constant = 418
+                    if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
+                        self.menuHeight.constant = 458
+                    } else {
+                        self.menuHeight.constant = 478
+                    }
                 } else {
-                    self.menuHeight.constant = 478
+                    if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
+                        self.menuHeight.constant = 518
+                    } else {
+                        self.menuHeight.constant = 538
+                    }
                 }
              self.menuWidth.constant = 500
             maintitle.AttributesOutLine(font: iPadfonts, title: "تنظیمات", strokeWidth: -7.0)

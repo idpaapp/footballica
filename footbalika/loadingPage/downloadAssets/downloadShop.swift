@@ -31,27 +31,18 @@ public class downloadShop {
         }
         
         if m.count == 0  {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 let nc = NotificationCenter.default
                 nc.post(name: Notification.Name("updateProgress"), object: nil)
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                let nc = NotificationCenter.default
                 nc.post(name: Notification.Name("updateProgress"), object: nil)
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                let nc = NotificationCenter.default
                 nc.post(name: Notification.Name("updateProgress"), object: nil)
-            }
         } else {
             let jsonPost = m as Any
             let jsonData = try? JSONSerialization.data(withJSONObject: jsonPost, options: [])
             let jsonString = String(data: jsonData!, encoding: .utf8)!
             downloadingAssets(postString : jsonString)
+            let nc = NotificationCenter.default
+            nc.post(name: Notification.Name("updateProgress"), object: nil)
         }
-                
-        
         
     }
     
@@ -71,6 +62,8 @@ public class downloadShop {
                         
                         if ((self.res?.count)!) != 0 {
                             self.shopDl()
+                            let nc = NotificationCenter.default
+                            nc.post(name: Notification.Name("updateProgress"), object: nil)
                         }
                                                 
                     } catch {
@@ -89,19 +82,8 @@ public class downloadShop {
     
     func shopDl() {
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             let nc = NotificationCenter.default
             nc.post(name: Notification.Name("updateProgress"), object: nil)
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            let nc = NotificationCenter.default
-            nc.post(name: Notification.Name("updateProgress"), object: nil)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            let nc = NotificationCenter.default
-            nc.post(name: Notification.Name("updateProgress"), object: nil)
-        }
         
         for i in 0...((self.res?.count)!) - 1 {
             shopRead.writeToDBtblhop(shopID: Int((self.res?[i].id!)!)!, shopImage_Path: (self.res?[i].image_path!)!, shopImage_Base64: (self.res?[i].image_base64!)!)

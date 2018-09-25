@@ -31,8 +31,10 @@ public class PubProc {
         public func readJson(wsName: String, JSONStr: String  , completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
             var requestNo = URLRequest(url: URL(string: "http://volcan.ir/adelica/api.v2/"+wsName+".php")!)
             
+            if wsName != "reSyncGameData" {
             if !PubProc.isSplash  {
                 wb.showWaiting()
+            }
             }
             
             requestNo.httpMethod = "POST"

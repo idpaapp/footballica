@@ -1,16 +1,18 @@
 //
-//  googleEntranceCell.swift
+//  googleSignOutCell.swift
 //  footbalika
 //
-//  Created by Saeed Rahmatolahi on 3/23/1397 AP.
+//  Created by Saeed Rahmatolahi on 7/2/1397 AP.
 //  Copyright © 1397 AP Saeed Rahmatolahi. All rights reserved.
 //
 
 import UIKit
 
-class googleEntranceCell: UITableViewCell {
+class googleSignOutCell: UITableViewCell {
 
-    @IBOutlet weak var googleSignIn: RoundButton!
+    @IBOutlet weak var userEmail: UILabel!
+    @IBOutlet weak var userEmailForeGround: UILabel!
+    @IBOutlet weak var signOut: RoundButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

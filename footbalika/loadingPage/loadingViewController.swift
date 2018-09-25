@@ -27,15 +27,25 @@ class loadingViewController: UIViewController {
     }
     
     var ballState = 0
+    
     @objc func ballProgressing() {
         if ballState == 0 {
             UIView.animate(withDuration: 0.7, animations: {
-                self.ballProgress.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+                if UIScreen.main.bounds.height < 568 {
+                    self.ballProgress.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+                } else {
+                    self.ballProgress.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+                }
+                
             })
             self.ballState = 1
         } else {
             UIView.animate(withDuration: 0.7, animations: {
-                self.ballProgress.transform = CGAffineTransform.identity
+                if UIScreen.main.bounds.height < 568 {
+                    self.ballProgress.transform = CGAffineTransform(scaleX: 0.85, y: 0.85)
+                } else {
+                    self.ballProgress.transform = CGAffineTransform.identity
+                }
             })
             self.ballState = 0
         }
@@ -122,7 +132,9 @@ class loadingViewController: UIViewController {
                     print(error)
                 }
             } else {
-                self.gameData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    self.gameData()
+                })
                 print("Error Connection")
                 print(error as Any)
                 // handle error
@@ -142,6 +154,7 @@ class loadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(UIDevice().localizedModel.description)
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
 
@@ -170,6 +183,12 @@ class loadingViewController: UIViewController {
             defaults.set("", forKey: "gameLeft")
             defaults.set(true , forKey: "tutorial")
             
+        }
+        
+        if UIScreen.main.bounds.height < 568 {
+            self.ballProgress.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
+        } else {
+            self.ballProgress.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }
         
         ballTimer = Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(ballProgressing), userInfo: nil, repeats: true)
