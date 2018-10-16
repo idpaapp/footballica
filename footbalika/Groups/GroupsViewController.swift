@@ -35,6 +35,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBOutlet weak var friendsTableView: UITableView!
     @IBOutlet weak var friendsOutlet: RoundButton!
     @IBOutlet weak var searchOutlet: RoundButton!
+    @IBOutlet weak var groupOutlet: RoundButton!
+    @IBOutlet weak var groupGameOutlet: RoundButton!
+    
     var state = "friendsList"
     var searchCount = 1
     
@@ -120,6 +123,12 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         if matchViewController.isTutorial {
             NotificationCenter.default.addObserver(self, selector: #selector(self.showTutorial(notification:)), name: Notification.Name("showShopTutorial"), object: nil)
         }
+        
+    
+        self.groupOutlet.addTarget(self, action: #selector(groupAction), for: UIControlEvents.touchUpInside)
+        
+        self.groupGameOutlet.addTarget(self, action: #selector(groupGameAction), for: UIControlEvents.touchUpInside)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -433,8 +442,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     func friendsActionColor() {
-        self.searchOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
+        self.searchOutlet.backgroundColor = colors().selectedTab
         self.friendsOutlet.backgroundColor = UIColor.white
+        self.groupOutlet.backgroundColor = colors().selectedTab
+        self.groupGameOutlet.backgroundColor = colors().selectedTab
     }
     
     
@@ -445,8 +456,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     @objc func searchingState() {
-        self.friendsOutlet.backgroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
+        self.friendsOutlet.backgroundColor = colors().selectedTab
         self.searchOutlet.backgroundColor = UIColor.white
+        self.groupOutlet.backgroundColor = colors().selectedTab
+        self.groupGameOutlet.backgroundColor = colors().selectedTab
         state = "searchList"
         self.friendsTableView.reloadData()
     }
@@ -454,5 +467,24 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBAction func searchAction(_ sender: RoundButton) {
         searchingState()
     }
+    
+    @objc func groupAction() {
+        state = "group"
+        self.friendsOutlet.backgroundColor = colors().selectedTab
+        self.searchOutlet.backgroundColor = colors().selectedTab
+        self.groupOutlet.backgroundColor = UIColor.white
+        self.groupGameOutlet.backgroundColor = colors().selectedTab
+    }
+    
+    
+    @objc func groupGameAction() {
+         state = "groupGame"
+        self.friendsOutlet.backgroundColor = colors().selectedTab
+        self.searchOutlet.backgroundColor = colors().selectedTab
+        self.groupOutlet.backgroundColor = colors().selectedTab
+        self.groupGameOutlet.backgroundColor = UIColor.white
+    }
+    
+    
 
 }

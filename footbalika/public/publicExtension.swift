@@ -55,6 +55,7 @@ public class fonts {
 public class colors {
     public var lightBrownBackGroundColor = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
     public var notEnoughColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
+    public var selectedTab = UIColor.init(red: 239/255, green: 236/255, blue: 221/255, alpha: 1.0)
 }
 
 extension UIButton {
