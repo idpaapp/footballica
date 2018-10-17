@@ -99,6 +99,7 @@
 		5C84D52D20CCFFFF00A9DC67 /* gamesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84D52B20CCFFFF00A9DC67 /* gamesCell.swift */; };
 		5C84D52E20CCFFFF00A9DC67 /* GamesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84D52C20CCFFFF00A9DC67 /* GamesList.swift */; };
 		5C84D53020CD000D00A9DC67 /* GroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C84D52F20CD000D00A9DC67 /* GroupsViewController.swift */; };
+		5C86357221770461002A5831 /* clanGroupsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C86357121770461002A5831 /* clanGroupsViewController.swift */; };
 		5C963AC620F4A814009DB6A6 /* mainMatchFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C963AC520F4A814009DB6A6 /* mainMatchFieldViewController.swift */; };
 		5C9FFCD620D8D1F3007A11C0 /* WritetblMatchTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9FFCD520D8D1F3007A11C0 /* WritetblMatchTypes.swift */; };
 		5C9FFCDA20D8D59B007A11C0 /* tblShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9FFCD920D8D59B007A11C0 /* tblShop.swift */; };
@@ -269,6 +270,7 @@
 		5C84D52B20CCFFFF00A9DC67 /* gamesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = gamesCell.swift; sourceTree = "<group>"; };
 		5C84D52C20CCFFFF00A9DC67 /* GamesList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamesList.swift; sourceTree = "<group>"; };
 		5C84D52F20CD000D00A9DC67 /* GroupsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsViewController.swift; sourceTree = "<group>"; };
+		5C86357121770461002A5831 /* clanGroupsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clanGroupsViewController.swift; sourceTree = "<group>"; };
 		5C963AC520F4A814009DB6A6 /* mainMatchFieldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainMatchFieldViewController.swift; sourceTree = "<group>"; };
 		5C9FFCD520D8D1F3007A11C0 /* WritetblMatchTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritetblMatchTypes.swift; sourceTree = "<group>"; };
 		5C9FFCD920D8D59B007A11C0 /* tblShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tblShop.swift; sourceTree = "<group>"; };
@@ -636,6 +638,14 @@
 			path = MatchViewController;
 			sourceTree = "<group>";
 		};
+		5C86357321770474002A5831 /* Clan */ = {
+			isa = PBXGroup;
+			children = (
+				5C86357121770461002A5831 /* clanGroupsViewController.swift */,
+			);
+			path = Clan;
+			sourceTree = "<group>";
+		};
 		5C963AC420F4A7F1009DB6A6 /* mainMatchField */ = {
 			isa = PBXGroup;
 			children = (
@@ -815,6 +825,7 @@
 				5C20C1D72105EB0F00930531 /* friendCell.swift */,
 				5C503559210710640025B699 /* noFriendCell.swift */,
 				5C50355B21071A680025B699 /* searchFriendsCell.swift */,
+				5C86357321770474002A5831 /* Clan */,
 			);
 			path = Groups;
 			sourceTree = "<group>";
@@ -1160,6 +1171,7 @@
 				5CBB992520DE08A900C17884 /* loadShop.swift in Sources */,
 				5CAEEFEB20D6325B00514842 /* PubProc.swift in Sources */,
 				5C84D52920CCFFEE00A9DC67 /* achievementsCell.swift in Sources */,
+				5C86357221770461002A5831 /* clanGroupsViewController.swift in Sources */,
 				5C730C54212017F600467711 /* todayCell.swift in Sources */,
 				5C43E0C020E3A068003D2157 /* alertType1Cell.swift in Sources */,
 				5CE87193214E466A004D6EE5 /* help.swift in Sources */,

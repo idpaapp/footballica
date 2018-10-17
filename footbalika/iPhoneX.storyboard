@@ -4688,19 +4688,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="کسی در لیست دوستان شما وجود ندارد" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XH1-Cc-kqS">
-                                                    <rect key="frame" x="15" y="21" width="345.33333333333331" height="20"/>
+                                                    <rect key="frame" x="15" y="21" width="345.33333333333331" height="26.666666666666671"/>
                                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CEX-MS-bh4">
-                                                    <rect key="frame" x="15" y="21" width="345.33333333333331" height="20"/>
+                                                    <rect key="frame" x="15" y="21" width="345.33333333333331" height="26.666666666666671"/>
                                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6V1-aM-pRn" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                                    <rect key="frame" x="122.66666666666669" y="49" width="130" height="40"/>
+                                                    <rect key="frame" x="122.66666666666669" y="55.666666666666657" width="130" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="130" id="RO0-r0-ccA"/>
                                                         <constraint firstAttribute="height" constant="40" id="bQe-T5-we7"/>
@@ -4708,13 +4708,13 @@
                                                     <state key="normal" backgroundImage="action_back_btn"/>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FsT-C4-tFR">
-                                                    <rect key="frame" x="122.66666666666669" y="49.666666666666657" width="130" height="40"/>
+                                                    <rect key="frame" x="122.66666666666669" y="56.333333333333343" width="130" height="40"/>
                                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ulb-fG-mqC">
-                                                    <rect key="frame" x="122.33333333333331" y="49.666666666666657" width="130" height="40"/>
+                                                    <rect key="frame" x="122.33333333333331" y="56.333333333333343" width="130" height="40"/>
                                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
@@ -4861,12 +4861,20 @@
                                     <outlet property="delegate" destination="myX-De-GQ4" id="o2H-VR-MtL"/>
                                 </connections>
                             </tableView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DL6-9s-zaf">
+                                <rect key="frame" x="-1" y="114" width="376" height="583"/>
+                                <connections>
+                                    <segue destination="zZD-w2-C8V" kind="embed" identifier="groupsGame" id="oXK-rz-Reh"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="GPm-dG-WZ4" firstAttribute="top" secondItem="8RV-3X-Lb4" secondAttribute="bottom" id="0xo-wP-kLE"/>
                             <constraint firstItem="N0d-2X-LDZ" firstAttribute="centerY" secondItem="GPm-dG-WZ4" secondAttribute="centerY" id="C8v-Tj-kXk"/>
+                            <constraint firstItem="DL6-9s-zaf" firstAttribute="width" secondItem="N0d-2X-LDZ" secondAttribute="width" id="DAK-Nu-ym4"/>
                             <constraint firstItem="8RV-3X-Lb4" firstAttribute="leading" secondItem="TRK-Mg-MVS" secondAttribute="trailing" constant="5" id="G8W-N3-Y6l"/>
+                            <constraint firstItem="DL6-9s-zaf" firstAttribute="height" secondItem="N0d-2X-LDZ" secondAttribute="height" id="ID2-2S-IRn"/>
                             <constraint firstItem="GPm-dG-WZ4" firstAttribute="centerX" secondItem="49a-Ba-vFV" secondAttribute="centerX" id="MN9-45-RC6"/>
                             <constraint firstItem="N0d-2X-LDZ" firstAttribute="width" secondItem="GPm-dG-WZ4" secondAttribute="width" id="SMt-9f-M8B"/>
                             <constraint firstItem="N0d-2X-LDZ" firstAttribute="centerX" secondItem="GPm-dG-WZ4" secondAttribute="centerX" id="UVX-vS-uIC"/>
@@ -4874,6 +4882,8 @@
                             <constraint firstItem="GPm-dG-WZ4" firstAttribute="top" secondItem="49a-Ba-vFV" secondAttribute="top" constant="70" id="WMo-Oe-O0g"/>
                             <constraint firstItem="8RV-3X-Lb4" firstAttribute="centerX" secondItem="GPm-dG-WZ4" secondAttribute="centerX" constant="32.5" id="dWN-PR-lol"/>
                             <constraint firstItem="N0d-2X-LDZ" firstAttribute="height" secondItem="GPm-dG-WZ4" secondAttribute="height" id="eOr-ZS-LHZ"/>
+                            <constraint firstItem="DL6-9s-zaf" firstAttribute="centerY" secondItem="N0d-2X-LDZ" secondAttribute="centerY" id="mgr-ge-lt2"/>
+                            <constraint firstItem="DL6-9s-zaf" firstAttribute="centerX" secondItem="N0d-2X-LDZ" secondAttribute="centerX" id="nKI-4s-OQk"/>
                             <constraint firstItem="8RV-3X-Lb4" firstAttribute="width" secondItem="GPm-dG-WZ4" secondAttribute="width" multiplier="3:4" id="qVE-YV-hOD"/>
                             <constraint firstAttribute="bottom" secondItem="GPm-dG-WZ4" secondAttribute="bottom" constant="115" id="reQ-gg-feH"/>
                             <constraint firstItem="TRK-Mg-MVS" firstAttribute="centerY" secondItem="8RV-3X-Lb4" secondAttribute="centerY" id="tks-Gk-Rg8"/>
@@ -4885,6 +4895,7 @@
                         <outlet property="friendsTableView" destination="N0d-2X-LDZ" id="joQ-b3-WE1"/>
                         <outlet property="groupGameOutlet" destination="NEw-hI-VE9" id="lnx-2P-f4Q"/>
                         <outlet property="groupOutlet" destination="OdY-tj-YbJ" id="plm-VM-eYN"/>
+                        <outlet property="groupsGamePage" destination="DL6-9s-zaf" id="W7q-j1-rrn"/>
                         <outlet property="searchOutlet" destination="TRK-Mg-MVS" id="eah-Rr-g3U"/>
                         <segue destination="Tgo-ru-oXN" kind="presentation" identifier="showUserProfile" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Piq-tX-6Af"/>
                         <segue destination="sqX-r7-vzU" kind="presentation" identifier="lastTutorialPage" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="z15-K7-rW7"/>
@@ -4892,7 +4903,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e1g-nY-8Zr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1918" y="1298"/>
+            <point key="canvasLocation" x="1838" y="1357"/>
         </scene>
         <!--Shop Detail View Controller-->
         <scene sceneID="7qf-SM-3xh">
@@ -8008,6 +8019,20 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FQY-ap-gJA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2649" y="3047"/>
+        </scene>
+        <!--Clan Groups View Controller-->
+        <scene sceneID="b9C-kU-jiY">
+            <objects>
+                <viewController restorationIdentifier="clanGroupsViewController" storyboardIdentifier="clanGroupsViewController" id="zZD-w2-C8V" customClass="clanGroupsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="okZ-pt-FzK">
+                        <rect key="frame" x="0.0" y="0.0" width="376" height="583"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yCL-Ww-DMP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1000" y="1442"/>
         </scene>
     </scenes>
     <resources>

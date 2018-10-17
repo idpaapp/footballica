@@ -4557,6 +4557,101 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wqC-Cu-bgV">
+                                <rect key="frame" x="237" y="30" width="614" height="60"/>
+                                <subviews>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BiK-F2-iZD" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="201.5" height="60"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.92549019610000005" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                                        <state key="normal" title="دوستان">
+                                            <color key="titleColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="friendsAction:" destination="Jn7-DR-d2T" eventType="touchUpInside" id="JXS-2b-s7S"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="img-Ik-vwa" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="206.5" y="0.0" width="201" height="60"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.92549019610000005" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                                        <state key="normal" title="بازی گروهی">
+                                            <color key="titleColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="516-pj-Mv4" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                        <rect key="frame" x="412.5" y="0.0" width="201.5" height="60"/>
+                                        <color key="backgroundColor" red="0.93725490199999995" green="0.92549019610000005" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                                        <state key="normal" title="گروه">
+                                            <color key="titleColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="tVH-3j-QAp"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XHb-iv-OCN" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="172" y="30" width="60" height="60"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="XHb-iv-OCN" secondAttribute="height" multiplier="1:1" id="CTM-xQ-I4M"/>
+                                    <constraint firstAttribute="height" constant="60" id="fQ7-l0-Tlq"/>
+                                </constraints>
+                                <state key="normal" image="magnifier">
+                                    <color key="titleColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="searchAction:" destination="Jn7-DR-d2T" eventType="touchUpInside" id="eL3-B2-FoG"/>
+                                </connections>
+                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="KYR-iw-aN1">
                                 <rect key="frame" x="0.0" y="90" width="1024" height="1146"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -4878,101 +4973,12 @@
                                     <outlet property="delegate" destination="Jn7-DR-d2T" id="p8g-1e-E8J"/>
                                 </connections>
                             </tableView>
-                            <stackView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="wqC-Cu-bgV">
-                                <rect key="frame" x="237.5" y="30" width="614" height="60"/>
-                                <subviews>
-                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BiK-F2-iZD" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="201.5" height="60"/>
-                                        <color key="backgroundColor" red="0.93725490199999995" green="0.92549019610000005" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
-                                        <state key="normal" title="دوستان">
-                                            <color key="titleColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <real key="value" value="0.0"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
-                                                <real key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="friendsAction:" destination="Jn7-DR-d2T" eventType="touchUpInside" id="JXS-2b-s7S"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="img-Ik-vwa" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="206.5" y="0.0" width="201" height="60"/>
-                                        <color key="backgroundColor" red="0.93725490199999995" green="0.92549019610000005" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
-                                        <state key="normal" title="بازی گروهی">
-                                            <color key="titleColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
-                                                <real key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="516-pj-Mv4" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="412.5" y="0.0" width="201.5" height="60"/>
-                                        <color key="backgroundColor" red="0.93725490199999995" green="0.92549019610000005" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
-                                        <state key="normal" title="گروه">
-                                            <color key="titleColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
-                                                <real key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="tVH-3j-QAp"/>
-                                </constraints>
-                            </stackView>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XHb-iv-OCN" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="172.5" y="30" width="60" height="60"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="XHb-iv-OCN" secondAttribute="height" multiplier="1:1" id="CTM-xQ-I4M"/>
-                                    <constraint firstAttribute="height" constant="60" id="fQ7-l0-Tlq"/>
-                                </constraints>
-                                <state key="normal" image="magnifier">
-                                    <color key="titleColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="0.0"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
-                                        <real key="value" value="10"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
-                                </userDefinedRuntimeAttributes>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mAu-zD-d0l">
+                                <rect key="frame" x="0.0" y="90" width="1024" height="1146"/>
                                 <connections>
-                                    <action selector="searchAction:" destination="Jn7-DR-d2T" eventType="touchUpInside" id="eL3-B2-FoG"/>
+                                    <segue destination="Nqz-QX-egp" kind="embed" identifier="groupsGame" id="JCb-KA-doA"/>
                                 </connections>
-                            </button>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -4981,13 +4987,17 @@
                             <constraint firstItem="XHb-iv-OCN" firstAttribute="centerY" secondItem="wqC-Cu-bgV" secondAttribute="centerY" id="LdX-kd-OmT"/>
                             <constraint firstItem="KYR-iw-aN1" firstAttribute="height" secondItem="3gk-k5-hoB" secondAttribute="height" id="NHq-qy-mB4"/>
                             <constraint firstItem="3gk-k5-hoB" firstAttribute="top" secondItem="wqC-Cu-bgV" secondAttribute="bottom" id="U4Q-V6-kBG"/>
+                            <constraint firstItem="mAu-zD-d0l" firstAttribute="width" secondItem="KYR-iw-aN1" secondAttribute="width" id="WdV-Ak-OYG"/>
                             <constraint firstItem="5Ua-Wm-Ger" firstAttribute="bottom" secondItem="3gk-k5-hoB" secondAttribute="bottom" constant="130" id="XRF-tS-vxP"/>
                             <constraint firstItem="3gk-k5-hoB" firstAttribute="top" secondItem="5Ua-Wm-Ger" secondAttribute="top" constant="70" id="Zq6-O9-zMa"/>
                             <constraint firstItem="wqC-Cu-bgV" firstAttribute="leading" secondItem="XHb-iv-OCN" secondAttribute="trailing" constant="5" id="cGr-bR-YS0"/>
+                            <constraint firstItem="mAu-zD-d0l" firstAttribute="centerY" secondItem="KYR-iw-aN1" secondAttribute="centerY" id="cXX-3E-5XM"/>
+                            <constraint firstItem="mAu-zD-d0l" firstAttribute="centerX" secondItem="KYR-iw-aN1" secondAttribute="centerX" id="ens-aR-tr6"/>
                             <constraint firstItem="wqC-Cu-bgV" firstAttribute="centerX" secondItem="5Ua-Wm-Ger" secondAttribute="centerX" constant="32.5" id="f43-go-xII"/>
                             <constraint firstItem="KYR-iw-aN1" firstAttribute="centerX" secondItem="3gk-k5-hoB" secondAttribute="centerX" id="iOb-ca-eQW"/>
                             <constraint firstItem="KYR-iw-aN1" firstAttribute="width" secondItem="3gk-k5-hoB" secondAttribute="width" id="l7s-l9-cTW"/>
                             <constraint firstItem="3gk-k5-hoB" firstAttribute="centerX" secondItem="5Ua-Wm-Ger" secondAttribute="centerX" id="pXj-NT-Lyf"/>
+                            <constraint firstItem="mAu-zD-d0l" firstAttribute="height" secondItem="KYR-iw-aN1" secondAttribute="height" id="wTs-2M-mmO"/>
                             <constraint firstItem="KYR-iw-aN1" firstAttribute="centerY" secondItem="3gk-k5-hoB" secondAttribute="centerY" id="xHT-eN-LDL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5Ua-Wm-Ger"/>
@@ -4997,6 +5007,7 @@
                         <outlet property="friendsTableView" destination="KYR-iw-aN1" id="Gg2-Qg-ilo"/>
                         <outlet property="groupGameOutlet" destination="img-Ik-vwa" id="JcD-eE-02g"/>
                         <outlet property="groupOutlet" destination="516-pj-Mv4" id="YDl-pH-UOB"/>
+                        <outlet property="groupsGamePage" destination="mAu-zD-d0l" id="Gen-UX-fI9"/>
                         <outlet property="searchOutlet" destination="XHb-iv-OCN" id="hv6-F8-cM2"/>
                         <segue destination="Tdr-Cw-Ss4" kind="presentation" identifier="showUserProfile" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="Jdh-Th-SQb"/>
                         <segue destination="3Ag-WB-aDZ" kind="presentation" identifier="lastTutorialPage" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="LM6-BD-LKS"/>
@@ -8155,6 +8166,20 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ys5-kQ-xj9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2650" y="3116"/>
+        </scene>
+        <!--Clan Groups View Controller-->
+        <scene sceneID="OeB-65-Jqt">
+            <objects>
+                <viewController restorationIdentifier="clanGroupsViewController" storyboardIdentifier="clanGroupsViewController" id="Nqz-QX-egp" customClass="clanGroupsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="tov-dw-T1h">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1146"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.23529411759999999" green="0.71764705880000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X5a-W8-ibv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1000.7812499999999" y="1590.9224011713029"/>
         </scene>
     </scenes>
     <resources>

@@ -37,6 +37,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBOutlet weak var searchOutlet: RoundButton!
     @IBOutlet weak var groupOutlet: RoundButton!
     @IBOutlet weak var groupGameOutlet: RoundButton!
+    @IBOutlet weak var groupsGamePage: UIView!
+    
     
     var state = "friendsList"
     var searchCount = 1
@@ -128,7 +130,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.groupOutlet.addTarget(self, action: #selector(groupAction), for: UIControlEvents.touchUpInside)
         
         self.groupGameOutlet.addTarget(self, action: #selector(groupGameAction), for: UIControlEvents.touchUpInside)
-        
+        self.groupsGamePage.round(corners: [.topLeft, .topRight], radius: 10)
+        self.groupsGamePage.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -452,6 +455,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBAction func friendsAction(_ sender: RoundButton) {
         friendsActionColor()
         state = "friendsList"
+        self.friendsTableView.isHidden = false
+        self.groupsGamePage.isHidden = true
         self.friendsTableView.reloadData()
     }
     
@@ -465,6 +470,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     @IBAction func searchAction(_ sender: RoundButton) {
+        self.friendsTableView.isHidden = false
+        self.groupsGamePage.isHidden = true
         searchingState()
     }
     
@@ -474,8 +481,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.searchOutlet.backgroundColor = colors().selectedTab
         self.groupOutlet.backgroundColor = UIColor.white
         self.groupGameOutlet.backgroundColor = colors().selectedTab
+        self.friendsTableView.isHidden = true
+        self.groupsGamePage.isHidden = false
+
     }
-    
     
     @objc func groupGameAction() {
          state = "groupGame"
@@ -483,8 +492,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.searchOutlet.backgroundColor = colors().selectedTab
         self.groupOutlet.backgroundColor = colors().selectedTab
         self.groupGameOutlet.backgroundColor = UIColor.white
+        self.friendsTableView.isHidden = true
+        self.groupsGamePage.isHidden = false
     }
     
-    
-
 }
