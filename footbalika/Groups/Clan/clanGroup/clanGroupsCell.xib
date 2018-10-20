@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="clanGroupsCell" rowHeight="72" id="KGk-i7-Jjw" customClass="clanGroupsCell" customModule="footbalika" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="372" height="72"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="372" height="71.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8eS-g2-KZu" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                        <rect key="frame" x="5" y="5" width="362" height="61.5"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="challenges" translatesAutoresizingMaskIntoConstraints="NO" id="Bdl-Si-dTN">
+                                <rect key="frame" x="307.5" y="6.5" width="49.5" height="49.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Bdl-Si-dTN" secondAttribute="height" multiplier="1:1" id="9qC-i1-J7l"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="نام کلن" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2T-cq-2G8">
+                                <rect key="frame" x="174" y="19.5" width="128.5" height="23.5"/>
+                                <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F4a-GS-RNv" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="10" y="6.5" width="74.5" height="49.5"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cup" translatesAutoresizingMaskIntoConstraints="NO" id="5xm-U8-XJG">
+                                        <rect key="frame" x="3" y="14" width="23" height="22.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="5xm-U8-XJG" secondAttribute="height" multiplier="1:1" id="sXU-H7-Wjy"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSA-wG-NZ2">
+                                        <rect key="frame" x="27.5" y="13" width="44" height="23.5"/>
+                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.81568627450980391" green="0.81568627450980391" blue="0.80392156862745101" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="5xm-U8-XJG" firstAttribute="height" secondItem="F4a-GS-RNv" secondAttribute="height" multiplier="5:11" id="52R-dU-02v"/>
+                                    <constraint firstItem="5xm-U8-XJG" firstAttribute="centerY" secondItem="F4a-GS-RNv" secondAttribute="centerY" id="5ip-jl-nc2"/>
+                                    <constraint firstItem="5xm-U8-XJG" firstAttribute="leading" secondItem="F4a-GS-RNv" secondAttribute="leading" constant="3" id="baf-hr-tMN"/>
+                                    <constraint firstAttribute="width" secondItem="F4a-GS-RNv" secondAttribute="height" multiplier="3:2" id="gSg-x6-5B0"/>
+                                    <constraint firstItem="BSA-wG-NZ2" firstAttribute="centerY" secondItem="F4a-GS-RNv" secondAttribute="centerY" id="pmB-35-cbq"/>
+                                    <constraint firstItem="BSA-wG-NZ2" firstAttribute="leading" secondItem="5xm-U8-XJG" secondAttribute="trailing" constant="1.5" id="v5p-uG-ecJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="BSA-wG-NZ2" secondAttribute="trailing" constant="3" id="vTo-iu-uwJ"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="UMr-4B-10a">
+                                <rect key="frame" x="94.5" y="6" width="74.5" height="49.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تعداد اعضاء" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8E-jW-emz">
+                                        <rect key="frame" x="0.0" y="0.0" width="74.5" height="25"/>
+                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
+                                        <color key="textColor" red="0.63137254899999995" green="0.66666666669999997" blue="0.69019607839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11/0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYn-EE-xqP">
+                                        <rect key="frame" x="0.0" y="25" width="74.5" height="24.5"/>
+                                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
+                                        <color key="textColor" red="0.094117647058823528" green="0.097542226314544678" blue="0.10609935224056244" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.95686274509803926" green="0.96078431372549022" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="F4a-GS-RNv" firstAttribute="height" secondItem="8eS-g2-KZu" secondAttribute="height" multiplier="4:5" id="3n8-fl-yFH"/>
+                            <constraint firstItem="l2T-cq-2G8" firstAttribute="leading" secondItem="UMr-4B-10a" secondAttribute="trailing" constant="5" id="4yM-x2-F9N"/>
+                            <constraint firstItem="l2T-cq-2G8" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="6He-CV-fTA"/>
+                            <constraint firstItem="Bdl-Si-dTN" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="JDk-jE-65x"/>
+                            <constraint firstItem="UMr-4B-10a" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="NHK-2a-KNG"/>
+                            <constraint firstItem="UMr-4B-10a" firstAttribute="width" secondItem="F4a-GS-RNv" secondAttribute="width" id="NKe-TR-f6N"/>
+                            <constraint firstItem="Bdl-Si-dTN" firstAttribute="leading" secondItem="l2T-cq-2G8" secondAttribute="trailing" constant="5" id="QP7-rq-DZy"/>
+                            <constraint firstItem="UMr-4B-10a" firstAttribute="height" secondItem="F4a-GS-RNv" secondAttribute="height" id="TBx-iI-nlx"/>
+                            <constraint firstItem="UMr-4B-10a" firstAttribute="leading" secondItem="F4a-GS-RNv" secondAttribute="trailing" constant="10" id="fDF-Uk-Ecs"/>
+                            <constraint firstItem="F4a-GS-RNv" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="h4L-AT-kMo"/>
+                            <constraint firstItem="F4a-GS-RNv" firstAttribute="leading" secondItem="8eS-g2-KZu" secondAttribute="leading" constant="10" id="jVY-KM-maT"/>
+                            <constraint firstItem="Bdl-Si-dTN" firstAttribute="height" secondItem="8eS-g2-KZu" secondAttribute="height" multiplier="4:5" id="rvN-X2-n37"/>
+                            <constraint firstAttribute="trailing" secondItem="Bdl-Si-dTN" secondAttribute="trailing" constant="5" id="zPE-iz-GXl"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.63137254901960782" green="0.66666666666666663" blue="0.69019607843137254" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="0.5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="0.5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="8eS-g2-KZu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="FEj-Zh-kRg"/>
+                    <constraint firstItem="8eS-g2-KZu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="eiC-zc-SMi"/>
+                    <constraint firstAttribute="trailing" secondItem="8eS-g2-KZu" secondAttribute="trailing" constant="5" id="lYP-v9-dok"/>
+                    <constraint firstAttribute="bottom" secondItem="8eS-g2-KZu" secondAttribute="bottom" constant="5" id="vx1-7m-Noi"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="clanCup" destination="BSA-wG-NZ2" id="Adz-DB-c1T"/>
+                <outlet property="clanImage" destination="Bdl-Si-dTN" id="PSY-62-8xV"/>
+                <outlet property="clanMembers" destination="RYn-EE-xqP" id="dNp-mi-rfo"/>
+                <outlet property="clanName" destination="l2T-cq-2G8" id="k3t-MV-rqG"/>
+            </connections>
+            <point key="canvasLocation" x="111" y="114"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="challenges" width="157" height="148"/>
+        <image name="ic_cup" width="132" height="128"/>
+    </resources>
+</document>

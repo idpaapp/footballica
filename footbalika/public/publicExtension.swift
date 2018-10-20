@@ -486,3 +486,12 @@ extension UIView {
 }
 
 
+extension UIImageView {
+    @objc func addUIImageShadow(color : UIColor , offset : CGSize , opacity : Float ,Radius : CGFloat ) {
+    self.layer.shadowColor = color.cgColor
+    self.layer.shadowOffset = offset
+    self.layer.shadowOpacity = opacity
+    self.layer.shadowRadius = Radius
+    }
+}
+

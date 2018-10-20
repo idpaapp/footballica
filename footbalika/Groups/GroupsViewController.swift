@@ -14,7 +14,9 @@ protocol TutorialGroupsDelegate {
     func finishTutorial()
 }
 
-class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate{
+class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate {
+
+    
     
     let defaults = UserDefaults.standard
     
@@ -29,6 +31,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     func didEditedSearchTextField(searchText: String) {
         self.searchText = searchText
     }
+    
     
     var realm : Realm!
     
@@ -483,7 +486,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.groupGameOutlet.backgroundColor = colors().selectedTab
         self.friendsTableView.isHidden = true
         self.groupsGamePage.isHidden = false
-
+        changingClanState(state: "group")
     }
     
     @objc func groupGameAction() {
@@ -494,6 +497,12 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.groupGameOutlet.backgroundColor = UIColor.white
         self.friendsTableView.isHidden = true
         self.groupsGamePage.isHidden = false
+        changingClanState(state: "groupGame")
+    }
+    
+    @objc func changingClanState(state : String) {
+        let CVC = childViewControllers.last as! clanGroupsViewController
+        CVC.ChangeclanState(state: "\(state)")
     }
     
 }
