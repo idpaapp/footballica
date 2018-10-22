@@ -10,8 +10,8 @@ import UIKit
 import CoreFoundation
 
 class challengesViewController: UIViewController {
-    @IBOutlet weak var gradeTitleForeGround: UILabel!
     
+    @IBOutlet weak var gradeTitleForeGround: UILabel!
     @IBOutlet weak var gradeTitle: UILabel!
     @IBOutlet weak var gradeNumber: UILabel!
     override func viewDidLoad() {

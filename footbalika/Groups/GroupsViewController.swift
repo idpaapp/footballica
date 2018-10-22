@@ -42,6 +42,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBOutlet weak var groupGameOutlet: RoundButton!
     @IBOutlet weak var groupsGamePage: UIView!
     
+    @IBOutlet weak var groupsMatchPage: UIView!
     
     var state = "friendsList"
     var searchCount = 1
@@ -135,6 +136,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.groupGameOutlet.addTarget(self, action: #selector(groupGameAction), for: UIControlEvents.touchUpInside)
         self.groupsGamePage.round(corners: [.topLeft, .topRight], radius: 10)
         self.groupsGamePage.isHidden = true
+        self.groupsMatchPage.round(corners: [.topLeft, .topRight], radius: 10)
+        self.groupsMatchPage.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -460,6 +463,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         state = "friendsList"
         self.friendsTableView.isHidden = false
         self.groupsGamePage.isHidden = true
+        self.groupsMatchPage.isHidden = true
         self.friendsTableView.reloadData()
     }
     
@@ -475,6 +479,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBAction func searchAction(_ sender: RoundButton) {
         self.friendsTableView.isHidden = false
         self.groupsGamePage.isHidden = true
+        self.groupsMatchPage.isHidden = true
         searchingState()
     }
     
@@ -486,23 +491,18 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.groupGameOutlet.backgroundColor = colors().selectedTab
         self.friendsTableView.isHidden = true
         self.groupsGamePage.isHidden = false
-        changingClanState(state: "group")
+        self.groupsMatchPage.isHidden = true
     }
     
     @objc func groupGameAction() {
-         state = "groupGame"
+        self.state = "groupMatch"
         self.friendsOutlet.backgroundColor = colors().selectedTab
         self.searchOutlet.backgroundColor = colors().selectedTab
         self.groupOutlet.backgroundColor = colors().selectedTab
         self.groupGameOutlet.backgroundColor = UIColor.white
         self.friendsTableView.isHidden = true
-        self.groupsGamePage.isHidden = false
-        changingClanState(state: "groupGame")
-    }
-    
-    @objc func changingClanState(state : String) {
-        let CVC = childViewControllers.last as! clanGroupsViewController
-        CVC.ChangeclanState(state: "\(state)")
+        self.groupsGamePage.isHidden = true
+        self.groupsMatchPage.isHidden = false
     }
     
 }

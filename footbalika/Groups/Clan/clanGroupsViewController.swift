@@ -12,18 +12,37 @@ protocol clanDetailsViewControllerDelegate {
     func newInformation(minMember : Int , maxMember : Int , minCup : Int , groupType : Int)
 }
 
-class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDetailsViewControllerDelegate , UITableViewDelegate , UITableViewDataSource {
+protocol sendChatViewControllerDelegate {
+    func sendChat(chatString : String)
+    func updateChatView(constraint : CGFloat)
+}
+
+class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDetailsViewControllerDelegate , UITableViewDelegate , UITableViewDataSource , sendChatViewControllerDelegate {
     
-    func ChangeclanState(state : String) {
-        print(state)
-        if state == "group" {
-            self.topClanView.isHidden = true
-        } else {
-            self.topClanView.isHidden = false
+    func sendChat(chatString : String) {
+        print(chatString)
+    }
+    
+    func updateChatView(constraint : CGFloat) {
+        UIView.animate(withDuration: 0.3) {
+            self.chatViewHeight.constant = constraint
         }
     }
     
+    func ChangeclanState() {
+            if isSelectedClan {
+                self.chatView.isHidden = false
+                self.topClanView.isHidden = false
+            } else {
+                self.chatView.isHidden = true
+                self.topClanView.isHidden = true
+            }
+    }
+    
+    @IBOutlet weak var chatViewHeight: NSLayoutConstraint!
+    
     var isSelectedClan = true
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSelectedClan {
@@ -33,18 +52,89 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         }
     }
     
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if isSelectedClan {
-            //other Users
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "chatOtherUsersCell", for: indexPath) as! chatOtherUsersCell
+            
+//            ///////////////////hot News////////////////
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "hotNewsCell", for: indexPath) as! hotNewsCell
+//
+//
+//
 //
 //            return cell
             
-            //current User            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "currentUserCell", for: indexPath) as! currentUserCell
+        
+            
+            ///////////////////top News////////////////
+            
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "topNewsCell", for: indexPath) as! topNewsCell
+//
+//
+//
+//            return cell
+            
+            
+            //////////////////////chat News //////////////
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "chatNewsCell", for: indexPath) as! chatNewsCell
             
             return cell
+
+            
+            
+//            ///////////////////////////////other Users///////////////////////////////
+            
+            
+            
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "chatOtherUsersCell", for: indexPath) as! chatOtherUsersCell
+//
+//
+//            let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+//            let len = UInt32(letters.length)
+//            var randomString = ""
+//            for _ in 0 ..< Int(arc4random_uniform(50) + 1) {
+//                let rand = arc4random_uniform(len)
+//                var nextChar = letters.character(at: Int(rand))
+//                randomString += NSString(characters: &nextChar, length: 1) as String
+//            }
+//
+//            let date = "22:25:26-ب.ظ"
+//            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "Ali\n\(randomString)\n")
+//            attributedString.setColorForText(textForAttribute: "Ali", withColor: publicColors().otherUserTitleChatColor)
+//            attributedString.setColorForText(textForAttribute: "\(randomString)\n", withColor: UIColor.darkGray)
+//
+//            cell.otherChatTexts.attributedText = attributedString
+//            cell.chatDate.text = date
+//            return cell
+            
+            
+            
+            
+            ///////////////////////////////current User///////////////////////////////
+            
+            
+            
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "currentUserCell", for: indexPath) as! currentUserCell
+//
+//                    let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+//                    let len = UInt32(letters.length)
+//                    var randomString = ""
+//                    for _ in 0 ..< Int(arc4random_uniform(50) + 1) {
+//                        let rand = arc4random_uniform(len)
+//                        var nextChar = letters.character(at: Int(rand))
+//                        randomString += NSString(characters: &nextChar, length: 1) as String
+//                    }
+//
+//            let date = "22:25:26-ب.ظ"
+//            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "Ali\n\(randomString)\n")
+//            attributedString.setColorForText(textForAttribute: "Ali", withColor: publicColors().currentUserTitleChatColor)
+//            attributedString.setColorForText(textForAttribute: "\(randomString)\n", withColor: UIColor.darkGray)
+//
+//            cell.senderTexts.attributedText = attributedString
+//            cell.chatDate.text = date
+//            return cell
             
         } else {
             
@@ -57,9 +147,21 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        //chat texts users or others
+//        return UITableViewAutomaticDimension
+        
+        //Hot and top News
+//        return 126
+        
+        
+        //chatroom news
+        return 45
     }
     
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
     
     @IBOutlet weak var searchTextField: UITextField!
     @IBOutlet weak var clearTextField: RoundButton!
@@ -77,7 +179,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     @IBOutlet weak var clanImage: UIImageView!
     @IBOutlet weak var clanTitle: UILabel!
     @IBOutlet weak var clanCup: UILabel!
-    
+    @IBOutlet weak var chatView: UIView!
     
     var isShowDetails = false
     
@@ -162,6 +264,13 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         
         self.clansTV.register(UINib(nibName: "currentUserCell", bundle: nil), forCellReuseIdentifier: "currentUserCell")
 
+        self.clansTV.register(UINib(nibName: "hotNewsCell", bundle: nil), forCellReuseIdentifier: "hotNewsCell")
+        
+        self.clansTV.register(UINib(nibName: "topNewsCell", bundle: nil), forCellReuseIdentifier: "topNewsCell")
+        
+        self.clansTV.register(UINib(nibName: "chatNewsCell", bundle: nil), forCellReuseIdentifier: "chatNewsCell")
+        
+        
         clanCup.backgroundColor = UIColor(patternImage: UIImage(named: "label_back_dark")!)
 
     }
@@ -172,6 +281,9 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? clanDetailsViewController {
+            vc.delegate = self
+        }
+        if let vc = segue.destination as? sendChatViewController {
             vc.delegate = self
         }
     }

@@ -12,6 +12,10 @@ class chatOtherUsersCell: UITableViewCell {
 
     @IBOutlet weak var otherChatsImage: UIImageView!
     
+    @IBOutlet weak var otherChatTexts: UILabel!
+    
+    @IBOutlet weak var chatDate: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         changeImage(name: "recieverChat")

@@ -32,6 +32,11 @@ public class centerScreen {
 public class publicColors {
     public var placeHolderColor = UIColor.init(red: 202/255, green: 202/255, blue: 202/255, alpha: 1.0)
     public var textFieldTintTextColor = UIColor.init(red: 251/255, green: 251/255, blue: 251/255, alpha: 1.0)
+    public var currentUserTitleChatColor = #colorLiteral(red: 0.8235294118, green: 0.2549019608, blue: 0.2078431373, alpha: 1)
+    public var otherUserTitleChatColor = #colorLiteral(red: 0.4, green: 0.7960784314, blue: 0.6, alpha: 1)
+    public var endGroupGameColor = #colorLiteral(red: 0.6156862745, green: 0.4039215686, blue: 0.7803921569, alpha: 1)
+    public var cancelGroupGameColor = #colorLiteral(red: 1, green: 0.2901960784, blue: 0.01176470588, alpha: 1)
+    public var startGroupGameColor = #colorLiteral(red: 0.2705882353, green: 0.01568627451, blue: 0.4666666667, alpha: 1)
 }
 
 public class publicImages {
@@ -41,7 +46,6 @@ public class publicImages {
     public var redBall = UIImage(named: "ic_red_ball")
     public var greenBall = UIImage(named: "ic_green_ball")
     public var emptyImage = UIImage()
-
 }
 
 public class fonts {
@@ -102,6 +106,15 @@ extension UILabel {
     }
 }
 
+extension NSMutableAttributedString {
+    
+    func setColorForText(textForAttribute: String, withColor color: UIColor) {
+        let range: NSRange = self.mutableString.range(of: textForAttribute, options: .caseInsensitive)
+        
+        self.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: range)
+    }
+    
+}
 
 struct soundPlay {
     static var player : AVAudioPlayer?

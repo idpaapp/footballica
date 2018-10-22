@@ -8,9 +8,15 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -21,31 +27,65 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="232.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1n-DF-5rp">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h1n-DF-5rp" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                         <rect key="frame" x="6" y="21" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="fD6-FL-TQB"/>
                             <constraint firstAttribute="width" secondItem="h1n-DF-5rp" secondAttribute="height" multiplier="1:1" id="tTD-hd-y5S"/>
                         </constraints>
                         <state key="normal" image="avatar" backgroundImage="dark_btn_rounded_large"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recieverChat" translatesAutoresizingMaskIntoConstraints="NO" id="DZt-6Z-Jlq">
-                        <rect key="frame" x="64" y="11" width="240" height="211"/>
+                        <rect key="frame" x="66" y="11" width="150" height="211"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TMa-OB-Pfb">
+                        <rect key="frame" x="81" y="11" width="135" height="211"/>
+                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9b4-1v-d8i">
+                        <rect key="frame" x="86" y="201.5" width="125" height="20.5"/>
+                        <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="13"/>
+                        <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="leading" secondItem="h1n-DF-5rp" secondAttribute="trailing" constant="8" id="7Yh-Z6-U11"/>
-                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="8hZ-ul-gRY"/>
+                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="height" secondItem="TMa-OB-Pfb" secondAttribute="height" id="74v-zH-JVK"/>
+                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="TMa-OB-Pfb" secondAttribute="trailing" constant="5" id="B4h-ru-CH6"/>
                     <constraint firstItem="h1n-DF-5rp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="BbX-Km-HIb"/>
                     <constraint firstItem="h1n-DF-5rp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="Ni0-3K-bho"/>
-                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="QvX-bb-ioj"/>
-                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="trailingMargin" id="ojS-41-3yk"/>
+                    <constraint firstItem="TMa-OB-Pfb" firstAttribute="leading" secondItem="h1n-DF-5rp" secondAttribute="trailing" constant="25" id="ObF-g3-3sn"/>
+                    <constraint firstItem="9b4-1v-d8i" firstAttribute="trailing" secondItem="TMa-OB-Pfb" secondAttribute="trailing" constant="-5" id="dqQ-6U-c0i"/>
+                    <constraint firstItem="9b4-1v-d8i" firstAttribute="leading" secondItem="TMa-OB-Pfb" secondAttribute="leading" constant="5" id="e7B-kx-JYk"/>
+                    <constraint firstItem="TMa-OB-Pfb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="hHk-lC-SmY"/>
+                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="width" secondItem="TMa-OB-Pfb" secondAttribute="width" multiplier="10:9" id="hJi-Ze-eYq"/>
+                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="centerY" secondItem="TMa-OB-Pfb" secondAttribute="centerY" id="iaK-63-q6h"/>
+                    <constraint firstItem="TMa-OB-Pfb" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="nbP-EH-PRh"/>
+                    <constraint firstItem="9b4-1v-d8i" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="tn2-0A-Xe6"/>
+                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="leading" secondItem="h1n-DF-5rp" secondAttribute="trailing" constant="10" id="yAt-a6-307"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="chatDate" destination="9b4-1v-d8i" id="31X-h8-a3C"/>
+                <outlet property="otherChatTexts" destination="TMa-OB-Pfb" id="TV1-PB-cfT"/>
                 <outlet property="otherChatsImage" destination="DZt-6Z-Jlq" id="91K-4e-fcz"/>
             </connections>
             <point key="canvasLocation" x="85" y="194.5"/>

@@ -12,6 +12,10 @@ class currentUserCell: UITableViewCell {
 
     @IBOutlet weak var senderChatImage: UIImageView!
     
+    @IBOutlet weak var senderTexts: UILabel!
+    
+    @IBOutlet weak var chatDate: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
