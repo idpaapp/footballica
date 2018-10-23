@@ -11,6 +11,44 @@ import UIKit
 @IBDesignable
 class DesignableView: UIView {
     
+    open var cornerEdges : CGFloat = 0
+    @IBInspectable  var topLeft: Bool = false
+    @IBInspectable  var topRight: Bool = false
+    @IBInspectable  var bottomLeft: Bool = false
+    @IBInspectable  var bottomRight: Bool = false
+    @IBInspectable  var cornerEdgesAllow: Bool = true
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if cornerEdgesAllow == true {
+            self.layer.masksToBounds = true
+            self.clipsToBounds = true
+            var options = UIRectCorner()
+            if topLeft {
+                options =  options.union(.topLeft)
+            }
+            if topRight {
+                options =  options.union(.topRight)
+            }
+            if bottomLeft {
+                options =  options.union(.bottomLeft)
+            }
+            if bottomRight {
+                options =  options.union(.bottomRight)
+            }
+            
+            let path = UIBezierPath(roundedRect:self.bounds,
+                                    byRoundingCorners: options ,
+                                    cornerRadii: CGSize(width: self.cornerEdges, height: self.cornerEdges))
+            
+            let maskLayer = CAShapeLayer()
+            maskLayer.path = path.cgPath
+            self.layer.mask = maskLayer
+        }
+    }
+    
         @IBInspectable var borderColor: UIColor = UIColor.white {
             didSet {
                 self.layer.borderColor = borderColor.cgColor
@@ -37,21 +75,6 @@ class DesignableView: UIView {
         }
     }
     
-    
-//    open var shadowColor: UIColor? {
-//        get {
-//            guard let v = layer.shadowColor else {
-//                return nil
-//            }
-//            
-//            return UIColor(cgColor: v)
-//        }
-//        set(value) {
-//            layer.shadowColor = value?.cgColor
-//        }
-//    }
-    
-    /// A property that accesses the backing layer's shadowOffset.
     @IBInspectable
     open var shadowOffset: CGSize {
         get {

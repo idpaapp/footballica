@@ -20,20 +20,16 @@ class menuAlert: UIView {
     @IBOutlet weak var topLabel: UILabel!
     @IBOutlet weak var topForeGroundLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
-    
     @IBOutlet weak var mainTitle: UILabel!
-    
     @IBOutlet weak var acceptButton: UIButton!
-    
     @IBOutlet weak var acceptButtonLabel: UILabel!
-    
     @IBOutlet weak var acceptButtonLabelForeGround: UILabel!
     
     override public func draw(_ rect: CGRect) {
         self.topView.layer.cornerRadius = 10
         self.mainView.layer.cornerRadius = 10
         self.subView.layer.cornerRadius = 10
-        self.mainTitle.minimumScaleFactor = 00.5
+        self.mainTitle.minimumScaleFactor = 0.5
         self.mainTitle.adjustsFontSizeToFitWidth = true
     }
     
@@ -59,3 +55,5 @@ class menuAlert: UIView {
     }
     
 }
+
+

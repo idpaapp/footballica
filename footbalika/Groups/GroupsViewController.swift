@@ -14,11 +14,17 @@ protocol TutorialGroupsDelegate {
     func finishTutorial()
 }
 
-class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate {
+protocol clanGroupsViewControllerDelegate{
+    func showGroupInfo()
+}
 
-    
+class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate {
     
     let defaults = UserDefaults.standard
+    
+    func showGroupInfo() {
+        self.performSegue(withIdentifier: "showGroupDetail", sender: self)
+    }
     
     func finishTutorial() {
         scrollToPage().scrollPageViewController(index: 2)
@@ -448,61 +454,62 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             vc.state = "lastTutorialPage"
             vc.groupsDelegate = self
         }
+        
+        if let vc = segue.destination as? clanGroupsViewController {
+            vc.delegate = self
+        }
+        
     }
     
     func friendsActionColor() {
-        self.searchOutlet.backgroundColor = colors().selectedTab
-        self.friendsOutlet.backgroundColor = UIColor.white
-        self.groupOutlet.backgroundColor = colors().selectedTab
-        self.groupGameOutlet.backgroundColor = colors().selectedTab
+        self.handlePageTitleColor(friendsOutletColor : UIColor.white ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : colors().selectedTab )
     }
     
     
     @IBAction func friendsAction(_ sender: RoundButton) {
         friendsActionColor()
         state = "friendsList"
-        self.friendsTableView.isHidden = false
-        self.groupsGamePage.isHidden = true
-        self.groupsMatchPage.isHidden = true
+        self.handlePageShow(friendsTableViewShow: false, groupsGamePageShow: true, groupsMatchPageShow: true)
         self.friendsTableView.reloadData()
     }
     
     @objc func searchingState() {
-        self.friendsOutlet.backgroundColor = colors().selectedTab
-        self.searchOutlet.backgroundColor = UIColor.white
-        self.groupOutlet.backgroundColor = colors().selectedTab
-        self.groupGameOutlet.backgroundColor = colors().selectedTab
+        self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : UIColor.white , groupOutletColor : colors().selectedTab , groupGameOutletColor : colors().selectedTab )
         state = "searchList"
         self.friendsTableView.reloadData()
     }
     
     @IBAction func searchAction(_ sender: RoundButton) {
-        self.friendsTableView.isHidden = false
-        self.groupsGamePage.isHidden = true
-        self.groupsMatchPage.isHidden = true
+        self.handlePageShow(friendsTableViewShow: false, groupsGamePageShow: true, groupsMatchPageShow: true)
         searchingState()
     }
     
     @objc func groupAction() {
         state = "group"
-        self.friendsOutlet.backgroundColor = colors().selectedTab
-        self.searchOutlet.backgroundColor = colors().selectedTab
-        self.groupOutlet.backgroundColor = UIColor.white
-        self.groupGameOutlet.backgroundColor = colors().selectedTab
-        self.friendsTableView.isHidden = true
-        self.groupsGamePage.isHidden = false
-        self.groupsMatchPage.isHidden = true
+        self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : UIColor.white , groupGameOutletColor : colors().selectedTab )
+        self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: false, groupsMatchPageShow: true)
     }
     
     @objc func groupGameAction() {
         self.state = "groupMatch"
-        self.friendsOutlet.backgroundColor = colors().selectedTab
-        self.searchOutlet.backgroundColor = colors().selectedTab
-        self.groupOutlet.backgroundColor = colors().selectedTab
-        self.groupGameOutlet.backgroundColor = UIColor.white
-        self.friendsTableView.isHidden = true
-        self.groupsGamePage.isHidden = true
-        self.groupsMatchPage.isHidden = false
+        self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : UIColor.white )
+
+        self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: true, groupsMatchPageShow: false)
+        let vc = childViewControllers.last as! groupMatchViewController
+        vc.updateGroupMatch(state : state)
+    }
+    
+    @objc func handlePageShow(friendsTableViewShow : Bool ,groupsGamePageShow : Bool , groupsMatchPageShow : Bool ) {
+        self.friendsTableView.isHidden = friendsTableViewShow
+        self.groupsGamePage.isHidden = groupsGamePageShow
+        self.groupsMatchPage.isHidden = groupsMatchPageShow
+    }
+    
+    @objc func handlePageTitleColor(friendsOutletColor : UIColor ,searchOutletColor : UIColor , groupOutletColor : UIColor , groupGameOutletColor : UIColor ) {
+        self.friendsOutlet.backgroundColor = friendsOutletColor
+        self.searchOutlet.backgroundColor = searchOutletColor
+        self.groupOutlet.backgroundColor = groupOutletColor
+        self.groupGameOutlet.backgroundColor = groupGameOutletColor
     }
     
 }

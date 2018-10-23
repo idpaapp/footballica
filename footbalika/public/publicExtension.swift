@@ -450,6 +450,7 @@ public extension UITextField {
     }
 }
 
+
 extension String {
      var replacedArabicDigitsWithEnglish: String {
         var str = self
@@ -506,5 +507,26 @@ extension UIImageView {
     self.layer.shadowOpacity = opacity
     self.layer.shadowRadius = Radius
     }
+    
+    @objc func animatingImageView(Radius : CGFloat , circleCenter : CGPoint) {
+        
+        let circlePath = UIBezierPath(arcCenter: circleCenter, radius: CGFloat(Radius), startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
+        
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = circlePath.cgPath
+        
+        // create a new CAKeyframeAnimation that animates the objects position
+        let anim = CAKeyframeAnimation(keyPath: "position")
+        
+        // set the animations path to our bezier curve
+        anim.path = circlePath.cgPath
+        anim.repeatCount = Float.infinity
+        anim.duration = 5.0
+        
+        // we add the animation to the squares 'layer' property
+        self.layer.add(anim, forKey: "animate position along path")
+
+    }
+    
 }
 

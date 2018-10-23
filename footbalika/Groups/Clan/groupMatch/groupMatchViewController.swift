@@ -14,12 +14,50 @@ class groupMatchViewController: UIViewController {
     
     @IBOutlet weak var freezeCount: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    @IBOutlet weak var magnifier: UIImageView!
+    
+    @IBOutlet weak var ronaldoAndMessi: UIImageView!
+    
+    
+    var state = "notGame"
+    
+    @objc func updateGroupMatch(state : String) {
+        print(state)
+        switch state {
+        case "Searching" :
+            self.ronaldoAndMessi.isHidden = true
+            self.magnifier.isHidden = false
+        default :
+            self.ronaldoAndMessi.isHidden = false
+            self.magnifier.isHidden = true
+        }
+        
         self.bombCount.text = "2"
         self.freezeCount.text = "2"
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
+        updateGroupMatch(state: self.state)
+        
+    }
+    
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        var heightOfButtomMenu = CGFloat()
+        if UIDevice().userInterfaceIdiom == .phone {
+            if UIScreen.main.nativeBounds.height == 2436 {
+                heightOfButtomMenu = 135
+            } else {
+                heightOfButtomMenu = 85
+            }
+        } else {
+            heightOfButtomMenu = 135
+        }
+        self.magnifier.animatingImageView(Radius : 50, circleCenter: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2 - heightOfButtomMenu))
     }
 
     override func didReceiveMemoryWarning() {

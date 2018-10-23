@@ -18,6 +18,8 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
     
     @IBOutlet weak var sendButtonTitleForeGround: UILabel!
     
+    @IBOutlet weak var clearChatTextView: RoundButton!
+    
     var delegate : sendChatViewControllerDelegate!
     
     var textForSend = String()
@@ -33,9 +35,17 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
         self.chatTextView.layer.borderWidth = 1.0
         self.chatTextView.delegate = self
         self.sendButton.addTarget(self, action: #selector(sendingAction), for: UIControlEvents.touchUpInside)
+        self.chatTextView.contentInset = UIEdgeInsets(top: 0, left: 29, bottom: 0, right: 10)
+        self.clearChatTextView.addTarget(self, action: #selector(clearChatTexs), for: UIControlEvents.touchUpInside)
+        self.clearChatTextView.isHidden = true
     }
     
     
+    @objc func clearChatTexs() {
+        self.chatTextView.text = ""
+        self.clearChatTextView.isHidden = true
+        checkNumberOfLines()
+    }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
@@ -44,8 +54,20 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
     }
     
     @objc func textViewDidChange(_ textField: UITextView) {
-        
+
         self.textForSend = self.chatTextView.text!
+        if self.chatTextView.text! == "" {
+            self.clearChatTextView.isHidden = true
+        } else {
+            self.clearChatTextView.isHidden = false
+        }
+        
+        checkNumberOfLines()
+    }
+    
+    
+    @objc func checkNumberOfLines() {
+        
         let layoutManager:NSLayoutManager = self.chatTextView!.layoutManager
         let numberOfGlyphs = layoutManager.numberOfGlyphs
         
@@ -59,10 +81,10 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
             numberOfLines = numberOfLines + 1
         }
         
-//        let bottom = NSMakeRange(self.chatTextView!.text.count - 1, 1)
-//        self.chatTextView!.scrollRangeToVisible(bottom)
-//        print(numberOfLines)
-    
+        //        let bottom = NSMakeRange(self.chatTextView!.text.count - 1, 1)
+        //        self.chatTextView!.scrollRangeToVisible(bottom)
+        //        print(numberOfLines)
+        
         var heightConstant = Int()
         
         if  UIScreen.main.bounds.height <= 568 {

@@ -19,6 +19,11 @@ protocol sendChatViewControllerDelegate {
 
 class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDetailsViewControllerDelegate , UITableViewDelegate , UITableViewDataSource , sendChatViewControllerDelegate {
     
+    @IBAction func selectGroup(_ sender: RoundButton) {
+        self.delegate?.showGroupInfo()
+    }
+    
+    var delegate : clanGroupsViewControllerDelegate!
     func sendChat(chatString : String) {
         print(chatString)
     }
