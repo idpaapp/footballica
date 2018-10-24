@@ -459,6 +459,11 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             vc.delegate = self
         }
         
+        if let vc = segue.destination as? groupDetailViewController {
+            vc.isJoined = true
+            vc.isCharge = true
+        }
+        
     }
     
     func friendsActionColor() {

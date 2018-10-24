@@ -171,6 +171,8 @@
 		5CDB89E5217F28D200093006 /* clanDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDB89E3217F28D200093006 /* clanDetailCell.swift */; };
 		5CDB89E6217F28D200093006 /* clanDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CDB89E4217F28D200093006 /* clanDetailCell.xib */; };
 		5CDED2512157CABC00BCC0D7 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CDED2502157CABB00BCC0D7 /* credentials.plist */; };
+		5CE74EE12180740600CD3C68 /* actionLargeButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5CE74EE02180740500CD3C68 /* actionLargeButton.xib */; };
+		5CE74EE32180741E00CD3C68 /* actionLargeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE74EE22180741E00CD3C68 /* actionLargeButton.swift */; };
 		5CE8507520F5CC8300BB303A /* beep.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8507420F5CC8300BB303A /* beep.mp3 */; };
 		5CE8507720F5D98500BB303A /* questionsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CE8507620F5D98500BB303A /* questionsList.swift */; };
 		5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */; };
@@ -362,6 +364,8 @@
 		5CDB89E3217F28D200093006 /* clanDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clanDetailCell.swift; sourceTree = "<group>"; };
 		5CDB89E4217F28D200093006 /* clanDetailCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = clanDetailCell.xib; sourceTree = "<group>"; };
 		5CDED2502157CABB00BCC0D7 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
+		5CE74EE02180740500CD3C68 /* actionLargeButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = actionLargeButton.xib; sourceTree = "<group>"; };
+		5CE74EE22180741E00CD3C68 /* actionLargeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = actionLargeButton.swift; sourceTree = "<group>"; };
 		5CE8507420F5CC8300BB303A /* beep.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep.mp3; sourceTree = "<group>"; };
 		5CE8507620F5D98500BB303A /* questionsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = questionsList.swift; sourceTree = "<group>"; };
 		5CE8507820F5FCB900BB303A /* correctAnswer.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = correctAnswer.mp3; sourceTree = "<group>"; };
@@ -952,6 +956,7 @@
 				5CCB9BCA20F1D51000B92355 /* urls.swift */,
 				5C84D51F20CCFFE500A9DC67 /* GradientView.swift */,
 				5CC5DC3D20E9E0EE006F2855 /* DesignableView.swift */,
+				5CE74EDF218073E200CD3C68 /* ActionYellowButton */,
 			);
 			path = public;
 			sourceTree = "<group>";
@@ -1006,6 +1011,15 @@
 				5CDB89E4217F28D200093006 /* clanDetailCell.xib */,
 			);
 			path = clanDetailCell;
+			sourceTree = "<group>";
+		};
+		5CE74EDF218073E200CD3C68 /* ActionYellowButton */ = {
+			isa = PBXGroup;
+			children = (
+				5CE74EE02180740500CD3C68 /* actionLargeButton.xib */,
+				5CE74EE22180741E00CD3C68 /* actionLargeButton.swift */,
+			);
+			path = ActionYellowButton;
 			sourceTree = "<group>";
 		};
 		5CE8718F214E3C66004D6EE5 /* HelpAndTutorial */ = {
@@ -1150,6 +1164,7 @@
 				5C4B4654217AFDF80054F777 /* clanGroupsCell.xib in Resources */,
 				5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */,
 				5C234EFE20FA08FE00926611 /* last_ticking.mp3 in Resources */,
+				5CE74EE12180740600CD3C68 /* actionLargeButton.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1248,6 +1263,7 @@
 				5C6B217E215779C400D655D0 /* downloadStadiums.swift in Sources */,
 				5C9FFCE420D8DC20007A11C0 /* readAndWritetblChargeTypes.swift in Sources */,
 				5C090397217C514A00B65345 /* sendChatViewController.swift in Sources */,
+				5CE74EE32180741E00CD3C68 /* actionLargeButton.swift in Sources */,
 				5CA7A053217DA690002BA65E /* hotNewsCell.swift in Sources */,
 				5C84D52520CCFFE600A9DC67 /* matchViewController.swift in Sources */,
 				5C84D52320CCFFE600A9DC67 /* GradientView.swift in Sources */,

@@ -18,7 +18,6 @@ class groupMatchViewController: UIViewController {
     
     @IBOutlet weak var ronaldoAndMessi: UIImageView!
     
-    
     var state = "notGame"
     
     @objc func updateGroupMatch(state : String) {
@@ -31,16 +30,13 @@ class groupMatchViewController: UIViewController {
             self.ronaldoAndMessi.isHidden = false
             self.magnifier.isHidden = true
         }
-        
         self.bombCount.text = "2"
         self.freezeCount.text = "2"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         updateGroupMatch(state: self.state)
-        
     }
     
     

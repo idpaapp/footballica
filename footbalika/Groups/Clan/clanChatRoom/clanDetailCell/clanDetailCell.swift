@@ -12,6 +12,16 @@ class clanDetailCell: UICollectionViewCell {
 
     @IBOutlet weak var mainView: DesignableView!
     
+    @IBOutlet weak var clanDetailImage: UIImageView!
+    
+    @IBOutlet weak var clanDetailTitle: UILabel!
+    
+    @IBOutlet weak var clanDetailTitleForeGround: UILabel!
+    
+    @IBOutlet weak var clanDetailAmount: UILabel!
+    
+    @IBOutlet weak var clanDetailAmountForeGround: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         

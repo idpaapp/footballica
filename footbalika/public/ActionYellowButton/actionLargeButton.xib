@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="actionLargeButton" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="action1" destination="02Q-vJ-NGp" id="tnT-r1-JGu"/>
+                <outlet property="action1Title" destination="kbK-uB-Hjb" id="kkZ-Mg-uPJ"/>
+                <outlet property="action1TitleForeGround" destination="LrY-Zb-tdS" id="eqC-9r-HtX"/>
+                <outlet property="action2" destination="Lx0-qY-zdh" id="qet-0T-nZT"/>
+                <outlet property="action2Title" destination="dYD-Od-PUp" id="oPe-TL-PBU"/>
+                <outlet property="action2TitleForeGround" destination="wE8-cw-2qK" id="Tol-9G-mMW"/>
+                <outlet property="action3" destination="edI-bs-xsu" id="CGk-yC-hwa"/>
+                <outlet property="action3Title" destination="OdH-HP-DZ6" id="uPl-tI-eBH"/>
+                <outlet property="action3TitleForeGround" destination="bVS-gc-6uR" id="2NS-Ho-7xP"/>
+                <outlet property="actionButton" destination="rwx-E0-Ted" id="fs7-uq-Lp4"/>
+                <outlet property="actionButtonTitle" destination="ln2-CX-ev9" id="75l-E0-ThS"/>
+                <outlet property="actionButtonTitleForeGround" destination="P5y-wr-zgA" id="HVG-dc-wGe"/>
+                <outlet property="actionsStackView" destination="ki5-BI-qNP" id="xsg-AN-gQ4"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="BPk-BJ-bql"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" restorationIdentifier="actionLargeButton" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="446" height="92"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rwx-E0-Ted" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="3" y="3" width="440" height="86"/>
+                    <state key="normal" backgroundImage="action_back_large_btn"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ln2-CX-ev9">
+                    <rect key="frame" x="23" y="3" width="400" height="86"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P5y-wr-zgA">
+                    <rect key="frame" x="23" y="3" width="400" height="86"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ki5-BI-qNP">
+                    <rect key="frame" x="3" y="3" width="440" height="86"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="02Q-vJ-NGp" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="143.5" height="86"/>
+                            <state key="normal" backgroundImage="alter_action_back_btn"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lx0-qY-zdh" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="148.5" y="0.0" width="143" height="86"/>
+                            <state key="normal" backgroundImage="action_back_btn_height"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="edI-bs-xsu" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="296.5" y="0.0" width="143.5" height="86"/>
+                            <state key="normal" backgroundImage="cancel_btn"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                    </subviews>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kbK-uB-Hjb">
+                    <rect key="frame" x="8" y="3" width="133.5" height="86"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LrY-Zb-tdS">
+                    <rect key="frame" x="8" y="3" width="133.5" height="86"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dYD-Od-PUp">
+                    <rect key="frame" x="156.5" y="3" width="133" height="86"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wE8-cw-2qK">
+                    <rect key="frame" x="156" y="3" width="133.5" height="86"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OdH-HP-DZ6">
+                    <rect key="frame" x="304.5" y="3" width="133.5" height="86"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bVS-gc-6uR">
+                    <rect key="frame" x="304.5" y="3" width="133.5" height="86"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="bVS-gc-6uR" firstAttribute="centerY" secondItem="OdH-HP-DZ6" secondAttribute="centerY" id="5tq-kt-9lr"/>
+                <constraint firstItem="kbK-uB-Hjb" firstAttribute="top" secondItem="02Q-vJ-NGp" secondAttribute="top" id="5ut-D2-VPU"/>
+                <constraint firstItem="P5y-wr-zgA" firstAttribute="width" secondItem="ln2-CX-ev9" secondAttribute="width" id="6D6-91-bUu"/>
+                <constraint firstItem="OdH-HP-DZ6" firstAttribute="bottom" secondItem="edI-bs-xsu" secondAttribute="bottom" id="6eY-xf-hCN"/>
+                <constraint firstItem="dYD-Od-PUp" firstAttribute="bottom" secondItem="Lx0-qY-zdh" secondAttribute="bottom" id="7us-Y3-umq"/>
+                <constraint firstItem="dYD-Od-PUp" firstAttribute="trailing" secondItem="Lx0-qY-zdh" secondAttribute="trailing" constant="-5" id="8nc-Nr-xx6"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="rwx-E0-Ted" secondAttribute="bottom" constant="3" id="9hH-yi-5mz"/>
+                <constraint firstItem="ln2-CX-ev9" firstAttribute="leading" secondItem="rwx-E0-Ted" secondAttribute="leading" constant="20" id="A8N-Qy-dig"/>
+                <constraint firstItem="bVS-gc-6uR" firstAttribute="centerX" secondItem="OdH-HP-DZ6" secondAttribute="centerX" id="DoJ-ik-GjY"/>
+                <constraint firstItem="LrY-Zb-tdS" firstAttribute="centerX" secondItem="kbK-uB-Hjb" secondAttribute="centerX" id="Elo-z4-VUY"/>
+                <constraint firstItem="rwx-E0-Ted" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="3" id="FPs-no-OFu"/>
+                <constraint firstItem="rwx-E0-Ted" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="3" id="G22-B2-61p"/>
+                <constraint firstItem="kbK-uB-Hjb" firstAttribute="trailing" secondItem="02Q-vJ-NGp" secondAttribute="trailing" constant="-5" id="L2L-M0-kTh"/>
+                <constraint firstItem="dYD-Od-PUp" firstAttribute="leading" secondItem="Lx0-qY-zdh" secondAttribute="leading" constant="5" id="Lqe-LE-tiV"/>
+                <constraint firstAttribute="trailing" secondItem="ki5-BI-qNP" secondAttribute="trailing" constant="3" id="M9Y-99-Gpe"/>
+                <constraint firstItem="P5y-wr-zgA" firstAttribute="centerY" secondItem="ln2-CX-ev9" secondAttribute="centerY" id="Mrx-zy-Iqu"/>
+                <constraint firstItem="dYD-Od-PUp" firstAttribute="top" secondItem="Lx0-qY-zdh" secondAttribute="top" id="O5L-tl-hyp"/>
+                <constraint firstAttribute="bottom" secondItem="ki5-BI-qNP" secondAttribute="bottom" constant="3" id="P3V-80-Yyn"/>
+                <constraint firstItem="P5y-wr-zgA" firstAttribute="centerX" secondItem="ln2-CX-ev9" secondAttribute="centerX" id="PeM-kq-K5s"/>
+                <constraint firstItem="OdH-HP-DZ6" firstAttribute="leading" secondItem="edI-bs-xsu" secondAttribute="leading" constant="5" id="Rtu-Ek-GTo"/>
+                <constraint firstItem="ln2-CX-ev9" firstAttribute="bottom" secondItem="rwx-E0-Ted" secondAttribute="bottom" id="ToQ-eF-JEL"/>
+                <constraint firstItem="kbK-uB-Hjb" firstAttribute="bottom" secondItem="02Q-vJ-NGp" secondAttribute="bottom" id="a1A-hI-nU1"/>
+                <constraint firstItem="wE8-cw-2qK" firstAttribute="height" secondItem="dYD-Od-PUp" secondAttribute="height" id="abZ-Yj-Wqa"/>
+                <constraint firstItem="wE8-cw-2qK" firstAttribute="centerX" secondItem="dYD-Od-PUp" secondAttribute="centerX" id="abl-JN-lcW"/>
+                <constraint firstItem="P5y-wr-zgA" firstAttribute="height" secondItem="ln2-CX-ev9" secondAttribute="height" id="bZd-5K-12z"/>
+                <constraint firstItem="kbK-uB-Hjb" firstAttribute="leading" secondItem="02Q-vJ-NGp" secondAttribute="leading" constant="5" id="cR9-eO-zBG"/>
+                <constraint firstItem="ki5-BI-qNP" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="3" id="cjt-Cx-xtM"/>
+                <constraint firstItem="bVS-gc-6uR" firstAttribute="width" secondItem="OdH-HP-DZ6" secondAttribute="width" id="dI7-zr-DKF"/>
+                <constraint firstItem="wE8-cw-2qK" firstAttribute="centerY" secondItem="dYD-Od-PUp" secondAttribute="centerY" id="e2e-Bq-jFn"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="rwx-E0-Ted" secondAttribute="trailing" constant="3" id="e4B-Fj-Ghl"/>
+                <constraint firstItem="LrY-Zb-tdS" firstAttribute="width" secondItem="kbK-uB-Hjb" secondAttribute="width" id="fgl-27-ifD"/>
+                <constraint firstItem="LrY-Zb-tdS" firstAttribute="centerY" secondItem="kbK-uB-Hjb" secondAttribute="centerY" id="fnO-iZ-S0O"/>
+                <constraint firstItem="ki5-BI-qNP" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="3" id="h8R-y6-ONO"/>
+                <constraint firstItem="bVS-gc-6uR" firstAttribute="height" secondItem="OdH-HP-DZ6" secondAttribute="height" id="hyj-DY-3JK"/>
+                <constraint firstItem="ln2-CX-ev9" firstAttribute="trailing" secondItem="rwx-E0-Ted" secondAttribute="trailing" constant="-20" id="iDu-5C-Ejr"/>
+                <constraint firstItem="LrY-Zb-tdS" firstAttribute="height" secondItem="kbK-uB-Hjb" secondAttribute="height" id="j4y-80-8cl"/>
+                <constraint firstItem="ln2-CX-ev9" firstAttribute="top" secondItem="rwx-E0-Ted" secondAttribute="top" id="lKp-oE-3ym"/>
+                <constraint firstItem="wE8-cw-2qK" firstAttribute="width" secondItem="dYD-Od-PUp" secondAttribute="width" id="oEB-Me-PEn"/>
+                <constraint firstItem="OdH-HP-DZ6" firstAttribute="trailing" secondItem="edI-bs-xsu" secondAttribute="trailing" constant="-5" id="x3X-A0-Y6Q"/>
+                <constraint firstItem="OdH-HP-DZ6" firstAttribute="top" secondItem="edI-bs-xsu" secondAttribute="top" id="xtZ-J4-fMx"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="121" y="-188"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="action_back_btn_height" width="194" height="142"/>
+        <image name="action_back_large_btn" width="600" height="114"/>
+        <image name="alter_action_back_btn" width="209" height="114"/>
+        <image name="cancel_btn" width="209" height="114"/>
+    </resources>
+</document>
