@@ -46,7 +46,8 @@ class ItemViewController: UIViewController {
         } else {
             let url = ImageItem
             let urls = URL(string: url)
-            itemImage.kf.setImage(with: urls , options:[.transition(ImageTransition.fade(0.5))] )
+            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+            itemImage.kf.setImage(with: resource , options:[.transition(ImageTransition.fade(0.5))] )
         }
         
         if UIDevice().userInterfaceIdiom == .phone {

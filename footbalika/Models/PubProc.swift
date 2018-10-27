@@ -26,6 +26,8 @@ public class PubProc {
     static var wb = waitingBall()
     static var cV = connectionView()
     static var showWarning = Bool()
+    
+    
     public class THandleDataBase {
 //        var cV = connectionView()
         public func readJson(wsName: String, JSONStr: String  , completionHandler: @escaping (Data?, NSError?) -> Void ) -> URLSessionTask{
@@ -47,7 +49,8 @@ public class PubProc {
                     completionHandler(nil, (error! as NSError))
                     print("error=\(String(describing: error))")
                     DispatchQueue.main.async {
-                       cV.showWarning()
+                        cV.connectionErrorTitle.text = "ارتباط شما با سرور قطع شده لطفاً اینترنت خود را چک کنید"
+                        cV.showWarning()
                     }
                     return
                 }
@@ -57,7 +60,9 @@ public class PubProc {
                     // check for http errors
                     print("statusCode should be 200, but is \(httpStatus.statusCode)")
                     print("response = \(String(describing: response!))")
+                    
                     DispatchQueue.main.async {
+                    cV.connectionErrorTitle.text = "در حال حاضر ارتباط با سرور مقدور نمی باشد!"
                     cV.showWarning()
                     }
                 }

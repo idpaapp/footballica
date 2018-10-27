@@ -19,6 +19,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="connectionView" customModule="footbalika" customModuleProvider="target">
             <connections>
+                <outlet property="connectionErrorTitle" destination="EMm-JT-rIQ" id="E7z-qQ-Vhl"/>
                 <outlet property="connectionViewConstraint" destination="mCn-SN-yj3" id="TuV-6f-Qg8"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="5ab-kr-rVd"/>
                 <outlet property="mainView" destination="qMa-yI-Hxp" id="AEC-w2-qg6"/>
@@ -41,7 +42,7 @@
                                 <constraint firstAttribute="width" secondItem="jBl-mW-aWQ" secondAttribute="height" multiplier="1:1" id="O6T-Ch-9rr"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ارتباط شما با سرور قطع شده لطفاً اینترنت خود را چک کنید" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EMm-JT-rIQ">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ارتباط شما با سرور قطع شده لطفاً اینترنت خود را چک کنید" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EMm-JT-rIQ">
                             <rect key="frame" x="3" y="0.0" width="255" height="40"/>
                             <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

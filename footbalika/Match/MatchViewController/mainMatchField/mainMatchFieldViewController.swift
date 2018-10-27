@@ -972,7 +972,7 @@ class mainMatchFieldViewController: UIViewController  {
         
         playerReault = storeArray.filter{$0 == 1}.count
         
-        let gameArray = "{'mode':'UPDT_GAME_RESULT','is_home':'\(self.isHome)','match_id':\(((matchData?.response?.matchData?.id!)!)),'game_type':\(self.category),'last_questions':'\((self.res?.response?[0].id!)!),\((self.res?.response?[1].id!)!),\((self.res?.response?[2].id!)!),\((self.res?.response?[3].id!)!)','player\(playerSide)_result':\(playerReault),'player\(playerSide)_result_sheet':'{\\'ans_1\\':\\'\(storeArray[0])\\',\\'ans_2\\':\\'\(storeArray[1])\\',\\'ans_3\\':\\'\(storeArray[2])\\',\\'ans_4\\':\\'\(storeArray[3])\\'}'}"
+        let gameArray = "{'mode':'UPDT_GAME_RESULT','is_home':'\(self.isHome)','match_id':\(((matchData?.response?.matchData?.id!)!)),'game_type':\(self.category),'last_questions':'\((self.res?.response?[0].id!)!),\((self.res?.response?[1].id!)!),\((self.res?.response?[2].id!)!),\((self.res?.response?[3].id!)!)','player\(playerSide)_result':\(String(playerReault)),'player\(playerSide)_result_sheet':'{\\'ans_1\\':\\'\(String(storeArray[0]))\\',\\'ans_2\\':\\'\(String(storeArray[1]))\\',\\'ans_3\\':\\'\(String(storeArray[2]))\\',\\'ans_4\\':\\'\(String(storeArray[3]))\\'}'}"
         
         defaults.set(gameArray, forKey: "gameLeft")
         

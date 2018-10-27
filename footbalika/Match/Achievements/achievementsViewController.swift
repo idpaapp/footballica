@@ -58,6 +58,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                                 self.achievementCount = (self.res?.response?.count)!
                                 self.achievementsTV.reloadData()
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                                    if self.achievementCount != 0 {
+                                        let indexPath = IndexPath(row: 0, section: 0)
+                                        self.achievementsTV.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+                                    }
                                     PubProc.wb.hideWaiting()
                                     PubProc.cV.hideWarning()
                                 })
@@ -339,7 +343,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             let url = "\(urlClass.icons)\((loadingAchievements.res?.response?[indexPath.row].img_logo!)!)"
             
             let urls = URL(string : url)
-            cell.achievementImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+            cell.achievementImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
             
             if intProgress < 10 {
             if UIDevice().userInterfaceIdiom == .phone {
@@ -393,7 +398,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             cell.avatar.image = UIImage(data: dataDecoded as Data)
             } else {
             let urls = URL(string : url)
-            cell.avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+            cell.avatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
             }
             
             var url2 = String()
@@ -409,7 +415,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.playerLogo.image = UIImage(data: dataDecoded as Data)
             } else {
                 let urls2 = URL(string : url2)
-                cell.playerLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
+                cell.playerLogo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
             }
             
             cell.selectLeaderBoard.tag = indexPath.row
@@ -447,7 +454,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
             } else {
                 let urls = URL(string : url)
-                cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                cell.friendAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
             }
             
            
@@ -468,7 +476,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.friendLogo.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls2 = URL(string : url2)
-                    cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
+                    cell.friendLogo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
                 }
             }
             
@@ -498,7 +507,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.alertImage.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls = URL(string : url)
-                    cell.alertImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                    cell.alertImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                 }
                
                 return cell
@@ -516,7 +526,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.userAvatar.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls = URL(string : url)
-                    cell.userAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                    cell.userAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                 }
                 
                 cell.alertBody.text = (self.alertsRes?.response?[indexPath.row].subject!)!
@@ -545,7 +556,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.profileAvatar.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls = URL(string : url)
-                    cell.profileAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                    cell.profileAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                 }
                 
                 let url2 = profileBadge
@@ -560,7 +572,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.profileLogo.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls2 = URL(string : url2)
-                    cell.profileLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
+                    cell.profileLogo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
                     }
                 }
                 
@@ -699,10 +712,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.stadiumImage.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls = URL(string : url)
-                    cell.stadiumImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                    cell.stadiumImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                 }
-                
-                
                 
                 return cell
             }

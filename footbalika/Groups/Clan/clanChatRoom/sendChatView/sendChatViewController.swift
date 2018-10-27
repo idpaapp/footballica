@@ -24,6 +24,10 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
     
     var textForSend = String()
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

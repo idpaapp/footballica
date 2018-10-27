@@ -20,6 +20,12 @@ class clanDetailsViewController: UIViewController {
     var minCup = Int()
     var groupType = Int()
     
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    
     @objc func fieldsUI() {
         
         minimumMembersLabel.backgroundColor = UIColor(patternImage: UIImage(named: "label_back_dark")!)

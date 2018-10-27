@@ -28,8 +28,12 @@ class menuAlert2Buttons: UIView {
         self.topView.layer.cornerRadius = 10
         self.mainView.layer.cornerRadius = 10
         self.subView.layer.cornerRadius = 10
-        self.mainTitle.minimumScaleFactor = 00.5
+        self.mainTitle.minimumScaleFactor = 0.5
         self.mainTitle.adjustsFontSizeToFitWidth = true
+        self.topLabel.minimumScaleFactor = 0.5
+        self.topLabel.adjustsFontSizeToFitWidth = true
+        self.topForeGroundLabel.minimumScaleFactor = 0.5
+        self.topForeGroundLabel.adjustsFontSizeToFitWidth = true
         self.isOpaque = false
     }
     

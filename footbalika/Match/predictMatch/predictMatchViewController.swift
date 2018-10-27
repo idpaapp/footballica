@@ -69,10 +69,12 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         cell.team2Resault.text = "\((self.todayRes?.response?[indexPath.row].home_result!)!)"
         let team1LogoUrl = "\((self.todayRes?.response?[indexPath.row].home_image!)!)"
         let team1ImgUrl = URL(string: team1LogoUrl)
-        cell.team1Logo.kf.setImage(with: team1ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+        let resource = ImageResource(downloadURL: team1ImgUrl!, cacheKey: team1LogoUrl)
+        cell.team1Logo.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
         let team2LogoUrl = "\((self.todayRes?.response?[indexPath.row].away_image!)!)"
         let team2ImgUrl = URL(string: team2LogoUrl)
-        cell.team2Logo.kf.setImage(with: team2ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+        let resource2 = ImageResource(downloadURL: team2ImgUrl!, cacheKey: team2LogoUrl)
+        cell.team2Logo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
         cell.submitPrediction.tag = indexPath.row
             cell.submitPrediction.addTarget(self, action: #selector(submitting), for: UIControlEvents.touchUpInside)
         if ((self.todayRes?.response?[indexPath.row].status)!) != "0" {
@@ -113,10 +115,12 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             cell.team2Resault.text = "\((self.pastRes?.response?[indexPath.row].home_result!)!)"
             let team1LogoUrl = "\((self.pastRes?.response?[indexPath.row].home_image!)!)"
             let team1ImgUrl = URL(string: team1LogoUrl)
-            cell.team1Logo.kf.setImage(with: team1ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+            let resource = ImageResource(downloadURL: team1ImgUrl!, cacheKey: team1LogoUrl)
+            cell.team1Logo.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
             let team2LogoUrl = "\((self.pastRes?.response?[indexPath.row].away_image!)!)"
             let team2ImgUrl = URL(string: team2LogoUrl)
-            cell.team2Logo.kf.setImage(with: team2ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+            let resource2 = ImageResource(downloadURL: team2ImgUrl!, cacheKey: team2LogoUrl)
+            cell.team2Logo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
             cell.team1Prediction.text = "\((self.pastRes?.response?[indexPath.row].home_prediction!)!)"
             cell.team2Prediction.text = "\((self.pastRes?.response?[indexPath.row].away_prediction!)!)"
             return cell
@@ -127,7 +131,8 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             
             let leaderAvatarUrl = "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)"
             let leaderA = URL(string: leaderAvatarUrl)
-            cell.userAvatar.kf.setImage(with: leaderA ,options:[.transition(ImageTransition.fade(0.5))])
+            let resource = ImageResource(downloadURL: leaderA!, cacheKey: leaderAvatarUrl)
+            cell.userAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
             cell.userName.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].username!)!)"
             cell.number.text = "\(indexPath.row + 1)"
             cell.userScore.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].cups!)!)"

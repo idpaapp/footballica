@@ -43,7 +43,8 @@ class leaguesViewController: UIViewController, UITableViewDataSource , UITableVi
         
         let url = "\((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].img_logo!)!)"
         let urls = URL(string: url)
-        cell.leagueImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+        cell.leagueImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
         if UIDevice().userInterfaceIdiom == .phone {
         cell.leagueTitle.AttributesOutLine(font: fonts.init().iPhonefonts, title: "\(((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: -4.0)
         } else {

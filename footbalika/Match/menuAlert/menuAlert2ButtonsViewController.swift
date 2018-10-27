@@ -31,9 +31,9 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
          self.dismissing()
     }
     
-        override var prefersStatusBarHidden: Bool {
-            return true
-        }
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     @objc func changingUserPassNotification() {
             self.dismissing()

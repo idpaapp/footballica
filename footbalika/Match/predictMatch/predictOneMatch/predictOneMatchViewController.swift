@@ -95,10 +95,12 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
         
         let team1LogoUrl = "\(homeImg)"
         let team1ImgUrl = URL(string: team1LogoUrl)
-        homeTeamImage.kf.setImage(with: team1ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+        let resource = ImageResource(downloadURL: team1ImgUrl!, cacheKey: team1LogoUrl)
+        homeTeamImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
         let team2LogoUrl = "\(awayImg)"
         let team2ImgUrl = URL(string: team2LogoUrl)
-        awayTeamImage.kf.setImage(with: team2ImgUrl ,options:[.transition(ImageTransition.fade(0.5))])
+        let resource2 = ImageResource(downloadURL: team2ImgUrl!, cacheKey: team2LogoUrl)
+        awayTeamImage.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
     }
 
     override func didReceiveMemoryWarning() {

@@ -127,7 +127,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                                 self.player1Avatar.image = UIImage(data: dataDecoded as Data)
                             } else {
                                 let urls = URL(string: url)
-                                self.player1Avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                                let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                                self.player1Avatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                             }
                             
                             let url2 = "\(self.urlClass.avatar)\((self.res?.response?.matchData?.player2_avatar)!)"
@@ -138,7 +139,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                                 self.player2Avatar.image = UIImage(data: dataDecoded as Data)
                             } else {
                                 let urls2 = URL(string: url2)
-                                self.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                                let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
+                                self.player2Avatar.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
                             }
                             
                             self.player1Name.text = "\((self.res?.response?.matchData?.player1_username)!)"

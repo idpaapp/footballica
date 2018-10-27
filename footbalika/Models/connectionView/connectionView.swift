@@ -13,6 +13,7 @@ public class connectionView: UIView {
     @IBOutlet weak var connectionViewConstraint: NSLayoutConstraint!
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var connectionErrorTitle: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -104,12 +104,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 self.avatar.image = UIImage(data: dataDecoded as Data)
             } else {
                 let urlsurlAvatar = URL(string: urlAvatar)
-                self.avatar.kf.setImage(with: urlsurlAvatar ,options:[.transition(ImageTransition.fade(0.5))])
+                let resource = ImageResource(downloadURL: urlsurlAvatar!, cacheKey: urlAvatar)
+                self.avatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
             }
             
         let url = "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)"
         let urls = URL(string: url)
-        mainCupImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+        mainCupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
         }
     }
     

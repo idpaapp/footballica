@@ -151,7 +151,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             
         let url = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].image!)!))"
         let urls = URL(string: url)
-        cell.storeImage.kf.setImage(with: urls , options : [.transition(ImageTransition.fade(0.5))])
+        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+        cell.storeImage.kf.setImage(with: resource , options : [.transition(ImageTransition.fade(0.5))])
         
         if UIDevice().userInterfaceIdiom == .phone {
         cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
@@ -177,8 +178,9 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             print(indexPath.item)
             let url = "\(((loadShop.res?.response?[0].items?[0].image!)!))"
             let urls = URL(string: url)
+            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
             let processor = RoundCornerImageProcessor(cornerRadius: 10)
-            cell.packageButton.kf.setBackgroundImage(with: urls , for: UIControlState.normal, options : [.transition(ImageTransition.fade(0.5)) , .processor(processor)])
+            cell.packageButton.kf.setBackgroundImage(with: resource , for: UIControlState.normal, options : [.transition(ImageTransition.fade(0.5)) , .processor(processor)])
 
             cell.packageButton.tag = indexPath.item
             cell.packageButton.addTarget(self, action: #selector(packageSelected), for: UIControlEvents.touchUpInside)

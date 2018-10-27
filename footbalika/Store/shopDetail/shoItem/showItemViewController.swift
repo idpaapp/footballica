@@ -55,7 +55,8 @@ class showItemViewController: UIViewController {
         itemImage.image = UIImage(data: dataDecoded as Data)
         } else {
             let url = URL(string : mainImage )
-            itemImage.kf.setImage(with: url , options : [.transition(ImageTransition.fade(0.5))])
+            let resource = ImageResource(downloadURL: url!, cacheKey: mainImage)
+            itemImage.kf.setImage(with: resource , options : [.transition(ImageTransition.fade(0.5))])
             self.itemImage.clipsToBounds = true
             self.itemImage.layer.cornerRadius = 10
         }

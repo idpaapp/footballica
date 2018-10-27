@@ -10,6 +10,9 @@ import UIKit
 
 class groupDetailViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout , UITableViewDelegate , UITableViewDataSource {
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
@@ -71,7 +74,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
       return size
         
     }
-    
 
     @IBOutlet weak var clanCup: UILabel!
     
@@ -87,8 +89,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     @IBOutlet weak var actionLargeButton: actionLargeButton!
     
+    @IBOutlet weak var groupDescription: UILabel!
+    
+    
     var isJoined = Bool()
     var isCharge = Bool()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -104,7 +110,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         self.groupTitleForeGround.text = "گروه"
         
         self.clanName.text = "اینتر دیوانه"
-        
         
         self.actionLargeButton.actionButton.addTarget(self, action: #selector(joinGroup), for: UIControlEvents.touchUpInside)
         setTitles()
@@ -130,8 +135,8 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
 
+    
     @IBAction func closingGroupDetails(_ sender: RoundButton) {
         self.dismiss(animated : true , completion : nil)
     }

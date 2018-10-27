@@ -23,6 +23,10 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.delegate?.showGroupInfo()
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     var delegate : clanGroupsViewControllerDelegate!
     func sendChat(chatString : String) {
         print(chatString)
@@ -36,9 +40,13 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     func ChangeclanState() {
             if isSelectedClan {
+                self.bottomChatHeight.constant = 10
+                self.chatViewHeight.constant = 60
                 self.chatView.isHidden = false
                 self.topClanView.isHidden = false
             } else {
+                self.bottomChatHeight.constant = 0
+                self.chatViewHeight.constant = 0
                 self.chatView.isHidden = true
                 self.topClanView.isHidden = true
             }
@@ -46,7 +54,9 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     @IBOutlet weak var chatViewHeight: NSLayoutConstraint!
     
-    var isSelectedClan = true
+    @IBOutlet weak var bottomChatHeight: NSLayoutConstraint!
+    
+    var isSelectedClan = Bool()
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -256,6 +266,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         super.viewDidLoad()
         
         fieldsUI()
+        ChangeclanState()
         
         self.searchTextField.addTarget(self, action: #selector(clanGroupsViewController.textFieldDidChange(_:)), for: UIControlEvents.editingChanged)
         
@@ -275,9 +286,15 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         
         self.clansTV.register(UINib(nibName: "chatNewsCell", bundle: nil), forCellReuseIdentifier: "chatNewsCell")
         
+        self.clanCup.backgroundColor = UIColor(patternImage: UIImage(named: "label_back_dark")!)
         
-        clanCup.backgroundColor = UIColor(patternImage: UIImage(named: "label_back_dark")!)
+        self.createGroupButton.addTarget(self, action: #selector(creatingGroup), for: UIControlEvents.touchUpInside)
 
+    }
+    
+    
+    @objc func creatingGroup() {
+        self.performSegue(withIdentifier: "createGroup", sender: self)
     }
     
     func newInformation(minMember : Int , maxMember : Int , minCup : Int , groupType : Int) {

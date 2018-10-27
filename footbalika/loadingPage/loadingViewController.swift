@@ -244,6 +244,7 @@ class loadingViewController: UIViewController {
         if self.endProgress > 1.0 {
           self.endProgress = 1.0
         }
+        
         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
     }
     

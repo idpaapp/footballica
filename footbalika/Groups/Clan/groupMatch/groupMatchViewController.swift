@@ -18,7 +18,12 @@ class groupMatchViewController: UIViewController {
     
     @IBOutlet weak var ronaldoAndMessi: UIImageView!
     
-    var state = "notGame"
+    var state = "Searching"
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     
     @objc func updateGroupMatch(state : String) {
         print(state)
@@ -40,9 +45,15 @@ class groupMatchViewController: UIViewController {
     }
     
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+            viewDidLayoutSubviews()
+    }
+    
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+        if state == "Searching" {
         var heightOfButtomMenu = CGFloat()
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height == 2436 {
@@ -54,6 +65,7 @@ class groupMatchViewController: UIViewController {
             heightOfButtomMenu = 135
         }
         self.magnifier.animatingImageView(Radius : 50, circleCenter: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2 - heightOfButtomMenu))
+        }
     }
 
     override func didReceiveMemoryWarning() {

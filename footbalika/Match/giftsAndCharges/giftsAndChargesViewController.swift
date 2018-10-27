@@ -212,7 +212,8 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             
             let url = "\(self.gameChargeMenu.gameChargesImages[indexPath.row])"
             let urls = URL(string : url)
-            cell.menuImage.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+            cell.menuImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
             
             switch self.gameChargeMenu.gameChargesPriceType[indexPath.row]{
             case "2":

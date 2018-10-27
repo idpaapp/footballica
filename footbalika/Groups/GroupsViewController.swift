@@ -26,6 +26,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.performSegue(withIdentifier: "showGroupDetail", sender: self)
     }
     
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     func finishTutorial() {
         scrollToPage().scrollPageViewController(index: 2)
         scrollToPage().menuButtonChanged(index: 2)
@@ -47,7 +51,6 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBOutlet weak var groupOutlet: RoundButton!
     @IBOutlet weak var groupGameOutlet: RoundButton!
     @IBOutlet weak var groupsGamePage: UIView!
-    
     @IBOutlet weak var groupsMatchPage: UIView!
     
     var state = "friendsList"
@@ -126,6 +129,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateIsSelectedClan()
         realm = try? Realm()
 //        getFriendsList(isSplash: true)
         friendsActionColor()
@@ -245,7 +250,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls = URL(string : url)
-                    cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                    cell.friendAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                 }
                
                 if self.resUser?.response?[indexPath.row - 1].badge_name != nil {
@@ -260,7 +266,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         cell.friendLogo.image = UIImage(data: dataDecoded as Data)
                     } else {
                         let urls2 = URL(string : url2)
-                        cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                        let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
+                        cell.friendLogo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
                         }
                     }
                 }
@@ -288,7 +295,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls = URL(string : url)
-                    cell.friendAvatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                    cell.friendAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                 }
         
         if GroupsViewController.friendsRes?.response?[indexPath.row].badge_name != nil {
@@ -303,7 +311,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     cell.friendLogo.image = UIImage(data: dataDecoded as Data)
                 } else {
                     let urls2 = URL(string : url2)
-                    cell.friendLogo.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+                    let resource = ImageResource(downloadURL: urls2!, cacheKey: url2)
+                    cell.friendLogo.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                 }
             }
         }
@@ -457,6 +466,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         
         if let vc = segue.destination as? clanGroupsViewController {
             vc.delegate = self
+            vc.isSelectedClan = self.isSelectedClan
         }
         
         if let vc = segue.destination as? groupDetailViewController {
@@ -465,6 +475,17 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
         
     }
+    
+    var isSelectedClan = false
+    
+    @objc func updateIsSelectedClan() {
+        if self.isSelectedClan {
+            self.groupGameOutlet.isHidden = false
+        } else {
+            self.groupGameOutlet.isHidden = true
+        }
+    }
+    
     
     func friendsActionColor() {
         self.handlePageTitleColor(friendsOutletColor : UIColor.white ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : colors().selectedTab )
@@ -496,7 +517,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     @objc func groupGameAction() {
-        self.state = "groupMatch"
+        self.state = "Searching"
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : UIColor.white )
 
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: true, groupsMatchPageShow: false)

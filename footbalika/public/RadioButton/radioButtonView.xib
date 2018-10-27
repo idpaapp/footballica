@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="radioButtonView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="sfx-Q4-ykK"/>
+                <outlet property="radioButton" destination="uy1-Dt-dqR" id="Eur-gv-CqG"/>
+                <outlet property="radioButtonTitle" destination="KNh-KU-d2G" id="zgS-hU-IRh"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="73"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uy1-Dt-dqR" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="302" y="0.0" width="73" height="73"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="uy1-Dt-dqR" secondAttribute="height" multiplier="1:1" id="bc2-5o-UIW"/>
+                    </constraints>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KNh-KU-d2G">
+                    <rect key="frame" x="5" y="0.0" width="292" height="73"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="uy1-Dt-dqR" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="KcV-kh-gFR"/>
+                <constraint firstItem="uy1-Dt-dqR" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Krl-Qp-Aph"/>
+                <constraint firstItem="uy1-Dt-dqR" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="Ll1-Ad-6qw"/>
+                <constraint firstItem="uy1-Dt-dqR" firstAttribute="leading" secondItem="KNh-KU-d2G" secondAttribute="trailing" constant="5" id="Mwz-KU-T9K"/>
+                <constraint firstItem="KNh-KU-d2G" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="ZB3-BV-MI8"/>
+                <constraint firstItem="uy1-Dt-dqR" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="ae6-GB-Xsh"/>
+                <constraint firstItem="KNh-KU-d2G" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="dg4-YQ-2yZ"/>
+                <constraint firstItem="KNh-KU-d2G" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="ewL-sI-PcH"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="85.5" y="-197.5"/>
+        </view>
+    </objects>
+</document>

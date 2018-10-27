@@ -237,7 +237,8 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             cell.player1Avatar.image = UIImage(data: dataDecoded as Data)
         } else {
             let urls = URL(string : url)
-            cell.player1Avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
+            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+            cell.player1Avatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
         }
         
             cell.player2Level.text = (self.res?.response[indexPath.row].player2_level)!
@@ -251,7 +252,8 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             cell.player2Avatar.image = UIImage(data: dataDecoded as Data)
         } else {
             let urls2 = URL(string : url2)
-            cell.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
+            let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
+            cell.player2Avatar.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
         }
         
         

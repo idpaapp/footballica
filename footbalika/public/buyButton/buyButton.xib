@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="buyButton" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="buyAction" destination="mng-Yw-mUq" id="m2B-Qc-a2k"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="UCg-TC-aIu"/>
+                <outlet property="priceAmount" destination="Eee-jo-UeA" id="DTU-Wo-UFj"/>
+                <outlet property="priceAmountForeGround" destination="MIU-b3-oxM" id="Fye-Jw-z6m"/>
+                <outlet property="priceImage" destination="QBw-hk-Guy" id="ckH-ZJ-okU"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="266" height="118"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mng-Yw-mUq" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="1" y="1" width="264" height="116"/>
+                    <state key="normal" backgroundImage="accept_btn"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                    </userDefinedRuntimeAttributes>
+                </button>
+                <stackView opaque="NO" multipleTouchEnabled="YES" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="mVJ-9U-7MP">
+                    <rect key="frame" x="59" y="20.5" width="148" height="77"/>
+                    <subviews>
+                        <imageView multipleTouchEnabled="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QBw-hk-Guy">
+                            <rect key="frame" x="0.0" y="4" width="69" height="69"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="QBw-hk-Guy" secondAttribute="height" multiplier="1:1" id="81e-S8-9Kj"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eee-jo-UeA">
+                            <rect key="frame" x="79" y="4" width="69" height="69"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Eee-jo-UeA" firstAttribute="width" secondItem="QBw-hk-Guy" secondAttribute="width" id="hhB-hU-CtS"/>
+                        <constraint firstItem="Eee-jo-UeA" firstAttribute="height" secondItem="QBw-hk-Guy" secondAttribute="height" id="kd0-qh-37j"/>
+                    </constraints>
+                </stackView>
+                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MIU-b3-oxM">
+                    <rect key="frame" x="138" y="24" width="69" height="69"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="mng-Yw-mUq" secondAttribute="bottom" constant="1" id="25C-LW-UO8"/>
+                <constraint firstItem="mng-Yw-mUq" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="1" id="6Be-TL-iGU"/>
+                <constraint firstItem="mng-Yw-mUq" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="1" id="HGQ-bd-aov"/>
+                <constraint firstItem="MIU-b3-oxM" firstAttribute="height" secondItem="Eee-jo-UeA" secondAttribute="height" id="f2B-KO-ElN"/>
+                <constraint firstItem="mVJ-9U-7MP" firstAttribute="height" secondItem="mng-Yw-mUq" secondAttribute="height" multiplier="2:3" id="hWu-B3-3mS"/>
+                <constraint firstItem="mVJ-9U-7MP" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="mRx-hk-Ryd"/>
+                <constraint firstItem="MIU-b3-oxM" firstAttribute="width" secondItem="Eee-jo-UeA" secondAttribute="width" id="nVE-Yo-deh"/>
+                <constraint firstItem="MIU-b3-oxM" firstAttribute="centerX" secondItem="Eee-jo-UeA" secondAttribute="centerX" id="qBR-yw-95s"/>
+                <constraint firstItem="mVJ-9U-7MP" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="rzV-d4-Sl9"/>
+                <constraint firstItem="MIU-b3-oxM" firstAttribute="centerY" secondItem="Eee-jo-UeA" secondAttribute="centerY" id="vxq-Z0-aOX"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="mng-Yw-mUq" secondAttribute="trailing" constant="1" id="zsz-I6-oD0"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="31" y="-184"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="accept_btn" width="193" height="78"/>
+    </resources>
+</document>
