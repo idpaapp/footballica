@@ -13,5 +13,7 @@ public class urls {
     public var badge = "http://volcan.ir/adelica/images/badge/"
     public var stadium = "http://volcan.ir/adelica/images/stadium/"
     public var icons = "http://volcan.ir/adelica/images/icons/"
+    public var clan = "http://volcan.ir/adelica/images/clan/"
 }
+
 

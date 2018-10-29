@@ -9,7 +9,7 @@
 import UIKit
 import GoogleSignIn
 
-class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignInDelegate {
+class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignInDelegate , UITextFieldDelegate{
 
     @IBOutlet weak var mainLoginView: UIView!
     @IBOutlet weak var mainTitle: UILabel!
@@ -47,7 +47,13 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
             GoogleSigningIn(email : email!)
         }
     }
-
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let count = text.count + string.count - range.length
+        return count <= 20
+    }
+    
     @objc func GoogleSigningIn(email : String) {
         PubProc.isSplash = false
         PubProc.wb.hideWaiting()
@@ -144,6 +150,9 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
         self.newUser.addTarget(self, action: #selector(newUserAction), for: UIControlEvents.touchUpInside)
         
         self.enterGoogle.addTarget(self, action: #selector(googleSignIn), for: UIControlEvents.touchUpInside)
+        
+        self.userNameTextField.delegate = self
+        self.passwordTextField.delegate = self
         
     }
     

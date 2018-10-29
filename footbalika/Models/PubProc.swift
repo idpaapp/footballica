@@ -49,7 +49,8 @@ public class PubProc {
                     completionHandler(nil, (error! as NSError))
                     print("error=\(String(describing: error))")
                     DispatchQueue.main.async {
-                        cV.connectionErrorTitle.text = "ارتباط شما با سرور قطع شده لطفاً اینترنت خود را چک کنید"
+                        cV.connectionErrorTitle.text = "ارتباط شما با اینترنت قطع شده لطفاً اینترنت خود را چک کنید"
+                        cV.connectionErrorImage.image = UIImage(named: "noWifi")
                         cV.showWarning()
                     }
                     return
@@ -63,6 +64,7 @@ public class PubProc {
                     
                     DispatchQueue.main.async {
                     cV.connectionErrorTitle.text = "در حال حاضر ارتباط با سرور مقدور نمی باشد!"
+                    cV.connectionErrorImage.image = UIImage(named: "noServer")
                     cV.showWarning()
                     }
                 }

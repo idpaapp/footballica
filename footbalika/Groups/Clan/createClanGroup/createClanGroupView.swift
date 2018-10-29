@@ -8,7 +8,7 @@
 
 import UIKit
 
-class createClanGroupView: UIView {
+class createClanGroupView: UIView , UITextFieldDelegate{
 
 
     @IBOutlet var contentView: UIView!
@@ -40,6 +40,18 @@ class createClanGroupView: UIView {
         self.buyButton.priceImage.image = UIImage(named: "ic_coin")
         self.publicGroup.radioButtonTitle.text = "عمومی"
         self.privateGroup.radioButtonTitle.text = "خصوصی"
+        self.groupTextView.layer.borderColor = UIColor.gray.cgColor
+        self.groupTextView.layer.borderWidth = 1.0
+        self.groupTextView.layer.cornerRadius = 10
+        self.groupNameTextField.adjustsFontSizeToFitWidth = true
+        self.groupNameTextField.minimumFontSize = 0.1
+        self.groupNameTextField.delegate = self
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let count = text.count + string.count - range.length
+        return count <= 20
     }
     
     override init(frame: CGRect) {

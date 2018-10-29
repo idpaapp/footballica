@@ -21,13 +21,11 @@ public class scrollToPage {
         let pageIndexDict:[String: Int] = ["button": index]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
     }
-    
 }
 
 public class centerScreen {
     public var centerScreens = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
 }
-
 
 public class publicColors {
     public var placeHolderColor = UIColor.init(red: 202/255, green: 202/255, blue: 202/255, alpha: 1.0)
@@ -37,6 +35,8 @@ public class publicColors {
     public var endGroupGameColor = #colorLiteral(red: 0.6156862745, green: 0.4039215686, blue: 0.7803921569, alpha: 1)
     public var cancelGroupGameColor = #colorLiteral(red: 1, green: 0.2901960784, blue: 0.01176470588, alpha: 1)
     public var startGroupGameColor = #colorLiteral(red: 0.2705882353, green: 0.01568627451, blue: 0.4666666667, alpha: 1)
+    public var goodNewsColor = #colorLiteral(red: 0.3828445673, green: 0.8042317033, blue: 0.5987154245, alpha: 1)
+    public var badNewsColor = #colorLiteral(red: 0.8323555589, green: 0.2498360276, blue: 0.1824916899, alpha: 1)
 }
 
 public class publicImages {
@@ -45,6 +45,8 @@ public class publicImages {
     public var normalAnswerImage = UIImage(named: "answer_btn")
     public var redBall = UIImage(named: "ic_red_ball")
     public var greenBall = UIImage(named: "ic_green_ball")
+    public var radioButtonFill = UIImage(named : "radioButtonFill")
+    public var radioButtonEmpty = UIImage(named : "radioButtonEmpty")
     public var emptyImage = UIImage()
 }
 
@@ -496,6 +498,25 @@ extension UIView {
         animation.type = kCATransitionFade
         animation.duration = duration
         layer.add(animation, forKey: kCATransitionFade)
+    }
+    
+    func closeOrOpenViewWithAnimation(State : String , time : Double , max : CGFloat , min : CGFloat) {
+        if State == "open" {
+            self.transform = CGAffineTransform.identity.scaledBy(x: min, y: min)
+        } else {
+            self.transform = CGAffineTransform.identity
+        }
+        UIView.animate(withDuration: time, animations: {
+            self.transform = CGAffineTransform.identity.scaledBy(x: max, y: max)
+        }, completion: {(finish) in
+            UIView.animate(withDuration: time, animations: {
+                if State == "open" {
+                    self.transform = CGAffineTransform.identity
+                } else {
+                    self.transform = CGAffineTransform.identity.scaledBy(x: min, y: min)
+                }
+            })
+        })
     }
 }
 

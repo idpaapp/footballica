@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 protocol clanDetailsViewControllerDelegate {
     func newInformation(minMember : Int , maxMember : Int , minCup : Int , groupType : Int)
@@ -20,7 +21,7 @@ protocol sendChatViewControllerDelegate {
 class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDetailsViewControllerDelegate , UITableViewDelegate , UITableViewDataSource , sendChatViewControllerDelegate {
     
     @IBAction func selectGroup(_ sender: RoundButton) {
-        self.delegate?.showGroupInfo()
+        self.delegate?.showGroupInfo(id : "")
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -38,6 +39,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         }
     }
     
+    var urlClass = urls()
     func ChangeclanState() {
             if isSelectedClan {
                 self.bottomChatHeight.constant = 10
@@ -58,12 +60,19 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     var isSelectedClan = Bool()
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isSelectedClan {
-            return 10
+            if self.chatRes != nil {
+                return (self.chatRes?.response?.count)!
+            } else {
+                return 0
+            }
         } else {
-            return 10
+            if self.res != nil {
+                return ((self.res?.response?.count)!)
+            } else {
+                return 0
+            }
         }
     }
     
@@ -72,88 +81,87 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         
         if isSelectedClan {
             
-//            ///////////////////hot News////////////////
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "hotNewsCell", for: indexPath) as! hotNewsCell
-//
-//
-//
-//
-//            return cell
-            
-        
-            
-            ///////////////////top News////////////////
-            
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "topNewsCell", for: indexPath) as! topNewsCell
-//
-//
-//
-//            return cell
-            
-            
-            //////////////////////chat News //////////////
-            
-            let cell = tableView.dequeueReusableCell(withIdentifier: "chatNewsCell", for: indexPath) as! chatNewsCell
-            
-            return cell
+            switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
+            case publicConstants().CHAT :
+                if ((self.chatRes?.response?[indexPath.row].user_id!)!) == loadingViewController.userid {
+                    
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "currentUserCell", for: indexPath) as! currentUserCell
+                    
+                    let date = "\((self.chatRes?.response?[indexPath.row].p_due_date!)!)"
+                    let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\((self.chatRes?.response?[indexPath.row].username!)!)\n\((self.chatRes?.response?[indexPath.row].chat_text!)!)\n")
+                    attributedString.setColorForText(textForAttribute: "\((self.chatRes?.response?[indexPath.row].username!)!)", withColor: publicColors().currentUserTitleChatColor)
+                    attributedString.setColorForText(textForAttribute: "\((self.chatRes?.response?[indexPath.row].chat_text!)!)\n", withColor: UIColor.darkGray)
+                    cell.senderTexts.attributedText = attributedString
+                    cell.chatDate.text = date
+                    return cell
+                } else {
 
-            
-            
-//            ///////////////////////////////other Users///////////////////////////////
-            
-            
-            
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "chatOtherUsersCell", for: indexPath) as! chatOtherUsersCell
-//
-//
-//            let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-//            let len = UInt32(letters.length)
-//            var randomString = ""
-//            for _ in 0 ..< Int(arc4random_uniform(50) + 1) {
-//                let rand = arc4random_uniform(len)
-//                var nextChar = letters.character(at: Int(rand))
-//                randomString += NSString(characters: &nextChar, length: 1) as String
-//            }
-//
-//            let date = "22:25:26-ب.ظ"
-//            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "Ali\n\(randomString)\n")
-//            attributedString.setColorForText(textForAttribute: "Ali", withColor: publicColors().otherUserTitleChatColor)
-//            attributedString.setColorForText(textForAttribute: "\(randomString)\n", withColor: UIColor.darkGray)
-//
-//            cell.otherChatTexts.attributedText = attributedString
-//            cell.chatDate.text = date
-//            return cell
-            
-            
-            
-            
-            ///////////////////////////////current User///////////////////////////////
-            
-            
-            
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "currentUserCell", for: indexPath) as! currentUserCell
-//
-//                    let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-//                    let len = UInt32(letters.length)
-//                    var randomString = ""
-//                    for _ in 0 ..< Int(arc4random_uniform(50) + 1) {
-//                        let rand = arc4random_uniform(len)
-//                        var nextChar = letters.character(at: Int(rand))
-//                        randomString += NSString(characters: &nextChar, length: 1) as String
-//                    }
-//
-//            let date = "22:25:26-ب.ظ"
-//            let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "Ali\n\(randomString)\n")
-//            attributedString.setColorForText(textForAttribute: "Ali", withColor: publicColors().currentUserTitleChatColor)
-//            attributedString.setColorForText(textForAttribute: "\(randomString)\n", withColor: UIColor.darkGray)
-//
-//            cell.senderTexts.attributedText = attributedString
-//            cell.chatDate.text = date
-//            return cell
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "chatOtherUsersCell", for: indexPath) as! chatOtherUsersCell
+
+                    let date = "\((self.chatRes?.response?[indexPath.row].p_due_date!)!)"
+                    let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\((self.chatRes?.response?[indexPath.row].username!)!)\n\((self.chatRes?.response?[indexPath.row].chat_text!)!)\n")
+                    attributedString.setColorForText(textForAttribute: "\((self.chatRes?.response?[indexPath.row].username!)!)", withColor: publicColors().otherUserTitleChatColor)
+                    attributedString.setColorForText(textForAttribute: "\((self.chatRes?.response?[indexPath.row].chat_text!)!)\n", withColor: UIColor.darkGray)
+                    cell.otherChatTexts.attributedText = attributedString
+                    cell.chatDate.text = date
+                    return cell
+                }
+            case publicConstants().JOIN :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "chatNewsCell", for: indexPath) as! chatNewsCell
+                
+                cell.newsBackGround.backgroundColor = publicColors().goodNewsColor
+                cell.newsLabel.text = (self.chatRes?.response?[indexPath.row].chat_text!)!
+                return cell
+            case publicConstants().LEFT :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "chatNewsCell", for: indexPath) as! chatNewsCell
+                
+                cell.newsBackGround.backgroundColor = publicColors().badNewsColor
+                cell.newsLabel.text = (self.chatRes?.response?[indexPath.row].chat_text!)!
+                return cell
+            case publicConstants().PROMOTE :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "chatNewsCell", for: indexPath) as! chatNewsCell
+                cell.newsBackGround.backgroundColor = publicColors().goodNewsColor
+                cell.newsLabel.text = (self.chatRes?.response?[indexPath.row].chat_text!)!
+                return cell
+            case publicConstants().DEMOTE :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "chatNewsCell", for: indexPath) as! chatNewsCell
+                cell.newsBackGround.backgroundColor = publicColors().badNewsColor
+                cell.newsLabel.text = (self.chatRes?.response?[indexPath.row].chat_text!)!
+                return cell
+            case publicConstants().CLAN_WAR :
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "topNewsCell", for: indexPath) as! topNewsCell
+
+                return cell
+
+            case publicConstants().WAR_RESULT :
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "topNewsCell", for: indexPath) as! topNewsCell
+                
+                return cell
+                
+            case publicConstants().WAR_CANCELED :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "hotNewsCell", for: indexPath) as! hotNewsCell
+                
+                
+                return cell
+            default :
+                let cell = tableView.dequeueReusableCell(withIdentifier: "chatNewsCell", for: indexPath) as! chatNewsCell
+                
+                return cell
+            }
             
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "clanGroupsCell", for: indexPath) as! clanGroupsCell
+            
+            let url = "\(urlClass.clan)\(((self.res?.response?[indexPath.row].caln_logo!)!))"
+            let urls = URL(string : url)
+            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+            cell.clanImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.clanCup.text = ((self.res?.response?[indexPath.row].clan_score!)!)
+            cell.clanName.text = ((self.res?.response?[indexPath.row].title!)!)
+            cell.clanMembers.text = "\(((self.res?.response?[indexPath.row].member_count!)!)) / 11"
 
             return cell
             
@@ -162,20 +170,35 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //chat texts users or others
-//        return UITableViewAutomaticDimension
-        
-        //Hot and top News
-//        return 126
-        
-        
-        //chatroom news
-        return 45
+        if self.isSelectedClan {
+            switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
+            case publicConstants().CHAT :
+                return UITableViewAutomaticDimension
+            case publicConstants().JOIN :
+                return 45
+            case publicConstants().LEFT :
+                return 45
+            case publicConstants().PROMOTE :
+                return 45
+            case publicConstants().DEMOTE :
+                return 45
+            case publicConstants().CLAN_WAR :
+                return 126
+            case publicConstants().WAR_RESULT :
+                return 126
+            case publicConstants().WAR_CANCELED :
+                return 126
+            default :
+                return 45
+            }
+        } else {
+            return 80
+        }
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        self.delegate?.showGroupInfo(id : (self.res?.response?[indexPath.row].id!)!)
     }
     
     @IBOutlet weak var searchTextField: UITextField!
@@ -187,7 +210,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     @IBOutlet weak var searchButton: RoundButton!
     @IBOutlet weak var searchButtonTitle: UILabel!
     @IBOutlet weak var searchButtonTitleForeGround: UILabel!
-    @IBOutlet weak var createGroupButton: RoundButton!
+    @IBOutlet weak var createGroup: actionLargeButton!
     
     //top Clan View
     @IBOutlet weak var topClanView: UIView!
@@ -203,11 +226,12 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.clearTextField.addTarget(self, action: #selector(clearTextFields), for: UIControlEvents.touchUpInside)
         self.searchTextField.addPadding(.right(5))
         self.searchTextField.addPadding(.left(35))
-        self.clearTextField.isHidden = true
+        handleTextFieldClearButton(isHidden: true)
         self.clanDetailsView.alpha = 0.0
         self.searchButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جستجو", strokeWidth: -5.0)
         self.searchButtonTitleForeGround.font = fonts().iPhonefonts
         self.searchButtonTitleForeGround.text = "جستجو"
+        self.searchButton.addTarget(self, action: #selector(searchingAction), for: UIControlEvents.touchUpInside)
     }
     
     
@@ -249,17 +273,71 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         }
     }
     
+    
+    var searchTitle = String()
     @objc func textFieldDidChange(_ textField: UITextField) {
-        print(self.searchTextField.text!)
+        self.searchTitle = self.searchTextField.text!
         if self.searchTextField.text! == "" {
-            self.clearTextField.isHidden = true
+            handleTextFieldClearButton(isHidden: true)
         } else {
-            self.clearTextField.isHidden = false
+            handleTextFieldClearButton(isHidden: false)
+        }
+    }
+    
+    
+    
+    var res : clanGrouops.Response? = nil
+    @objc func searchingAction() {
+
+        if self.searchTitle.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+            self.searchTitle = ""
+            self.res = nil
+            self.clansTV.reloadData()
+        } else {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'SEARCH_CLAN' , 'clan_ref' : '\(self.searchTitle)' , 'require_trophy' : '\(self.minCupCount)' , 'clan_type' : '\(self.groupType)' , 'min_member_count' : '\(self.minMemberCount)' , 'max_member_count' : '\(self.maxMemberCount)' }") { data, error in
+        
+            if data != nil {
+                
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
+                }
+                
+                //                print(data ?? "")
+                
+                do {
+                    
+                    self.res = try JSONDecoder().decode(clanGrouops.Response.self , from : data!)
+                    
+                    //                        print((self.resUser?.response?.count)!)
+                    DispatchQueue.main.async {
+                         self.clansTV.reloadData()
+                        PubProc.wb.hideWaiting()
+
+                    }
+                    
+                    
+                } catch {
+                    self.searchingAction()
+                    print(error)
+                }
+            } else {
+                self.searchingAction()
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
         }
     }
     
     @objc func clearTextFields() {
         self.searchTextField.text = ""
+        self.searchTitle = ""
+        handleTextFieldClearButton(isHidden: true)
+    }
+    
+    @objc func handleTextFieldClearButton(isHidden : Bool) {
+        self.clearTextField.isHidden = isHidden
     }
     
     override func viewDidLoad() {
@@ -288,8 +366,10 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         
         self.clanCup.backgroundColor = UIColor(patternImage: UIImage(named: "label_back_dark")!)
         
-        self.createGroupButton.addTarget(self, action: #selector(creatingGroup), for: UIControlEvents.touchUpInside)
-
+        self.createGroup.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)
+        self.createGroup.setTitles(actionTitle: "ایجاد گروه", action1Title: "", action2Title: "", action3Title: "")
+        self.createGroup.actionButton.addTarget(self, action: #selector(creatingGroup), for: UIControlEvents.touchUpInside)
+    
     }
     
     
@@ -297,7 +377,19 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.performSegue(withIdentifier: "createGroup", sender: self)
     }
     
+    
+    var minMemberCount = Int()
+    var maxMemberCount = Int()
+    var minCupCount = Int()
+    var groupType = 3
+    var clanID = String()
     func newInformation(minMember : Int , maxMember : Int , minCup : Int , groupType : Int) {
+        
+        self.minMemberCount = minMember
+        self.maxMemberCount = maxMember
+        self.minCupCount = minCup
+        self.groupType = groupType
+        
         print("minMember : \(minMember) , maxMember : \(maxMember) , minCup : \(minCup) , groupType : \(groupType)")
     }
     
@@ -308,6 +400,48 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         if let vc = segue.destination as? sendChatViewController {
             vc.delegate = self
         }
+        
+        if let vc = segue.destination as? createClanGroupViewController {
+            vc.state = "createGroup"
+        }
+    }
+    
+    
+    var chatRes : clanChatRoom.Response? = nil
+    @objc func getChatroomData() {
+        
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'READ_CLAN_CHATS' , 'clan_id' : '\(self.clanID)'}") { data, error in
+            
+            if data != nil {
+                
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
+                }
+                
+                //                print(data ?? "")
+                
+                do {
+                    
+                    self.chatRes = try JSONDecoder().decode(clanChatRoom.Response.self , from : data!)
+                    
+                    DispatchQueue.main.async {
+                        self.clansTV.reloadData()
+                        PubProc.wb.hideWaiting()
+                        
+                    }
+                    
+                    
+                } catch {
+                    self.getChatroomData()
+                    print(error)
+                }
+            } else {
+                self.getChatroomData()
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
     }
     
     override func didReceiveMemoryWarning() {

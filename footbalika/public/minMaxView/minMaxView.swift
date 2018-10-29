@@ -10,7 +10,6 @@ import UIKit
 
 class minMaxView: UIView {
 
-
     @IBOutlet var contentView: UIView!
     
     @IBOutlet weak var minMaxLabel: UILabel!
@@ -18,6 +17,11 @@ class minMaxView: UIView {
     @IBOutlet weak var setMax: RoundButton!
     
     @IBOutlet weak var setMin: RoundButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.minMaxLabel.backgroundColor = UIColor(patternImage: UIImage(named: "label_back_dark")!)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)

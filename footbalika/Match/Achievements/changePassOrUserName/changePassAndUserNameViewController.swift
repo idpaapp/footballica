@@ -8,7 +8,7 @@
 
 import UIKit
 
-class changePassAndUserNameViewController: UIViewController {
+class changePassAndUserNameViewController: UIViewController , UITextFieldDelegate {
 
     override var prefersStatusBarHidden: Bool {
         return true
@@ -74,6 +74,10 @@ class changePassAndUserNameViewController: UIViewController {
 
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(changingUserPassNotification), name: Notification.Name("changingUserPassNotification"), object: nil)
+        
+      
+        self.signUpUserNameTextField.delegate = self
+        self.passSignUpTextField.delegate = self
         
         let font = fonts().iPhonefonts
         
@@ -258,11 +262,17 @@ class changePassAndUserNameViewController: UIViewController {
         }
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return true }
+        let count = text.count + string.count - range.length
+            return count <= 20
+    }
+    
     @objc func signUP() {
         let texts = self.signUpUserNameTextField.text
         let texts2 = self.passSignUpTextField.text
         let texts3 = self.ReagentCodeTextField.text
-        if texts?.trimmingCharacters(in: .whitespacesAndNewlines) != "" ||  texts2?.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+        if texts!.trimmingCharacters(in: .whitespacesAndNewlines) != "" ||  texts2!.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             
             if ((texts2?.count)!) < 8  {
                 

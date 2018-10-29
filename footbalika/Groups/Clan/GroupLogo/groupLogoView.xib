@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="groupLogoView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="closeButton" destination="bAA-1f-fyr" id="SCT-vx-xB4"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="pDb-dl-Ig0"/>
+                <outlet property="logoCV" destination="5U2-1y-tuv" id="raP-oz-TFS"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="147-LR-drT" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="60"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="60" id="UOk-Fl-D2c"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OnM-SD-Jif" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="3" width="300" height="297"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bAA-1f-fyr" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="268" y="8" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="bAA-1f-fyr" secondAttribute="height" multiplier="1:1" id="4cV-rt-Qst"/>
+                                <constraint firstAttribute="height" constant="24" id="iJU-Zi-1xw"/>
+                            </constraints>
+                            <state key="normal" image="ic_close"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oD7-gY-5A8" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="3" y="40" width="294" height="254"/>
+                            <subviews>
+                                <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="5U2-1y-tuv">
+                                    <rect key="frame" x="0.0" y="0.0" width="294" height="254"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gG4-E6-qAD">
+                                        <size key="itemSize" width="50" height="50"/>
+                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                        <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                                    </collectionViewFlowLayout>
+                                </collectionView>
+                            </subviews>
+                            <color key="backgroundColor" red="0.94557863470000003" green="0.93045365810000003" blue="0.86774349210000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="5U2-1y-tuv" firstAttribute="top" secondItem="oD7-gY-5A8" secondAttribute="top" id="Ej5-uc-Q3c"/>
+                                <constraint firstAttribute="trailing" secondItem="5U2-1y-tuv" secondAttribute="trailing" id="R8m-ao-xyv"/>
+                                <constraint firstItem="5U2-1y-tuv" firstAttribute="leading" secondItem="oD7-gY-5A8" secondAttribute="leading" id="aNi-yW-tKc"/>
+                                <constraint firstAttribute="bottom" secondItem="5U2-1y-tuv" secondAttribute="bottom" id="o98-37-kcC"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                    <real key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.38717862959999999" green="0.4144531488" blue="0.48505103589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="oD7-gY-5A8" secondAttribute="bottom" constant="3" id="Kd3-yD-Lk6"/>
+                        <constraint firstItem="bAA-1f-fyr" firstAttribute="top" secondItem="OnM-SD-Jif" secondAttribute="top" constant="8" id="MnM-n1-1Wf"/>
+                        <constraint firstItem="oD7-gY-5A8" firstAttribute="leading" secondItem="OnM-SD-Jif" secondAttribute="leading" constant="3" id="gVx-EJ-NH2"/>
+                        <constraint firstAttribute="trailing" secondItem="bAA-1f-fyr" secondAttribute="trailing" constant="8" id="tpN-GQ-LE6"/>
+                        <constraint firstItem="oD7-gY-5A8" firstAttribute="top" secondItem="bAA-1f-fyr" secondAttribute="bottom" constant="8" id="uJQ-Vm-E7m"/>
+                        <constraint firstAttribute="trailing" secondItem="oD7-gY-5A8" secondAttribute="trailing" constant="3" id="xuz-Rv-xRn"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="147-LR-drT" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="4Ic-Y0-od1"/>
+                <constraint firstItem="OnM-SD-Jif" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="JUw-d9-XH5"/>
+                <constraint firstItem="OnM-SD-Jif" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="a8S-87-RO7"/>
+                <constraint firstItem="OnM-SD-Jif" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="aLu-Gm-5Ul"/>
+                <constraint firstItem="147-LR-drT" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="bbM-ad-oy3"/>
+                <constraint firstItem="147-LR-drT" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="wFb-WP-xW9"/>
+                <constraint firstItem="OnM-SD-Jif" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="3" id="zM3-Ua-685"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-10" y="-84"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_close" width="48" height="48"/>
+    </resources>
+</document>

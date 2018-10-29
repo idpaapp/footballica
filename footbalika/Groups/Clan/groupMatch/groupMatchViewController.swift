@@ -10,6 +10,8 @@ import UIKit
 
 class groupMatchViewController: UIViewController {
 
+    @IBOutlet weak var startGameButton: actionLargeButton!
+    
     @IBOutlet weak var bombCount: UILabel!
     
     @IBOutlet weak var freezeCount: UILabel!
@@ -19,14 +21,13 @@ class groupMatchViewController: UIViewController {
     @IBOutlet weak var ronaldoAndMessi: UIImageView!
     
     var state = "Searching"
-    
+    var isCharge = false
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     
-    @objc func updateGroupMatch(state : String) {
-        print(state)
+    @objc func updateGroupMatch(state : String , isCharge : Bool) {
         switch state {
         case "Searching" :
             self.ronaldoAndMessi.isHidden = true
@@ -34,16 +35,28 @@ class groupMatchViewController: UIViewController {
         default :
             self.ronaldoAndMessi.isHidden = false
             self.magnifier.isHidden = true
+            if isCharge {
+                self.startGameButton.isHidden = false
+            } else {
+                self.startGameButton.isHidden = true
+            }
         }
         self.bombCount.text = "2"
         self.freezeCount.text = "2"
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateGroupMatch(state: self.state)
+        updateGroupMatch(state: self.state, isCharge: self.isCharge)
+        setStartGroupGameButton()
     }
     
+    
+    @objc func setStartGroupGameButton() {
+    self.startGameButton.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)
+    self.startGameButton.setTitles(actionTitle: "شروع بازی گروهی", action1Title: "", action2Title: "", action3Title: "")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)

@@ -14,6 +14,8 @@ public class passChangeRes {
         let status : String?
         let response : response?
     }
+    
+    
     public struct response : Decodable {
         let mainInfo : loginMainInfo.response?
         let favoriteteams : [favoriteteams]?

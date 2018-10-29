@@ -15,6 +15,8 @@ public class connectionView: UIView {
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var connectionErrorTitle: UILabel!
     
+    @IBOutlet weak var connectionErrorImage: UIImageView!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()

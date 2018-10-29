@@ -31,14 +31,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bqk-wI-Ojk">
-                    <rect key="frame" x="62" y="7" width="251" height="58"/>
+                    <rect key="frame" x="63" y="7" width="249" height="58"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JOE-bY-8NZ" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                    <rect key="frame" x="303" y="0.0" width="72" height="72"/>
+                    <rect key="frame" x="302" y="0.0" width="72" height="72"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="JOE-bY-8NZ" secondAttribute="height" multiplier="1:1" id="d0I-MM-J4h"/>
                     </constraints>
@@ -58,7 +58,7 @@
                     </userDefinedRuntimeAttributes>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xyD-yC-jJs" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="72" height="72"/>
+                    <rect key="frame" x="1" y="0.0" width="72" height="72"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="xyD-yC-jJs" secondAttribute="height" multiplier="1:1" id="Y9D-l4-uEe"/>
                     </constraints>
@@ -88,9 +88,9 @@
                 <constraint firstItem="JOE-bY-8NZ" firstAttribute="leading" secondItem="Bqk-wI-Ojk" secondAttribute="trailing" constant="-10" id="Mug-cz-5hg"/>
                 <constraint firstItem="xyD-yC-jJs" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="X5l-sk-foE"/>
                 <constraint firstItem="JOE-bY-8NZ" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="k7F-gB-uZd"/>
-                <constraint firstItem="xyD-yC-jJs" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="r60-9R-ILe"/>
+                <constraint firstItem="xyD-yC-jJs" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="1" id="r60-9R-ILe"/>
                 <constraint firstItem="JOE-bY-8NZ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="rLB-ip-JfQ"/>
-                <constraint firstItem="JOE-bY-8NZ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="saf-Hz-Fqy"/>
+                <constraint firstItem="JOE-bY-8NZ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" constant="-1" id="saf-Hz-Fqy"/>
                 <constraint firstItem="xyD-yC-jJs" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="wr5-mp-gdu"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

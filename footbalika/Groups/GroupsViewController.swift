@@ -15,14 +15,40 @@ protocol TutorialGroupsDelegate {
 }
 
 protocol clanGroupsViewControllerDelegate{
-    func showGroupInfo()
+    func showGroupInfo(id : String)
 }
 
-class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate {
+protocol groupDetailViewControllerDelegate {
+    func joinOrLeaveGroup(state : String , clan_id : String)
+}
+
+class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate {
+    
+    func joinOrLeaveGroup(state : String , clan_id : String) {
+        switch state {
+        case "NO_REQUIRE_TROPHY":
+            self.alertBody = "شما کاپ مورد نیاز گروه را ندارید"
+            self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
+        case "REQUEST_EXPIRED":
+            self.alertBody = "شما امکان انجام این کار را ندارید!"
+            self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
+        case "USER_HAS_CLAN" :
+            self.alertBody = "شما قبلاً عضو یک گروه هستید!"
+            self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
+        default:
+            if let vc = childViewControllers.last as? clanGroupsViewController {
+                vc.isSelectedClan = true
+                vc.clanID = clan_id
+                vc.getChatroomData()
+            }
+        }
+    }
     
     let defaults = UserDefaults.standard
     
-    func showGroupInfo() {
+    var groupId = String()
+    @objc func showGroupInfo(id : String) {
+        self.groupId = id
         self.performSegue(withIdentifier: "showGroupDetail", sender: self)
     }
     
@@ -81,9 +107,13 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         
                         DispatchQueue.main.async {
                             if GroupsViewController.friendsRes?.response?.count == 0 {
-                                self.friendsTableView.isScrollEnabled = false
+                                self.handleScrollEnable(isEnable: false)
+                                
                             }
                             self.friendsTableView.reloadData()
+                            let firstIndex = IndexPath(row: 0, section: 0)
+                            self.friendsTableView.scrollToRow(at: firstIndex, at: .top, animated: false)
+                            
                         }
                         DispatchQueue.main.async {
                             PubProc.wb.hideWaiting()
@@ -110,13 +140,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         super.viewWillAppear(true)
         if matchViewController.isTutorial {
             searchingState()
-        } else {
-            
         }
         
+        if login.res?.response?.calnData != nil {
+            self.isSelectedClan = true
+        } else {
+            self.isSelectedClan = false
+        }
+        updateIsSelectedClan()
 //        getFriendsList(isSplash: true)
     }
-    
     
     @objc func refreshUserData(notification : Notification) {
         getFriendsList(isSplash: false)
@@ -130,7 +163,6 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateIsSelectedClan()
         realm = try? Realm()
 //        getFriendsList(isSplash: true)
         friendsActionColor()
@@ -185,12 +217,14 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         if (self.resUser?.response?.count)! != 0 {
                             self.searchCount = 1 + (self.resUser?.response?.count)!
                             DispatchQueue.main.async {
+                                self.handleScrollEnable(isEnable: true)
                                 self.friendsTableView.reloadData()
                                 PubProc.wb.hideWaiting()
                             }
                         } else {
                             self.searchCount = 1
                             DispatchQueue.main.async {
+                                self.handleScrollEnable(isEnable: false)
                                 self.friendsTableView.reloadData()
                                 PubProc.wb.hideWaiting()
                             }
@@ -240,6 +274,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 
             } else {
                 
+                if indexPath.row == 1 {
+                    self.handleScrollEnable(isEnable: true)
+                }
                 let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! friendCell
                 
                 let url = "\(urlClass.avatar)\((self.resUser?.response?[indexPath.row - 1].avatar!)!)"
@@ -343,6 +380,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             cell.noFriendTitleForeGround.text = noFriendsTitle
             cell.noFriendButtonTitleForeGround.text = noFriendsButtonTitle
             cell.noFriendButton.addTarget(self, action: #selector(searchingState), for: UIControlEvents.touchUpInside)
+            self.handleScrollEnable(isEnable: false)
             return cell
         }
         }
@@ -415,30 +453,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             }.resume()
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
         if let vc = segue.destination as? menuViewController {
-//            if state == "searchList" {
-//            vc.menuState = "profile"
-//            vc.otherProfiles = true
-//            vc.oPStadium = ((self.resUser?.response?[selectedProfile - 1].stadium!)!)
-//            vc.opName = ((self.resUser?.response?[selectedProfile - 1].username!)!)
-//            vc.opAvatar = "\(urlClass.avatar)\(((self.resUser?.response?[selectedProfile - 1].avatar!)!))"
-//            vc.opBadge = "\(urlClass.badge)\(((self.resUser?.response?[selectedProfile - 1].badge_name!)!))"
-//            vc.opID = ((self.resUser?.response?[selectedProfile - 1].ref_id!)!)
-//            vc.opCups = ((self.resUser?.response?[selectedProfile - 1].cups!)!)
-//            vc.opLevel = ((self.resUser?.response?[selectedProfile - 1].level!)!)
-//            vc.opWinCount = ((self.resUser?.response?[selectedProfile - 1].win_count!)!)
-//            vc.opCleanSheetCount = ((self.resUser?.response?[selectedProfile - 1].clean_sheet_count!)!)
-//            vc.opLoseCount = ((self.resUser?.response?[selectedProfile - 1].lose_count!)!)
-//            vc.opMostScores = ((self.resUser?.response?[selectedProfile - 1].max_points_gain!)!)
-//            vc.opDrawCount = ((self.resUser?.response?[selectedProfile - 1].draw_count!)!)
-//            vc.opMaximumWinCount = ((self.resUser?.response?[selectedProfile - 1].max_wins_count!)!)
-//            vc.opMaximumScore = ((self.resUser?.response?[selectedProfile - 1].max_point!)!)
-//            vc.uniqueId = ((self.resUser?.response?[selectedProfile - 1].id!)!)
-//
-//            } else {
                 vc.menuState = "profile"
                 vc.otherProfiles = true
                 vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
@@ -456,27 +472,30 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 vc.opMaximumWinCount = ((login.res?.response?.mainInfo?.max_wins_count!)!)
                 vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
                 vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
-//            }
         }
         
         if let vc = segue.destination as? helpViewController {
             vc.state = "lastTutorialPage"
             vc.groupsDelegate = self
         }
-        
         if let vc = segue.destination as? clanGroupsViewController {
             vc.delegate = self
             vc.isSelectedClan = self.isSelectedClan
         }
-        
         if let vc = segue.destination as? groupDetailViewController {
-            vc.isJoined = true
-            vc.isCharge = true
+            vc.id = self.groupId
+            vc.delegate = self
         }
         
+        if let vc = segue.destination as? menuAlertViewController {
+            vc.alertTitle = "فوتبالیکا"
+            vc.alertBody = self.alertBody
+            vc.alertAcceptLabel = "تأیید"
+        }
     }
     
-    var isSelectedClan = false
+    var alertBody = String()
+    var isSelectedClan = Bool()
     
     @objc func updateIsSelectedClan() {
         if self.isSelectedClan {
@@ -497,6 +516,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         state = "friendsList"
         self.handlePageShow(friendsTableViewShow: false, groupsGamePageShow: true, groupsMatchPageShow: true)
         self.friendsTableView.reloadData()
+        let firstIndex = IndexPath(row: 0, section: 0)
+        self.friendsTableView.scrollToRow(at: firstIndex, at: .top, animated: false)
     }
     
     @objc func searchingState() {
@@ -517,12 +538,12 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     @objc func groupGameAction() {
-        self.state = "Searching"
+        self.state = "game"
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : UIColor.white )
 
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: true, groupsMatchPageShow: false)
         let vc = childViewControllers.last as! groupMatchViewController
-        vc.updateGroupMatch(state : state)
+        vc.updateGroupMatch(state : state, isCharge : true)
     }
     
     @objc func handlePageShow(friendsTableViewShow : Bool ,groupsGamePageShow : Bool , groupsMatchPageShow : Bool ) {
@@ -538,4 +559,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.groupGameOutlet.backgroundColor = groupGameOutletColor
     }
     
+    @objc func handleScrollEnable(isEnable : Bool) {
+        self.friendsTableView.bounces = isEnable
+    }
 }

@@ -11,7 +11,7 @@ import UIKit
 @IBDesignable
 class DesignableView: UIView {
     
-    open var cornerEdges : CGFloat = 0
+    @IBInspectable  var cornerEdges : CGFloat = 0
     @IBInspectable  var topLeft: Bool = false
     @IBInspectable  var topRight: Bool = false
     @IBInspectable  var bottomLeft: Bool = false

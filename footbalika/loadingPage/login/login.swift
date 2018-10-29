@@ -19,12 +19,17 @@ public class login {
                     PubProc.cV.hideWarning()
                 }
                 //                print(data ?? "")
+                
+            
 
                 do {
                     
                     login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                    
+                    print(String(data: data!, encoding: String.Encoding.utf8) as? String)
+                    print((login.res?.response?.calnData))
+                    
                     completionHandler()
-//                    print((self.res?.response?.mainInfo?.badge_name!)!)
                     if rest {
                     let nc = NotificationCenter.default
                     nc.post(name: Notification.Name("updateProgress"), object: nil)
