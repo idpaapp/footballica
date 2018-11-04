@@ -184,7 +184,6 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
     }
     
     @objc func normalLogin() {
-        
         let texts = self.userNameTextField.text
         let texts2 = self.passwordTextField.text?.replacedArabicDigitsWithEnglish
         PubProc.isSplash = false

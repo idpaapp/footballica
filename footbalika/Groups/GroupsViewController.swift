@@ -21,6 +21,7 @@ protocol clanGroupsViewControllerDelegate{
 
 protocol groupDetailViewControllerDelegate {
     func joinOrLeaveGroup(state : String , clan_id : String)
+    func updateGroupInfo(id : String)
 }
 
 class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate {
@@ -66,11 +67,18 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
     }
     
+    func updateGroupInfo(id : String) {
+        self.isSelectedClan = true
+        self.updateIsSelectedClan()
+        self.checkIsClanSelected()
+        self.cGroups.clanID = id
+        self.cGroups?.getChatroomData(isChatSend: false)
+        self.cGroups?.ChangeclanState()
+    }
     
     func clanJoinded() {
         updateIsSelectedClan()
     }
-    
     
     let defaults = UserDefaults.standard
     var clanId = String()
@@ -458,6 +466,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
     }
     
+    var otherProfile = Bool()
     @objc func getProfile(userid : String) {
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
@@ -467,7 +476,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         PubProc.cV.hideWarning()
                     
                     //                print(data ?? "")
-                    
+                    if userid == loadingViewController.userid {
+                        self.otherProfile = false
                     do {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
@@ -479,6 +489,21 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     } catch {
                         self.getProfile(userid: userid)
                         print(error)
+                    }
+                    } else {
+                        self.otherProfile = true
+                        do {
+                            
+                            login.res2 = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                            
+                            self.performSegue(withIdentifier: "showUserProfile", sender: self)
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                            }
+                        } catch {
+                            self.getProfile(userid: userid)
+                            print(error)
+                        }
                     }
                 } else {
                     self.getProfile(userid: userid)
@@ -493,22 +518,11 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? menuViewController {
                 vc.menuState = "profile"
-                vc.otherProfiles = true
-                vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
-                vc.opName = (login.res?.response?.mainInfo?.username!)!
-                vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
-                vc.opBadge = "\(urlClass.badge)\(((login.res?.response?.mainInfo?.badge_name!)!))"
-                vc.opID = ((login.res?.response?.mainInfo?.ref_id!)!)
-                vc.opCups = ((login.res?.response?.mainInfo?.cups!)!)
-                vc.opLevel = ((login.res?.response?.mainInfo?.level!)!)
-                vc.opWinCount = ((login.res?.response?.mainInfo?.win_count!)!)
-                vc.opCleanSheetCount = ((login.res?.response?.mainInfo?.clean_sheet_count!)!)
-                vc.opLoseCount = ((login.res?.response?.mainInfo?.lose_count!)!)
-                vc.opMostScores = ((login.res?.response?.mainInfo?.max_points_gain!)!)
-                vc.opDrawCount = ((login.res?.response?.mainInfo?.draw_count!)!)
-                vc.opMaximumWinCount = ((login.res?.response?.mainInfo?.max_wins_count!)!)
-                vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
-                vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
+            if self.otherProfile {
+                vc.profileResponse = login.res2
+            } else {
+                vc.profileResponse = login.res
+            }
         }
         
         if let vc = segue.destination as? helpViewController {

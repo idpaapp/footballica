@@ -28,31 +28,32 @@ class menuViewController: UIViewController {
         return true
     }
     
-    
     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
     var friensRes : friendList.Response? = nil
     var menuState = String()
-    var otherProfiles = Bool()
-    var oPStadium = String()
-    var opName = String()
-    var opAvatar = String()
-    var opBadge = String()
-    var opID = String()
-    var opCups = String()
-    var opLevel = String()
-    var opWinCount = String()
-    var opCleanSheetCount = String()
-    var opLoseCount = String()
-    var opMostScores = String()
-    var opDrawCount = String()
-    var opMaximumWinCount = String()
-    var opMaximumScore = String()
-    var uniqueId = String()
-    var urlClass = urls()
-    var isFriend = Bool()
     
+//    var otherProfiles = Bool()
+//    var oPStadium = String()
+//    var opName = String()
+//    var opAvatar = String()
+//    var opBadge = String()
+//    var opID = String()
+//    var opCups = String()
+//    var opLevel = String()
+//    var opWinCount = String()
+//    var opCleanSheetCount = String()
+//    var opLoseCount = String()
+//    var opMostScores = String()
+//    var opDrawCount = String()
+//    var opMaximumWinCount = String()
+//    var opMaximumScore = String()
+//    var uniqueId = String()
+//    var urlClass = urls()
+//    var isFriend = Bool()
+    
+    var profileResponse : loginStructure.Response? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -110,14 +111,15 @@ class menuViewController: UIViewController {
           } else if self.menuState == "profile" {
             self.mainTitleForeGround.text = "پروفایل"
             if UIDevice().userInterfaceIdiom == .phone {
-                var stadium = String()
-                if otherProfiles == false {
-                    stadium = (login.res?.response?.mainInfo?.stadium)!
-                } else {
-                    stadium = oPStadium
-                }
+//                var stadium = String()
+//                if otherProfiles == false {
+//                    stadium = (login.res?.response?.mainInfo?.stadium)!
+//                } else {
+//                    stadium = oPStadium
+//                }
+                let stadium = (profileResponse?.response?.mainInfo?.stadium)!
                 if UIScreen.main.nativeBounds.height == 2436 && stadium == "empty_std.jpg"{
-                     if (login.res?.response?.mainInfo?.status!)! != "2" {
+                     if (profileResponse?.response?.mainInfo?.status!)! != "2" {
                      self.menuHeight.constant = UIScreen.main.bounds.height - 115
                      } else {
                      self.menuHeight.constant = UIScreen.main.bounds.height - 167
@@ -129,8 +131,8 @@ class menuViewController: UIViewController {
                 maintitle.AttributesOutLine(font: iPhonefonts, title: "پروفایل", strokeWidth: -7.0)
                 self.mainTitleForeGround.font = iPhonefonts
             } else {
-                if otherProfiles == false {
-                    let stadium = (login.res?.response?.mainInfo?.stadium)!
+                if loadingViewController.userid ==  (profileResponse?.response?.mainInfo?.id)! {
+                    let stadium = (profileResponse?.response?.mainInfo?.stadium)!
                     if stadium != "empty_std.jpg" {
                         self.menuHeight.constant = UIScreen.main.bounds.height - 100
                     } else {
@@ -142,7 +144,7 @@ class menuViewController: UIViewController {
                         }
                     }
                 } else {
-                    let stadium = oPStadium
+                    let stadium = (profileResponse?.response?.mainInfo?.stadium)!
                     if stadium != "empty_std.jpg" {
                         self.menuHeight.constant = UIScreen.main.bounds.height - 100
                     } else {
@@ -236,54 +238,14 @@ class menuViewController: UIViewController {
             case "alerts" :
                 vC.achievementCount = 0
             case "profile" :
-                if otherProfiles == false {
-                    let stadium = (login.res?.response?.mainInfo?.stadium)!
+                    let stadium = (profileResponse?.response?.mainInfo?.stadium)!
                     if stadium != "empty_std.jpg" {
                         vC.achievementCount = 5
                     } else {
                         vC.achievementCount = 4
                     }
-                    vC.otherProfile = false
-                    vC.profileAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
-                    vC.profileBadge = "\(urlClass.badge)\((login.res?.response?.mainInfo?.badge_name)!)"
-                    vC.profileName = (login.res?.response?.mainInfo?.username)!
-                    vC.profileID = (login.res?.response?.mainInfo?.ref_id)!
-                    vC.profileCups = (login.res?.response?.mainInfo?.cups)!
-                    vC.profileLevel = (login.res?.response?.mainInfo?.level)!
-                    vC.profileWinCount = (login.res?.response?.mainInfo?.win_count)!
-                    vC.profileCleanSheetCount = (login.res?.response?.mainInfo?.clean_sheet_count)!
-                    vC.profileLoseCount = (login.res?.response?.mainInfo?.lose_count)!
-                    vC.profileMostScores = (login.res?.response?.mainInfo?.max_points_gain)!
-                    vC.profileDrawCount = (login.res?.response?.mainInfo?.draw_count)!
-                    vC.profileStadium = "\(urlClass.stadium)\((login.res?.response?.mainInfo?.stadium)!)"
-                    vC.profileMaximumWinCount = (login.res?.response?.mainInfo?.max_wins_count)!
-                    vC.profileMaximumScore = (login.res?.response?.mainInfo?.max_point)!
-                } else {
-                    let stadium = oPStadium
-                    if stadium != "empty_std.jpg" {
-                        vC.achievementCount = 5
-                    } else {
-                        vC.achievementCount = 4
-                    }
-                    
-                    vC.otherProfile = true
-                    vC.profileAvatar = opAvatar
-                    vC.profileBadge = opBadge
-                    vC.profileName = opName
-                    vC.profileID = opID
-                    vC.profileCups = opCups
-                    vC.profileLevel = opLevel
-                    vC.profileWinCount = opWinCount
-                    vC.profileCleanSheetCount = opCleanSheetCount
-                    vC.profileLoseCount = opLoseCount
-                    vC.profileMostScores = opMostScores
-                    vC.profileDrawCount = opDrawCount
-                    vC.profileStadium = "\(urlClass.stadium)\(oPStadium)"
-                    vC.profileMaximumWinCount = opMaximumWinCount
-                    vC.profileMaximumScore = opMaximumScore
-                    vC.uniqueId = uniqueId
-                    vC.isFriend = self.isFriend
-                }
+                    vC.pageState = "profile"
+                    vC.profileResponse = self.profileResponse
             case "friendsList" :
                 vC.friensRes = self.friensRes
                 vC.achievementCount = (self.friensRes?.response?.count)!

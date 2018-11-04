@@ -39,38 +39,66 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     var urlClass = urls()
     var clanType = 2
     var delegate : createClanGroupViewControllerDelegate!
+    var delegate2 : createClanGroupViewControllerDelegate2!
+    var clanData : clanGroup.Response? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
 
         createView.closePage.addTarget(self, action: #selector(closingPage), for: UIControlEvents.touchUpInside)
         setGroupPage()
         self.createView.groupImageSelectButton.action1.addTarget(self, action: #selector(showLogo), for: UIControlEvents.touchUpInside)
-        self.createView.buyButton.buyAction.addTarget(self, action: #selector(CreatingGroup), for: UIControlEvents.touchUpInside)
         self.createView.setMinMaxCup.setMax.addTarget(self, action: #selector(addMinCup), for: UIControlEvents.touchUpInside)
         self.createView.setMinMaxCup.setMin.addTarget(self, action: #selector(removeMinCup), for: UIControlEvents.touchUpInside)
-        self.createView.setMinMaxCup.minMaxLabel.text = self.requireCup
         
+        if state == "createGroup" {
+        self.createView.setMinMaxCup.minMaxLabel.text = self.requireCup
         let url = "\(urlClass.clan)logo_01.png"
         self.groupImageUrl = url
         let urls = URL(string : url)
         let resource = ImageResource(downloadURL: urls!, cacheKey: url)
         self.createView.groupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        self.createView.buyButton.buyAction.addTarget(self, action: #selector(CreatingGroup), for: UIControlEvents.touchUpInside)
+            
+        } else {
+            self.createView.buyButton.buyAction.addTarget(self, action: #selector(editClan), for: UIControlEvents.touchUpInside)
+            self.createView.groupNameTextField.text = "\((clanData?.response?.title!)!)"
+            self.createView.setMinMaxCup.minMaxLabel.text = "\((clanData?.response?.require_trophy!)!)"
+            let url = "\(urlClass.clan)\((clanData?.response?.caln_logo!)!)"
+            self.groupImageUrl = url
+            let urls = URL(string : url)
+            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+            self.createView.groupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            self.createView.groupTextView.text = "\((clanData?.response?.clan_status!)!)"
+            self.desc = "\((clanData?.response?.clan_status!)!)"
+            self.minCup = Int((clanData?.response?.require_trophy!)!)!
+            if (clanData?.response?.clan_type!)! == "1" {
+           
+                self.clanType = 1
+                self.createView.privateGroup.radioButton.setBackgroundImage(publicImages().radioButtonEmpty, for: UIControlState.normal)
+                self.createView.publicGroup.radioButton.setBackgroundImage(publicImages().radioButtonFill, for: UIControlState.normal)
+            } else {
+                
+               self.clanType = 2
+                self.createView.privateGroup.radioButton.setBackgroundImage(publicImages().radioButtonFill, for: UIControlState.normal)
+                self.createView.publicGroup.radioButton.setBackgroundImage(publicImages().radioButtonEmpty, for: UIControlState.normal)
+            }
+        }
+        
         self.createView.privateGroup.radioButton.addTarget(self, action: #selector(selectPrivateGroup), for: UIControlEvents.touchUpInside)
         self.createView.publicGroup.radioButton.addTarget(self, action: #selector(selectPublicGroup), for: UIControlEvents.touchUpInside)
 
-        
     }
     
     
     @objc func selectPublicGroup() {
         changeGroupType(state: "public")
-        self.clanType = 2
+        self.clanType = 1
     }
     
     
     @objc func selectPrivateGroup() {
         changeGroupType(state: "private")
-        self.clanType = 1
+        self.clanType = 2
     }
     
     @objc func changeGroupType(state : String) {
@@ -86,6 +114,39 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
 
             
         }
+    }
+    
+    @objc func editClan() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'EDIT_CLAN' , 'clan_logo' : '\(self.groupImageUrl.dropFirst(urls().clan.count))' , 'status' : '\(self.createView.groupTextView.text!)' , 'clan_type' : '\(self.clanType)' , 'require_trophy' : '\(self.minCup)' , 'user_id' : '\(loadingViewController.userid)' }") { data, error in
+            
+            if data != nil {
+                
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
+                    
+                    //                print(data ?? "")
+                    
+                    let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
+                    print(Res ?? "")
+                    
+                    if ((Res)!).contains("NOT_ENOUGH_RESOURCE") {
+                        self.alertBody = "شما امکان انجام این کار را ندارید!"
+                        self.performSegue(withIdentifier: "createGroupAlert", sender: self)
+                    } else if ((Res)!).contains("DATA_CHENGED") {
+                        self.delegate2?.updateClanData()
+                        self.closingPage()
+                    }
+                    
+                    PubProc.wb.hideWaiting()
+                }
+            } else {
+                self.creatingGroup()
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
     }
     
     

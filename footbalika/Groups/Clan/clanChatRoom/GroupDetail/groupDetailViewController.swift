@@ -10,7 +10,11 @@ import UIKit
 import Kingfisher
 import RealmSwift
 
-class groupDetailViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout , UITableViewDelegate , UITableViewDataSource {
+protocol createClanGroupViewControllerDelegate2 {
+    func updateClanData()
+}
+
+class groupDetailViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout , UITableViewDelegate , UITableViewDataSource , createClanGroupViewControllerDelegate2 {
     
     var delegate : groupDetailViewControllerDelegate!
     var realm : Realm!
@@ -20,6 +24,14 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    
+    func updateClanData() {
+        getClanData(id: self.id)
+        self.delegate?.updateGroupInfo(id: self.id)
+    }
+    
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.res != nil {
@@ -225,11 +237,18 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
         self.actionLargeButton.action3.addTarget(self, action: #selector(leaveGroup), for: UIControlEvents.touchUpInside)
         
+        self.actionLargeButton.action1.addTarget(self, action: #selector(clanSettings), for: UIControlEvents.touchUpInside)
+        
         setTitles()
         setGroupButtons()
         setupView(isHidden : true)
         getClanData(id: self.id)
        
+    }
+    
+    
+    @objc func clanSettings() {
+        self.performSegue(withIdentifier: "editClan", sender: self)
     }
     
     func fillClanData() {
@@ -345,5 +364,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         self.dismiss(animated : true , completion : nil)
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? createClanGroupViewController {
+            vc.state = "editClan"
+            vc.clanData = self.res
+            vc.delegate2 = self
+        }
+    }
 
 }

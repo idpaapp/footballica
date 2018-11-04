@@ -208,7 +208,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 if !isPassword {
                     pageState = "profile"
                     otherProfile = false
-                    self.profileName = (login.res?.response?.mainInfo?.username)!
+                    self.profileName = (self.profileResponse?.response?.mainInfo?.badge_name!)!
                     self.achievementsTV.reloadData()
                 }
             }
@@ -548,7 +548,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.contentView.backgroundColor = grayColor
                 cell.firstProfileTitleForeGround.text = "مشخصات بازیکن"
                 
-                let url =  profileAvatar
+                let url =  "\(urlClass.avatar)\((self.profileResponse?.response?.mainInfo?.avatar!)!)"
                 
                 let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
                 if realmID.count != 0 {
@@ -560,7 +560,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.profileAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
                 }
                 
-                let url2 = profileBadge
+                let url2 = "\(urlClass.badge)\((self.profileResponse?.response?.mainInfo?.badge_name!)!)"
 
                 print(url2)
                 if url2 == "http://volcan.ir/adelica/images/badge/" {
@@ -580,16 +580,16 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
                     cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\(profileName)", strokeWidth: -4.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\(profileID)", strokeWidth: -4.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: -4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPhonefonts
                 } else {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
                     cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileName)", strokeWidth: -4.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileID)", strokeWidth: -4.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: -4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPadfonts
                 }
-                cell.profileCup.text = profileCups
-                cell.profileLevel.text = profileLevel
+                cell.profileCup.text = "\((self.profileResponse?.response?.mainInfo?.cups!)!)"
+                cell.profileLevel.text = "\((self.profileResponse?.response?.mainInfo?.level!)!)"
                 
                 return cell
                 
@@ -599,7 +599,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 cell.contentView.backgroundColor = grayColor
 
-                if (login.res?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() && !otherProfile {
+                if (self.profileResponse?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() && !otherProfile {
                     
                     //userProfile
                     if (login.res?.response?.mainInfo?.status!)! != "2" {
@@ -670,18 +670,18 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.secondProfileTitleForeGround.font = fonts().iPadfonts25
                 }
                 cell.contentView.backgroundColor = grayColor
-                cell.drawCount.text = profileDrawCount
-                cell.winCount.text = profileWinCount
-                cell.loseCount.text = profileLoseCount
-                cell.cleanSheetCount.text = profileCleanSheetCount
-                cell.mostScores.text = profileMostScores
+                cell.drawCount.text = "\((self.profileResponse?.response?.mainInfo?.draw_count!)!)"
+                cell.winCount.text = "\((self.profileResponse?.response?.mainInfo?.win_count!)!)"
+                cell.loseCount.text = "\((self.profileResponse?.response?.mainInfo?.lose_count!)!)"
+                cell.cleanSheetCount.text = "\((self.profileResponse?.response?.mainInfo?.clean_sheet_count!)!)"
+                cell.mostScores.text = "\((self.profileResponse?.response?.mainInfo?.max_wins_count!)!)"
                 return cell
                 
             case 3 :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile3Cell", for: indexPath) as! profile3Cell
                 cell.contentView.backgroundColor = grayColor
-                cell.maximumScores.text = profileMaximumScore
-                cell.maximumWinCount.text = profileMaximumWinCount
+                cell.maximumScores.text = "\((self.profileResponse?.response?.mainInfo?.max_point!)!)"
+                cell.maximumWinCount.text = "\((self.profileResponse?.response?.mainInfo?.max_wins_count!)!)"
                 cell.thirdProfileTitleForeGround.text = "آمار و نتایج جام های حذفی"
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.thirdProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "آمار و نتایج جام های حذفی", strokeWidth: -7.0)
@@ -704,7 +704,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.fourthProfileTitleForeGround.font = fonts().iPadfonts25
                 }
                 
-                let url = profileStadium
+                let url = "\(urlClass.stadium)\((self.profileResponse?.response?.mainInfo?.stadium!)!)"
                 print(url)
                 let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(url)'")
                 if realmID.count != 0 {
@@ -1032,21 +1032,21 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     
-    var profileAvatar = String()
+//    var profileAvatar = String()
     var profileName = String()
-    var profileID = String()
-    var profileLevel = String()
-    var profileBadge = String()
-    var profileWinCount = String()
-    var profileCleanSheetCount = String()
-    var profileLoseCount = String()
-    var profileMostScores = String()
-    var profileDrawCount = String()
-    var profileStadium = String()
-    var profileMaximumWinCount = String()
-    var profileMaximumScore = String()
-    var profileCups = String()
-    var uniqueId = String()
+//    var profileID = String()
+//    var profileLevel = String()
+//    var profileBadge = String()
+//    var profileWinCount = String()
+//    var profileCleanSheetCount = String()
+//    var profileLoseCount = String()
+//    var profileMostScores = String()
+//    var profileDrawCount = String()
+//    var profileStadium = String()
+//    var profileMaximumWinCount = String()
+//    var profileMaximumScore = String()
+//    var profileCups = String()
+//    var uniqueId = String()
     
     
     @objc func switchChanged(_ sender : UISwitch!) {
@@ -1118,7 +1118,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             case 1 :
                 
                 if otherProfile == true {
-                if self.uniqueId == UserDefaults.standard.string(forKey: "userid") ?? String() && (login.res?.response?.mainInfo?.status!)! == "2"{
+                if profileResponse?.response?.mainInfo?.id == UserDefaults.standard.string(forKey: "userid") ?? String() && (profileResponse?.response?.mainInfo?.status!)! == "2"{
                         return 0
                 } else {
                     return 50
@@ -1210,7 +1210,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     @objc func getUserInfo(id : Int , isResfresh : Bool) {
-
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
@@ -1222,21 +1221,41 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                     //                print(data ?? "")
                     
-                    do {
-                        
-                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
-                        if !isResfresh {
-                        self.performSegue(withIdentifier: "otherProfiles", sender: self)
-                        } else {
-                            self.achievementsTV.reloadData()
+                    
+                    if String(id) == loadingViewController.userid {
+                        do {
+                            
+                            login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                            if !isResfresh {
+                                self.performSegue(withIdentifier: "otherProfiles", sender: self)
+                            } else {
+                                self.achievementsTV.reloadData()
+                            }
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                            }
+                        } catch {
+                            self.getUserInfo(id : id, isResfresh: isResfresh)
+                            print(error)
                         }
-                        DispatchQueue.main.async {
-                            PubProc.wb.hideWaiting()
+                    } else {
+                        do {
+                            
+                            login.res2 = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                            if !isResfresh {
+                                self.performSegue(withIdentifier: "otherProfiles", sender: self)
+                            } else {
+                                self.achievementsTV.reloadData()
+                            }
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                            }
+                        } catch {
+                            self.getUserInfo(id : id, isResfresh: isResfresh)
+                            print(error)
                         }
-                    } catch {
-                        self.getUserInfo(id : id, isResfresh: isResfresh)
-                        print(error)
                     }
+                    
                 } else {
                     self.getUserInfo(id : id, isResfresh: isResfresh)
                     print("Error Connection")
@@ -1247,71 +1266,92 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             }.resume()
     }
     
+    
+//    vc.otherProfiles = true
+//    vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
+//    vc.opName = (login.res?.response?.mainInfo?.username!)!
+//    vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
+//    vc.opBadge = "\(urlClass.badge)\(((login.res?.response?.mainInfo?.badge_name!)!))"
+//    vc.opID = ((login.res?.response?.mainInfo?.ref_id!)!)
+//    vc.opCups = ((login.res?.response?.mainInfo?.cups!)!)
+//    vc.opLevel = ((login.res?.response?.mainInfo?.level!)!)
+//    vc.opWinCount = ((login.res?.response?.mainInfo?.win_count!)!)
+//    vc.opCleanSheetCount = ((login.res?.response?.mainInfo?.clean_sheet_count!)!)
+//    vc.opLoseCount = ((login.res?.response?.mainInfo?.lose_count!)!)
+//    vc.opMostScores = ((login.res?.response?.mainInfo?.max_points_gain!)!)
+//    vc.opDrawCount = ((login.res?.response?.mainInfo?.draw_count!)!)
+//    vc.opMaximumWinCount = ((login.res?.response?.mainInfo?.max_wins_count!)!)
+//    vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
+//    vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
+    
+    var profileResponse : loginStructure.Response? = nil
     var profileIndex = Int()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? menuViewController {
-            if pageState != "friendsList" {
-            vc.isFriend = self.isFriend
+//            if pageState != "friendsList" {
+//            vc.isFriend = self.isFriend
+//            vc.menuState = "profile"
+//            vc.otherProfiles = true
+//            vc.oPStadium = (self.res?.response?[profileIndex].stadium!)!
+//            vc.opName = (self.res?.response?[profileIndex].username!)!
+//            vc.opAvatar = "\(urlClass.avatar)\((self.res?.response?[profileIndex].avatar!)!)"
+//            vc.opBadge = "\(urlClass.badge)\((self.res?.response?[profileIndex].badge_name!)!)"
+//            vc.opID = (self.res?.response?[profileIndex].ref_id!)!
+//            vc.opCups = (self.res?.response?[profileIndex].cups!)!
+//            vc.opLevel = (self.res?.response?[profileIndex].level!)!
+//            vc.opWinCount = (self.res?.response?[profileIndex].win_count!)!
+//            vc.opCleanSheetCount = (self.res?.response?[profileIndex].clean_sheet_count!)!
+//            vc.opLoseCount = (self.res?.response?[profileIndex].lose_count!)!
+//            vc.opMostScores = (self.res?.response?[profileIndex].max_points_gain!)!
+//            vc.opDrawCount = (self.res?.response?[profileIndex].draw_count!)!
+//            vc.opMaximumWinCount = (self.res?.response?[profileIndex].max_wins_count!)!
+//            vc.opMaximumScore = (self.res?.response?[profileIndex].max_point!)!
+//            vc.uniqueId = (self.res?.response?[profileIndex].id!)!
+//            } else {
+//                vc.menuState = "profile"
+//                vc.isFriend = true
+//                vc.otherProfiles = true
+//                vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
+//                vc.opName = (login.res?.response?.mainInfo?.username!)!
+//                vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
+//                vc.opBadge = "\(urlClass.badge)\((login.res?.response?.mainInfo?.badge_name!)!)"
+//                vc.opID = (login.res?.response?.mainInfo?.ref_id!)!
+//                vc.opCups = (login.res?.response?.mainInfo?.cups!)!
+//                vc.opLevel = (login.res?.response?.mainInfo?.level!)!
+//                vc.opWinCount = (login.res?.response?.mainInfo?.win_count!)!
+//                vc.opCleanSheetCount = (login.res?.response?.mainInfo?.clean_sheet_count!)!
+//                vc.opLoseCount = (login.res?.response?.mainInfo?.lose_count!)!
+//                vc.opMostScores = (login.res?.response?.mainInfo?.max_points_gain!)!
+//                vc.opDrawCount = (login.res?.response?.mainInfo?.draw_count!)!
+//                vc.opMaximumWinCount = (login.res?.response?.mainInfo?.max_wins_count!)!
+//                vc.opMaximumScore = (login.res?.response?.mainInfo?.max_point!)!
+//                vc.uniqueId = (login.res?.response?.mainInfo?.id!)!
+//            }
             vc.menuState = "profile"
-            vc.otherProfiles = true
-            vc.oPStadium = (self.res?.response?[profileIndex].stadium!)!
-            vc.opName = (self.res?.response?[profileIndex].username!)!
-            vc.opAvatar = "\(urlClass.avatar)\((self.res?.response?[profileIndex].avatar!)!)"
-            vc.opBadge = "\(urlClass.badge)\((self.res?.response?[profileIndex].badge_name!)!)"
-            vc.opID = (self.res?.response?[profileIndex].ref_id!)!
-            vc.opCups = (self.res?.response?[profileIndex].cups!)!
-            vc.opLevel = (self.res?.response?[profileIndex].level!)!
-            vc.opWinCount = (self.res?.response?[profileIndex].win_count!)!
-            vc.opCleanSheetCount = (self.res?.response?[profileIndex].clean_sheet_count!)!
-            vc.opLoseCount = (self.res?.response?[profileIndex].lose_count!)!
-            vc.opMostScores = (self.res?.response?[profileIndex].max_points_gain!)!
-            vc.opDrawCount = (self.res?.response?[profileIndex].draw_count!)!
-            vc.opMaximumWinCount = (self.res?.response?[profileIndex].max_wins_count!)!
-            vc.opMaximumScore = (self.res?.response?[profileIndex].max_point!)!
-            vc.uniqueId = (self.res?.response?[profileIndex].id!)!
-            } else {
-                vc.menuState = "profile"
-                vc.isFriend = true
-                vc.otherProfiles = true
-                vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
-                vc.opName = (login.res?.response?.mainInfo?.username!)!
-                vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
-                vc.opBadge = "\(urlClass.badge)\((login.res?.response?.mainInfo?.badge_name!)!)"
-                vc.opID = (login.res?.response?.mainInfo?.ref_id!)!
-                vc.opCups = (login.res?.response?.mainInfo?.cups!)!
-                vc.opLevel = (login.res?.response?.mainInfo?.level!)!
-                vc.opWinCount = (login.res?.response?.mainInfo?.win_count!)!
-                vc.opCleanSheetCount = (login.res?.response?.mainInfo?.clean_sheet_count!)!
-                vc.opLoseCount = (login.res?.response?.mainInfo?.lose_count!)!
-                vc.opMostScores = (login.res?.response?.mainInfo?.max_points_gain!)!
-                vc.opDrawCount = (login.res?.response?.mainInfo?.draw_count!)!
-                vc.opMaximumWinCount = (login.res?.response?.mainInfo?.max_wins_count!)!
-                vc.opMaximumScore = (login.res?.response?.mainInfo?.max_point!)!
-                vc.uniqueId = (login.res?.response?.mainInfo?.id!)!
-            }
+            vc.profileResponse = login.res2
         }
         
         if let vc = segue.destination as? menuAlert2ButtonsViewController {
             if self.stateOfFriendAlert ==  "askFriendlyMatch" {
-            vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((login.res?.response?.mainInfo?.id!)!)'}"
+            vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((profileResponse?.response?.mainInfo?.id!)!)'}"
             vc.alertAcceptLabel = "بلی"
             vc.alertBody = "آیا از درخواست مسابقه اطمینان دارید؟"
             vc.alertTitle = "درخواست مسابقه"
             vc.state = "friendlyMatch"
             } else if self.stateOfFriendAlert == "cancelFriendlyMatch" {
-                vc.jsonStr = "{'mode':'CANCEL_FRIEND' , 'user1_id' : '\(loadingViewController.userid)' , 'user2_id' : '\((login.res?.response?.mainInfo?.id!)!)' , 'message_id' : '0'}"
+                vc.jsonStr = "{'mode':'CANCEL_FRIEND' , 'user1_id' : '\(loadingViewController.userid)' , 'user2_id' : '\((profileResponse?.response?.mainInfo?.id!)!)' , 'message_id' : '0'}"
                 vc.alertAcceptLabel = "بلی"
                 vc.alertBody = "آیا برای لغو دوستی اطمینان دارید؟"
                 vc.alertTitle = "فوتبالیکا"
                 vc.state = "cancelFrindShip"
                 vc.userid = (login.res?.response?.mainInfo?.id!)!
             } else if self.stateOfFriendAlert == "requestFriendShip" {
-                vc.jsonStr = "{'mode':'FRIEND_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((login.res?.response?.mainInfo?.id!)!)'}"
+                vc.jsonStr = "{'mode':'FRIEND_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((profileResponse?.response?.mainInfo?.id!)!)'}"
                 vc.alertAcceptLabel = "بلی"
                 vc.alertBody = "آیا برای ارسال درخواست دوستی اطمینان دارید؟"
                 vc.alertTitle = "فوتبالیکا"
                 vc.state = "requestFriendShip"
-                vc.userid = (login.res?.response?.mainInfo?.id!)!
+                vc.userid = (profileResponse?.response?.mainInfo?.id!)!
             } else {
                 //no need this will execute in the first line
 //                vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((login.res?.response?.mainInfo?.id!)!)'}"

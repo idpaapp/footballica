@@ -307,11 +307,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         
         
     }
-    
+    var profileResponse : loginStructure.Response? = nil
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vC = segue.destination as? menuViewController {
             vC.menuState = self.menuState
             vC.friensRes = self.friendsRes
+            vC.profileResponse = self.profileResponse
         }
         
         if let vc = segue.destination as? giftsAndChargesViewController {
@@ -399,7 +400,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                     
                     do {
                         
-                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        self.profileResponse = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                         DispatchQueue.main.async {
                             PubProc.cV.hideWarning()
                         }

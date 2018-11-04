@@ -61,7 +61,6 @@ class clanDetailsViewController: UIViewController {
         case 1:
             self.radioButton1.radioButton.setBackgroundImage(publicImages().radioButtonFill, for: .normal)
             self.groupType = 1
-            
         case 2:
             self.radioButton2.radioButton.setBackgroundImage(publicImages().radioButtonFill, for: .normal)
             self.groupType = 2
@@ -86,11 +85,6 @@ class clanDetailsViewController: UIViewController {
         fieldsUI()
         emptyAllRadioButtons()
         setupRadioButtons()
-        
-        
-//        public var radioButtonFill = UIImage(named : "radioButtonFill")
-//        public var radioButtonEmpty = UIImage(named : "radioButtonEmpty")
-        
     }
     
     @IBAction func addMinMembers(_ sender: RoundButton) {
@@ -167,5 +161,8 @@ class clanDetailsViewController: UIViewController {
     @objc func setRadioButtons(FillButtonNumber : Int) {
         
     }
+    
+    
+
 
 }
