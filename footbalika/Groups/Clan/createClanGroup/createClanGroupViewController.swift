@@ -7,9 +7,24 @@
 //
 
 import UIKit
+import Kingfisher
 
-class createClanGroupViewController: UIViewController {
+protocol logoViewControllerDelegate {
+    func updateLogoImage(url : String)
+}
 
+class createClanGroupViewController: UIViewController , logoViewControllerDelegate {
+    
+    var groupName = String()
+    var groupImageUrl = String()
+    var desc = String()
+    @objc func updateLogoImage(url : String) {
+        self.groupImageUrl = url
+        let urls = URL(string : url)
+        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+        self.createView.groupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+
+    }
     @IBOutlet weak var createView: createClanGroupView!
     @IBOutlet weak var createViewHeight: NSLayoutConstraint!
     @IBOutlet weak var createViewWidth: NSLayoutConstraint!    
@@ -21,7 +36,9 @@ class createClanGroupViewController: UIViewController {
     var state = String()
     var minCup = Int()
     var requireCup = "مهم نیست"
-    
+    var urlClass = urls()
+    var clanType = 2
+    var delegate : createClanGroupViewControllerDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,8 +49,45 @@ class createClanGroupViewController: UIViewController {
         self.createView.setMinMaxCup.setMax.addTarget(self, action: #selector(addMinCup), for: UIControlEvents.touchUpInside)
         self.createView.setMinMaxCup.setMin.addTarget(self, action: #selector(removeMinCup), for: UIControlEvents.touchUpInside)
         self.createView.setMinMaxCup.minMaxLabel.text = self.requireCup
+        
+        let url = "\(urlClass.clan)logo_01.png"
+        self.groupImageUrl = url
+        let urls = URL(string : url)
+        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+        self.createView.groupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        self.createView.privateGroup.radioButton.addTarget(self, action: #selector(selectPrivateGroup), for: UIControlEvents.touchUpInside)
+        self.createView.publicGroup.radioButton.addTarget(self, action: #selector(selectPublicGroup), for: UIControlEvents.touchUpInside)
 
+        
     }
+    
+    
+    @objc func selectPublicGroup() {
+        changeGroupType(state: "public")
+        self.clanType = 2
+    }
+    
+    
+    @objc func selectPrivateGroup() {
+        changeGroupType(state: "private")
+        self.clanType = 1
+    }
+    
+    @objc func changeGroupType(state : String) {
+        if state == "public" {
+            
+            self.createView.privateGroup.radioButton.setBackgroundImage(publicImages().radioButtonEmpty, for: UIControlState.normal)
+            self.createView.publicGroup.radioButton.setBackgroundImage(publicImages().radioButtonFill, for: UIControlState.normal)
+        } else {
+            
+            self.createView.publicGroup.radioButton.setBackgroundImage(publicImages().radioButtonEmpty, for: UIControlState.normal)
+
+            self.createView.privateGroup.radioButton.setBackgroundImage(publicImages().radioButtonFill, for: UIControlState.normal)
+
+            
+        }
+    }
+    
     
     @objc func removeMinCup() {
         self.minCup = self.minCup - 50
@@ -55,6 +109,8 @@ class createClanGroupViewController: UIViewController {
     
     @objc func CreatingGroup() {
         let groupName = self.createView.groupNameTextField.text!
+        self.desc = self.createView.groupTextView.text!
+        self.groupName = groupName
         if groupName.trimmingCharacters(in: .whitespacesAndNewlines).count > 0 {
             print(groupName.trimmingCharacters(in: .whitespacesAndNewlines).count)
             if groupName.trimmingCharacters(in: .whitespacesAndNewlines).count > 20 {
@@ -62,6 +118,7 @@ class createClanGroupViewController: UIViewController {
                 self.performSegue(withIdentifier: "createGroupAlert", sender: self)
             } else {
                 print("createGroup")
+                creatingGroup()
             }
         } else {
             self.alertBody = "لطفاً نام گروه را وارد کنید!"
@@ -69,12 +126,51 @@ class createClanGroupViewController: UIViewController {
         }
     }
     
+    @objc func creatingGroup() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'CREATE_CLAN' , 'title' : '\(self.groupName)', 'clan_logo' : '\(self.groupImageUrl.dropFirst(urls().clan.count))' , 'status' : '\(self.desc)' , 'clan_type' : '\(self.clanType)' , 'require_trophy' : '\(self.minCup)' , 'user_id' : '\(loadingViewController.userid)' }") { data, error in
+            
+            if data != nil {
+                
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
+                    
+                    //                print(data ?? "")
+                    
+                    let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
+                    print(Res ?? "")
+                    
+                    if ((Res)!).contains("NOT_ENOUGH_RESOURCE") {
+                        self.alertBody = "شما امکان انجام این کار را ندارید!"
+                        self.performSegue(withIdentifier: "createGroupAlert", sender: self)
+                    } else if ((Res)!).contains("CLAN_CREATED") {
+                        self.delegate?.enterCreatedGroup()
+                        self.closingPage()
+                    }
+                    
+                    PubProc.wb.hideWaiting()
+                }
+            } else {
+                self.creatingGroup()
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
+        
+    }
+    
+    
+    
     var alertBody = String()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? menuAlertViewController {
             vc.alertTitle = "فوتبالیکا"
             vc.alertBody = self.alertBody
             vc.alertAcceptLabel = "تأیید"
+        }
+        if let vc = segue.destination as? logoViewController {
+            vc.delegate = self
         }
     }
     

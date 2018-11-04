@@ -7,14 +7,27 @@
 //
 
 import UIKit
+import Kingfisher
 
-class logoViewController: UIViewController {
+protocol groupLogoViewDelegate {
+    func selectedLogo(url : String)
+}
 
+class logoViewController: UIViewController , groupLogoViewDelegate {
+
+    @objc func selectedLogo(url : String) {
+        self.delegate?.updateLogoImage(url : url)
+        self.closing()
+    }
+    
     @IBOutlet weak var groupLogoView: groupLogoView!
+    
+    var delegate : logoViewControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.groupLogoView.delegate = self
         self.groupLogoView.closeButton.addTarget(self, action: #selector(closing), for: UIControlEvents.touchUpInside)
     }
     
@@ -27,8 +40,6 @@ class logoViewController: UIViewController {
         super.viewWillAppear(true)
         self.groupLogoView.closeOrOpenViewWithAnimation(State: "open", time: 0.1, max: 1.1 , min : 0.7)
     }
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -52,8 +52,10 @@ class actionLargeButton: UIView {
         action2TitleForeGround.isHidden = hideAction2
         action3Title.isHidden = hideAction3
         action3TitleForeGround.isHidden = hideAction3
-        if hideAction1 && hideAction2 && hideAction3 {
+        if action1.isHidden && action2.isHidden && action3.isHidden {
             self.actionsStackView.isHidden = true
+        } else {
+            self.actionsStackView.isHidden = false
         }
     }
     

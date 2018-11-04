@@ -49,16 +49,16 @@
                         </userDefinedRuntimeAttributes>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="senderChat" translatesAutoresizingMaskIntoConstraints="NO" id="3E5-hq-dDT">
-                        <rect key="frame" x="89" y="11" width="150" height="288"/>
+                        <rect key="frame" x="68" y="11" width="181" height="288"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YO9-aU-8dz">
-                        <rect key="frame" x="89" y="11" width="135" height="288"/>
+                        <rect key="frame" x="71" y="11" width="163" height="288"/>
                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Phx-V9-eB4">
-                        <rect key="frame" x="92" y="278.5" width="135" height="20.5"/>
+                        <rect key="frame" x="74" y="283.5" width="163" height="15.5"/>
                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="13"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -66,11 +66,11 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstItem="YO9-aU-8dz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="5" id="0Uu-Bo-zuF"/>
+                    <constraint firstItem="YO9-aU-8dz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="55" id="0Uu-Bo-zuF"/>
                     <constraint firstItem="Phx-V9-eB4" firstAttribute="trailing" secondItem="YO9-aU-8dz" secondAttribute="trailing" constant="3" id="3MZ-8o-gCo"/>
                     <constraint firstItem="3E5-hq-dDT" firstAttribute="width" secondItem="YO9-aU-8dz" secondAttribute="width" multiplier="10:9" id="6uc-Zr-i7t"/>
                     <constraint firstItem="3E5-hq-dDT" firstAttribute="height" secondItem="YO9-aU-8dz" secondAttribute="height" id="Cyd-Dr-Qck"/>
-                    <constraint firstItem="1qX-zh-iIm" firstAttribute="leading" secondItem="YO9-aU-8dz" secondAttribute="trailing" constant="25" id="ONs-1i-fhs"/>
+                    <constraint firstItem="1qX-zh-iIm" firstAttribute="leading" secondItem="YO9-aU-8dz" secondAttribute="trailing" constant="15" id="ONs-1i-fhs"/>
                     <constraint firstItem="Phx-V9-eB4" firstAttribute="leading" secondItem="YO9-aU-8dz" secondAttribute="leading" constant="3" id="Qgi-t6-WcJ"/>
                     <constraint firstItem="Phx-V9-eB4" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="WFq-au-dxm"/>
                     <constraint firstItem="YO9-aU-8dz" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="a4V-H5-R8W"/>
@@ -79,7 +79,7 @@
                     <constraint firstItem="YO9-aU-8dz" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="gio-Ru-ICc"/>
                     <constraint firstItem="1qX-zh-iIm" firstAttribute="width" secondItem="1qX-zh-iIm" secondAttribute="height" multiplier="1:1" id="i7I-Uz-Udt"/>
                     <constraint firstItem="1qX-zh-iIm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="k1u-nM-FBq"/>
-                    <constraint firstItem="1qX-zh-iIm" firstAttribute="leading" secondItem="3E5-hq-dDT" secondAttribute="trailing" constant="10" id="yVO-qA-AZO"/>
+                    <constraint firstItem="1qX-zh-iIm" firstAttribute="leading" secondItem="3E5-hq-dDT" secondAttribute="trailing" id="yVO-qA-AZO"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

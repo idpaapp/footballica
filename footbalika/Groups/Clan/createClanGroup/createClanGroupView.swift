@@ -8,8 +8,7 @@
 
 import UIKit
 
-class createClanGroupView: UIView , UITextFieldDelegate{
-
+class createClanGroupView: UIView , UITextFieldDelegate , UITextViewDelegate{
 
     @IBOutlet var contentView: UIView!
     
@@ -30,8 +29,7 @@ class createClanGroupView: UIView , UITextFieldDelegate{
     @IBOutlet weak var setMinMaxCup: minMaxView!
     
     @IBOutlet weak var buyButton: buyButton!
-    
-    
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         self.groupImageSelectButton.setButtons(hideAction: true, hideAction1: false, hideAction2: true, hideAction3: true)
@@ -46,12 +44,23 @@ class createClanGroupView: UIView , UITextFieldDelegate{
         self.groupNameTextField.adjustsFontSizeToFitWidth = true
         self.groupNameTextField.minimumFontSize = 0.1
         self.groupNameTextField.delegate = self
+        self.groupTextView.delegate = self
+        self.publicGroup.radioButton.setBackgroundImage(publicImages().radioButtonFill, for: UIControlState.normal)
+        self.privateGroup.radioButton.setBackgroundImage(publicImages().radioButtonEmpty, for: UIControlState.normal)
+        self.privateGroup.radioButton.isExclusiveTouch = true
+        self.publicGroup.radioButton.isExclusiveTouch = true
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return true }
         let count = text.count + string.count - range.length
         return count <= 20
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        let numberOfChars = newText.count
+        return numberOfChars < 701    // 701 Limit Value
     }
     
     override init(frame: CGRect) {

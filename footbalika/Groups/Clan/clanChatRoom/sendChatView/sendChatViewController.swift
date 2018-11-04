@@ -42,10 +42,12 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
         self.chatTextView.contentInset = UIEdgeInsets(top: 0, left: 29, bottom: 0, right: 10)
         self.clearChatTextView.addTarget(self, action: #selector(clearChatTexs), for: UIControlEvents.touchUpInside)
         self.clearChatTextView.isHidden = true
+        self.chatTextView.delegate = self
     }
     
     
     @objc func clearChatTexs() {
+        self.textForSend = ""
         self.chatTextView.text = ""
         self.clearChatTextView.isHidden = true
         checkNumberOfLines()

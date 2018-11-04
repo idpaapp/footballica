@@ -49,16 +49,16 @@
                         </userDefinedRuntimeAttributes>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recieverChat" translatesAutoresizingMaskIntoConstraints="NO" id="DZt-6Z-Jlq">
-                        <rect key="frame" x="66" y="11" width="150" height="211"/>
+                        <rect key="frame" x="56" y="11" width="198" height="211"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TMa-OB-Pfb">
-                        <rect key="frame" x="81" y="11" width="135" height="211"/>
+                        <rect key="frame" x="71" y="11" width="178" height="211"/>
                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                         <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9b4-1v-d8i">
-                        <rect key="frame" x="86" y="201.5" width="125" height="20.5"/>
+                        <rect key="frame" x="76" y="206.5" width="168" height="15.5"/>
                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="13"/>
                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -67,10 +67,10 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="DZt-6Z-Jlq" firstAttribute="height" secondItem="TMa-OB-Pfb" secondAttribute="height" id="74v-zH-JVK"/>
-                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="TMa-OB-Pfb" secondAttribute="trailing" constant="5" id="B4h-ru-CH6"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="TMa-OB-Pfb" secondAttribute="trailing" constant="55" id="B4h-ru-CH6"/>
                     <constraint firstItem="h1n-DF-5rp" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="10" id="BbX-Km-HIb"/>
                     <constraint firstItem="h1n-DF-5rp" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="Ni0-3K-bho"/>
-                    <constraint firstItem="TMa-OB-Pfb" firstAttribute="leading" secondItem="h1n-DF-5rp" secondAttribute="trailing" constant="25" id="ObF-g3-3sn"/>
+                    <constraint firstItem="TMa-OB-Pfb" firstAttribute="leading" secondItem="h1n-DF-5rp" secondAttribute="trailing" constant="15" id="ObF-g3-3sn"/>
                     <constraint firstItem="9b4-1v-d8i" firstAttribute="trailing" secondItem="TMa-OB-Pfb" secondAttribute="trailing" constant="-5" id="dqQ-6U-c0i"/>
                     <constraint firstItem="9b4-1v-d8i" firstAttribute="leading" secondItem="TMa-OB-Pfb" secondAttribute="leading" constant="5" id="e7B-kx-JYk"/>
                     <constraint firstItem="TMa-OB-Pfb" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="hHk-lC-SmY"/>
@@ -78,7 +78,7 @@
                     <constraint firstItem="DZt-6Z-Jlq" firstAttribute="centerY" secondItem="TMa-OB-Pfb" secondAttribute="centerY" id="iaK-63-q6h"/>
                     <constraint firstItem="TMa-OB-Pfb" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="nbP-EH-PRh"/>
                     <constraint firstItem="9b4-1v-d8i" firstAttribute="bottom" secondItem="H2p-sc-9uM" secondAttribute="bottomMargin" id="tn2-0A-Xe6"/>
-                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="leading" secondItem="h1n-DF-5rp" secondAttribute="trailing" constant="10" id="yAt-a6-307"/>
+                    <constraint firstItem="DZt-6Z-Jlq" firstAttribute="leading" secondItem="h1n-DF-5rp" secondAttribute="trailing" id="yAt-a6-307"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -40,6 +40,9 @@ public class loginMainInfo {
         let stadium_icon : String?
         let coins : String?
         let cashs : String?
+        let gem : String?
+        let freeze : String?
+        let bomb : String?
         let level_gains : String?
         let real_level_gain : String?
         let avatar : String?

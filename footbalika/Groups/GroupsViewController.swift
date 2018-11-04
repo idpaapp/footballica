@@ -16,6 +16,7 @@ protocol TutorialGroupsDelegate {
 
 protocol clanGroupsViewControllerDelegate{
     func showGroupInfo(id : String)
+    func clanJoinded()
 }
 
 protocol groupDetailViewControllerDelegate {
@@ -24,6 +25,8 @@ protocol groupDetailViewControllerDelegate {
 
 class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate {
     
+    var cGroups : clanGroupsViewController!
+    var gMatchs : groupMatchViewController!
     func joinOrLeaveGroup(state : String , clan_id : String) {
         switch state {
         case "NO_REQUIRE_TROPHY":
@@ -35,17 +38,42 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         case "USER_HAS_CLAN" :
             self.alertBody = "شما قبلاً عضو یک گروه هستید!"
             self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
-        default:
-            if let vc = childViewControllers.last as? clanGroupsViewController {
-                vc.isSelectedClan = true
-                vc.clanID = clan_id
-                vc.getChatroomData()
+        case "leave" :
+            DispatchQueue.main.async {
+            self.isSelectedClan = false
+                self.updateIsSelectedClan()
+                self.checkIsClanSelected()
+                self.cGroups?.ChangeclanState()
+            }
+        case "USER_JOINED" :
+            DispatchQueue.main.async {
+                self.isSelectedClan = true
+                self.updateIsSelectedClan()
+                self.checkIsClanSelected()
+                self.cGroups.clanID = clan_id
+                self.cGroups?.getChatroomData(isChatSend: false)
+                self.cGroups?.ChangeclanState()
+                self.gMatchs?.updateGroupMatch(state: "game", isCharge: false)
+            }        default:
+            DispatchQueue.main.async {
+                self.isSelectedClan = true
+                self.updateIsSelectedClan()
+                self.checkIsClanSelected()
+                self.cGroups.clanID = clan_id
+                self.cGroups?.getChatroomData(isChatSend: false)
+                self.cGroups?.ChangeclanState()
             }
         }
     }
     
-    let defaults = UserDefaults.standard
     
+    func clanJoinded() {
+        updateIsSelectedClan()
+    }
+    
+    
+    let defaults = UserDefaults.standard
+    var clanId = String()
     var groupId = String()
     @objc func showGroupInfo(id : String) {
         self.groupId = id
@@ -141,14 +169,22 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         if matchViewController.isTutorial {
             searchingState()
         }
-        
+        checkIsClanSelected()
+        updateIsSelectedClan()
+//        getFriendsList(isSplash: true)
+    }
+    
+    @objc func checkIsClanSelected() {
         if login.res?.response?.calnData != nil {
+            if login.res?.response?.calnData?.clanid != nil {
             self.isSelectedClan = true
+            self.clanId = ((login.res?.response?.calnData?.clanid!)!)
+            } else {
+                self.isSelectedClan = false
+            }
         } else {
             self.isSelectedClan = false
         }
-        updateIsSelectedClan()
-//        getFriendsList(isSplash: true)
     }
     
     @objc func refreshUserData(notification : Notification) {
@@ -166,6 +202,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         realm = try? Realm()
 //        getFriendsList(isSplash: true)
         friendsActionColor()
+        checkIsClanSelected()
         friendsTableView.keyboardDismissMode = .onDrag
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshUserData(notification:)), name: NSNotification.Name(rawValue: "refreshUsersAfterCancelling"), object: nil)
 
@@ -479,9 +516,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             vc.groupsDelegate = self
         }
         if let vc = segue.destination as? clanGroupsViewController {
+            DispatchQueue.main.async {
             vc.delegate = self
-            vc.isSelectedClan = self.isSelectedClan
+            self.checkIsClanSelected()
+            vc.clanID = self.clanId
+            if segue.identifier == "groupsGame" {
+                self.cGroups = segue.destination as? clanGroupsViewController
+            }
+            }
         }
+        
         if let vc = segue.destination as? groupDetailViewController {
             vc.id = self.groupId
             vc.delegate = self
@@ -492,13 +536,19 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             vc.alertBody = self.alertBody
             vc.alertAcceptLabel = "تأیید"
         }
+        
+        if let vc = segue.identifier as? groupMatchViewController {
+            if segue.identifier == "groupsMatch" {
+                self.gMatchs = segue.destination as? groupMatchViewController
+            }
+        }
     }
     
     var alertBody = String()
     var isSelectedClan = Bool()
     
     @objc func updateIsSelectedClan() {
-        if self.isSelectedClan {
+        if login.res?.response?.calnData?.clanMembers?.count != 0 {
             self.groupGameOutlet.isHidden = false
         } else {
             self.groupGameOutlet.isHidden = true
@@ -542,8 +592,20 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : UIColor.white )
 
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: true, groupsMatchPageShow: false)
-        let vc = childViewControllers.last as! groupMatchViewController
-        vc.updateGroupMatch(state : state, isCharge : true)
+        
+
+        if login.res?.response?.calnData != nil {
+            if login.res?.response?.calnData?.member_roll != nil {
+                if ((login.res?.response?.calnData?.member_roll!)!) != "3" {
+                    let vc = childViewControllers.last as! groupMatchViewController
+                    vc.updateGroupMatch(state : state, isCharge : true)
+                } else {
+                    let vc = childViewControllers.last as! groupMatchViewController
+                    vc.updateGroupMatch(state : state, isCharge : false)
+                }
+            }
+        }
+        
     }
     
     @objc func handlePageShow(friendsTableViewShow : Bool ,groupsGamePageShow : Bool , groupsMatchPageShow : Bool ) {

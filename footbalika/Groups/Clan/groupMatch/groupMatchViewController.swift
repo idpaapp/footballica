@@ -41,8 +41,8 @@ class groupMatchViewController: UIViewController {
                 self.startGameButton.isHidden = true
             }
         }
-        self.bombCount.text = "2"
-        self.freezeCount.text = "2"
+        self.bombCount.text = "\(((login.res?.response?.mainInfo?.bomb)!)!)"
+        self.freezeCount.text = "\(((login.res?.response?.mainInfo?.freeze)!)!)"
     }
     
     

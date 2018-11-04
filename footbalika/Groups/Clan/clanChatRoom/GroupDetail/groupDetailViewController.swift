@@ -155,9 +155,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         self.setupView(isHidden : false)
                         self.setGroupButtons()
                         PubProc.wb.hideWaiting()
-                        
                     }
-                    
                     
                 } catch {
                     self.getClanData(id: id)
@@ -191,11 +189,27 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     var isJoined = Bool()
     var isCharge = Bool()
+    @objc func checkIsJoinIsCharge() {
+        if login.res?.response?.calnData != nil {
+            if login.res?.response?.calnData?.clanid != nil {
+                if self.id == ((login.res?.response?.calnData?.clanid!)!) {
+                    self.isJoined = true
+                }
+                if ((login.res?.response?.calnData?.member_roll!)!) != "3" {
+                    self.isCharge = true
+                }
+            }
+        }
+        
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         realm = try? Realm()
+        
+        checkIsJoinIsCharge()
         
         self.groupDetailsCV.register(UINib(nibName: "clanDetailCell", bundle: nil), forCellWithReuseIdentifier: "clanDetailCell")
         
@@ -208,6 +222,9 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         self.groupTitleForeGround.text = "گروه"
         
         self.actionLargeButton.actionButton.addTarget(self, action: #selector(joinGroup), for: UIControlEvents.touchUpInside)
+        
+        self.actionLargeButton.action3.addTarget(self, action: #selector(leaveGroup), for: UIControlEvents.touchUpInside)
+        
         setTitles()
         setGroupButtons()
         setupView(isHidden : true)
@@ -256,7 +273,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                 let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
                 if ((Res)!).contains("USER_JOINED") {
                     self.isJoined = true
+                    login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                        PubProc.wb.hideWaiting()
+                        self.checkIsJoinIsCharge()
+                        self.getClanData(id: self.id)
                     self.delegate?.joinOrLeaveGroup(state : "join" , clan_id : self.id)
+                    })
                 } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
                     self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
                 } else if ((Res)!).contains("USER_HAS_CLAN") {
@@ -274,6 +296,43 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             }
             }.resume()
 
+    }
+    
+    
+    @objc func leaveGroup() {
+        
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'LEAVE_CLAN' , 'user_id' : '\(loadingViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
+            
+            if data != nil {
+                
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
+                    
+                    //                print(data ?? "")
+                    
+                    let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    if ((Res)!).contains("USER_LEAVED") {
+                         self.isJoined = false
+                         self.isCharge = false
+                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                            PubProc.wb.hideWaiting()
+                            self.checkIsJoinIsCharge()
+                        self.delegate?.joinOrLeaveGroup(state : "leave" , clan_id : self.id)
+                            self.dismiss(animated : true , completion : nil)
+                        })
+                    } else {
+                        self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
+                    }
+                    PubProc.wb.hideWaiting()
+                }
+            } else {
+                self.leaveGroup()
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
+        
     }
     
 
