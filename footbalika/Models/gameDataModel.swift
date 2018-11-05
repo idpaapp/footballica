@@ -22,9 +22,26 @@ public class gameDataModel {
         let userXps : [userXps.response]
         let onLineTime : Float?
         let androidForceUpdateVersion : Int?
+        let androidForceUpdateVersionBazaar : Int?
+        let androidForceUpdateVersionMyket : Int?
+        let androidForceUpdateVersionIranApps : Int?
+        let androidForceUpdateVersionSibApp : Int?
+        let androidLastVersionVersionAndroid : Int?
+        let androidForceUpdateVersionIOS : Int?
         let server_update : Int?
         let hasPrediction : Int?
         let giftRewards : giftRewards.response?
+        let showTaplighVideo : Int?
+        let showTaplighOnGiftList : Int?
+        let showTaplighOnExtraGame : Int?
+        let warQuestionTime : Int?
+        let warBombCount : Int?
+        let warFreezeCount : Int?
+        let showSupportReward : Int?
+        let clan_create_price : Int?
+        let clan_create_price_type : Int?
+        let join_war_price : Int?
+        let join_war_price_type : Int?
     }
     public var res : Response? = nil;
 }

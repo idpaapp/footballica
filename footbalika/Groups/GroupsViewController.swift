@@ -17,14 +17,23 @@ protocol TutorialGroupsDelegate {
 protocol clanGroupsViewControllerDelegate{
     func showGroupInfo(id : String)
     func clanJoinded()
+    func showProfile(id : String)
 }
 
 protocol groupDetailViewControllerDelegate {
     func joinOrLeaveGroup(state : String , clan_id : String)
     func updateGroupInfo(id : String)
+    func showProfile(id : String)
 }
 
 class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate {
+    
+    
+    func showProfile(id : String) {
+            print(id)
+            self.getProfile(userid : id)
+    }
+    
     
     var cGroups : clanGroupsViewController!
     var gMatchs : groupMatchViewController!
@@ -119,6 +128,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     var searchCount = 1
     
     @objc func getFriendsList(isSplash : Bool) {
+        if state == "friendsList" {
         if isSplash {
         PubProc.isSplash = true
         } else {
@@ -141,20 +151,21 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         PubProc.isSplash = false
                         
                         
-                        DispatchQueue.main.async {
                             if GroupsViewController.friendsRes?.response?.count == 0 {
                                 self.handleScrollEnable(isEnable: false)
                                 
                             }
+                        DispatchQueue.main.async {
                             self.friendsTableView.reloadData()
                             let firstIndex = IndexPath(row: 0, section: 0)
                             self.friendsTableView.scrollToRow(at: firstIndex, at: .top, animated: false)
-                            
-                        }
-                        DispatchQueue.main.async {
-                            PubProc.wb.hideWaiting()
                         }
                         
+                        if isSplash {
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                            }
+                        }
                     } catch {
                         self.getFriendsList(isSplash: isSplash)
                         print(error)
@@ -167,6 +178,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 }
             }
             }.resume()
+        }
         
     }
     
@@ -199,14 +211,13 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         getFriendsList(isSplash: false)
     }
     
-    
      @objc func showTutorial(notification : Notification) {
         self.performSegue(withIdentifier: "lastTutorialPage", sender: self)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.definesPresentationContext = true
         realm = try? Realm()
 //        getFriendsList(isSplash: true)
         friendsActionColor()
@@ -457,19 +468,19 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     var selectedProfile = Int()
     @objc func selectingProfile(_ sender : UIButton!) {
-        selectedProfile = sender.tag
-        if state == "searchList" {
-            getProfile(userid: ((self.resUser?.response?[selectedProfile - 1].id!)!))
+            self.selectedProfile = sender.tag
+            if self.state == "searchList" {
+                self.self.getProfile(userid: ((self.resUser?.response?[self.selectedProfile - 1].id!)!))
 //        self.performSegue(withIdentifier: "showUserProfile", sender: self)
-        } else {
-            getProfile(userid: (GroupsViewController.friendsRes?.response?[selectedProfile].friend_id!)!)
+            } else {
+                self.getProfile(userid: (GroupsViewController.friendsRes?.response?[self.selectedProfile].friend_id!)!)
         }
     }
     
     var otherProfile = Bool()
+    
     @objc func getProfile(userid : String) {
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
-            DispatchQueue.main.async {
                 
                 if data != nil {
                     
@@ -481,9 +492,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     do {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
-                        
-                        self.performSegue(withIdentifier: "showUserProfile", sender: self)
                         DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "showUserProfile", sender: self)
                             PubProc.wb.hideWaiting()
                         }
                     } catch {
@@ -495,9 +505,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         do {
                             
                             login.res2 = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
-                            
-                            self.performSegue(withIdentifier: "showUserProfile", sender: self)
                             DispatchQueue.main.async {
+                                self.performSegue(withIdentifier: "showUserProfile", sender: self)
                                 PubProc.wb.hideWaiting()
                             }
                         } catch {
@@ -511,7 +520,6 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     print(error as Any)
                     // handle error
                 }
-            }
             }.resume()
     }
     

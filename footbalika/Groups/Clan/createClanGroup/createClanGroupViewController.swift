@@ -37,7 +37,7 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     var minCup = Int()
     var requireCup = "مهم نیست"
     var urlClass = urls()
-    var clanType = 2
+    var clanType = 1
     var delegate : createClanGroupViewControllerDelegate!
     var delegate2 : createClanGroupViewControllerDelegate2!
     var clanData : clanGroup.Response? = nil
@@ -62,7 +62,11 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
         } else {
             self.createView.buyButton.buyAction.addTarget(self, action: #selector(editClan), for: UIControlEvents.touchUpInside)
             self.createView.groupNameTextField.text = "\((clanData?.response?.title!)!)"
-            self.createView.setMinMaxCup.minMaxLabel.text = "\((clanData?.response?.require_trophy!)!)"
+            if (clanData?.response?.require_trophy!)! != "0" {
+                self.createView.setMinMaxCup.minMaxLabel.text = "\((clanData?.response?.require_trophy!)!)"
+            } else {
+                self.createView.setMinMaxCup.minMaxLabel.text = "مهم نیست"
+            }
             let url = "\(urlClass.clan)\((clanData?.response?.caln_logo!)!)"
             self.groupImageUrl = url
             let urls = URL(string : url)
@@ -76,6 +80,7 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
                 self.clanType = 1
                 self.createView.privateGroup.radioButton.setBackgroundImage(publicImages().radioButtonEmpty, for: UIControlState.normal)
                 self.createView.publicGroup.radioButton.setBackgroundImage(publicImages().radioButtonFill, for: UIControlState.normal)
+                
             } else {
                 
                self.clanType = 2
@@ -134,8 +139,10 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
                         self.alertBody = "شما امکان انجام این کار را ندارید!"
                         self.performSegue(withIdentifier: "createGroupAlert", sender: self)
                     } else if ((Res)!).contains("DATA_CHENGED") {
+                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
                         self.delegate2?.updateClanData()
                         self.closingPage()
+                        })
                     }
                     
                     PubProc.wb.hideWaiting()
@@ -221,8 +228,6 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
         
     }
     
-    
-    
     var alertBody = String()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? menuAlertViewController {
@@ -241,10 +246,29 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     
     func setGroupPage() {
         if state == "createGroup" {
+            self.createView.buyButton.priceAmount.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingViewController.loadGameData?.response?.clan_create_price!)!)", strokeWidth: -6.0)
+            self.createView.buyButton.priceAmountForeGround.font = fonts().iPhonefonts
+            self.createView.buyButton.priceAmountForeGround.text = "\((loadingViewController.loadGameData?.response?.clan_create_price!)!)"
+            switch String((loadingViewController.loadGameData?.response?.clan_create_price_type!)!) {
+            case publicConstants().coinCase :
+                self.createView.buyButton.priceImage.image = publicImages().coin
+            case publicConstants().moneyCase :
+                self.createView.buyButton.priceImage.image = publicImages().money
+            default :
+                self.createView.buyButton.priceImage.image = publicImages().emptyImage
+                self.createView.buyButton.priceAmount.AttributesOutLine(font: fonts().iPhonefonts, title: "رایگان", strokeWidth: -6.0)
+                self.createView.buyButton.priceAmountForeGround.text = "رایگان"
+            
+            }
+            
         } else {
             self.createView.groupNameTextField.isUserInteractionEnabled = false
             self.createView.groupNameTextField.backgroundColor = .clear
             self.createView.groupNameTextField.borderStyle = .none
+            self.createView.buyButton.priceImage.image = publicImages().emptyImage
+            self.createView.buyButton.priceAmount.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: -6.0)
+            self.createView.buyButton.priceAmountForeGround.font = fonts().iPhonefonts
+            self.createView.buyButton.priceAmountForeGround.text = "تأیید"
         }
     }
     

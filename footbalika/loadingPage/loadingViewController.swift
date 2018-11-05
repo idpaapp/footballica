@@ -153,6 +153,7 @@ class loadingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        versionCheck()
         
         print(UIDevice().localizedModel.description)
         let nc = NotificationCenter.default
@@ -160,7 +161,6 @@ class loadingViewController: UIViewController {
 
         realm = try! Realm()
         gameData()
-        versionCheck()
         
         launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         

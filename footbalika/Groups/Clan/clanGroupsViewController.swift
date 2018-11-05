@@ -22,6 +22,7 @@ protocol sendChatViewControllerDelegate {
 protocol createClanGroupViewControllerDelegate {
     func enterCreatedGroup()
 }
+
 class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDetailsViewControllerDelegate , UITableViewDelegate , UITableViewDataSource , sendChatViewControllerDelegate , createClanGroupViewControllerDelegate {
     
     
@@ -30,7 +31,6 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
             self.getChatroomData(isChatSend: false)
             self.ChangeclanState()
-
         })
     }
     
@@ -87,28 +87,31 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     }
     
     
-    @objc func selectedClan() {
+    @objc func selectedClan(getChats : Bool) {
         self.bottomChatHeight.constant = 10
         self.chatViewHeight.constant = 60
         self.chatView.isHidden = false
         self.topClanView.isHidden = false
         self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
-        getChatroomData(isChatSend: false)
+        if getChats {
+            getChatroomData(isChatSend: false)
+            self.delegate?.clanJoinded()
+            self.clansTV.reloadData()
+        }
         let url = "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)"
         let urls = URL(string : url)
         let resource = ImageResource(downloadURL: urls!, cacheKey: url)
         self.clanImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
         self.clanTitle.text = "\((login.res?.response?.calnData?.clan_title!)!)"
         self.clanCup.text = "\((login.res?.response?.calnData?.clan_point!)!)"
-        self.delegate?.clanJoinded()
-        self.clansTV.reloadData()
+        
     }
     
     
     var urlClass = urls()
     func ChangeclanState() {
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
-            self.selectedClan()
+            self.selectedClan(getChats: true)
             } else {
                 self.bottomChatHeight.constant = 0
                 self.chatViewHeight.constant = 0
@@ -140,7 +143,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if login.res?.response?.calnData != nil {
+        if login.res?.response?.calnData?.clanMembers?.count != 0 {
             switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
             case publicConstants().CHAT :
                 if ((self.chatRes?.response?[indexPath.row].user_id!)!) == loadingViewController.userid {
@@ -191,23 +194,35 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             case publicConstants().CLAN_WAR :
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "topNewsCell", for: indexPath) as! topNewsCell
-
+                cell.topNewsView.backgroundColor = publicColors().startGroupGameColor
+                cell.topNewsTitle.text = "شروع بازی گروهی"
+                cell.topNewsTime.text = (self.chatRes?.response?[indexPath.row].p_due_date!)!
+                cell.topNewsClanCup.text = (self.chatRes?.response?[indexPath.row].chat_text!)!
+                print((self.chatRes?.response?[indexPath.row].chat_text!)!)
+                cell.topNewsCupImage.isHidden = true
                 return cell
 
             case publicConstants().WAR_RESULT :
                 
-                let cell = tableView.dequeueReusableCell(withIdentifier: "topNewsCell", for: indexPath) as! topNewsCell
-                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "hotNewsCell", for: indexPath) as! hotNewsCell
+                cell.hotNewsView.backgroundColor = publicColors().endGroupGameColor
+                cell.hotNewsTitle.text = "پایان بازی گروهی"
+                cell.hotNewsDate.text = (self.chatRes?.response?[indexPath.row].p_due_date!)!
+                cell.hotClanCupImage.isHidden = false
+                cell.hotNewsClanCup.text = (self.chatRes?.response?[indexPath.row].chat_text!)!
                 return cell
-                
             case publicConstants().WAR_CANCELED :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "hotNewsCell", for: indexPath) as! hotNewsCell
-                
+                cell.hotNewsView.backgroundColor = publicColors().cancelGroupGameColor
+                cell.hotNewsTitle.text = "لغو بازی گروهی"
+                cell.hotNewsDate.text = (self.chatRes?.response?[indexPath.row].p_due_date!)!
+                cell.hotClanCupImage.isHidden = true
+                cell.hotNewsClanCup.text = "ورودیه به شما عودت داده شد"
                 
                 return cell
             default :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "chatNewsCell", for: indexPath) as! chatNewsCell
-                
+                cell.newsBackGround.backgroundColor = publicColors().goodNewsColor
                 return cell
             }
             
@@ -230,7 +245,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if login.res?.response?.calnData != nil {
+        if login.res?.response?.calnData?.clanMembers?.count != 0 {
             switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
             case publicConstants().CHAT :
                 return UITableViewAutomaticDimension
@@ -258,8 +273,32 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if login.res?.response?.calnData != nil {
-            
+        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+            switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
+            case publicConstants().CHAT :
+                self.delegate?.showProfile(id : "\((self.chatRes?.response?[indexPath.row].user_id!)!)")
+                break
+            case publicConstants().JOIN :
+                self.delegate?.showProfile(id : "\((self.chatRes?.response?[indexPath.row].user_id!)!)")
+                break
+            case publicConstants().LEFT :
+                self.delegate?.showProfile(id : "\((self.chatRes?.response?[indexPath.row].user_id!)!)")
+                break
+            case publicConstants().PROMOTE :
+                self.delegate?.showProfile(id : "\((self.chatRes?.response?[indexPath.row].user_id!)!)")
+                break
+            case publicConstants().DEMOTE :
+                self.delegate?.showProfile(id : "\((self.chatRes?.response?[indexPath.row].user_id!)!)")
+                break
+            case publicConstants().CLAN_WAR :
+                break
+            case publicConstants().WAR_RESULT :
+                break
+            case publicConstants().WAR_CANCELED :
+                break
+            default:
+                break
+            }
         } else {
         self.delegate?.showGroupInfo(id : (self.res?.response?[indexPath.row].id!)!)
         }
@@ -322,7 +361,6 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             self.clanDetailsView.alpha = 0.0
         }
     }
-    
     
     @objc func openOrCloseDetailsAction() {
         
@@ -449,7 +487,6 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     var groupType = 3
     var clanID = String()
     func newInformation(minMember : Int , maxMember : Int , minCup : Int , groupType : Int) {
-        
         self.minMemberCount = minMember
         self.maxMemberCount = maxMember
         self.minCupCount = minCup
@@ -493,6 +530,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                         self.clansTV.reloadData()
                         if self.chatRes?.response?.count != 0 {                           let indexPath = IndexPath(row: (self.chatRes?.response?.count)! - 1, section: 0)
                             self.clansTV.scrollToRow(at: indexPath, at: .bottom, animated: false)
+                            self.selectedClan(getChats: false)
                         }
                         if isChatSend {
                             let vc = self.childViewControllers.last as! sendChatViewController

@@ -82,6 +82,10 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.delegate?.showProfile(id: "\((self.res?.response?.clanMembers?[indexPath.row].user_id!)!)")
+    }
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
@@ -214,7 +218,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         }
         
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -353,7 +356,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             }.resume()
         
     }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

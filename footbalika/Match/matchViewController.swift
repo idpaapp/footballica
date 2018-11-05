@@ -223,6 +223,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         self.startLabelForeGround.adjustsFontSizeToFitWidth = true
         self.friendlyLabel.adjustsFontSizeToFitWidth = true
         self.eliminateCupLabel.adjustsFontSizeToFitWidth = true
+        fillData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -307,12 +308,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         
         
     }
-    var profileResponse : loginStructure.Response? = nil
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vC = segue.destination as? menuViewController {
             vC.menuState = self.menuState
             vC.friensRes = self.friendsRes
-            vC.profileResponse = self.profileResponse
+            vC.profileResponse = login.res
         }
         
         if let vc = segue.destination as? giftsAndChargesViewController {
@@ -400,7 +401,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                     
                     do {
                         
-                        self.profileResponse = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                         DispatchQueue.main.async {
                             PubProc.cV.hideWarning()
                         }

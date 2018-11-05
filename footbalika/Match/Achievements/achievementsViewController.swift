@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 import RealmSwift
- import GoogleSignIn
+import GoogleSignIn
 
 class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource , GIDSignInUIDelegate , GIDSignInDelegate{
 
@@ -36,7 +36,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
     let alerts = UserDefaults.standard.bool(forKey: "alerts")
     public var res : leaderBoard.Response? = nil ;
-    var otherProfile = Bool()
     var userButtons = Bool()
     var leaderBoardState = String()
     var isFriend = Bool()
@@ -207,7 +206,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             if let isPassword = dict["isPass"] as? Bool{
                 if !isPassword {
                     pageState = "profile"
-                    otherProfile = false
                     self.profileName = (self.profileResponse?.response?.mainInfo?.badge_name!)!
                     self.achievementsTV.reloadData()
                 }
@@ -218,7 +216,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     @objc func refreshUserData(notification : Notification) {
         if let userid = notification.userInfo?["userID"] as? String {
-            self.otherProfile = true
             getUserInfo(id: (Int(userid)!), isResfresh: true)
         }
        
@@ -263,13 +260,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         switchStates.append(playMenuMusic)
         switchStates.append(alerts)
     
-        if otherProfile == true {
-            if pageState != "profile" {
-            otherProfileJson()
-            }
-        } else {
-            
-        }
+//            if pageState != "profile" {
+//            otherProfileJson()
+//            }
+       
         
         switch self.pageState {
         case "Achievements":
@@ -549,7 +543,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.firstProfileTitleForeGround.text = "مشخصات بازیکن"
                 
                 let url =  "\(urlClass.avatar)\((self.profileResponse?.response?.mainInfo?.avatar!)!)"
-                
                 let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
                 if realmID.count != 0 {
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
@@ -579,12 +572,12 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\(profileName)", strokeWidth: -4.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: -4.0)
                     cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: -4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPhonefonts
                 } else {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\(profileName)", strokeWidth: -4.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: -4.0)
                     cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: -4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPadfonts
                 }
@@ -599,10 +592,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 cell.contentView.backgroundColor = grayColor
 
-                if (self.profileResponse?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() && !otherProfile {
+                if (self.profileResponse?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() {
                     
                     //userProfile
-                    if (login.res?.response?.mainInfo?.status!)! != "2" {
+                    if (self.profileResponse?.response?.mainInfo?.status!)! != "2" {
                         //signUp Profile
                         cell.completingProfile.isHidden = false
                         cell.profileCompletingTitle.isHidden = false
@@ -628,7 +621,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 } else {
                     
                     //otherProfile
-                        if ((login.res?.response?.mainInfo?.is_my_friend!)!) == 1 {
+                        if ((self.profileResponse?.response?.mainInfo?.is_my_friend!)!) == 1 {
                         //is Friend
                         cell.completingProfile.isHidden = true
                         cell.cancelFriendship.isHidden = false
@@ -637,7 +630,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         cell.profileCompletingTitleForeGround.isHidden = true
                         cell.profileCompletingTitle.isHidden = true
                     } else {
-                            
                        //is Not Friend
                         cell.completingProfile.isHidden = true
                         cell.cancelFriendship.isHidden = true
@@ -649,7 +641,6 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
                         cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
                         cell.friendshipRequest.addTarget(self, action: #selector(requestFriendShip) , for: UIControlEvents.touchUpInside)
-
                     }
                 }
                 
@@ -1117,19 +1108,12 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             }
             case 1 :
                 
-                if otherProfile == true {
-                if profileResponse?.response?.mainInfo?.id == UserDefaults.standard.string(forKey: "userid") ?? String() && (profileResponse?.response?.mainInfo?.status!)! == "2"{
+                if self.profileResponse?.response?.mainInfo?.id == UserDefaults.standard.string(forKey: "userid") ?? String() && (profileResponse?.response?.mainInfo?.status!)! == "2"{
                         return 0
                 } else {
                     return 50
                 }
-                } else {
-                    if (login.res?.response?.mainInfo?.status!)! == "2"{
-                        return 0
-                    } else {
-                        return 50
-                    }
-                }
+                
             case 2 :
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 280

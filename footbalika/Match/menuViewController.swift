@@ -34,25 +34,6 @@ class menuViewController: UIViewController {
     var friensRes : friendList.Response? = nil
     var menuState = String()
     
-//    var otherProfiles = Bool()
-//    var oPStadium = String()
-//    var opName = String()
-//    var opAvatar = String()
-//    var opBadge = String()
-//    var opID = String()
-//    var opCups = String()
-//    var opLevel = String()
-//    var opWinCount = String()
-//    var opCleanSheetCount = String()
-//    var opLoseCount = String()
-//    var opMostScores = String()
-//    var opDrawCount = String()
-//    var opMaximumWinCount = String()
-//    var opMaximumScore = String()
-//    var uniqueId = String()
-//    var urlClass = urls()
-//    var isFriend = Bool()
-    
     var profileResponse : loginStructure.Response? = nil
     override func viewDidLoad() {
         super.viewDidLoad()

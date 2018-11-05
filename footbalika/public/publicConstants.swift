@@ -20,4 +20,6 @@ public class publicConstants {
     public var CLAN_WAR = "6"
     public var WAR_RESULT = "7"
     public var WAR_CANCELED = "8"
+    public var coinCase = "2"
+    public var moneyCase = "3"
 }

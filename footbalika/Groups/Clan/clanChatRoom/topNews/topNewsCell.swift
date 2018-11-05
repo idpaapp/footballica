@@ -18,6 +18,8 @@ class topNewsCell: UITableViewCell {
     
     @IBOutlet weak var topNewsView: DesignableView!
     
+    @IBOutlet weak var topNewsCupImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

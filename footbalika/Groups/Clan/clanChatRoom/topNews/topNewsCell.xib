@@ -42,14 +42,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clan_cup" translatesAutoresizingMaskIntoConstraints="NO" id="swc-r0-JIO">
-                                <rect key="frame" x="61.5" y="22" width="21" height="22"/>
+                                <rect key="frame" x="-5.5" y="22" width="21" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="U5v-qe-gNu"/>
                                     <constraint firstAttribute="width" secondItem="swc-r0-JIO" secondAttribute="height" multiplier="21:22" id="xts-HJ-VM2"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="120" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trb-nQ-lvw">
-                                <rect key="frame" x="87.5" y="25" width="23.5" height="16.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="120" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trb-nQ-lvw">
+                                <rect key="frame" x="20.5" y="25.5" width="103" height="16.5"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -59,8 +59,8 @@
                         <constraints>
                             <constraint firstItem="etJ-3P-KHe" firstAttribute="top" secondItem="Sas-Oj-dP3" secondAttribute="top" id="5g5-Nv-9gC"/>
                             <constraint firstItem="trb-nQ-lvw" firstAttribute="centerY" secondItem="Sas-Oj-dP3" secondAttribute="centerY" id="FRm-xV-FCu"/>
-                            <constraint firstItem="swc-r0-JIO" firstAttribute="centerX" secondItem="etJ-3P-KHe" secondAttribute="centerX" id="JNp-LE-lYK"/>
                             <constraint firstAttribute="bottom" secondItem="vgN-JB-dwM" secondAttribute="bottom" constant="3" id="MsV-8f-Wht"/>
+                            <constraint firstItem="trb-nQ-lvw" firstAttribute="centerX" secondItem="etJ-3P-KHe" secondAttribute="centerX" id="WP1-81-Pve"/>
                             <constraint firstItem="trb-nQ-lvw" firstAttribute="leading" secondItem="swc-r0-JIO" secondAttribute="trailing" constant="5" id="ZXG-tE-eKf"/>
                             <constraint firstItem="swc-r0-JIO" firstAttribute="centerY" secondItem="trb-nQ-lvw" secondAttribute="centerY" id="d1T-Wt-oNy"/>
                             <constraint firstItem="vgN-JB-dwM" firstAttribute="leading" secondItem="Sas-Oj-dP3" secondAttribute="leading" constant="5" id="mDf-nM-eQV"/>
@@ -104,6 +104,7 @@
                     <constraint firstItem="APw-Ud-ZMR" firstAttribute="leading" secondItem="etJ-3P-KHe" secondAttribute="trailing" constant="-20" id="6Cx-5P-XPo"/>
                     <constraint firstAttribute="trailing" secondItem="Sas-Oj-dP3" secondAttribute="trailing" constant="60" id="C2J-hW-ct6"/>
                     <constraint firstItem="Sas-Oj-dP3" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="CL1-cJ-xL5"/>
+                    <constraint firstItem="APw-Ud-ZMR" firstAttribute="leading" secondItem="trb-nQ-lvw" secondAttribute="trailing" id="Md9-Ws-pKL"/>
                     <constraint firstItem="APw-Ud-ZMR" firstAttribute="leading" secondItem="vgN-JB-dwM" secondAttribute="trailing" id="P5u-Xx-tLN"/>
                     <constraint firstItem="Sas-Oj-dP3" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="3:5" id="f2U-4v-zck"/>
                     <constraint firstItem="Sas-Oj-dP3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="qMS-Fg-xye"/>
@@ -114,6 +115,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="topNewsClanCup" destination="trb-nQ-lvw" id="VNd-7U-4Ac"/>
+                <outlet property="topNewsCupImage" destination="swc-r0-JIO" id="gbv-XF-xvT"/>
                 <outlet property="topNewsTime" destination="vgN-JB-dwM" id="vZJ-6C-sjh"/>
                 <outlet property="topNewsTitle" destination="etJ-3P-KHe" id="ppR-Te-Z4z"/>
                 <outlet property="topNewsView" destination="Sas-Oj-dP3" id="NhO-51-1JQ"/>

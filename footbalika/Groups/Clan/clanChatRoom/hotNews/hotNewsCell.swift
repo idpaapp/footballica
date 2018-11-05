@@ -18,6 +18,8 @@ class hotNewsCell: UITableViewCell {
     
     @IBOutlet weak var hotNewsView: DesignableView!
     
+    @IBOutlet weak var hotClanCupImage: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

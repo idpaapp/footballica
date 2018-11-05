@@ -48,6 +48,8 @@ public class publicImages {
     public var radioButtonFill = UIImage(named : "radioButtonFill")
     public var radioButtonEmpty = UIImage(named : "radioButtonEmpty")
     public var emptyImage = UIImage()
+    public var coin = UIImage(named: "ic_coin")
+    public var money = UIImage(named: "money")
 }
 
 public class fonts {
