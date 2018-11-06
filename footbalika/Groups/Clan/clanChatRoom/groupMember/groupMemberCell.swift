@@ -16,6 +16,7 @@ class groupMemberCell: UITableViewCell {
     @IBOutlet weak var memberRole: UILabel!
     @IBOutlet weak var memberCup: UILabel!
     @IBOutlet weak var memberClanCup: UILabel!
+    @IBOutlet weak var mainView: DesignableView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -41,7 +41,6 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     //                      print(data ?? "")
                     
                     self.chooseRes = String(data: data!, encoding: String.Encoding.utf8) as String?
-
                     
                     if ((self.chooseRes)!).contains("TRANSACTION_COMPELETE") {
                         DispatchQueue.main.async {

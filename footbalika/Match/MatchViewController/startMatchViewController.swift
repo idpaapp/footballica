@@ -379,14 +379,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
     }
     
-    
     @objc func turnAlert() {
         self.alertTitle = "اخطار"
         self.alertBody = "باید صبر کنی تا حریف بازیشو انجام بده"
         self.performSegue(withIdentifier: "matchFieldAlert", sender: self)
     }
-    
-    
     
     let defaults = UserDefaults.standard
     var realm : Realm!
@@ -400,10 +397,8 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var lastPlayedId = ""
 
     @objc func questionIds() {
-        
 
 //        defaults.set("", forKey: "lastMatchId")
-        
         
         if (self.res?.response?.detailData?.count)! == 0 {
 //            print(lastID)
@@ -418,22 +413,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         
         if lastID == "" && lastPlayedId == "" {
             
-            
-            
             categoryState = 1
-            
-            
-            
-//            do {
-//                let realm = try Realm()
-            
-                
-//            } catch let error as NSError {
-//                print(error.localizedDescription)
-//            }
-            
-//            print(realm.objects(tblChargeTypes.self).first?.title)
-//            print(realm.objects(tblChargeTypes.self).first?.id)
 
 
         } else if lastID != "" {

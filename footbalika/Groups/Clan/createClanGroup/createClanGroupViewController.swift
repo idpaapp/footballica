@@ -246,29 +246,25 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     
     func setGroupPage() {
         if state == "createGroup" {
-            self.createView.buyButton.priceAmount.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingViewController.loadGameData?.response?.clan_create_price!)!)", strokeWidth: -6.0)
-            self.createView.buyButton.priceAmountForeGround.font = fonts().iPhonefonts
-            self.createView.buyButton.priceAmountForeGround.text = "\((loadingViewController.loadGameData?.response?.clan_create_price!)!)"
+            self.createView.buyButton.setPriceTitle(title: "\((loadingViewController.loadGameData?.response?.clan_create_price!)!)", font: fonts().iPhonefonts)
             switch String((loadingViewController.loadGameData?.response?.clan_create_price_type!)!) {
             case publicConstants().coinCase :
-                self.createView.buyButton.priceImage.image = publicImages().coin
+                self.createView.buyButton.handleTitle(isFree: false)
+                self.createView.buyButton.setPriceImage(priceImage: publicImages().coin!)
             case publicConstants().moneyCase :
-                self.createView.buyButton.priceImage.image = publicImages().money
+                self.createView.buyButton.handleTitle(isFree: false)
+                self.createView.buyButton.setPriceImage(priceImage: publicImages().money!)
             default :
-                self.createView.buyButton.priceImage.image = publicImages().emptyImage
-                self.createView.buyButton.priceAmount.AttributesOutLine(font: fonts().iPhonefonts, title: "رایگان", strokeWidth: -6.0)
-                self.createView.buyButton.priceAmountForeGround.text = "رایگان"
-            
+                self.createView.buyButton.handleTitle(isFree: true)
+                self.createView.buyButton.setPriceTitle(title: "رایگان", font: fonts().iPhonefonts)
             }
             
         } else {
             self.createView.groupNameTextField.isUserInteractionEnabled = false
             self.createView.groupNameTextField.backgroundColor = .clear
             self.createView.groupNameTextField.borderStyle = .none
-            self.createView.buyButton.priceImage.image = publicImages().emptyImage
-            self.createView.buyButton.priceAmount.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: -6.0)
-            self.createView.buyButton.priceAmountForeGround.font = fonts().iPhonefonts
-            self.createView.buyButton.priceAmountForeGround.text = "تأیید"
+            self.createView.buyButton.handleTitle(isFree: true)
+            self.createView.buyButton.setPriceTitle(title: "تأیید", font: fonts().iPhonefonts)
         }
     }
     

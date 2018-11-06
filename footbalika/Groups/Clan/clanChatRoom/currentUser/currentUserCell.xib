@@ -33,6 +33,7 @@
                             <constraint firstAttribute="height" constant="50" id="2mh-1g-RmC"/>
                             <constraint firstAttribute="width" secondItem="1qX-zh-iIm" secondAttribute="height" multiplier="1:1" id="XlS-pH-iAe"/>
                         </constraints>
+                        <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                         <state key="normal" image="avatar" backgroundImage="dark_btn_rounded_large"/>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -86,6 +87,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="chatDate" destination="Phx-V9-eB4" id="8sm-pB-L6z"/>
+                <outlet property="currentUserButton" destination="1qX-zh-iIm" id="f9c-iD-QU8"/>
                 <outlet property="senderChatImage" destination="3E5-hq-dDT" id="W34-qd-i5O"/>
                 <outlet property="senderTexts" destination="YO9-aU-8dz" id="Pia-ey-NGJ"/>
             </connections>

@@ -17,21 +17,22 @@ protocol TutorialGroupsDelegate {
 protocol clanGroupsViewControllerDelegate{
     func showGroupInfo(id : String)
     func clanJoinded()
-    func showProfile(id : String)
+    func showProfile(id : String , isGroupDetailUser : Bool , completionHandler : @escaping () -> Void)
 }
 
 protocol groupDetailViewControllerDelegate {
     func joinOrLeaveGroup(state : String , clan_id : String)
     func updateGroupInfo(id : String)
-    func showProfile(id : String)
+    func showProfile(id : String , isGroupDetailUser : Bool, completionHandler : @escaping () -> Void)
 }
 
 class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate {
     
     
-    func showProfile(id : String) {
-            print(id)
-            self.getProfile(userid : id)
+    func showProfile(id : String , isGroupDetailUser : Bool , completionHandler : @escaping () -> Void) {
+        self.getProfile(userid : id, isGroupDetail: isGroupDetailUser, completionHandler: {
+            completionHandler()
+        })
     }
     
     
@@ -61,7 +62,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 self.updateIsSelectedClan()
                 self.checkIsClanSelected()
                 self.cGroups.clanID = clan_id
-                self.cGroups?.getChatroomData(isChatSend: false)
+                self.cGroups?.getChatroomData(isChatSend: false, completionHandler: {})
                 self.cGroups?.ChangeclanState()
                 self.gMatchs?.updateGroupMatch(state: "game", isCharge: false)
             }        default:
@@ -70,7 +71,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 self.updateIsSelectedClan()
                 self.checkIsClanSelected()
                 self.cGroups.clanID = clan_id
-                self.cGroups?.getChatroomData(isChatSend: false)
+                self.cGroups?.getChatroomData(isChatSend: false, completionHandler: {})
                 self.cGroups?.ChangeclanState()
             }
         }
@@ -81,7 +82,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.updateIsSelectedClan()
         self.checkIsClanSelected()
         self.cGroups.clanID = id
-        self.cGroups?.getChatroomData(isChatSend: false)
+        self.cGroups?.getChatroomData(isChatSend: false, completionHandler: {})
         self.cGroups?.ChangeclanState()
     }
     
@@ -470,16 +471,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @objc func selectingProfile(_ sender : UIButton!) {
             self.selectedProfile = sender.tag
             if self.state == "searchList" {
-                self.self.getProfile(userid: ((self.resUser?.response?[self.selectedProfile - 1].id!)!))
+                self.self.getProfile(userid: ((self.resUser?.response?[self.selectedProfile - 1].id!)!), isGroupDetail: false, completionHandler: {})
 //        self.performSegue(withIdentifier: "showUserProfile", sender: self)
             } else {
-                self.getProfile(userid: (GroupsViewController.friendsRes?.response?[self.selectedProfile].friend_id!)!)
+                self.getProfile(userid: (GroupsViewController.friendsRes?.response?[self.selectedProfile].friend_id!)!, isGroupDetail: false, completionHandler: {})
         }
     }
     
     var otherProfile = Bool()
     
-    @objc func getProfile(userid : String) {
+    @objc func getProfile(userid : String , isGroupDetail : Bool , completionHandler : @escaping () -> Void) {
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
                 
                 if data != nil {
@@ -492,12 +493,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     do {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        
+                        completionHandler()
                         DispatchQueue.main.async {
+                            if !isGroupDetail {
                             self.performSegue(withIdentifier: "showUserProfile", sender: self)
+                            }
                             PubProc.wb.hideWaiting()
                         }
                     } catch {
-                        self.getProfile(userid: userid)
+                        self.getProfile(userid: userid, isGroupDetail: isGroupDetail, completionHandler: {})
                         print(error)
                     }
                     } else {
@@ -505,17 +510,20 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         do {
                             
                             login.res2 = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                            completionHandler()
                             DispatchQueue.main.async {
+                                 if !isGroupDetail {
                                 self.performSegue(withIdentifier: "showUserProfile", sender: self)
+                                }
                                 PubProc.wb.hideWaiting()
                             }
                         } catch {
-                            self.getProfile(userid: userid)
+                            self.getProfile(userid: userid, isGroupDetail: isGroupDetail, completionHandler: {})
                             print(error)
                         }
                     }
                 } else {
-                    self.getProfile(userid: userid)
+                    self.getProfile(userid: userid, isGroupDetail: isGroupDetail, completionHandler: {})
                     print("Error Connection")
                     print(error as Any)
                     // handle error

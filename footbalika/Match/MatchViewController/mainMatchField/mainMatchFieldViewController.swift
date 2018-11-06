@@ -332,7 +332,6 @@ class mainMatchFieldViewController: UIViewController  {
         
         realm = try? Realm()
         
-        
         let realmID = self.realm.objects(tblStadiums.self).filter("img_logo == '\(stadiumUrl.stadium)\(stadium)'")
         if realmID.count != 0 {
             if realmID.first?.img_base64.count != 0 {

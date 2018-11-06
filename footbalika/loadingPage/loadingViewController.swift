@@ -56,7 +56,7 @@ class loadingViewController: UIViewController {
     let defaults = UserDefaults.standard
     
     func versionCheck() {
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        if let version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             print("version : \(version)")
             AppVersion = version
         }

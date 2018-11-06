@@ -16,9 +16,12 @@ class currentUserCell: UITableViewCell {
     
     @IBOutlet weak var chatDate: UILabel!
     
+    @IBOutlet weak var currentUserButton: RoundButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        currentUserButton.imageView?.contentMode = UIViewContentMode.scaleAspectFit
         changeImage(name: "senderChat")
         senderChatImage.tintColor = UIColor.init(red: 225/255, green: 255/255, blue: 199/255, alpha: 1.0)
         self.senderChatImage.addUIImageShadow(color: UIColor.black, offset: CGSize(width: 0, height: 0), opacity: 0.5, Radius: 1)

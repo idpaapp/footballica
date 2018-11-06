@@ -20,10 +20,38 @@ class buyButton: UIView {
     
     @IBOutlet weak var priceAmountForeGround: UILabel!
     
+    @IBOutlet weak var freeTitle: UILabel!
+    
+    @IBOutlet weak var freeTitleForeGround: UILabel!
+    
+    @IBOutlet weak var priceStackView: UIStackView!
+    
     @objc func setPriceTitle(title : String , font : UIFont) {
         self.priceAmount.AttributesOutLine(font: font, title: title, strokeWidth: -5.0)
         self.priceAmountForeGround.font = font
         self.priceAmountForeGround.text = title
+        self.freeTitle.AttributesOutLine(font: font, title: title, strokeWidth: -5.0)
+        self.freeTitleForeGround.font = font
+        self.freeTitleForeGround.text = title
+    }
+    
+    @objc func setPriceImage(priceImage : UIImage) {
+        self.priceImage.image = priceImage
+    }
+    
+    @objc func handleTitle(isFree : Bool) {
+        if isFree {
+           setHideOrShows(firstGroup: true, secondGroup: false)
+        } else {
+            setHideOrShows(firstGroup: false, secondGroup: true)
+        }
+    }
+    
+    @objc func setHideOrShows(firstGroup : Bool , secondGroup : Bool) {
+        self.priceStackView.isHidden = firstGroup
+        self.priceAmountForeGround.isHidden = firstGroup
+        self.freeTitle.isHidden = secondGroup
+        self.freeTitleForeGround.isHidden = secondGroup
     }
     
     override init(frame: CGRect) {

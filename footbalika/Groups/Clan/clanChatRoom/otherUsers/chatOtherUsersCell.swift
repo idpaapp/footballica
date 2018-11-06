@@ -16,6 +16,8 @@ class chatOtherUsersCell: UITableViewCell {
     
     @IBOutlet weak var chatDate: UILabel!
     
+    @IBOutlet weak var otherUserButton: RoundButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         changeImage(name: "recieverChat")

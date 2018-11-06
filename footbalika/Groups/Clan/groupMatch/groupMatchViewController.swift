@@ -45,7 +45,6 @@ class groupMatchViewController: UIViewController {
         self.freezeCount.text = "\(((login.res?.response?.mainInfo?.freeze)!)!)"
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateGroupMatch(state: self.state, isCharge: self.isCharge)

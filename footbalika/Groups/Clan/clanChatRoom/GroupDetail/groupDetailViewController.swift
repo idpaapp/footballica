@@ -51,7 +51,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         cell.memberName.text = "\((self.res?.response?.clanMembers?[indexPath.row].username!)!)"
         cell.memberRole.text = "\((self.res?.response?.clanMembers?[indexPath.row].roll_title!)!)"
         
-        
         let url = "\(urlClass.avatar)\((self.res?.response?.clanMembers?[indexPath.row].avatar!)!)"
         
         let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
@@ -62,6 +61,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             let urls = URL(string : url)
             let resource = ImageResource(downloadURL: urls!, cacheKey: url)
             cell.memberAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        }
+        
+        if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
+            cell.mainView.backgroundColor = UIColor.init(red: 162/255, green: 206/255, blue: 182/255, alpha: 1.0)
+        } else {
+            cell.mainView.backgroundColor = UIColor.init(red: 244/255, green: 244/255, blue: 241/255, alpha: 1.0)
         }
         
         if ((self.res?.response?.clanMembers?[indexPath.row].user_id!)!) == "\(loadingViewController.userid)" {
@@ -83,10 +88,19 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.delegate?.showProfile(id: "\((self.res?.response?.clanMembers?[indexPath.row].user_id!)!)")
-    }
+        self.delegate?.showProfile(id: "\((self.res?.response?.clanMembers?[indexPath.row].user_id!)!)", isGroupDetailUser: true, completionHandler: {
+            if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
+                self.otherProfile = false
+            } else {
+                self.otherProfile = true
+            }
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "showClanUserProfile", sender: self)
+            }
+        })
+   }
     
-    
+    var otherProfile = Bool()
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
@@ -371,6 +385,14 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             vc.state = "editClan"
             vc.clanData = self.res
             vc.delegate2 = self
+        }
+        if let vc = segue.destination as? menuViewController {
+            vc.menuState = "profile"
+            if self.otherProfile {
+                vc.profileResponse = login.res2
+            } else {
+                vc.profileResponse = login.res
+            }
         }
     }
 

@@ -11,14 +11,22 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="buyButton" customModule="footbalika" customModuleProvider="target">
             <connections>
                 <outlet property="buyAction" destination="mng-Yw-mUq" id="m2B-Qc-a2k"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="UCg-TC-aIu"/>
+                <outlet property="freeTitle" destination="2zq-e5-HSf" id="xkr-8O-YMq"/>
+                <outlet property="freeTitleForeGround" destination="id9-aC-a9b" id="myb-7H-yOW"/>
                 <outlet property="priceAmount" destination="Eee-jo-UeA" id="DTU-Wo-UFj"/>
                 <outlet property="priceAmountForeGround" destination="MIU-b3-oxM" id="Fye-Jw-z6m"/>
                 <outlet property="priceImage" destination="QBw-hk-Guy" id="ckH-ZJ-okU"/>
+                <outlet property="priceStackView" destination="mVJ-9U-7MP" id="Z9f-3o-nV0"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -73,19 +81,39 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2zq-e5-HSf">
+                    <rect key="frame" x="0.5" y="1" width="264" height="116"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="id9-aC-a9b">
+                    <rect key="frame" x="0.5" y="1" width="264" height="116"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="mng-Yw-mUq" secondAttribute="bottom" constant="1" id="25C-LW-UO8"/>
+                <constraint firstItem="2zq-e5-HSf" firstAttribute="centerX" secondItem="mng-Yw-mUq" secondAttribute="centerX" id="63M-j5-Xce"/>
                 <constraint firstItem="mng-Yw-mUq" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="1" id="6Be-TL-iGU"/>
+                <constraint firstItem="id9-aC-a9b" firstAttribute="height" secondItem="2zq-e5-HSf" secondAttribute="height" id="84Y-CG-6Jd"/>
+                <constraint firstItem="2zq-e5-HSf" firstAttribute="centerY" secondItem="mng-Yw-mUq" secondAttribute="centerY" id="8SZ-YL-bMY"/>
                 <constraint firstItem="mng-Yw-mUq" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="1" id="HGQ-bd-aov"/>
+                <constraint firstItem="2zq-e5-HSf" firstAttribute="width" secondItem="mng-Yw-mUq" secondAttribute="width" id="Qh9-SA-a5U"/>
+                <constraint firstItem="id9-aC-a9b" firstAttribute="centerX" secondItem="2zq-e5-HSf" secondAttribute="centerX" id="bod-bN-dd1"/>
                 <constraint firstItem="MIU-b3-oxM" firstAttribute="height" secondItem="Eee-jo-UeA" secondAttribute="height" id="f2B-KO-ElN"/>
                 <constraint firstItem="mVJ-9U-7MP" firstAttribute="height" secondItem="mng-Yw-mUq" secondAttribute="height" multiplier="2:3" id="hWu-B3-3mS"/>
+                <constraint firstItem="id9-aC-a9b" firstAttribute="width" secondItem="2zq-e5-HSf" secondAttribute="width" id="hnq-zO-DFE"/>
+                <constraint firstItem="2zq-e5-HSf" firstAttribute="height" secondItem="mng-Yw-mUq" secondAttribute="height" id="jnb-IU-PZ8"/>
                 <constraint firstItem="mVJ-9U-7MP" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="mRx-hk-Ryd"/>
                 <constraint firstItem="MIU-b3-oxM" firstAttribute="width" secondItem="Eee-jo-UeA" secondAttribute="width" id="nVE-Yo-deh"/>
                 <constraint firstItem="MIU-b3-oxM" firstAttribute="centerX" secondItem="Eee-jo-UeA" secondAttribute="centerX" id="qBR-yw-95s"/>
                 <constraint firstItem="mVJ-9U-7MP" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="rzV-d4-Sl9"/>
                 <constraint firstItem="MIU-b3-oxM" firstAttribute="centerY" secondItem="Eee-jo-UeA" secondAttribute="centerY" id="vxq-Z0-aOX"/>
+                <constraint firstItem="id9-aC-a9b" firstAttribute="centerY" secondItem="2zq-e5-HSf" secondAttribute="centerY" id="ym8-mc-3RT"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="mng-Yw-mUq" secondAttribute="trailing" constant="1" id="zsz-I6-oD0"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
