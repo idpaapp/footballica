@@ -22,4 +22,7 @@ public class publicConstants {
     public var WAR_CANCELED = "8"
     public var coinCase = "2"
     public var moneyCase = "3"
+    public var clanJoined = "0"
+    public var magnifier = "1"
+    public var war = "2"
 }

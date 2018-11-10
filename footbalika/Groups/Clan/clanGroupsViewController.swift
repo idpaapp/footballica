@@ -153,8 +153,8 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     
                     let cell = tableView.dequeueReusableCell(withIdentifier: "currentUserCell", for: indexPath) as! currentUserCell
                     
-                    let url = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
-                    //                    let url = "\(urlClass.avatar)\((self.chatRes?.response?[indexPath.row].avatar!)!)"
+//                    let url = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
+                    let url = "\(urlClass.avatar)\((self.chatRes?.response?[indexPath.row].avatar!)!)"
                     
                     let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
                     if realmID.count != 0 {
@@ -559,6 +559,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         }
     }
     
+    @objc func updatePage() {
+        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+        getChatroomData(isChatSend: false, completionHandler: {})
+        }
+    }
     
     var chatRes : clanChatRoom.Response? = nil
     @objc func getChatroomData(isChatSend : Bool , completionHandler : @escaping () -> Void) {

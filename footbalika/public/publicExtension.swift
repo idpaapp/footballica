@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AVFoundation
+import Kingfisher
 
 
 public class scrollToPage {
@@ -549,6 +550,12 @@ extension UIImageView {
         // we add the animation to the squares 'layer' property
         self.layer.add(anim, forKey: "animate position along path")
 
+    }
+    
+    @objc func setImageWithKingFisher(url : String) {
+        let urls = URL(string : url)
+        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+        self.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
     }
     
 }

@@ -64,7 +64,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 self.cGroups.clanID = clan_id
                 self.cGroups?.getChatroomData(isChatSend: false, completionHandler: {})
                 self.cGroups?.ChangeclanState()
-                self.gMatchs?.updateGroupMatch(state: "game", isCharge: false)
+                self.gMatchs?.updateclanGamePage()
             }        default:
             DispatchQueue.main.async {
                 self.isSelectedClan = true
@@ -250,7 +250,13 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         let pageIndexDict:[String: Int] = ["button": 3]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-        getFriendsList(isSplash: true)
+        if state == "friendsList" {
+            getFriendsList(isSplash: true)
+        } else if state == "group"{
+            self.cGroups?.updatePage()
+        } else {
+            
+        }
     }
     
     var resUser : usersSearchLists.Response? = nil
@@ -501,14 +507,14 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                             }
                             PubProc.wb.hideWaiting()
                         }
+                   
                     } catch {
                         self.getProfile(userid: userid, isGroupDetail: isGroupDetail, completionHandler: {})
                         print(error)
-                    }
+                        }
                     } else {
                         self.otherProfile = true
                         do {
-                            
                             login.res2 = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                             completionHandler()
                             DispatchQueue.main.async {
@@ -622,17 +628,19 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : UIColor.white )
 
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: true, groupsMatchPageShow: false)
-        
 
         if login.res?.response?.calnData != nil {
             if login.res?.response?.calnData?.member_roll != nil {
-                if ((login.res?.response?.calnData?.member_roll!)!) != "3" {
-                    let vc = childViewControllers.last as! groupMatchViewController
-                    vc.updateGroupMatch(state : state, isCharge : true)
-                } else {
-                    let vc = childViewControllers.last as! groupMatchViewController
-                    vc.updateGroupMatch(state : state, isCharge : false)
-                }
+                let vc = childViewControllers.last as! groupMatchViewController
+                vc.updateclanGamePage()
+//                if ((login.res?.response?.calnData?.member_roll!)!) != "3" {
+//                    let vc = childViewControllers.last as! groupMatchViewController
+//                    vc.updateGroupMatch(state : state, isCharge : true)
+//                    vc.updateclanGamePage()
+//                } else {
+//                    let vc = childViewControllers.last as! groupMatchViewController
+//                    vc.updateGroupMatch(state : state, isCharge : false)
+//                }
             }
         }
         
