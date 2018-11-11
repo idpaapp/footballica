@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class leaguesViewController: UIViewController, UITableViewDataSource , UITableViewDelegate {
 
@@ -41,10 +40,8 @@ class leaguesViewController: UIViewController, UITableViewDataSource , UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "leagueCell", for: indexPath) as! leagueCell
         
-        let url = "\((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].img_logo!)!)"
-        let urls = URL(string: url)
-        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-        cell.leagueImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        cell.leagueImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].img_logo!)!)")
+        
         if UIDevice().userInterfaceIdiom == .phone {
         cell.leagueTitle.AttributesOutLine(font: fonts.init().iPhonefonts, title: "\(((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: -4.0)
         } else {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 protocol groupLogoViewDelegate {
     func selectedLogo(url : String)

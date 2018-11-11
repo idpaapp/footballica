@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 import RealmSwift
 
 protocol createClanGroupViewControllerDelegate2 {
@@ -58,9 +57,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
             cell.memberAvatar.image = UIImage(data: dataDecoded as Data)
         } else {
-            let urls = URL(string : url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            cell.memberAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.memberAvatar.setImageWithKingFisher(url: url)
         }
         
         if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
@@ -273,10 +270,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         self.clanCup.text = "\((self.res?.response?.clan_score!)!)"
         self.clanName.text = "\((self.res?.response?.title!)!)"
         self.groupDescription.text = "\((self.res?.response?.clan_status!)!)"
-        let url = "\(urls().clan)\((self.res?.response?.caln_logo!)!)"
-        let Urls = URL(string : url)
-        let resource = ImageResource(downloadURL: Urls!, cacheKey: url)
-        self.clanImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        self.clanImage.setImageWithKingFisher(url: "\(urls().clan)\((self.res?.response?.caln_logo!)!)")
     }
     
     func setupView(isHidden : Bool) {

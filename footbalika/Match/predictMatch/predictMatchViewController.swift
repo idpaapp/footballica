@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class predictMatchViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
     
@@ -67,14 +66,11 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         cell.team2Title.text = "\((self.todayRes?.response?[indexPath.row].away_name!)!)"
         cell.team1Resault.text = "\((self.todayRes?.response?[indexPath.row].home_result!)!)"
         cell.team2Resault.text = "\((self.todayRes?.response?[indexPath.row].home_result!)!)"
-        let team1LogoUrl = "\((self.todayRes?.response?[indexPath.row].home_image!)!)"
-        let team1ImgUrl = URL(string: team1LogoUrl)
-        let resource = ImageResource(downloadURL: team1ImgUrl!, cacheKey: team1LogoUrl)
-        cell.team1Logo.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
-        let team2LogoUrl = "\((self.todayRes?.response?[indexPath.row].away_image!)!)"
-        let team2ImgUrl = URL(string: team2LogoUrl)
-        let resource2 = ImageResource(downloadURL: team2ImgUrl!, cacheKey: team2LogoUrl)
-        cell.team2Logo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
+            
+        cell.team1Logo.setImageWithKingFisher(url: "\((self.todayRes?.response?[indexPath.row].home_image!)!)")
+            
+        cell.team2Logo.setImageWithKingFisher(url: "\((self.todayRes?.response?[indexPath.row].away_image!)!)")
+            
         cell.submitPrediction.tag = indexPath.row
             cell.submitPrediction.addTarget(self, action: #selector(submitting), for: UIControlEvents.touchUpInside)
         if ((self.todayRes?.response?[indexPath.row].status)!) != "0" {
@@ -113,14 +109,10 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             cell.team2Title.text = "\((self.pastRes?.response?[indexPath.row].away_name!)!)"
             cell.team1Resault.text = "\((self.pastRes?.response?[indexPath.row].home_result!)!)"
             cell.team2Resault.text = "\((self.pastRes?.response?[indexPath.row].home_result!)!)"
-            let team1LogoUrl = "\((self.pastRes?.response?[indexPath.row].home_image!)!)"
-            let team1ImgUrl = URL(string: team1LogoUrl)
-            let resource = ImageResource(downloadURL: team1ImgUrl!, cacheKey: team1LogoUrl)
-            cell.team1Logo.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
-            let team2LogoUrl = "\((self.pastRes?.response?[indexPath.row].away_image!)!)"
-            let team2ImgUrl = URL(string: team2LogoUrl)
-            let resource2 = ImageResource(downloadURL: team2ImgUrl!, cacheKey: team2LogoUrl)
-            cell.team2Logo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
+            
+            cell.team1Logo.setImageWithKingFisher(url: "\((self.pastRes?.response?[indexPath.row].home_image!)!)")
+            
+            cell.team2Logo.setImageWithKingFisher(url: "\((self.pastRes?.response?[indexPath.row].away_image!)!)")
             cell.team1Prediction.text = "\((self.pastRes?.response?[indexPath.row].home_prediction!)!)"
             cell.team2Prediction.text = "\((self.pastRes?.response?[indexPath.row].away_prediction!)!)"
             return cell
@@ -129,10 +121,8 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "predictLeaderBoardCell", for: indexPath) as! predictLeaderBoardCell
             
-            let leaderAvatarUrl = "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)"
-            let leaderA = URL(string: leaderAvatarUrl)
-            let resource = ImageResource(downloadURL: leaderA!, cacheKey: leaderAvatarUrl)
-            cell.userAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.userAvatar.setImageWithKingFisher(url: "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)")
+            
             cell.userName.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].username!)!)"
             cell.number.text = "\(indexPath.row + 1)"
             cell.userScore.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].cups!)!)"
@@ -173,22 +163,6 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         
         if let vc = segue.destination as? menuViewController {
             vc.menuState = "profile"
-//            vc.otherProfiles = true
-//            vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
-//            vc.opName = (login.res?.response?.mainInfo?.username!)!
-//            vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
-//            vc.opBadge = "\(urlClass.badge)\(((login.res?.response?.mainInfo?.badge_name!)!))"
-//            vc.opID = ((login.res?.response?.mainInfo?.ref_id!)!)
-//            vc.opCups = ((login.res?.response?.mainInfo?.cups!)!)
-//            vc.opLevel = ((login.res?.response?.mainInfo?.level!)!)
-//            vc.opWinCount = ((login.res?.response?.mainInfo?.win_count!)!)
-//            vc.opCleanSheetCount = ((login.res?.response?.mainInfo?.clean_sheet_count!)!)
-//            vc.opLoseCount = ((login.res?.response?.mainInfo?.lose_count!)!)
-//            vc.opMostScores = ((login.res?.response?.mainInfo?.max_points_gain!)!)
-//            vc.opDrawCount = ((login.res?.response?.mainInfo?.draw_count!)!)
-//            vc.opMaximumWinCount = ((login.res?.response?.mainInfo?.max_wins_count!)!)
-//            vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
-//            vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
             vc.profileResponse = self.profileResponse
         }
         

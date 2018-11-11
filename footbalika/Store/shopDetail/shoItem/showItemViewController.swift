@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class showItemViewController: UIViewController {
 
@@ -54,9 +53,7 @@ class showItemViewController: UIViewController {
         let dataDecoded:NSData = NSData(base64Encoded: mainImage, options: NSData.Base64DecodingOptions(rawValue: 0))!
         itemImage.image = UIImage(data: dataDecoded as Data)
         } else {
-            let url = URL(string : mainImage )
-            let resource = ImageResource(downloadURL: url!, cacheKey: mainImage)
-            itemImage.kf.setImage(with: resource , options : [.transition(ImageTransition.fade(0.5))])
+            itemImage.setImageWithKingFisher(url: mainImage)
             self.itemImage.clipsToBounds = true
             self.itemImage.layer.cornerRadius = 10
         }

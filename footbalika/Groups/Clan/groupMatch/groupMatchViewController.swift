@@ -7,9 +7,51 @@
 //
 
 import UIKit
-import Kingfisher
 
-class groupMatchViewController: UIViewController {
+protocol groupMembersViewControllerDelegate {
+    func joinWar()
+}
+
+class groupMatchViewController: UIViewController , groupMembersViewControllerDelegate {
+    
+    func joinWar() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_WAR' , 'user_id' : '\(loadingViewController.userid)' , 'war_id' : '\((self.activeWarRes?.response?.id!)!)'}") { data, error in
+            
+            if data != nil {
+                
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
+                }
+                
+                let res = String(data: data!, encoding: String.Encoding.utf8) as String?
+                print(res!)
+                DispatchQueue.main.async {
+                    if (res!).contains("USER_JOINED_BEFORE") {
+                        print("شما قبلاً عضو شده اید")
+                    } else if (res!).contains("USER_JOINED") {
+                        self.updateclanGamePage()
+                    } else if (res!).contains("NOT_ENOUGH_RESOURCE") {
+                        print("شما منابع لازم برای انجام این کار را ندارید")
+                    } else {
+                        print("else")
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    PubProc.wb.hideWaiting()
+                }
+                
+            } else {
+                self.joinWar()
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
+        //        USER_JOINED
+        //        NOT_ENOUGH_RESOURCE
+        //        USER_JOINED_BEFORE
+    }
     
     @IBOutlet weak var startGameButton: actionLargeButton!
     
@@ -23,6 +65,9 @@ class groupMatchViewController: UIViewController {
     
     @IBOutlet weak var clanTimer: clanTimerView!
     
+    @IBOutlet weak var clanMembersContainerView: UIView!
+    
+    
     var state = "Searching"
     override var prefersStatusBarHidden: Bool {
         return true
@@ -30,6 +75,7 @@ class groupMatchViewController: UIViewController {
     
     var activeWarRes : getActiveWar.Response? = nil
     @objc func updateclanGamePage() {
+        PubProc.isSplash = true
         self.bombCount.text = "\(((login.res?.response?.mainInfo?.bomb)!)!)"
         self.freezeCount.text = "\(((login.res?.response?.mainInfo?.freeze)!)!)"
         PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_ACTIVE_WAR' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)'}") { data, error in
@@ -45,6 +91,7 @@ class groupMatchViewController: UIViewController {
                 DispatchQueue.main.async {
                     PubProc.wb.hideWaiting()
                 }
+                PubProc.isSplash = false
                 
                 do {
                     
@@ -65,6 +112,7 @@ class groupMatchViewController: UIViewController {
                             self.state = "OK"
                             self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true)
                             self.setupClanTimer()
+                            self.setupClanMemberList(isStartWar: false)
                             break
                         default :
                             break
@@ -73,8 +121,6 @@ class groupMatchViewController: UIViewController {
                 } catch {
                     print(error)
                 }
-                
-                
                 
             } else {
                 self.updateclanGamePage()
@@ -87,6 +133,7 @@ class groupMatchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true)
         updateclanGamePage()
         setStartGroupGameButton()
     }
@@ -95,6 +142,7 @@ class groupMatchViewController: UIViewController {
         self.ronaldoAndMessi.isHidden = hidRonaldoAndMessi
         self.magnifier.isHidden = hideMagnifier
         self.clanTimer.isHidden = hideClanTimer
+        self.clanMembersContainerView.isHidden = hideClanTimer
         self.startGameButton.isHidden = hideStartGameButton
     }
     
@@ -125,6 +173,7 @@ class groupMatchViewController: UIViewController {
                         if ((self.startWarRes?.status!)!) == "OK" {
                             self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true)
                             self.setupClanTimer()
+                            self.setupClanMemberList(isStartWar: true)
                         } else if ((self.startWarRes?.status!)!) == "THERE_IS_ACTIVE_WAR" {
                             print("THERE_IS_ACTIVE_WAR")
                         }
@@ -153,6 +202,27 @@ class groupMatchViewController: UIViewController {
         self.clanTimer.clanTimerTitle.text = "زمان باقی مانده تا"
     }
     
+    func setupClanMemberList(isStartWar : Bool) {
+        let vc = childViewControllers.last as! groupMembersViewController
+        var membersCount = Int()
+        if isStartWar {
+            if self.startWarRes?.response?.members != nil {
+                membersCount = Int((self.startWarRes?.response?.members?.count)!)
+            } else {
+                membersCount = 0
+            }
+            vc.startWarRes = self.startWarRes
+        } else {
+            if self.activeWarRes?.response?.members != nil {
+                membersCount = Int((self.activeWarRes?.response?.members?.count)!)
+            } else {
+                membersCount = 0
+            }
+            vc.activeWarRes = self.activeWarRes
+        }
+        vc.reloadingData(members: membersCount)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         viewDidLayoutSubviews()
@@ -178,6 +248,12 @@ class groupMatchViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? groupMembersViewController {
+            vc.delegate = self
+        }
     }
     
 }

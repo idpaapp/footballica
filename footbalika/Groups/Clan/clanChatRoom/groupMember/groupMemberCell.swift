@@ -11,12 +11,24 @@ import UIKit
 class groupMemberCell: UITableViewCell {
 
     @IBOutlet weak var countNumber: UILabel!
+    
     @IBOutlet weak var memberAvatar: UIImageView!
+    
     @IBOutlet weak var memberName: UILabel!
+    
     @IBOutlet weak var memberRole: UILabel!
+    
     @IBOutlet weak var memberCup: UILabel!
+    
     @IBOutlet weak var memberClanCup: UILabel!
+    
     @IBOutlet weak var mainView: DesignableView!
+    
+    @IBOutlet weak var topImage: UIImageView!
+    
+    @IBOutlet weak var bottomImage: UIImageView!
+    
+    @IBOutlet weak var memberLogo: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

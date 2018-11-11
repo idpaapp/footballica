@@ -8,9 +8,9 @@
 
 import UIKit
 
-class clanMembersListView: UIView {
-
-
+class clanMembersListView: UIView  {
+    
+        
     @IBOutlet var contentView: UIView!
     
     @IBOutlet weak var warningTitle: UILabel!
@@ -25,17 +25,13 @@ class clanMembersListView: UIView {
     
     @IBOutlet weak var useButtonPrice: UILabel!
     
-    @IBOutlet weak var useButtonPriceForeGround: UILabel!
+    @IBOutlet weak var useButtonPriceTitle: UILabel!
     
     @IBOutlet weak var useButtonPriceIcon: UIImageView!
     
     @IBOutlet weak var membersTV: UITableView!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        
-    }
+    @IBOutlet weak var useButtonPriceForeGround: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)

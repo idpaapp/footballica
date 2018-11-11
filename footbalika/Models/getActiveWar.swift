@@ -28,6 +28,21 @@ public class getActiveWar {
         let opp_clan_logo : String?
     }
     public struct members : Decodable {
-        let name : String?
+       let id : String?
+       let war_id : String?
+       let user_id : String?
+       let user_point : String?
+       let user_time : String?
+       let status : String?
+       let questions : String?
+       let reward : String?
+       let is_claimed : String?
+       let pushe_id : String?
+       let username : String?
+       let badge_name : String?
+       let cups : String?
+       let avatar : String?
+       let member_roll : String?
+       let roll_title : String?
     }
 }

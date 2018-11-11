@@ -51,6 +51,9 @@ public class publicImages {
     public var emptyImage = UIImage()
     public var coin = UIImage(named: "ic_coin")
     public var money = UIImage(named: "money")
+    public var inactiveLargeButton = UIImage(named: "inactive_tab_btn")
+    public var activeButton = UIImage(named: "green_btn_large")
+    public var ic_timer = UIImage(named: "ic_timer")
 }
 
 public class fonts {
@@ -88,6 +91,12 @@ extension UIButton {
                 
             })
         })
+    }
+    
+    func setImageWithKingFisher(url : String) {
+        let urls = URL(string : url)
+        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+        self.kf.setImage(with: resource, for: .normal ,options:[.transition(ImageTransition.fade(0.5))])
     }
 }
 

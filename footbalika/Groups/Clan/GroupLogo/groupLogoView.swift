@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class groupLogoView: UIView , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
     
@@ -20,10 +19,8 @@ class groupLogoView: UIView , UICollectionViewDelegate , UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "logoCell", for: indexPath) as! logoCell
-        let url = "\(urlClass.clan)\((self.logoRes?.response?[indexPath.item].img_group!)!)"
-        let urls = URL(string : url)
-        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-        cell.logoImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        cell.logoImage.setImageWithKingFisher(url: "\(urlClass.clan)\((self.logoRes?.response?[indexPath.item].img_group!)!)")
+        
         cell.selectLogo.tag = indexPath.item
         cell.selectLogo.addTarget(self, action: #selector(selectingLogo), for: UIControlEvents.touchUpInside)
         return cell

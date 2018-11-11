@@ -10,7 +10,6 @@
 import UIKit
 import RPCircularProgress
 import KBImageView
-import Kingfisher
 
 protocol TutorialsDelegate {
     func showRest()

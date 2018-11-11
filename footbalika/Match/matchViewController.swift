@@ -103,15 +103,10 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                 self.avatar.image = UIImage(data: dataDecoded as Data)
             } else {
-                let urlsurlAvatar = URL(string: urlAvatar)
-                let resource = ImageResource(downloadURL: urlsurlAvatar!, cacheKey: urlAvatar)
-                self.avatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                self.avatar.setImageWithKingFisher(url: urlAvatar)
             }
             
-        let url = "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)"
-        let urls = URL(string: url)
-        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-        mainCupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
     }
     

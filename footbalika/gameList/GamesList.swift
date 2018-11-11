@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 import RealmSwift
 
 class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate {
@@ -236,9 +235,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
             cell.player1Avatar.image = UIImage(data: dataDecoded as Data)
         } else {
-            let urls = URL(string : url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            cell.player1Avatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.player1Avatar.setImageWithKingFisher(url: url)
         }
         
             cell.player2Level.text = (self.res?.response[indexPath.row].player2_level)!
@@ -251,9 +248,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
             cell.player2Avatar.image = UIImage(data: dataDecoded as Data)
         } else {
-            let urls2 = URL(string : url2)
-            let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
-            cell.player2Avatar.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.player2Avatar.setImageWithKingFisher(url: url2)
         }
         
         

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
 
@@ -93,14 +92,10 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
         self.submitForeGroundTitle.font = fonts().iPadfonts25
         self.submitForeGroundTitle.text = "ثبت"
         
-        let team1LogoUrl = "\(homeImg)"
-        let team1ImgUrl = URL(string: team1LogoUrl)
-        let resource = ImageResource(downloadURL: team1ImgUrl!, cacheKey: team1LogoUrl)
-        homeTeamImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
-        let team2LogoUrl = "\(awayImg)"
-        let team2ImgUrl = URL(string: team2LogoUrl)
-        let resource2 = ImageResource(downloadURL: team2ImgUrl!, cacheKey: team2LogoUrl)
-        awayTeamImage.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
+        homeTeamImage.setImageWithKingFisher(url: "\(homeImg)")
+        
+        awayTeamImage.setImageWithKingFisher(url: "\(awayImg)")
+        
     }
 
     override func didReceiveMemoryWarning() {

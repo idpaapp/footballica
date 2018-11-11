@@ -12,7 +12,6 @@ import Kingfisher
 protocol ShopTutorialDelegate {
      func shopTutorialSelect()
      func goToGroupsPage()
-    
 }
 
 protocol ItemViewControllerDelegate {
@@ -148,11 +147,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         if indexPath.item >= self.mainShopIndex {
 //        if indexPath.item > 0 {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
-            
-        let url = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].image!)!))"
-        let urls = URL(string: url)
-        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-        cell.storeImage.kf.setImage(with: resource , options : [.transition(ImageTransition.fade(0.5))])
+        cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].image!)!))")
         
         if UIDevice().userInterfaceIdiom == .phone {
         cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)

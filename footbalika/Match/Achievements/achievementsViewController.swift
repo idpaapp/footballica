@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 import RealmSwift
 import GoogleSignIn
 
@@ -334,11 +333,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             
             let intProgress = Int((loadingAchievements.res?.response?[indexPath.row].progress)!)!
             
-            let url = "\(urlClass.icons)\((loadingAchievements.res?.response?[indexPath.row].img_logo!)!)"
-            
-            let urls = URL(string : url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            cell.achievementImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.achievementImage.setImageWithKingFisher(url: "\(urlClass.icons)\((loadingAchievements.res?.response?[indexPath.row].img_logo!)!)")
             
             if intProgress < 10 {
             if UIDevice().userInterfaceIdiom == .phone {
@@ -391,9 +386,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
             cell.avatar.image = UIImage(data: dataDecoded as Data)
             } else {
-            let urls = URL(string : url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            cell.avatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.avatar.setImageWithKingFisher(url: url)
             }
             
             var url2 = String()
@@ -408,9 +401,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                 cell.playerLogo.image = UIImage(data: dataDecoded as Data)
             } else {
-                let urls2 = URL(string : url2)
-                let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
-                cell.playerLogo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
+                cell.playerLogo.setImageWithKingFisher(url: url2)
             }
             
             cell.selectLeaderBoard.tag = indexPath.row
@@ -447,9 +438,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                 cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
             } else {
-                let urls = URL(string : url)
-                let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                cell.friendAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                cell.friendAvatar.setImageWithKingFisher(url: url)
             }
             
            
@@ -469,9 +458,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.friendLogo.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls2 = URL(string : url2)
-                    let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
-                    cell.friendLogo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.friendLogo.setImageWithKingFisher(url: url2)
                 }
             }
             
@@ -500,9 +487,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.alertImage.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls = URL(string : url)
-                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                    cell.alertImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.alertImage.setImageWithKingFisher(url: url)
                 }
                
                 return cell
@@ -519,9 +504,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.userAvatar.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls = URL(string : url)
-                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                    cell.userAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.userAvatar.setImageWithKingFisher(url: url)
                 }
                 
                 cell.alertBody.text = (self.alertsRes?.response?[indexPath.row].subject!)!
@@ -548,9 +531,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.profileAvatar.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls = URL(string : url)
-                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                    cell.profileAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.profileAvatar.setImageWithKingFisher(url: url)
                 }
                 
                 let url2 = "\(urlClass.badge)\((self.profileResponse?.response?.mainInfo?.badge_name!)!)"
@@ -564,9 +545,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.profileLogo.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls2 = URL(string : url2)
-                    let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
-                    cell.profileLogo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.profileLogo.setImageWithKingFisher(url: url2)
                     }
                 }
                 
@@ -702,9 +681,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.stadiumImage.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls = URL(string : url)
-                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                    cell.stadiumImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.stadiumImage.setImageWithKingFisher(url: url)
                 }
                 
                 return cell

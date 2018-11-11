@@ -9,7 +9,6 @@
 import UIKit
 import RPCircularProgress
 import KBImageView
-import Kingfisher
 import RealmSwift
 
 class mainMatchFieldViewController: UIViewController  {

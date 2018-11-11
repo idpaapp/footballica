@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import Kingfisher
 import RealmSwift
+import Kingfisher
 
 protocol clanDetailsViewControllerDelegate {
     func newInformation(minMember : Int , maxMember : Int , minCup : Int , groupType : Int)
@@ -101,10 +101,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             self.delegate?.clanJoinded()
             self.clansTV.reloadData()
         }
-        let url = "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)"
-        let urls = URL(string : url)
-        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-        self.clanImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        self.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)")
         self.clanTitle.text = "\((login.res?.response?.calnData?.clan_title!)!)"
         self.clanCup.text = "\((login.res?.response?.calnData?.clan_point!)!)"
         
@@ -161,9 +158,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                         let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                         cell.currentUserButton.setImage(UIImage(data: dataDecoded as Data), for: .normal)
                     } else {
-                        let urls = URL(string : url)
-                        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                        cell.currentUserButton.kf.setImage(with: resource, for: .normal ,options:[.transition(ImageTransition.fade(0.5))])
+                        cell.currentUserButton.setImageWithKingFisher(url: url)
                     }
                     
                     let date = "\((self.chatRes?.response?[indexPath.row].p_due_date!)!)"
@@ -186,9 +181,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                         let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                         cell.otherUserButton.setImage(UIImage(data: dataDecoded as Data), for: .normal)
                     } else {
-                        let urls = URL(string : url)
-                        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                        cell.otherUserButton.kf.setImage(with: resource, for: .normal ,options:[.transition(ImageTransition.fade(0.5))])
+                        cell.otherUserButton.setImageWithKingFisher(url: url)
                     }
                     let date = "\((self.chatRes?.response?[indexPath.row].p_due_date!)!)"
                     let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: "\((self.chatRes?.response?[indexPath.row].username!)!)\n\((self.chatRes?.response?[indexPath.row].chat_text!)!)\n")
@@ -260,11 +253,8 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "clanGroupsCell", for: indexPath) as! clanGroupsCell
-            
-            let url = "\(urlClass.clan)\(((self.res?.response?[indexPath.row].caln_logo!)!))"
-            let urls = URL(string : url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            cell.clanImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+
+            cell.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\(((self.res?.response?[indexPath.row].caln_logo!)!))")
             cell.clanCup.text = ((self.res?.response?[indexPath.row].clan_score!)!)
             cell.clanName.text = ((self.res?.response?[indexPath.row].title!)!)
             cell.clanMembers.text = "\(((self.res?.response?[indexPath.row].member_count!)!)) / 11"

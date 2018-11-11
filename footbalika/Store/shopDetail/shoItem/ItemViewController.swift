@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 class ItemViewController: UIViewController {
     
@@ -44,10 +43,7 @@ class ItemViewController: UIViewController {
           itemImage.image = UIImage(named: "\(ImageItem)")
         }
         } else {
-            let url = ImageItem
-            let urls = URL(string: url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            itemImage.kf.setImage(with: resource , options:[.transition(ImageTransition.fade(0.5))] )
+            itemImage.setImageWithKingFisher(url: ImageItem)
         }
         
         if UIDevice().userInterfaceIdiom == .phone {

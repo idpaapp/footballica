@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 import SafariServices
 import GoogleSignIn
 
@@ -210,10 +209,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell") as!  menuCell
             
             
-            let url = "\(self.gameChargeMenu.gameChargesImages[indexPath.row])"
-            let urls = URL(string : url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            cell.menuImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            cell.menuImage.setImageWithKingFisher(url: "\(self.gameChargeMenu.gameChargesImages[indexPath.row])")
             
             switch self.gameChargeMenu.gameChargesPriceType[indexPath.row]{
             case "2":
@@ -228,8 +224,6 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             cell.selectMenu.tag = indexPath.row
             cell.selectMenu.addTarget(self, action: #selector(selectedMenu), for: UIControlEvents.touchUpInside)
             return cell
-            
-            
             
         }
     }

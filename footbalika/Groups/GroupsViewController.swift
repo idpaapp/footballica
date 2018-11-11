@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 import RealmSwift
 
 protocol TutorialGroupsDelegate {
@@ -349,9 +348,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls = URL(string : url)
-                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                    cell.friendAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.friendAvatar.setImageWithKingFisher(url: url)
                 }
                
                 if self.resUser?.response?[indexPath.row - 1].badge_name != nil {
@@ -365,9 +362,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                         cell.friendLogo.image = UIImage(data: dataDecoded as Data)
                     } else {
-                        let urls2 = URL(string : url2)
-                        let resource2 = ImageResource(downloadURL: urls2!, cacheKey: url2)
-                        cell.friendLogo.kf.setImage(with: resource2 ,options:[.transition(ImageTransition.fade(0.5))])
+                        cell.friendLogo.setImageWithKingFisher(url: url2)
                         }
                     }
                 }
@@ -394,9 +389,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls = URL(string : url)
-                    let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-                    cell.friendAvatar.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.friendAvatar.setImageWithKingFisher(url: url)
                 }
         
         if GroupsViewController.friendsRes?.response?[indexPath.row].badge_name != nil {
@@ -410,9 +403,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.friendLogo.image = UIImage(data: dataDecoded as Data)
                 } else {
-                    let urls2 = URL(string : url2)
-                    let resource = ImageResource(downloadURL: urls2!, cacheKey: url2)
-                    cell.friendLogo.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+                    cell.friendLogo.setImageWithKingFisher(url: url2)
                 }
             }
         }

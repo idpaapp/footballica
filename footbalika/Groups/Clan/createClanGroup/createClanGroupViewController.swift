@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 protocol logoViewControllerDelegate {
     func updateLogoImage(url : String)
@@ -20,11 +19,9 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     var desc = String()
     @objc func updateLogoImage(url : String) {
         self.groupImageUrl = url
-        let urls = URL(string : url)
-        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-        self.createView.groupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
-
+        self.createView.groupImage.setImageWithKingFisher(url: url)
     }
+    
     @IBOutlet weak var createView: createClanGroupView!
     @IBOutlet weak var createViewHeight: NSLayoutConstraint!
     @IBOutlet weak var createViewWidth: NSLayoutConstraint!    
@@ -52,11 +49,7 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
         
         if state == "createGroup" {
         self.createView.setMinMaxCup.minMaxLabel.text = self.requireCup
-        let url = "\(urlClass.clan)logo_01.png"
-        self.groupImageUrl = url
-        let urls = URL(string : url)
-        let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-        self.createView.groupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+        self.createView.groupImage.setImageWithKingFisher(url: "\(urlClass.clan)logo_01.png")
         self.createView.buyButton.buyAction.addTarget(self, action: #selector(CreatingGroup), for: UIControlEvents.touchUpInside)
             
         } else {
@@ -67,11 +60,8 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
             } else {
                 self.createView.setMinMaxCup.minMaxLabel.text = "مهم نیست"
             }
-            let url = "\(urlClass.clan)\((clanData?.response?.caln_logo!)!)"
-            self.groupImageUrl = url
-            let urls = URL(string : url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            self.createView.groupImage.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
+            
+            self.createView.groupImage.setImageWithKingFisher(url: "\(urlClass.clan)\((clanData?.response?.caln_logo!)!)")
             self.createView.groupTextView.text = "\((clanData?.response?.clan_status!)!)"
             self.desc = "\((clanData?.response?.clan_status!)!)"
             self.minCup = Int((clanData?.response?.require_trophy!)!)!
