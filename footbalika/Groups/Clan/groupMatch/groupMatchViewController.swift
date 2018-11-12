@@ -76,8 +76,10 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     var activeWarRes : getActiveWar.Response? = nil
     @objc func updateclanGamePage() {
         PubProc.isSplash = true
-        self.bombCount.text = "\(((login.res?.response?.mainInfo?.bomb)!)!)"
-        self.freezeCount.text = "\(((login.res?.response?.mainInfo?.freeze)!)!)"
+        DispatchQueue.main.async {
+            self.bombCount.text = "\(((login.res?.response?.mainInfo?.bomb)!)!)"
+            self.freezeCount.text = "\(((login.res?.response?.mainInfo?.freeze)!)!)"
+        }
         PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_ACTIVE_WAR' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)'}") { data, error in
             
             if data != nil {
@@ -134,7 +136,9 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true)
-        updateclanGamePage()
+        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+            updateclanGamePage()
+        }
         setStartGroupGameButton()
     }
     

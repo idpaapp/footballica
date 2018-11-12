@@ -33,7 +33,7 @@ class menuViewController: UIViewController {
     
     var friensRes : friendList.Response? = nil
     var menuState = String()
-    
+    var isClanInvite = false
     var profileResponse : loginStructure.Response? = nil
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -229,6 +229,7 @@ class menuViewController: UIViewController {
                     vC.profileResponse = self.profileResponse
             case "friendsList" :
                 vC.friensRes = self.friensRes
+                vC.isClanInvite = self.isClanInvite
                 vC.achievementCount = (self.friensRes?.response?.count)!
             default :
                 if (login.res?.response?.mainInfo?.status!)! != "2" {
@@ -244,6 +245,5 @@ class menuViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }

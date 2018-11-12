@@ -30,6 +30,8 @@ class createClanGroupView: UIView , UITextFieldDelegate , UITextViewDelegate{
     
     @IBOutlet weak var buyButton: buyButton!
         
+    @IBOutlet weak var selectLogo: RoundButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.groupImageSelectButton.setButtons(hideAction: true, hideAction1: false, hideAction2: true, hideAction3: true)

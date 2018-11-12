@@ -395,6 +395,45 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                 self.dismissing()
                 self.gameChargeDelegate?.openGameChargePage()
             }
+            
+        case "clanInviteFriend" :
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "\(jsonStr)") { data, error in
+                DispatchQueue.main.async {
+                    
+                    if data != nil {
+                        
+                        
+                        let res = String(data: data!, encoding: String.Encoding.utf8)
+                        
+                        if (res)!.contains("OK") {
+                            self.alertState = "inviteToGroup"
+                            self.alertBody = "دعوتنامه ارسال گردید"
+                            self.alertTitle = "فوتبالیکا"
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                        } else {
+                            self.alertState = "inviteToGroup"
+                            self.alertBody = "اشکال در عملیات لطفاً مجدداً سعی نمایید"
+                            self.alertTitle = "خطا"
+                            self.performSegue(withIdentifier: "notMore", sender: self)
+                        }
+                        
+                            
+                            DispatchQueue.main.async {
+                                PubProc.cV.hideWarning()
+                                PubProc.wb.hideWaiting()
+                            }
+                            
+                            
+                        
+                        
+                    } else {
+                        self.accepting()
+                        print("Error Connection")
+                        print(error as Any)
+                        // handle error
+                    }
+                }
+                }.resume()
         default:
             print("otherStates")
             self.dismissing()

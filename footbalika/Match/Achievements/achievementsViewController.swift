@@ -1,17 +1,17 @@
  //
-//  achievementsViewController.swift
-//  footbalika
-//
-//  Created by Saeed Rahmatolahi on 3/22/1397 AP.
-//  Copyright © 1397 AP Saeed Rahmatolahi. All rights reserved.
-//
-
-import UIKit
-import RealmSwift
-import GoogleSignIn
-
-class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource , GIDSignInUIDelegate , GIDSignInDelegate{
-
+ //  achievementsViewController.swift
+ //  footbalika
+ //
+ //  Created by Saeed Rahmatolahi on 3/22/1397 AP.
+ //  Copyright © 1397 AP Saeed Rahmatolahi. All rights reserved.
+ //
+ 
+ import UIKit
+ import RealmSwift
+ import GoogleSignIn
+ 
+ class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource , GIDSignInUIDelegate , GIDSignInDelegate{
+    
     @IBOutlet weak var leagues: RoundButton!
     @IBOutlet weak var tournament: RoundButton!
     @IBOutlet weak var predict3Month: RoundButton!
@@ -20,11 +20,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     var pageState = String()
     var realm : Realm!
-    
+    var isClanInvite = false
     var settingsTitle = ["صداهای بازی",
                          "موسیقی بازی",
                          "اعلان ها"]
-   
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -42,54 +42,54 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     @objc func leaderBoardJson() {
         
         PubProc.HandleDataBase.readJson(wsName: "ws_getLeaderBoard", JSONStr: "{'mode' : '\(self.leaderBoardState)' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                
+                if data != nil {
                     
-                    if data != nil {
+                    //                print(data ?? "")
+                    
+                    do {
                         
-                        //                print(data ?? "")
+                        self.res = try JSONDecoder().decode(leaderBoard.Response.self , from : data!)
                         
-                        do {
-                            
-                            self.res = try JSONDecoder().decode(leaderBoard.Response.self , from : data!)
-                            
-                            DispatchQueue.main.async {
-                                self.achievementCount = (self.res?.response?.count)!
-                                self.achievementsTV.reloadData()
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                                    if self.achievementCount != 0 {
-                                        let indexPath = IndexPath(row: 0, section: 0)
-                                        self.achievementsTV.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
-                                    }
-                                    PubProc.wb.hideWaiting()
-                                    PubProc.cV.hideWarning()
-                                })
-                            }
-                        } catch {
-                            self.leaderBoardJson()
-                            print(error)
+                        DispatchQueue.main.async {
+                            self.achievementCount = (self.res?.response?.count)!
+                            self.achievementsTV.reloadData()
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                                if self.achievementCount != 0 {
+                                    let indexPath = IndexPath(row: 0, section: 0)
+                                    self.achievementsTV.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
+                                }
+                                PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
+                            })
                         }
-                    } else {
+                    } catch {
                         self.leaderBoardJson()
-                        print("Error Connection")
-                        print(error as Any)
-                        // handle error
+                        print(error)
                     }
+                } else {
+                    self.leaderBoardJson()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
                 }
-                }.resume()
+            }
+            }.resume()
     }
     
     
-//    @objc func updateConstraint() {
-//        UIView.animate(withDuration: 0.5) {
-//        if self.leaderBoardState == "TOURNAMENT" {
-//            self.achievementLeaderBoardTopConstraint.constant = 80
-//            self.achievementsTV.layer.cornerRadius = 10
-//        } else {
-//            self.achievementLeaderBoardTopConstraint.constant = 40
-//        }
-//            self.view.layoutIfNeeded()
-//        }
-//    }
+    //    @objc func updateConstraint() {
+    //        UIView.animate(withDuration: 0.5) {
+    //        if self.leaderBoardState == "TOURNAMENT" {
+    //            self.achievementLeaderBoardTopConstraint.constant = 80
+    //            self.achievementsTV.layer.cornerRadius = 10
+    //        } else {
+    //            self.achievementLeaderBoardTopConstraint.constant = 40
+    //        }
+    //            self.view.layoutIfNeeded()
+    //        }
+    //    }
     
     var alertsRes : allAlerts.Response? = nil ;
     
@@ -149,11 +149,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         self.userButtons = true
                         DispatchQueue.main.async {
                             if self.pageState == "profile" {
-                            let indexPathOfFriend = IndexPath(row: 1, section: 0)
-                            self.achievementsTV.reloadRows(at: [indexPathOfFriend], with: .none)
-                            PubProc.wb.hideWaiting()
+                                let indexPathOfFriend = IndexPath(row: 1, section: 0)
+                                self.achievementsTV.reloadRows(at: [indexPathOfFriend], with: .none)
+                                PubProc.wb.hideWaiting()
                             }
-                                PubProc.cV.hideWarning()
+                            PubProc.cV.hideWarning()
                         }
                     } catch {
                         self.otherProfileJson()
@@ -171,7 +171,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     let lightColor = UIColor.init(red: 240/255, green: 236/255, blue: 220/255, alpha: 1.0)
     let grayColor = UIColor.init(red: 98/255, green: 105/255, blue: 122/255, alpha: 1.0)
-
+    
     
     
     @objc func leaguesSelect() {
@@ -217,9 +217,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         if let userid = notification.userInfo?["userID"] as? String {
             getUserInfo(id: (Int(userid)!), isResfresh: true)
         }
-       
-        }
         
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -231,15 +231,15 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadingTV(_:)), name: NSNotification.Name(rawValue: "changingUserPassNotification"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshUserData(notification:)), name: NSNotification.Name(rawValue: "refreshUsersAfterCancelling"), object: nil)
-
+        
         self.leagues.addTarget(self, action: #selector(leaguesSelect), for: UIControlEvents.touchUpInside)
         
         self.tournament.addTarget(self, action: #selector(tournamentSelect), for: UIControlEvents.touchUpInside)
-
+        
         self.predict3Month.addTarget(self, action: #selector(predict3MonthSelect), for: UIControlEvents.touchUpInside)
-
+        
         self.predict3Month.titleLabel?.adjustsFontSizeToFitWidth = true
-
+        
         
         if pageState == "LeaderBoard" {
             leaderBoardJson()
@@ -248,21 +248,21 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             achievementLeaderBoardTopConstraint.constant = 40
             self.achievementsTV.layer.cornerRadius = 10
         } else {
-           achievementLeaderBoardTopConstraint.constant = 0
+            achievementLeaderBoardTopConstraint.constant = 0
         }
         
-         if self.pageState == "alerts" {
+        if self.pageState == "alerts" {
             alertsJson()
         }
         
         switchStates.append(playgameSounds)
         switchStates.append(playMenuMusic)
         switchStates.append(alerts)
-    
-//            if pageState != "profile" {
-//            otherProfileJson()
-//            }
-       
+        
+        //            if pageState != "profile" {
+        //            otherProfileJson()
+        //            }
+        
         
         switch self.pageState {
         case "Achievements":
@@ -299,9 +299,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if pageState == "Achievements" {
-        return (loadingAchievements.res?.response?.count)!
+            return (loadingAchievements.res?.response?.count)!
         } else {
-          return achievementCount
+            return achievementCount
         }
     }
     
@@ -312,21 +312,21 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "achievementsCell", for: indexPath) as! achievementsCell
             
             if (loadingAchievements.res?.response?[indexPath.row].coin_reward!)! == "0" {
-              cell.coinLabel.text = ""
-              cell.coinImage.isHidden = true
+                cell.coinLabel.text = ""
+                cell.coinImage.isHidden = true
             } else {
-            cell.coinLabel.text = (loadingAchievements.res?.response?[indexPath.row].coin_reward!)!
+                cell.coinLabel.text = (loadingAchievements.res?.response?[indexPath.row].coin_reward!)!
                 cell.coinImage.isHidden = false
             }
             
             
             
             if (loadingAchievements.res?.response?[indexPath.row].cash_reward!)! == "0" {
-            cell.moneyLabel.text = ""
-            cell.moneyImage.isHidden = true
+                cell.moneyLabel.text = ""
+                cell.moneyImage.isHidden = true
             } else {
-            cell.moneyLabel.text = (loadingAchievements.res?.response?[indexPath.row].cash_reward!)!
-            cell.moneyImage.isHidden = false
+                cell.moneyLabel.text = (loadingAchievements.res?.response?[indexPath.row].cash_reward!)!
+                cell.moneyImage.isHidden = false
             }
             
             cell.acievementTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].title!)!)"
@@ -336,21 +336,21 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             cell.achievementImage.setImageWithKingFisher(url: "\(urlClass.icons)\((loadingAchievements.res?.response?[indexPath.row].img_logo!)!)")
             
             if intProgress < 10 {
-            if UIDevice().userInterfaceIdiom == .phone {
-                cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
-                cell.progressTitleForeGround.font = fonts().iPhonefonts
-                cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
-                cell.acievementTitleForeGround.font = fonts().iPhonefonts
+                if UIDevice().userInterfaceIdiom == .phone {
+                    cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
+                    cell.progressTitleForeGround.font = fonts().iPhonefonts
+                    cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                    cell.acievementTitleForeGround.font = fonts().iPhonefonts
+                    
+                } else {
+                    cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
+                    cell.progressTitleForeGround.font = fonts().iPadfonts
+                    cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                    cell.acievementTitleForeGround.font = fonts().iPadfonts
+                }
+                cell.progressTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10"
+            } else {
                 
-            } else {
-                cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
-                cell.progressTitleForeGround.font = fonts().iPadfonts
-                cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
-                cell.acievementTitleForeGround.font = fonts().iPadfonts
-            }
-            cell.progressTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10"
-            } else {
-            
                 cell.receiveGift.tag = indexPath.row
                 cell.receiveGift.addTarget(self, action: #selector(receivingGift), for: UIControlEvents.touchUpInside)
                 if UIDevice().userInterfaceIdiom == .phone {
@@ -366,11 +366,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     cell.acievementTitleForeGround.font = fonts().iPadfonts
                 }
                 cell.progressTitleForeGround.text = "دریافت جایزه"
-
+                
             }
             cell.achievementDesc.text = "\((loadingAchievements.res?.response?[indexPath.row].describtion!)!)"
             let progressAchievement = (Float((loadingAchievements.res?.response?[indexPath.row].progress)!)!) / 10.0
-//            print("progress\(progressAchievement)")
+            //            print("progress\(progressAchievement)")
             cell.achievementProgress.progress = progressAchievement
             return cell
             
@@ -383,17 +383,17 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             
             let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
             if realmID.count != 0 {
-            let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-            cell.avatar.image = UIImage(data: dataDecoded as Data)
+                let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                cell.avatar.image = UIImage(data: dataDecoded as Data)
             } else {
-            cell.avatar.setImageWithKingFisher(url: url)
+                cell.avatar.setImageWithKingFisher(url: url)
             }
             
             var url2 = String()
             if self.res?.response?[indexPath.row].badge_name != nil {
-            url2 = "\(urlClass.badge)\((self.res?.response?[indexPath.row].badge_name!)!)"
+                url2 = "\(urlClass.badge)\((self.res?.response?[indexPath.row].badge_name!)!)"
             } else {
-            url2 = "\(urlClass.badge)"
+                url2 = "\(urlClass.badge)"
             }
             
             let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
@@ -408,14 +408,14 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             cell.selectLeaderBoard.addTarget(self, action: #selector(selectLeaderBoard), for: UIControlEvents.touchUpInside)
             
             if self.leaderBoardState == "MAIN_LEADERBORAD" {
-             cell.cupImage.image = UIImage(named: "ic_cup")
-             cell.playerCup.textAlignment = .center
-            cell.playerCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
+                cell.cupImage.image = UIImage(named: "ic_cup")
+                cell.playerCup.textAlignment = .center
+                cell.playerCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
             } else if self.leaderBoardState == "TOURNAMENT" {
-               cell.cupImage.image = UIImage(named: "ic_gem")
-               cell.playerCup.textAlignment = .center
+                cell.cupImage.image = UIImage(named: "ic_gem")
+                cell.playerCup.textAlignment = .center
                 if self.res?.response?[indexPath.row].gem != nil {
-                cell.playerCup.text = "\((self.res?.response?[indexPath.row].gem!)!)"
+                    cell.playerCup.text = "\((self.res?.response?[indexPath.row].gem!)!)"
                 }
             } else {
                 cell.cupImage.image = UIImage()
@@ -441,19 +441,19 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.friendAvatar.setImageWithKingFisher(url: url)
             }
             
-           
+            
             var url2 = String()
             if self.friensRes?.response?[indexPath.row].badge_name != nil {
                 url2 = "\(urlClass.badge)\((self.friensRes?.response?[indexPath.row].badge_name!)!)"
             } else {
                 url2 = "\(urlClass.badge)"
             }
-
+            
             if url2 == "http://volcan.ir/adelica/images/badge/" {
                 cell.friendLogo.image = UIImage()
             } else {
                 let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
-//                print(url2)
+                //                print(url2)
                 if realmID2.count != 0 {
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.friendLogo.image = UIImage(data: dataDecoded as Data)
@@ -465,14 +465,17 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             cell.selectFriend.tag = indexPath.row
             cell.selectFriend.addTarget(self, action: #selector(selectedFriend), for: UIControlEvents.touchUpInside)
             cell.selectFriendName.tag = indexPath.row
-            cell.selectFriendName.addTarget(self, action: #selector(selectedFriend), for: UIControlEvents.touchUpInside)
-            
-                cell.friendCup.text = "\((self.friensRes?.response?[indexPath.row].cups!)!)"
+            if isClanInvite {
+                cell.selectFriendName.addTarget(self, action: #selector(iviteFriendToClan), for: UIControlEvents.touchUpInside)
+            } else {
+                cell.selectFriendName.addTarget(self, action: #selector(selectedFriend), for: UIControlEvents.touchUpInside)
+            }
+            cell.friendCup.text = "\((self.friensRes?.response?[indexPath.row].cups!)!)"
             
             return cell
             
         case "alerts":
-
+            
             if (self.alertsRes?.response?[indexPath.row].type!)! == "2" {
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "alertType1Cell", for: indexPath) as! alertType1Cell
@@ -489,9 +492,9 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 } else {
                     cell.alertImage.setImageWithKingFisher(url: url)
                 }
-               
+                
                 return cell
-
+                
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "alertTypeChooseCell", for: indexPath) as! alertTypeChooseCell
                 
@@ -514,7 +517,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 cell.cancel.addTarget(self, action: #selector(cancelGameOrFriend), for: UIControlEvents.touchUpInside)
                 return cell
             }
-
+            
         case "profile":
             
             switch indexPath.row {
@@ -535,17 +538,17 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 }
                 
                 let url2 = "\(urlClass.badge)\((self.profileResponse?.response?.mainInfo?.badge_name!)!)"
-
+                
                 print(url2)
                 if url2 == "http://volcan.ir/adelica/images/badge/" {
-                   cell.profileLogo.image = UIImage()
+                    cell.profileLogo.image = UIImage()
                 } else {
-                let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
-                if realmID2.count != 0 {
-                    let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                    cell.profileLogo.image = UIImage(data: dataDecoded as Data)
-                } else {
-                    cell.profileLogo.setImageWithKingFisher(url: url2)
+                    let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
+                    if realmID2.count != 0 {
+                        let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                        cell.profileLogo.image = UIImage(data: dataDecoded as Data)
+                    } else {
+                        cell.profileLogo.setImageWithKingFisher(url: url2)
                     }
                 }
                 
@@ -570,7 +573,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profileButtonsCell", for: indexPath) as! profileButtonsCell
                 
                 cell.contentView.backgroundColor = grayColor
-
+                
                 if (self.profileResponse?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() {
                     
                     //userProfile
@@ -600,7 +603,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 } else {
                     
                     //otherProfile
-                        if ((self.profileResponse?.response?.mainInfo?.is_my_friend!)!) == 1 {
+                    if ((self.profileResponse?.response?.mainInfo?.is_my_friend!)!) == 1 {
                         //is Friend
                         cell.completingProfile.isHidden = true
                         cell.cancelFriendship.isHidden = false
@@ -609,13 +612,13 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         cell.profileCompletingTitleForeGround.isHidden = true
                         cell.profileCompletingTitle.isHidden = true
                     } else {
-                       //is Not Friend
+                        //is Not Friend
                         cell.completingProfile.isHidden = true
                         cell.cancelFriendship.isHidden = true
                         cell.playRequest.isHidden = true
                         cell.friendshipRequest.isHidden = false
                         cell.profileCompletingTitleForeGround.isHidden = false
-                            cell.profileCompletingTitle.isHidden = false
+                        cell.profileCompletingTitle.isHidden = false
                         cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: -6.0)
                         cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
                         cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
@@ -686,18 +689,18 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 
                 return cell
             }
-           
+            
         default:
             if indexPath.row == 0 {
                 
                 if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "googleEntranceCell", for: indexPath) as! googleEntranceCell
-                
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "googleEntranceCell", for: indexPath) as! googleEntranceCell
+                    
                     cell.googleSignIn.addTarget(self, action: #selector(googleSigningIn), for: UIControlEvents.touchUpInside)
                     
                     
-                return cell
-                
+                    return cell
+                    
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "googleSignOutCell", for: indexPath) as! googleSignOutCell
                     
@@ -715,10 +718,10 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                     return cell
                 }
-
+                
             } else if indexPath.row == 4 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "changeUserNameAndPasswordCell", for: indexPath) as! changeUserNameAndPasswordCell
-
+                
                 cell.changePassword.addTarget(self, action: #selector(changePass), for: UIControlEvents.touchUpInside)
                 cell.changeUserName.addTarget(self, action: #selector(changeUser), for: UIControlEvents.touchUpInside)
                 
@@ -753,9 +756,17 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         
     }
     
+    
+    var reciverInvitationGroupId = String()
+    @objc func iviteFriendToClan(_ sender : UIButton!) {
+        self.stateOfFriendAlert = "inviteClan"
+        self.reciverInvitationGroupId = (self.friensRes?.response?[sender.tag].id!)!
+        self.performSegue(withIdentifier: "askForFriendlyMatch", sender: self)
+    }
+    
     @objc func googleSigningIn() {
         PubProc.wb.showWaiting()
-       GIDSignIn.sharedInstance().signIn()
+        GIDSignIn.sharedInstance().signIn()
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
@@ -795,7 +806,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                         if (login.res?.status?.contains("NEW_USER"))! || (login.res?.status?.contains("OK"))! {
                             
                             self.dismiss(animated: true, completion: nil)
-
+                            
                             loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
                             let userid = "\(loadingViewController.userid)"
                             UserDefaults.standard.set(userid, forKey: "userid")
@@ -836,7 +847,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
             acceptOrRejectFriendShipRequest(mode: "CONFIRM_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
             
         } else {
-           //accept gameRequest
+            //accept gameRequest
             acceptFriendlyMatch(userid: (self.alertsRes?.response?[sender.tag].reciver_id!)!, friendid: (self.alertsRes?.response?[sender.tag].sender_id!)!, massageId: (self.alertsRes?.response?[sender.tag].id!)!)
         }
     }
@@ -844,8 +855,8 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     
     @objc func cancelGameOrFriend(_ sender : UIButton!) {
         
-            //reject friendship Request & reject gameRequest
-            acceptOrRejectFriendShipRequest(mode: "REJECT_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
+        //reject friendship Request & reject gameRequest
+        acceptOrRejectFriendShipRequest(mode: "REJECT_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
         
     }
     
@@ -884,13 +895,13 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                     self.alertsJson()
                     
-//                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
-//
-//                    if ((self.collectingItemAchievement)!).contains("OK") {
-//                        self.messageRead()
-//                    } else {
-//                        self.messageRead()
-//                    }
+                    //                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    //
+                    //                    if ((self.collectingItemAchievement)!).contains("OK") {
+                    //                        self.messageRead()
+                    //                    } else {
+                    //                        self.messageRead()
+                    //                    }
                     
                 } else {
                     self.acceptOrRejectFriendShipRequest(mode: mode, user1_id: user1_id, user2_id: user2_id, message_id: message_id)
@@ -911,17 +922,17 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     
                     //                print(data ?? "")
                     
-//                    self.alertsJson()
-
+                    //                    self.alertsJson()
+                    
                     DispatchQueue.main.async {
                         PubProc.wb.hideWaiting()
                     }
                     if matchID.contains("UNFINISHED_MATCH") {
                         self.dismiss(animated: false, completion: nil)
                     } else {
-                    let info : [String : String] = ["matchID" : matchID]
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startNewMatch"), object: nil, userInfo: info)
-                    self.dismiss(animated: false, completion: nil)
+                        let info : [String : String] = ["matchID" : matchID]
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startNewMatch"), object: nil, userInfo: info)
+                        self.dismiss(animated: false, completion: nil)
                     }
                 } else {
                     self.messageRead(id: id, matchID: matchID)
@@ -942,21 +953,21 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     var isPass = Bool()
     @objc func changePass() {
         if (login.res?.response?.mainInfo?.status!)! == "2" {
-        self.isPass = true
-        self.performSegue(withIdentifier: "changePassAndUser", sender: self)
+            self.isPass = true
+            self.performSegue(withIdentifier: "changePassAndUser", sender: self)
         }
     }
     
     @objc func changeUser() {
         if (login.res?.response?.mainInfo?.status!)! == "2" {
-        self.isPass = false
-        self.performSegue(withIdentifier: "changePassAndUser", sender: self)
+            self.isPass = false
+            self.performSegue(withIdentifier: "changePassAndUser", sender: self)
         }
     }
     
     
     var collectingItemAchievement : String? = nil;
-
+    
     @objc func achievementReceive(id : Int) {
         PubProc.HandleDataBase.readJson(wsName: "ws_updateAchievements", JSONStr: "{'achievement_id' : '\(id)' ,'userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
@@ -969,16 +980,16 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     }
                     
                     self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
-
+                    
                     print(((self.collectingItemAchievement)!))
                     if ((self.collectingItemAchievement)!).contains("OK") {
                         loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
-                        DispatchQueue.main.async {
-                            self.achievementsTV.reloadData()
-                            PubProc.wb.hideWaiting()
-                            thirdSoundPlay().playCollectItemSound()
-                        }
-                            })
+                            DispatchQueue.main.async {
+                                self.achievementsTV.reloadData()
+                                PubProc.wb.hideWaiting()
+                                thirdSoundPlay().playCollectItemSound()
+                            }
+                        })
                     } else {
                         DispatchQueue.main.async {
                             PubProc.wb.hideWaiting()
@@ -999,31 +1010,16 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         achievementReceive(id : aId!)
     }
     
-    
-//    var profileAvatar = String()
     var profileName = String()
-//    var profileID = String()
-//    var profileLevel = String()
-//    var profileBadge = String()
-//    var profileWinCount = String()
-//    var profileCleanSheetCount = String()
-//    var profileLoseCount = String()
-//    var profileMostScores = String()
-//    var profileDrawCount = String()
-//    var profileStadium = String()
-//    var profileMaximumWinCount = String()
-//    var profileMaximumScore = String()
-//    var profileCups = String()
-//    var uniqueId = String()
-    
+
     
     @objc func switchChanged(_ sender : UISwitch!) {
-         if (sender.isOn == true){
+        if (sender.isOn == true){
             switchStates[sender.tag] = true
             UserDefaults.standard.set(switchStates[0], forKey: "gameSounds")
             UserDefaults.standard.set(switchStates[1], forKey: "menuMusic")
             UserDefaults.standard.set(switchStates[2], forKey: "alerts")
-         } else {
+        } else {
             switchStates[sender.tag] = false
             UserDefaults.standard.set(switchStates[0], forKey: "gameSounds")
             UserDefaults.standard.set(switchStates[1], forKey: "menuMusic")
@@ -1031,12 +1027,12 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         }
         DispatchQueue.main.async {
             soundPlay().playClick()
-        if sender.tag == 1 {
-            musicPlay().playMenuMusic()
-        }
-        UIView.performWithoutAnimation {
-            self.achievementsTV.reloadData()
-        }
+            if sender.tag == 1 {
+                musicPlay().playMenuMusic()
+            }
+            UIView.performWithoutAnimation {
+                self.achievementsTV.reloadData()
+            }
         }
     }
     
@@ -1052,11 +1048,11 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         case "LeaderBoard" :
             if UIDevice().userInterfaceIdiom == .phone {
                 if self.leaderBoardState == "MAIN_LEADERBORAD" {
-                   return 70
+                    return 70
                 } else if self.leaderBoardState == "TOURNAMENT" {
                     return 100
                 } else {
-                   return 70
+                    return 70
                 }
             } else {
                 return 100
@@ -1078,15 +1074,15 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         case "profile" :
             switch indexPath.row  {
             case 0 :
-            if UIDevice().userInterfaceIdiom == .phone {
-                return 180
-            } else {
-                return 240
-            }
+                if UIDevice().userInterfaceIdiom == .phone {
+                    return 180
+                } else {
+                    return 240
+                }
             case 1 :
                 
                 if self.profileResponse?.response?.mainInfo?.id == UserDefaults.standard.string(forKey: "userid") ?? String() && (profileResponse?.response?.mainInfo?.status!)! == "2"{
-                        return 0
+                    return 0
                 } else {
                     return 50
                 }
@@ -1121,13 +1117,13 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         default :
             if indexPath.row == 0 {
                 
-                 if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
+                if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
                     if UIDevice().userInterfaceIdiom == .phone {
-                    return 60
+                        return 60
                     } else {
-                    return 100
+                        return 100
                     }
-                 } else {
+                } else {
                     if UIDevice().userInterfaceIdiom == .phone {
                         return 120
                     } else {
@@ -1135,15 +1131,15 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                     }
                 }
                 
-             } else if indexPath.row == 4 {
-                    
+            } else if indexPath.row == 4 {
+                
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 40
                 } else {
                     return 50
                 }
-                    
-                    
+                
+                
             } else {
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 70
@@ -1157,7 +1153,7 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     @objc func selectLeaderBoard(_ sender : UIButton!) {
         profileIndex = sender.tag
         getUserInfo(id: Int((self.res?.response?[profileIndex].id!)!)!, isResfresh: false)
-//        showProfile()
+        //        showProfile()
     }
     
     
@@ -1228,77 +1224,21 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
     }
     
     
-//    vc.otherProfiles = true
-//    vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
-//    vc.opName = (login.res?.response?.mainInfo?.username!)!
-//    vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
-//    vc.opBadge = "\(urlClass.badge)\(((login.res?.response?.mainInfo?.badge_name!)!))"
-//    vc.opID = ((login.res?.response?.mainInfo?.ref_id!)!)
-//    vc.opCups = ((login.res?.response?.mainInfo?.cups!)!)
-//    vc.opLevel = ((login.res?.response?.mainInfo?.level!)!)
-//    vc.opWinCount = ((login.res?.response?.mainInfo?.win_count!)!)
-//    vc.opCleanSheetCount = ((login.res?.response?.mainInfo?.clean_sheet_count!)!)
-//    vc.opLoseCount = ((login.res?.response?.mainInfo?.lose_count!)!)
-//    vc.opMostScores = ((login.res?.response?.mainInfo?.max_points_gain!)!)
-//    vc.opDrawCount = ((login.res?.response?.mainInfo?.draw_count!)!)
-//    vc.opMaximumWinCount = ((login.res?.response?.mainInfo?.max_wins_count!)!)
-//    vc.opMaximumScore = ((login.res?.response?.mainInfo?.max_point!)!)
-//    vc.uniqueId = ((login.res?.response?.mainInfo?.id!)!)
-    
     var profileResponse : loginStructure.Response? = nil
     var profileIndex = Int()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? menuViewController {
-//            if pageState != "friendsList" {
-//            vc.isFriend = self.isFriend
-//            vc.menuState = "profile"
-//            vc.otherProfiles = true
-//            vc.oPStadium = (self.res?.response?[profileIndex].stadium!)!
-//            vc.opName = (self.res?.response?[profileIndex].username!)!
-//            vc.opAvatar = "\(urlClass.avatar)\((self.res?.response?[profileIndex].avatar!)!)"
-//            vc.opBadge = "\(urlClass.badge)\((self.res?.response?[profileIndex].badge_name!)!)"
-//            vc.opID = (self.res?.response?[profileIndex].ref_id!)!
-//            vc.opCups = (self.res?.response?[profileIndex].cups!)!
-//            vc.opLevel = (self.res?.response?[profileIndex].level!)!
-//            vc.opWinCount = (self.res?.response?[profileIndex].win_count!)!
-//            vc.opCleanSheetCount = (self.res?.response?[profileIndex].clean_sheet_count!)!
-//            vc.opLoseCount = (self.res?.response?[profileIndex].lose_count!)!
-//            vc.opMostScores = (self.res?.response?[profileIndex].max_points_gain!)!
-//            vc.opDrawCount = (self.res?.response?[profileIndex].draw_count!)!
-//            vc.opMaximumWinCount = (self.res?.response?[profileIndex].max_wins_count!)!
-//            vc.opMaximumScore = (self.res?.response?[profileIndex].max_point!)!
-//            vc.uniqueId = (self.res?.response?[profileIndex].id!)!
-//            } else {
-//                vc.menuState = "profile"
-//                vc.isFriend = true
-//                vc.otherProfiles = true
-//                vc.oPStadium = (login.res?.response?.mainInfo?.stadium!)!
-//                vc.opName = (login.res?.response?.mainInfo?.username!)!
-//                vc.opAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
-//                vc.opBadge = "\(urlClass.badge)\((login.res?.response?.mainInfo?.badge_name!)!)"
-//                vc.opID = (login.res?.response?.mainInfo?.ref_id!)!
-//                vc.opCups = (login.res?.response?.mainInfo?.cups!)!
-//                vc.opLevel = (login.res?.response?.mainInfo?.level!)!
-//                vc.opWinCount = (login.res?.response?.mainInfo?.win_count!)!
-//                vc.opCleanSheetCount = (login.res?.response?.mainInfo?.clean_sheet_count!)!
-//                vc.opLoseCount = (login.res?.response?.mainInfo?.lose_count!)!
-//                vc.opMostScores = (login.res?.response?.mainInfo?.max_points_gain!)!
-//                vc.opDrawCount = (login.res?.response?.mainInfo?.draw_count!)!
-//                vc.opMaximumWinCount = (login.res?.response?.mainInfo?.max_wins_count!)!
-//                vc.opMaximumScore = (login.res?.response?.mainInfo?.max_point!)!
-//                vc.uniqueId = (login.res?.response?.mainInfo?.id!)!
-//            }
             vc.menuState = "profile"
             vc.profileResponse = login.res2
         }
         
         if let vc = segue.destination as? menuAlert2ButtonsViewController {
             if self.stateOfFriendAlert ==  "askFriendlyMatch" {
-            vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((profileResponse?.response?.mainInfo?.id!)!)'}"
-            vc.alertAcceptLabel = "بلی"
-            vc.alertBody = "آیا از درخواست مسابقه اطمینان دارید؟"
-            vc.alertTitle = "درخواست مسابقه"
-            vc.state = "friendlyMatch"
+                vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((profileResponse?.response?.mainInfo?.id!)!)'}"
+                vc.alertAcceptLabel = "بلی"
+                vc.alertBody = "آیا از درخواست مسابقه اطمینان دارید؟"
+                vc.alertTitle = "درخواست مسابقه"
+                vc.state = "friendlyMatch"
             } else if self.stateOfFriendAlert == "cancelFriendlyMatch" {
                 vc.jsonStr = "{'mode':'CANCEL_FRIEND' , 'user1_id' : '\(loadingViewController.userid)' , 'user2_id' : '\((profileResponse?.response?.mainInfo?.id!)!)' , 'message_id' : '0'}"
                 vc.alertAcceptLabel = "بلی"
@@ -1313,13 +1253,20 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
                 vc.alertTitle = "فوتبالیکا"
                 vc.state = "requestFriendShip"
                 vc.userid = (profileResponse?.response?.mainInfo?.id!)!
+                
+            } else if self.stateOfFriendAlert == "inviteClan" {
+                vc.jsonStr = "{'mode':'SEND_INVENTATION' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\(self.reciverInvitationGroupId)' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)'}"
+                vc.alertAcceptLabel = "بلی"
+                vc.alertBody = "آیا برای ارسال دعوتنامه اطمینان دارید؟"
+                vc.alertTitle = "فوتبالیکا"
+                vc.state = "clanInviteFriend"
             } else {
                 //no need this will execute in the first line
-//                vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((login.res?.response?.mainInfo?.id!)!)'}"
-//                vc.alertAcceptLabel = "بلی"
-//                vc.alertBody = "آیا از درخواست مسابقه اطمینان دارید؟"
-//                vc.alertTitle = "درخواست مسابقه"
-//                vc.state = "friendlyMatch"
+                //                vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((login.res?.response?.mainInfo?.id!)!)'}"
+                //                vc.alertAcceptLabel = "بلی"
+                //                vc.alertBody = "آیا از درخواست مسابقه اطمینان دارید؟"
+                //                vc.alertTitle = "درخواست مسابقه"
+                //                vc.state = "friendlyMatch"
             }
         }
         
@@ -1352,5 +1299,4 @@ class achievementsViewController : UIViewController , UITableViewDelegate , UITa
         // Dispose of any resources that can be recreated.
     }
     
-
-}
+ }

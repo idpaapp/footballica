@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -28,6 +26,7 @@
                 <outlet property="groupTextView" destination="I0h-JM-nbk" id="oOy-0E-9rQ"/>
                 <outlet property="privateGroup" destination="VqR-GL-qA4" id="e61-gL-oK7"/>
                 <outlet property="publicGroup" destination="bmH-DK-YcY" id="1Bc-9L-ong"/>
+                <outlet property="selectLogo" destination="oLn-1k-PaW" id="zyB-0b-eLx"/>
                 <outlet property="setMinMaxCup" destination="vtP-MP-dRP" id="VQ6-AI-ro8"/>
             </connections>
         </placeholder>
@@ -108,15 +107,41 @@
                                     <rect key="frame" x="118" y="48" width="110" height="80"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clan_cup" translatesAutoresizingMaskIntoConstraints="NO" id="f7Y-Kq-hqm">
-                                            <rect key="frame" x="0.5" y="0.0" width="110" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="110" height="80"/>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLn-1k-PaW" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="110" height="80"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <state key="normal">
+                                                <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </state>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                                    <real key="value" value="0.0"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </button>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="f7Y-Kq-hqm" firstAttribute="centerX" secondItem="NaR-mf-TGH" secondAttribute="centerX" id="LZB-2I-JfY"/>
                                         <constraint firstItem="f7Y-Kq-hqm" firstAttribute="height" secondItem="NaR-mf-TGH" secondAttribute="height" id="Nae-em-zyN"/>
+                                        <constraint firstItem="oLn-1k-PaW" firstAttribute="width" secondItem="f7Y-Kq-hqm" secondAttribute="width" id="OJU-Yq-Sfg"/>
+                                        <constraint firstItem="oLn-1k-PaW" firstAttribute="height" secondItem="f7Y-Kq-hqm" secondAttribute="height" id="PSG-GS-KGD"/>
                                         <constraint firstItem="f7Y-Kq-hqm" firstAttribute="centerY" secondItem="NaR-mf-TGH" secondAttribute="centerY" id="RnO-Ny-c56"/>
                                         <constraint firstItem="f7Y-Kq-hqm" firstAttribute="width" secondItem="NaR-mf-TGH" secondAttribute="width" id="Xgq-wM-8r5"/>
+                                        <constraint firstItem="oLn-1k-PaW" firstAttribute="centerX" secondItem="f7Y-Kq-hqm" secondAttribute="centerX" id="iBV-C0-qpH"/>
+                                        <constraint firstItem="oLn-1k-PaW" firstAttribute="centerY" secondItem="f7Y-Kq-hqm" secondAttribute="centerY" id="rtX-f0-aS0"/>
                                         <constraint firstAttribute="height" constant="80" id="yWR-ee-D8k"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
@@ -139,7 +164,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fFv-Xs-I2S" customClass="actionLargeButton" customModule="footbalika" customModuleProvider="target">
-                                    <rect key="frame" x="8" y="98" width="73" height="30"/>
+                                    <rect key="frame" x="8" y="98" width="73.5" height="30"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="yOI-Lf-lNe"/>

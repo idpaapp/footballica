@@ -44,11 +44,13 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
         createView.closePage.addTarget(self, action: #selector(closingPage), for: UIControlEvents.touchUpInside)
         setGroupPage()
         self.createView.groupImageSelectButton.action1.addTarget(self, action: #selector(showLogo), for: UIControlEvents.touchUpInside)
+        self.createView.selectLogo.addTarget(self, action: #selector(showLogo), for: UIControlEvents.touchUpInside)
         self.createView.setMinMaxCup.setMax.addTarget(self, action: #selector(addMinCup), for: UIControlEvents.touchUpInside)
         self.createView.setMinMaxCup.setMin.addTarget(self, action: #selector(removeMinCup), for: UIControlEvents.touchUpInside)
         
         if state == "createGroup" {
         self.createView.setMinMaxCup.minMaxLabel.text = self.requireCup
+        self.groupImageUrl = "\(urlClass.clan)logo_01.png"
         self.createView.groupImage.setImageWithKingFisher(url: "\(urlClass.clan)logo_01.png")
         self.createView.buyButton.buyAction.addTarget(self, action: #selector(CreatingGroup), for: UIControlEvents.touchUpInside)
             
@@ -60,7 +62,7 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
             } else {
                 self.createView.setMinMaxCup.minMaxLabel.text = "مهم نیست"
             }
-            
+            self.groupImageUrl = "\(urlClass.clan)\((clanData?.response?.caln_logo!)!)"
             self.createView.groupImage.setImageWithKingFisher(url: "\(urlClass.clan)\((clanData?.response?.caln_logo!)!)")
             self.createView.groupTextView.text = "\((clanData?.response?.clan_status!)!)"
             self.desc = "\((clanData?.response?.clan_status!)!)"

@@ -20,6 +20,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     var id = String()
     var res : clanGroup.Response? = nil
     let urlClass = urls()
+    var menuState = String()
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -92,10 +93,11 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                 self.otherProfile = true
             }
             DispatchQueue.main.async {
+                self.menuState = "profile"
                 self.performSegue(withIdentifier: "showClanUserProfile", sender: self)
             }
         })
-   }
+    }
     
     var otherProfile = Bool()
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -107,7 +109,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                             "نوع گروه" ,
                             "تعداد اعضاء" ,
                             "امتیاز گروه" ]
-   
+    
     var clanDetailImages = ["ic_tag" , "ic_cup" , "invite_friend" , "ic_member_count" , "clan_cup"]
     
     @IBOutlet weak var clanMembersTV: UITableView!
@@ -155,7 +157,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
         let size = CGSize(width: UIScreen.main.bounds.width / 5 - 12 , height: UIScreen.main.bounds.height / 6 - 20)
         
-      return size
+        return size
         
     }
     
@@ -196,7 +198,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             }
             }.resume()
     }
-
+    
     @IBOutlet weak var clanCup: UILabel!
     
     @IBOutlet weak var clanImage: UIImageView!
@@ -232,7 +234,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         realm = try? Realm()
         
         checkIsJoinIsCharge()
@@ -253,13 +255,53 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
         self.actionLargeButton.action1.addTarget(self, action: #selector(clanSettings), for: UIControlEvents.touchUpInside)
         
+        self.actionLargeButton.action2.addTarget(self, action: #selector(inviteFriends), for: UIControlEvents.touchUpInside)
+        
         setTitles()
         setGroupButtons()
         setupView(isHidden : true)
         getClanData(id: self.id)
-       
+        
     }
     
+    @objc func inviteFriends() {
+        firendlyMatch()
+    }
+    
+    var friendsRes : friendList.Response? = nil
+    
+    @objc func firendlyMatch() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(loadingViewController.userid)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        self.friendsRes = try JSONDecoder().decode(friendList.Response.self , from : data!)
+                        
+                        DispatchQueue.main.async {
+                            self.menuState = "friendsList"
+                            self.performSegue(withIdentifier: "showClanUserProfile", sender: self)
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        
+                    } catch {
+                        self.firendlyMatch()
+                        print(error)
+                    }
+                } else {
+                    self.firendlyMatch()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
+    }
     
     @objc func clanSettings() {
         self.performSegue(withIdentifier: "editClan", sender: self)
@@ -297,26 +339,26 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                 
                 DispatchQueue.main.async {
                     PubProc.cV.hideWarning()
-                
-                //                print(data ?? "")
-                
-                let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
-                if ((Res)!).contains("USER_JOINED") {
-                    self.isJoined = true
-                    login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
-                        PubProc.wb.hideWaiting()
-                        self.checkIsJoinIsCharge()
-                        self.getClanData(id: self.id)
-                    self.delegate?.joinOrLeaveGroup(state : "join" , clan_id : self.id)
-                    })
-                } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
-                    self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
-                } else if ((Res)!).contains("USER_HAS_CLAN") {
-                    self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
-                } else {
-                    self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
-                }
-                        PubProc.wb.hideWaiting()
+                    
+                    //                print(data ?? "")
+                    
+                    let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    if ((Res)!).contains("USER_JOINED") {
+                        self.isJoined = true
+                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                            PubProc.wb.hideWaiting()
+                            self.checkIsJoinIsCharge()
+                            self.getClanData(id: self.id)
+                            self.delegate?.joinOrLeaveGroup(state : "join" , clan_id : self.id)
+                        })
+                    } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
+                        self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
+                    } else if ((Res)!).contains("USER_HAS_CLAN") {
+                        self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+                    } else {
+                        self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
+                    }
+                    PubProc.wb.hideWaiting()
                 }
             } else {
                 self.joinGroup()
@@ -325,7 +367,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                 // handle error
             }
             }.resume()
-
+        
     }
     
     
@@ -342,12 +384,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                     
                     let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
                     if ((Res)!).contains("USER_LEAVED") {
-                         self.isJoined = false
-                         self.isCharge = false
+                        self.isJoined = false
+                        self.isCharge = false
                         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
                             PubProc.wb.hideWaiting()
                             self.checkIsJoinIsCharge()
-                        self.delegate?.joinOrLeaveGroup(state : "leave" , clan_id : self.id)
+                            self.delegate?.joinOrLeaveGroup(state : "leave" , clan_id : self.id)
                             self.dismiss(animated : true , completion : nil)
                         })
                     } else {
@@ -364,7 +406,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             }.resume()
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -373,21 +415,28 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     @IBAction func closingGroupDetails(_ sender: RoundButton) {
         self.dismiss(animated : true , completion : nil)
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? createClanGroupViewController {
             vc.state = "editClan"
             vc.clanData = self.res
             vc.delegate2 = self
         }
+        
         if let vc = segue.destination as? menuViewController {
-            vc.menuState = "profile"
-            if self.otherProfile {
-                vc.profileResponse = login.res2
+            vc.menuState = self.menuState
+            if self.menuState == "friendsList" {
+                vc.isClanInvite = true
+                vc.friensRes = self.friendsRes
             } else {
-                vc.profileResponse = login.res
+                if self.otherProfile {
+                    vc.profileResponse = login.res2
+                } else {
+                    vc.profileResponse = login.res
+                }
             }
         }
     }
-
+    
 }
+

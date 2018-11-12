@@ -84,6 +84,9 @@ class menuAlertViewController: UIViewController {
             UIView.animate(withDuration: 0.2, animations: {
                 self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
         }, completion : { (finish) in
+            if self.alertState == "inviteToGroup" {
+                
+            } else {
             self.showAlert.removeFromSuperview()
             self.dismiss(animated: true, completion: nil)
             if self.alertState == "userPassChange"  {
@@ -103,6 +106,7 @@ class menuAlertViewController: UIViewController {
                 self.delegate?.dismissingMA2()
             } else if self.alertState == "friendlyMatch" {
                 self.delegate?.dismissingMA2()
+            }
             }
             })
         })
