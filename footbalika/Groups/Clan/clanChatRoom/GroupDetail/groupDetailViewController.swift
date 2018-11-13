@@ -392,6 +392,9 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                             self.delegate?.joinOrLeaveGroup(state : "leave" , clan_id : self.id)
                             self.dismiss(animated : true , completion : nil)
                         })
+                        
+                    } else if ((Res)!).contains("USER_NOT_PERMITTED")  {
+                        print("USER_NOT_PERMITTED")
                     } else {
                         self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
                     }
@@ -406,7 +409,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             }.resume()
         
     }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -422,7 +424,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             vc.clanData = self.res
             vc.delegate2 = self
         }
-        
         if let vc = segue.destination as? menuViewController {
             vc.menuState = self.menuState
             if self.menuState == "friendsList" {
@@ -437,6 +438,5 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             }
         }
     }
-    
 }
 

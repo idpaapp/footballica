@@ -463,11 +463,12 @@
             }
             
             cell.selectFriend.tag = indexPath.row
-            cell.selectFriend.addTarget(self, action: #selector(selectedFriend), for: UIControlEvents.touchUpInside)
             cell.selectFriendName.tag = indexPath.row
             if isClanInvite {
                 cell.selectFriendName.addTarget(self, action: #selector(iviteFriendToClan), for: UIControlEvents.touchUpInside)
+                cell.selectFriend.addTarget(self, action: #selector(iviteFriendToClan), for: UIControlEvents.touchUpInside)
             } else {
+                cell.selectFriend.addTarget(self, action: #selector(selectedFriend), for: UIControlEvents.touchUpInside)
                 cell.selectFriendName.addTarget(self, action: #selector(selectedFriend), for: UIControlEvents.touchUpInside)
             }
             cell.friendCup.text = "\((self.friensRes?.response?[indexPath.row].cups!)!)"

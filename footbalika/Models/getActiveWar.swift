@@ -35,7 +35,7 @@ public class getActiveWar {
        let user_time : String?
        let status : String?
        let questions : String?
-       let reward : String?
+       let reward : reward?
        let is_claimed : String?
        let pushe_id : String?
        let username : String?
@@ -44,5 +44,12 @@ public class getActiveWar {
        let avatar : String?
        let member_roll : String?
        let roll_title : String?
+    }
+    
+    public struct reward : Decodable {
+       let gold : Int?
+       let money : Int?
+       let freeze : Int?
+       let bomb : Int?
     }
 }

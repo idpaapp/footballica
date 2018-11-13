@@ -11,7 +11,6 @@ import RealmSwift
 
 class massageViewController: UIViewController , UITextViewDelegate , UITextFieldDelegate {
 
-    
     //massage Outlets
     @IBOutlet weak var totalView: UIView!
     @IBOutlet weak var totalViewHeight: NSLayoutConstraint!

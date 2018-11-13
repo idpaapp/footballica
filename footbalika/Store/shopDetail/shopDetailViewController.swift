@@ -323,9 +323,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         cell.shopDetailPriceForeGround.text = "\(price)"
         cell.shopDetailTitleForeGround.text = "\(title)"
         let intID = Int((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].id!)!)
-        let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
-        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-        cell.shopDetailImage.image = UIImage(data: dataDecoded as Data)
+        cell.shopDetailImage.setImageWithRealmId(id: intID!)
         cell.selectShopDetail.tag = indexPath.item
         cell.selectShopDetail.addTarget(self, action: #selector(showItem), for: UIControlEvents.touchUpInside)
         

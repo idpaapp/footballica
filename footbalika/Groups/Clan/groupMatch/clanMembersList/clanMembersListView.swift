@@ -10,7 +10,6 @@ import UIKit
 
 class clanMembersListView: UIView  {
     
-        
     @IBOutlet var contentView: UIView!
     
     @IBOutlet weak var warningTitle: UILabel!

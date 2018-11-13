@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import AVFoundation
 import Kingfisher
+import RealmSwift
 
 
 public class scrollToPage {
@@ -114,7 +115,7 @@ extension UIImageView {
 }
 
 extension UILabel {
-     func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
+    func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
         let strokeTextAttributes: [NSAttributedStringKey: Any] = [.strokeColor: UIColor.black, .foregroundColor: UIColor.white, .strokeWidth : strokeWidth , .strikethroughColor : UIColor.white , .font: font]
         self.attributedText = NSMutableAttributedString(string: title , attributes: strokeTextAttributes)
     }
@@ -135,40 +136,40 @@ struct soundPlay {
     let playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
     public func playClick() {
         if playgameSounds == true {
-        // play a click sound on your player
-        guard let url = Bundle.main.url(forResource: "click", withExtension: "mp3") else { return }
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            
-            soundPlay.player = try AVAudioPlayer(contentsOf: url)
-            guard let player = soundPlay.player else { return }
-            player.numberOfLoops = 0
-            player.play()
-
-        } catch let error {
-            print(error.localizedDescription)
-        }
+            // play a click sound on your player
+            guard let url = Bundle.main.url(forResource: "click", withExtension: "mp3") else { return }
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setActive(true)
+                
+                soundPlay.player = try AVAudioPlayer(contentsOf: url)
+                guard let player = soundPlay.player else { return }
+                player.numberOfLoops = 0
+                player.play()
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
         } else {}
     }
     
     public func playWhistleSound() {
         if playgameSounds == true {
-        guard let url = Bundle.main.url(forResource: "whistle", withExtension: "mp3") else { return }
-        
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
+            guard let url = Bundle.main.url(forResource: "whistle", withExtension: "mp3") else { return }
             
-            soundPlay.player = try AVAudioPlayer(contentsOf: url)
-            guard let player = soundPlay.player else { return }
-            player.numberOfLoops = 0
-            player.prepareToPlay()
-            player.play()
-       
-        } catch let error {
-            print(error.localizedDescription)
-        }
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setActive(true)
+                
+                soundPlay.player = try AVAudioPlayer(contentsOf: url)
+                guard let player = soundPlay.player else { return }
+                player.numberOfLoops = 0
+                player.prepareToPlay()
+                player.play()
+                
+            } catch let error {
+                print(error.localizedDescription)
+            }
         }
         
     }
@@ -287,37 +288,37 @@ struct musicPlay {
     
     public func playMenuMusic() {
         if playMenuMusics == true {
-        if musicPlay.musicPlayer?.isPlaying == true {
-            if #available(iOS 10.0, *) {
-                if playMenuMusics != false {
-                musicPlay.musicPlayer?.setVolume(0, fadeDuration: 2)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            if musicPlay.musicPlayer?.isPlaying == true {
+                if #available(iOS 10.0, *) {
+                    if playMenuMusics != false {
+                        musicPlay.musicPlayer?.setVolume(0, fadeDuration: 2)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            musicPlay.musicPlayer?.stop()
+                        }
+                    } else {
                         musicPlay.musicPlayer?.stop()
                     }
                 } else {
-                 musicPlay.musicPlayer?.stop()
+                    musicPlay.musicPlayer?.stop()
                 }
             } else {
-                musicPlay.musicPlayer?.stop()
-            }
-        } else {
-            
-            guard let url = Bundle.main.url(forResource: "menu", withExtension: "mp3") else { return }
-            
-            do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-                try AVAudioSession.sharedInstance().setActive(true)
                 
-                musicPlay.musicPlayer = try AVAudioPlayer(contentsOf: url)
-                guard let player = musicPlay.musicPlayer else { return }
-                player.numberOfLoops = -1
-                player.play()
+                guard let url = Bundle.main.url(forResource: "menu", withExtension: "mp3") else { return }
                 
-            } catch let error {
-                print(error.localizedDescription)
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setActive(true)
+                    
+                    musicPlay.musicPlayer = try AVAudioPlayer(contentsOf: url)
+                    guard let player = musicPlay.musicPlayer else { return }
+                    player.numberOfLoops = -1
+                    player.play()
+                    
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+                
             }
-            
-        }
         } else {
             musicPlay.musicPlayer?.stop()
         }
@@ -327,26 +328,26 @@ struct musicPlay {
     public func playQuizeMusic() {
         
         if playMenuMusics == true {
-        guard let url = Bundle.main.url(forResource: "quize", withExtension: "mp3") else { return }
-        
+            guard let url = Bundle.main.url(forResource: "quize", withExtension: "mp3") else { return }
+            
             if musicPlay.musicPlayer?.isPlaying == true {
                 musicPlay.musicPlayer?.stop()
             } else {
-        do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-            try AVAudioSession.sharedInstance().setActive(true)
-            
-            musicPlay.musicPlayer = try AVAudioPlayer(contentsOf: url)
-            guard let playerQuize = musicPlay.musicPlayer else { return }
-            playerQuize.numberOfLoops = -1
-            playerQuize.prepareToPlay()
-            playerQuize.play()
-            
-        } catch let error {
-            print(error.localizedDescription)
+                do {
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setActive(true)
+                    
+                    musicPlay.musicPlayer = try AVAudioPlayer(contentsOf: url)
+                    guard let playerQuize = musicPlay.musicPlayer else { return }
+                    playerQuize.numberOfLoops = -1
+                    playerQuize.prepareToPlay()
+                    playerQuize.play()
+                    
+                } catch let error {
+                    print(error.localizedDescription)
+                }
+            }
         }
-        }
-    }
     }
 }
 
@@ -356,7 +357,7 @@ struct thirdSoundPlay {
     public func playThirdSound() {
         if playGameSounds == true {
             if thirdSoundPlay.thirdPlayer?.isPlaying == true {
-                    thirdSoundPlay.thirdPlayer?.stop()
+                thirdSoundPlay.thirdPlayer?.stop()
             } else {
                 
                 guard let url = Bundle.main.url(forResource: "last_ticking", withExtension: "mp3") else { return }
@@ -466,7 +467,7 @@ public extension UITextField {
 
 
 extension String {
-     var replacedArabicDigitsWithEnglish: String {
+    var replacedArabicDigitsWithEnglish: String {
         var str = self
         let map = ["۰": "0",
                    "۱": "1",
@@ -535,10 +536,10 @@ extension UIView {
 
 extension UIImageView {
     @objc func addUIImageShadow(color : UIColor , offset : CGSize , opacity : Float ,Radius : CGFloat ) {
-    self.layer.shadowColor = color.cgColor
-    self.layer.shadowOffset = offset
-    self.layer.shadowOpacity = opacity
-    self.layer.shadowRadius = Radius
+        self.layer.shadowColor = color.cgColor
+        self.layer.shadowOffset = offset
+        self.layer.shadowOpacity = opacity
+        self.layer.shadowRadius = Radius
     }
     
     @objc func animatingImageView(Radius : CGFloat , circleCenter : CGPoint) {
@@ -558,7 +559,7 @@ extension UIImageView {
         
         // we add the animation to the squares 'layer' property
         self.layer.add(anim, forKey: "animate position along path")
-
+        
     }
     
     @objc func setImageWithKingFisher(url : String) {
@@ -567,5 +568,27 @@ extension UIImageView {
         self.kf.setImage(with: resource ,options:[.transition(ImageTransition.fade(0.5))])
     }
     
+    @objc func setImageWithRealmPath(url : String) {
+        var realm : Realm!
+        realm = try? Realm()
+        let realmID = realm.objects(tblShop.self).filter("image_path == '\(url)'")
+        if realmID.count != 0 {
+            let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+            self.image = UIImage(data: dataDecoded as Data)
+        } else {
+            self.image = UIImage()
+        }
+    }
+    
+    @objc func setImageWithRealmId(id : Int) {
+        var realm : Realm!
+        realm = try? Realm()
+        let realmID = realm.objects(tblShop.self).filter("id == \(id)")
+        if realmID.count != 0 {
+            let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+            self.image = UIImage(data: dataDecoded as Data)
+        } else {
+            self.image = UIImage()
+        }
+    }
 }
-

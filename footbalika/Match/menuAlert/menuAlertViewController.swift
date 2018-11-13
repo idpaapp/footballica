@@ -85,7 +85,10 @@ class menuAlertViewController: UIViewController {
                 self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
         }, completion : { (finish) in
             if self.alertState == "inviteToGroup" {
-                
+//                self.performSegue(withIdentifier: "backToMenu", sender: self)
+                self.showAlert.removeFromSuperview()
+                self.dismiss(animated: true, completion: nil)
+                self.delegate?.dismissingMA2()
             } else {
             self.showAlert.removeFromSuperview()
             self.dismiss(animated: true, completion: nil)

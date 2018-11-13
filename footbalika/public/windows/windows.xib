@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="windows" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="closePage" destination="8ik-Yc-LKj" id="1nK-WE-DR9"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="bIs-4m-yK7"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DF0-MB-WH7" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="5" width="375" height="100"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="OAm-U0-QN1"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IS1-SV-8dY" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="10" width="375" height="657"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ik-Yc-LKj" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="335" y="8" width="32" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="8ik-Yc-LKj" secondAttribute="height" multiplier="1:1" id="mtC-FP-ECi"/>
+                                <constraint firstAttribute="height" constant="32" id="yxt-PH-Qsq"/>
+                            </constraints>
+                            <state key="normal" image="ic_close"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                    <real key="value" value="0.0"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xaP-cM-ArG" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="48" width="375" height="609"/>
+                            <color key="backgroundColor" red="0.94181501865386963" green="0.91838520765304565" blue="0.87226659059524536" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
+                                    <real key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="YES"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.38717862959999999" green="0.4144531488" blue="0.48505103589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="8ik-Yc-LKj" secondAttribute="trailing" constant="8" id="8Z2-cf-Gcr"/>
+                        <constraint firstItem="xaP-cM-ArG" firstAttribute="leading" secondItem="IS1-SV-8dY" secondAttribute="leading" id="AuF-3d-cHu"/>
+                        <constraint firstItem="xaP-cM-ArG" firstAttribute="top" secondItem="8ik-Yc-LKj" secondAttribute="bottom" constant="8" id="BDu-6h-qJA"/>
+                        <constraint firstItem="8ik-Yc-LKj" firstAttribute="top" secondItem="IS1-SV-8dY" secondAttribute="top" constant="8" id="RGE-E0-vu1"/>
+                        <constraint firstAttribute="bottom" secondItem="xaP-cM-ArG" secondAttribute="bottom" id="UgX-cd-J2e"/>
+                        <constraint firstAttribute="trailing" secondItem="xaP-cM-ArG" secondAttribute="trailing" id="d0p-jV-mSd"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="IS1-SV-8dY" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="00d-gd-cd6"/>
+                <constraint firstItem="DF0-MB-WH7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Jxl-cU-M1X"/>
+                <constraint firstItem="DF0-MB-WH7" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="R4U-aL-hLV"/>
+                <constraint firstItem="IS1-SV-8dY" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="Sn5-U9-cIE"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="DF0-MB-WH7" secondAttribute="trailing" id="dnV-Vq-Kc0"/>
+                <constraint firstItem="IS1-SV-8dY" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="vcn-wG-ZaL"/>
+                <constraint firstItem="IS1-SV-8dY" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="w2x-1G-GLG"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-31.199999999999999" y="67.916041979010501"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_close" width="48" height="48"/>
+    </resources>
+</document>

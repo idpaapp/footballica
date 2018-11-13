@@ -17,6 +17,7 @@ protocol clanGroupsViewControllerDelegate{
     func showGroupInfo(id : String)
     func clanJoinded()
     func showProfile(id : String , isGroupDetailUser : Bool , completionHandler : @escaping () -> Void)
+    func showFinishedWarResault(id : String)
 }
 
 protocol groupDetailViewControllerDelegate {
@@ -32,6 +33,43 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.getProfile(userid : id, isGroupDetail: isGroupDetailUser, completionHandler: {
             completionHandler()
         })
+    }
+    
+    var matchResaultres : getActiveWar.Response? = nil
+    func showFinishedWarResault(id : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR' , 'war_id' : '\(id)'}") { data, error in
+            
+            if data != nil {
+                
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
+                }
+                
+                //                print(data ?? "")
+                
+                DispatchQueue.main.async {
+                    PubProc.wb.hideWaiting()
+                }
+                
+                do {
+                    
+                    self.matchResaultres = try JSONDecoder().decode(getActiveWar.Response.self, from: data!)
+                   
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "showGroupMatchResault", sender: self)
+                    }
+                    
+                } catch {
+                    print(error)
+                }
+                
+            } else {
+                self.showFinishedWarResault(id: id)
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
     }
     
     
@@ -568,6 +606,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             if segue.identifier == "groupsMatch" {
                 self.gMatchs = segue.destination as? groupMatchViewController
             }
+        }
+        
+        if let vc = segue.destination as? groupMatchResaultViewController {
+            vc.matchResaultres = self.matchResaultres
         }
     }
     

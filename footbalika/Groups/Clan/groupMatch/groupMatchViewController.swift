@@ -177,7 +177,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                         if ((self.startWarRes?.status!)!) == "OK" {
                             self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true)
                             self.setupClanTimer()
-                            self.setupClanMemberList(isStartWar: true)
+                            self.updateclanGamePage()
                         } else if ((self.startWarRes?.status!)!) == "THERE_IS_ACTIVE_WAR" {
                             print("THERE_IS_ACTIVE_WAR")
                         }
@@ -209,6 +209,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     func setupClanMemberList(isStartWar : Bool) {
         let vc = childViewControllers.last as! groupMembersViewController
         var membersCount = Int()
+        vc.enableOrDisableJoinWar(isEnable: true)
         if isStartWar {
             if self.startWarRes?.response?.members != nil {
                 membersCount = Int((self.startWarRes?.response?.members?.count)!)
@@ -216,6 +217,8 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                 membersCount = 0
             }
             vc.startWarRes = self.startWarRes
+            vc.activeWarRes = nil
+            vc.reloadingData(members: membersCount)
         } else {
             if self.activeWarRes?.response?.members != nil {
                 membersCount = Int((self.activeWarRes?.response?.members?.count)!)
@@ -223,8 +226,9 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                 membersCount = 0
             }
             vc.activeWarRes = self.activeWarRes
+            vc.startWarRes = nil
+            vc.reloadingData(members: membersCount)
         }
-        vc.reloadingData(members: membersCount)
     }
     
     override func viewWillAppear(_ animated: Bool) {

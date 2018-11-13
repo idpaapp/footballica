@@ -317,7 +317,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             case publicConstants().CLAN_WAR :
                 break
             case publicConstants().WAR_RESULT :
-                break
+                self.delegate?.showFinishedWarResault(id : "\((self.chatRes?.response?[indexPath.row].ref_id!)!)")
             case publicConstants().WAR_CANCELED :
                 break
             default:
@@ -367,6 +367,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     }
     
     @objc func showDetails() {
+        DispatchQueue.main.async {
         UIView.animate(withDuration: 0.5) {
             self.showHideDetailsConstraint.constant = 190
             self.view.layoutIfNeeded()
@@ -374,15 +375,18 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         UIView.animate(withDuration: 0.5) {
             self.clanDetailsView.alpha = 1.0
         }
+        }
     }
     
     @objc func hideDetails() {
+        DispatchQueue.main.async {
         UIView.animate(withDuration: 0.5) {
             self.showHideDetailsConstraint.constant = 10
             self.view.layoutIfNeeded()
         }
         UIView.animate(withDuration: 0.3) {
             self.clanDetailsView.alpha = 0.0
+        }
         }
     }
     
@@ -434,6 +438,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                         
                         self.res = try JSONDecoder().decode(clanGrouops.Response.self , from : data!)
                         
+                        if (self.res?.response?.count)! != 0 {
+                            self.isShowDetails = false
+                            self.hideDetails()
+                        }
+                        
                         //                        print((self.resUser?.response?.count)!)
                         DispatchQueue.main.async {
                             self.clansTV.reloadData()
@@ -471,6 +480,8 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             getChatroomData(isChatSend: false, completionHandler: {
                 self.refreshControl.endRefreshing()
             })
+        } else {
+            self.refreshControl.endRefreshing()
         }
     }
     

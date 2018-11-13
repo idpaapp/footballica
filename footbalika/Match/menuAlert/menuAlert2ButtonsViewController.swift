@@ -84,7 +84,7 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                 self.showAlert.mainTitle.text = "\(self.alertBody)"
             }
             
-            self.showAlert.isOpaque = false
+            
         }
     
     
@@ -484,7 +484,10 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
             vc.alertBody = self.alertBody
             vc.alertTitle = self.alertTitle
             vc.alertAcceptLabel = "تأیید"
-            
+        } else if state == "clanInviteFriend"{
+            vc.alertState = self.alertState
+            vc.alertBody = self.alertBody
+            vc.alertTitle = self.alertTitle
 //        } else if state == "friendlyMatch" {
 //            vc.alertState = "friendlyMatch"
 //            vc.alertBody = self.alertBody

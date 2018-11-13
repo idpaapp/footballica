@@ -34,6 +34,10 @@ class menuAlert2Buttons: UIView {
         self.topLabel.adjustsFontSizeToFitWidth = true
         self.topForeGroundLabel.minimumScaleFactor = 0.5
         self.topForeGroundLabel.adjustsFontSizeToFitWidth = true
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
         self.isOpaque = false
     }
     

@@ -8,7 +8,6 @@
 
 import UIKit
 import Kingfisher
-import RealmSwift
 
 protocol GameChargeDelegate : class {
     func openGameChargePage()
@@ -82,7 +81,6 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var alertTitle = String()
     var alertBody = String()
     var alertAcceptLabel = String()
-    var realm : Realm!
     
     @objc func fillData() {
         if (login.res?.response?.mainInfo?.status) != nil {
@@ -97,11 +95,8 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         cup.text = (login.res?.response?.mainInfo?.cups)!
         self.xpProgress.progress = 0.0
         let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
-        
-            let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(urlAvatar)'")
-            if realmID.count != 0 {
-                let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                self.avatar.image = UIImage(data: dataDecoded as Data)
+            self.avatar.setImageWithRealmPath(url : urlAvatar)
+                if self.avatar.image != UIImage() {
             } else {
                 self.avatar.setImageWithKingFisher(url: urlAvatar)
             }
@@ -201,7 +196,6 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         }
         
         
-        realm = try? Realm()
         self.shakeTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.shakeFunstion), userInfo: nil, repeats: true)
         
         let nc = NotificationCenter.default

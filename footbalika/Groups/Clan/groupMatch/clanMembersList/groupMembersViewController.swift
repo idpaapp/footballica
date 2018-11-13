@@ -15,6 +15,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
     var realm : Realm!
     var delegate : groupMembersViewControllerDelegate!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(self.membersCount)
         return self.membersCount
     }
     
@@ -62,10 +63,16 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         self.clanMembersList.membersTV.register(UINib(nibName: "groupMemberCell", bundle: nil), forCellReuseIdentifier: "groupMemberCell")
         self.clanMembersList.useButton.addTarget(self, action: #selector(joiningClan), for: UIControlEvents.touchUpInside)
     }
+    
+    @objc func enableOrDisableJoinWar(isEnable : Bool) {
+        self.clanMembersList.useButton.isEnabled = isEnable
+    }
+    
     var activeWarRes : getActiveWar.Response? = nil
     var startWarRes : startWar.Response? = nil
     @objc func joiningClan() {
         if isJoinActive {
+            self.enableOrDisableJoinWar(isEnable: false)
             self.delegate?.joinWar()
         }
     }
