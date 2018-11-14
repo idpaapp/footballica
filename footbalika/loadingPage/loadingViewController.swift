@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import Foundation
 
 class loadingViewController: UIViewController {
     
@@ -72,77 +73,76 @@ class loadingViewController: UIViewController {
         PubProc.HandleDataBase.readJson(wsName: "ws_loadGameData", JSONStr: "{'matchID':'0'}") { data, error in
             
             DispatchQueue.main.async {
-
-            if data != nil {
                 
-//                print(data ?? "")
-                
-                do {
+                if data != nil {
                     
-                    loadingViewController.loadGameData = try JSONDecoder().decode(gameDataModel.Response.self , from : data!)
+                    //                print(data ?? "")
                     
-//                    print((self.loadGameData?.response?.userXps[0].level!)!)
-//                    print((self.loadGameData?.status!)!)
-//                    print((self.loadGameData?.response?.gameTypes[0].id!)!)
-//                    print((self.loadGameData?.response?.giftRewards?.change_name!)!)
-                    
-                    DispatchQueue.main.async {
+                    do {
+                        
+                        loadingViewController.loadGameData = try JSONDecoder().decode(gameDataModel.Response.self , from : data!)
+                        
+                        print("***************************\((loadingViewController.loadGameData?.response?.onLineTime!)!)")
+                        
+                        loadingViewController.OnlineTime = (loadingViewController.loadGameData?.response?.onLineTime!)!
+                        
+                        DispatchQueue.main.async {
                             PubProc.cV.hideWarning()
-                        for i in 0...(loadingViewController.loadGameData?.response?.gameTypes.count)! - 1 {
-                        let gametID = Int((loadingViewController.loadGameData?.response?.gameTypes[i].id!)!)
-                        let gameTypesID = gametID!
-                        
-                        let gameTypesTitle = ((loadingViewController.loadGameData?.response?.gameTypes[i].title!)!.replacedArabicCharactersToPersian)
-                        let gameTypesImg_logo = ((loadingViewController.loadGameData?.response?.gameTypes[i].img_logo!)!)
-                        self.writetblMatchTypes.writeToDBtblMatchTypes(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo, base64: "")
-                        
-                    }
-                        
-                        for i in 0...(loadingViewController.loadGameData?.response?.gameCharge.count)! - 1 {
-                            let ID = Int((loadingViewController.loadGameData?.response?.gameCharge[i].id!)!)
-                            let chargeTypesID = ID!
-                            let chargeTypesTitle = ((loadingViewController.loadGameData?.response?.gameCharge[i].title!)!)
-                            let chargeTypesImagePath = ((loadingViewController.loadGameData?.response?.gameCharge[i].image_path!)!)
-                            self.writeChargeTypes.writeToDBtblChargeTypes(chargeTypesID: chargeTypesID, chargeTypesTitle: chargeTypesTitle, chargeTypesImagePath: chargeTypesImagePath, base64: "")
-                        }
-                        
-                        for i in 0...(loadingViewController.loadGameData?.response?.stadiumData.count)! - 1 {
-                            let ID = Int((loadingViewController.loadGameData?.response?.stadiumData[i].id!)!)
-                            let id = ID!
-                            let title = ((loadingViewController.loadGameData?.response?.stadiumData[i].title!)!)
-                            let imagePath = ((loadingViewController.loadGameData?.response?.stadiumData[i].extended_image!)!)
-                            let extendImage = ""
-                            self.writeStadiums.writeToDBtblStadiumTypes(id: id, title: title, imagePath: imagePath, extendedBase64Image: extendImage)
-//                            print(title)
-//                            print(imagePath)
-                        }
-                        
-                        self.endProgress = 0.1
-                        self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
-                        if loadingViewController.userid != "0" {
-                        login.init().loging(userid: loadingViewController.userid, rest: true, completionHandler: {
-                        })
+                            for i in 0...(loadingViewController.loadGameData?.response?.gameTypes.count)! - 1 {
+                                let gametID = Int((loadingViewController.loadGameData?.response?.gameTypes[i].id!)!)
+                                let gameTypesID = gametID!
+                                
+                                let gameTypesTitle = ((loadingViewController.loadGameData?.response?.gameTypes[i].title!)!.replacedArabicCharactersToPersian)
+                                let gameTypesImg_logo = ((loadingViewController.loadGameData?.response?.gameTypes[i].img_logo!)!)
+                                self.writetblMatchTypes.writeToDBtblMatchTypes(gameTypesID: gameTypesID, gameTypesTitle: gameTypesTitle, gameTypesImg_logo: gameTypesImg_logo, base64: "")
+                                
+                            }
                             
-                        } else {
-                            self.performSegue(withIdentifier: "loginUser", sender: self)
+                            for i in 0...(loadingViewController.loadGameData?.response?.gameCharge.count)! - 1 {
+                                let ID = Int((loadingViewController.loadGameData?.response?.gameCharge[i].id!)!)
+                                let chargeTypesID = ID!
+                                let chargeTypesTitle = ((loadingViewController.loadGameData?.response?.gameCharge[i].title!)!)
+                                let chargeTypesImagePath = ((loadingViewController.loadGameData?.response?.gameCharge[i].image_path!)!)
+                                self.writeChargeTypes.writeToDBtblChargeTypes(chargeTypesID: chargeTypesID, chargeTypesTitle: chargeTypesTitle, chargeTypesImagePath: chargeTypesImagePath, base64: "")
+                            }
+                            
+                            for i in 0...(loadingViewController.loadGameData?.response?.stadiumData.count)! - 1 {
+                                let ID = Int((loadingViewController.loadGameData?.response?.stadiumData[i].id!)!)
+                                let id = ID!
+                                let title = ((loadingViewController.loadGameData?.response?.stadiumData[i].title!)!)
+                                let imagePath = ((loadingViewController.loadGameData?.response?.stadiumData[i].extended_image!)!)
+                                let extendImage = ""
+                                self.writeStadiums.writeToDBtblStadiumTypes(id: id, title: title, imagePath: imagePath, extendedBase64Image: extendImage)
+                                //                            print(title)
+                                //                            print(imagePath)
+                            }
+                            
+                            self.endProgress = 0.1
+                            self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
+                            if loadingViewController.userid != "0" {
+                                login.init().loging(userid: loadingViewController.userid, rest: true, completionHandler: {
+                                })
+                                
+                            } else {
+                                self.performSegue(withIdentifier: "loginUser", sender: self)
+                            }
                         }
+                    } catch {
+                        self.gameData()
+                        print(error)
                     }
-                } catch {
-                    self.gameData()
-                    print(error)
-                }
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                    self.gameData()
-                })
-                print("Error Connection")
-                print(error as Any)
-                // handle error
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                        self.gameData()
+                    })
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
                 }
             }
             }.resume()
     }
-
+    
     static var userid = "0"
     var realm : Realm!
     
@@ -158,22 +158,22 @@ class loadingViewController: UIViewController {
         print(UIDevice().localizedModel.description)
         let nc = NotificationCenter.default
         nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
-
+        
         realm = try! Realm()
-        gameData()
+        self.gameData()
         
         launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         
-
+        
         if self.launchedBefore  {
-
+            
             playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
             playgameSounds = UserDefaults.standard.bool(forKey: "gameSounds")
             alerts = UserDefaults.standard.bool(forKey: "alerts")
             loadingViewController.userid = defaults.string(forKey: "userid") ?? String()
             defaults.set(false , forKey: "tutorial")
         } else {
-
+            
             let userid = "\(loadingViewController.userid)"
             defaults.set(userid, forKey: "userid")
             defaults.set(true, forKey: "launchedBefore")
@@ -195,7 +195,7 @@ class loadingViewController: UIViewController {
         
         self.mainProgressBackGround.layer.cornerRadius = 5
         self.ProgressBackGroundView.layer.cornerRadius = 5
-//        timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(progressing), userInfo: nil, repeats: true)
+        //        timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(progressing), userInfo: nil, repeats: true)
         self.loadingProgress.progress = 0
         self.loadingProgressLabel.text = "۰٪"
     }
@@ -204,36 +204,36 @@ class loadingViewController: UIViewController {
     @objc public func progressing() {
         DispatchQueue.main.async {
             if self.currentProgress < self.endProgress {
-            self.currentProgress = (self.currentProgress * 100).rounded() / 100
-            if self.currentProgress == 0.99 {
-                self.currentProgress = 1.0
-                self.loadingProgress.progress = self.currentProgress
-                if UIDevice().userInterfaceIdiom == .phone {
-                    print("self.currentProgress\(self.currentProgress)")
-                    self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
-                } else {
-                    self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                    self.timer.invalidate()
-                    self.ballTimer.invalidate()
-                    downloadStadiums.init().getIDs()
-                    self.performSegue(withIdentifier: "showMainMenu", sender: self)
-                    PubProc.isSplash = false
-                })
-                } else {
-                if self.currentProgress >= self.endProgress {
-                    self.timer.invalidate()
-                } else {
-                self.currentProgress = self.currentProgress + 0.01
-                self.loadingProgress.progress = self.currentProgress
-            if UIDevice().userInterfaceIdiom == .phone {
-                self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
-            } else {
-                self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
+                self.currentProgress = (self.currentProgress * 100).rounded() / 100
+                if self.currentProgress == 0.99 {
+                    self.currentProgress = 1.0
+                    self.loadingProgress.progress = self.currentProgress
+                    if UIDevice().userInterfaceIdiom == .phone {
+                        print("self.currentProgress\(self.currentProgress)")
+                        self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
+                    } else {
+                        self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
                     }
-                  }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                        self.timer.invalidate()
+                        self.ballTimer.invalidate()
+                        downloadStadiums.init().getIDs()
+                        self.performSegue(withIdentifier: "showMainMenu", sender: self)
+                        PubProc.isSplash = false
+                    })
+                } else {
+                    if self.currentProgress >= self.endProgress {
+                        self.timer.invalidate()
+                    } else {
+                        self.currentProgress = self.currentProgress + 0.01
+                        self.loadingProgress.progress = self.currentProgress
+                        if UIDevice().userInterfaceIdiom == .phone {
+                            self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
+                        } else {
+                            self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
+                        }
+                    }
                 }
             }
         }
@@ -242,7 +242,7 @@ class loadingViewController: UIViewController {
     @objc func updateProgress() {
         self.endProgress = self.endProgress + 0.1
         if self.endProgress > 1.0 {
-          self.endProgress = 1.0
+            self.endProgress = 1.0
         }
         
         self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
@@ -252,6 +252,23 @@ class loadingViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }   
+    }
+    
+    static var OnlineTime = Int64()
+//    @objc func getOnlineTime() {
+//        PubProc.HandleDataBase.readJson(wsName: "ws_getOnlineTime", JSONStr: "{'matchID':'0'}") { data, error in
+//
+//            if data != nil {
+//                let Response = String(data: data!, encoding: String.Encoding.utf8) as String?
+//                loadingViewController.OnlineTime = (Response as NSString?)?.floatValue ?? 0
+//                print("Online Time : \(loadingViewController.OnlineTime)")
+//                self.gameData()
+//            } else {
+//                self.getOnlineTime()
+//                print(error as Any)
+//                print("ErrorConnection")
+//            }
+//            }.resume()
+//    }
 }
 

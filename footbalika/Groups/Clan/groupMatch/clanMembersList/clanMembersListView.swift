@@ -32,6 +32,17 @@ class clanMembersListView: UIView  {
     
     @IBOutlet weak var useButtonPriceForeGround: UILabel!
     
+    @IBOutlet weak var noPriceTitle: UILabel!
+    
+    @IBOutlet weak var noPriceTitleForeGround: UILabel!
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.noPriceTitle.isHidden = true
+        self.noPriceTitleForeGround.isHidden = true
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

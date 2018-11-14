@@ -55,6 +55,8 @@ public class publicImages {
     public var inactiveLargeButton = UIImage(named: "inactive_tab_btn")
     public var activeButton = UIImage(named: "green_btn_large")
     public var ic_timer = UIImage(named: "ic_timer")
+    public var dark_btn_large = UIImage(named: "dark_btn_large")
+    public var action_back_large_btn = UIImage(named: "action_back_large_btn")
 }
 
 public class fonts {
@@ -118,6 +120,10 @@ extension UILabel {
     func AttributesOutLine(font : UIFont , title : String , strokeWidth : Double) {
         let strokeTextAttributes: [NSAttributedStringKey: Any] = [.strokeColor: UIColor.black, .foregroundColor: UIColor.white, .strokeWidth : strokeWidth , .strikethroughColor : UIColor.white , .font: font]
         self.attributedText = NSMutableAttributedString(string: title , attributes: strokeTextAttributes)
+    }
+    
+    func setLabelHide(isHide : Bool) {
+        self.isHidden = isHide
     }
 }
 
@@ -590,5 +596,11 @@ extension UIImageView {
         } else {
             self.image = UIImage()
         }
+    }
+}
+
+extension UILabel {
+    func setLabelBackGroundImage(image : UIImage) {
+        self.backgroundColor = UIColor(patternImage: image)
     }
 }

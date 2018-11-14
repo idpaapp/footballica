@@ -609,7 +609,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
         
         if let vc = segue.destination as? groupMatchResaultViewController {
-            vc.matchResaultres = self.matchResaultres
+            vc.matchResaultRes = self.matchResaultres
         }
     }
     
