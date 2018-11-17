@@ -57,6 +57,8 @@ public class publicImages {
     public var ic_timer = UIImage(named: "ic_timer")
     public var dark_btn_large = UIImage(named: "dark_btn_large")
     public var action_back_large_btn = UIImage(named: "action_back_large_btn")
+    public var label_back_dark = UIImage(named: "label_back_dark")
+    public var accept_btn = UIImage(named: "accept_btn")
 }
 
 public class fonts {

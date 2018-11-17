@@ -9,6 +9,7 @@
  import UIKit
  import RealmSwift
  import GoogleSignIn
+ import Foundation
  
  class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource , GIDSignInUIDelegate , GIDSignInDelegate{
     
@@ -240,6 +241,7 @@
         
         self.predict3Month.titleLabel?.adjustsFontSizeToFitWidth = true
         
+        self.achievementsTV.register(UINib(nibName: "profileGroupCell", bundle: nil), forCellReuseIdentifier: "profileGroupCell")
         
         if pageState == "LeaderBoard" {
             leaderBoardJson()
@@ -318,8 +320,6 @@
                 cell.coinLabel.text = (loadingAchievements.res?.response?[indexPath.row].coin_reward!)!
                 cell.coinImage.isHidden = false
             }
-            
-            
             
             if (loadingAchievements.res?.response?[indexPath.row].cash_reward!)! == "0" {
                 cell.moneyLabel.text = ""
@@ -632,7 +632,51 @@
                 
                 return cell
                 
+                
             case 2 :
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "profileGroupCell", for: indexPath) as! profileGroupCell
+                
+                if self.profileResponse?.response?.calnData?.clanMembers != nil {
+                     if self.profileResponse?.response?.calnData?.clanMembers?.count != 0 {
+                        cell.groupName.text = "\((self.profileResponse?.response?.calnData?.clan_title!)!)"
+                        cell.groupImage.setImageWithKingFisher(url: "\(urls().clan)\((self.profileResponse?.response?.calnData?.caln_logo!)!)")
+                        cell.cupCountShow.cupCountLabel.text = "\((self.profileResponse?.response?.calnData?.clan_point!)!)"
+                        
+                        switch (self.profileResponse?.response?.calnData?.clan_point!)! {
+                        case publicConstants().teamCaptain:
+                            cell.memberRoll.text = "کاپیتان"
+                        case publicConstants().teamPlayer:
+                            cell.memberRoll.text = "بازیکن"
+                        default :
+                            cell.memberRoll.text = "بازیکن کلیدی"
+                        }
+                        //User Profile
+                        if ((self.profileResponse?.response?.calnData?.clanMembers?.lastIndex(where: {$0.id == loadingViewController.userid})) != nil) {
+                            cell.promoteDemoteView.isHidden = true
+                        } else {
+                            //other ClanMember
+                            if (self.profileResponse?.response?.calnData?.clanid!)! != (login.res?.response?.calnData?.clanid!)! {
+                                cell.promoteDemoteView.isHidden = true
+                            } else {
+                                let profileMemberRoll = Int((login.res?.response?.calnData?.member_roll!)!)
+                                let otherProfileMemberRoll = Int((self.profileResponse?.response?.calnData?.member_roll!)!)
+
+                                if profileMemberRoll! / otherProfileMemberRoll! < 1 {
+                                    cell.promoteDemoteView.isHidden = false
+                                } else {
+                                    cell.promoteDemoteView.isHidden = true
+                                }
+                            }
+                        }
+                    } else {
+                        
+                    }
+                } else {
+                    
+                }
+                return cell
+            case 3 :
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile2Cell", for: indexPath) as! profile2Cell
                 cell.secondProfileTitleForeGround.text = "آمار و نتایج بازی ها"
@@ -651,7 +695,7 @@
                 cell.mostScores.text = "\((self.profileResponse?.response?.mainInfo?.max_wins_count!)!)"
                 return cell
                 
-            case 3 :
+            case 4 :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile3Cell", for: indexPath) as! profile3Cell
                 cell.contentView.backgroundColor = grayColor
                 cell.maximumScores.text = "\((self.profileResponse?.response?.mainInfo?.max_point!)!)"
@@ -895,15 +939,7 @@
                     //                print(data ?? "")
                     
                     self.alertsJson()
-                    
-                    //                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
-                    //
-                    //                    if ((self.collectingItemAchievement)!).contains("OK") {
-                    //                        self.messageRead()
-                    //                    } else {
-                    //                        self.messageRead()
-                    //                    }
-                    
+
                 } else {
                     self.acceptOrRejectFriendShipRequest(mode: mode, user1_id: user1_id, user2_id: user2_id, message_id: message_id)
                     print("Error Connection")
@@ -967,52 +1003,54 @@
     }
     
     
-    var collectingItemAchievement : String? = nil;
-    
-    @objc func achievementReceive(id : Int) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_updateAchievements", JSONStr: "{'achievement_id' : '\(id)' ,'userid':'\(loadingViewController.userid)'}") { data, error in
-            DispatchQueue.main.async {
-                
-                if data != nil {
-                    
-                    //                print(data ?? "")
-                    DispatchQueue.main.async {
-                        PubProc.cV.hideWarning()
-                    }
-                    
-                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
-                    
-                    print(((self.collectingItemAchievement)!))
-                    if ((self.collectingItemAchievement)!).contains("OK") {
-                        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
-                            DispatchQueue.main.async {
-                                self.achievementsTV.reloadData()
-                                PubProc.wb.hideWaiting()
-                                thirdSoundPlay().playCollectItemSound()
-                            }
-                        })
-                    } else {
-                        DispatchQueue.main.async {
-                            PubProc.wb.hideWaiting()
-                        }
-                    }
-                } else {
-                    self.achievementReceive(id : id)
-                    print("Error Connection")
-                    print(error as Any)
-                    // handle error
-                }
-            }
-            }.resume()
-    }
+//    var collectingItemAchievement : String? = nil;
+//
+//    @objc func achievementReceive(id : Int) {
+//        PubProc.HandleDataBase.readJson(wsName: "ws_updateAchievements", JSONStr: "{'achievement_id' : '\(id)' ,'userid':'\(loadingViewController.userid)'}") { data, error in
+//            DispatchQueue.main.async {
+//
+//                if data != nil {
+//
+//                    //                print(data ?? "")
+//                    DispatchQueue.main.async {
+//                        PubProc.cV.hideWarning()
+//                    }
+//
+//                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
+//
+//                    print(((self.collectingItemAchievement)!))
+//                    if ((self.collectingItemAchievement)!).contains("OK") {
+//                        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
+//                            DispatchQueue.main.async {
+//                                self.achievementsTV.reloadData()
+//                                PubProc.wb.hideWaiting()
+//                                thirdSoundPlay().playCollectItemSound()
+//                            }
+//                        })
+//                    } else {
+//                        DispatchQueue.main.async {
+//                            PubProc.wb.hideWaiting()
+//                        }
+//                    }
+//                } else {
+//                    self.achievementReceive(id : id)
+//                    print("Error Connection")
+//                    print(error as Any)
+//                    // handle error
+//                }
+//            }
+//            }.resume()
+//    }
     
     @objc func receivingGift(_ sender : UIButton!) {
         let aId = Int((loadingAchievements.res?.response?[sender.tag].id!)!)
-        achievementReceive(id : aId!)
+        achievementsReceive().achievementReceive(id : aId!, completionHandler: {
+            self.achievementsTV.reloadData()
+        })
     }
     
     var profileName = String()
-
+    
     
     @objc func switchChanged(_ sender : UISwitch!) {
         if (sender.isOn == true){
@@ -1089,12 +1127,22 @@
                 }
                 
             case 2 :
+                if self.profileResponse?.response?.calnData?.clanMembers != nil {
+                    if self.profileResponse?.response?.calnData?.clanMembers?.count != 0 {
+                        return 200
+                    } else {
+                        return 0
+                    }
+                } else {
+                    return 0
+                }
+            case 3 :
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 280
                 } else {
                     return 300
                 }
-            case 3 :
+            case 4 :
                 if UIDevice().userInterfaceIdiom == .phone {
                     return 135
                 } else {

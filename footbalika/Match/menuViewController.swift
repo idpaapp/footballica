@@ -219,14 +219,19 @@ class menuViewController: UIViewController {
             case "alerts" :
                 vC.achievementCount = 0
             case "profile" :
+                var profileCellsCount =  Int()
                     let stadium = (profileResponse?.response?.mainInfo?.stadium)!
                     if stadium != "empty_std.jpg" {
-                        vC.achievementCount = 5
+                        profileCellsCount = 5
                     } else {
-                        vC.achievementCount = 4
+                        profileCellsCount = 4
                     }
-                    vC.pageState = "profile"
-                    vC.profileResponse = self.profileResponse
+                if (profileResponse?.response?.calnData?.clanMembers) != nil {
+                    profileCellsCount = profileCellsCount + 1
+                }
+                vC.achievementCount = profileCellsCount
+                vC.pageState = "profile"
+                vC.profileResponse = self.profileResponse
             case "friendsList" :
                 vC.friensRes = self.friensRes
                 vC.isClanInvite = self.isClanInvite

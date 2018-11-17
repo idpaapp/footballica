@@ -31,3 +31,4 @@ public class startWar {
         let next_bot_play : String?
     }
 }
+

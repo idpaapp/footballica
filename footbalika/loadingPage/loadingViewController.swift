@@ -82,10 +82,11 @@ class loadingViewController: UIViewController {
                         
                         loadingViewController.loadGameData = try JSONDecoder().decode(gameDataModel.Response.self , from : data!)
                         
-                        print("***************************\((loadingViewController.loadGameData?.response?.onLineTime!)!)")
                         
                         loadingViewController.OnlineTime = (loadingViewController.loadGameData?.response?.onLineTime!)!
                         
+                         print("***************************\(loadingViewController.OnlineTime)")
+                        onlineTime().OnlineTimer()
                         DispatchQueue.main.async {
                             PubProc.cV.hideWarning()
                             for i in 0...(loadingViewController.loadGameData?.response?.gameTypes.count)! - 1 {
@@ -254,7 +255,7 @@ class loadingViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    static var OnlineTime = Int64()
+    public static var OnlineTime = Int64()
 //    @objc func getOnlineTime() {
 //        PubProc.HandleDataBase.readJson(wsName: "ws_getOnlineTime", JSONStr: "{'matchID':'0'}") { data, error in
 //

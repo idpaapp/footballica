@@ -268,9 +268,8 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.delegate?.showProfile(id : "\((self.chatRes?.response?[sender.tag].user_id!)!)", isGroupDetailUser: false , completionHandler: {})
     }
     
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+        if login.res?.response?.calnData?.clanMembers != nil {
             switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
             case publicConstants().CHAT :
                 return UITableViewAutomaticDimension
