@@ -82,6 +82,8 @@
 		5C4B4660217B27330054F777 /* chatOtherUsersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C4B465E217B27330054F777 /* chatOtherUsersCell.xib */; };
 		5C4E36E120D911AE00B1DAB0 /* loginnots_achv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4E36E020D911AE00B1DAB0 /* loginnots_achv.swift */; };
 		5C4E36E320D9122C00B1DAB0 /* loginFavoriteteams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4E36E220D9122C00B1DAB0 /* loginFavoriteteams.swift */; };
+		5C4F8B1421A1343D00132621 /* promoteMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F8B1321A1343D00132621 /* promoteMember.swift */; };
+		5C4F8B1621A1345F00132621 /* demoteMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4F8B1521A1345F00132621 /* demoteMember.swift */; };
 		5C50355A210710640025B699 /* noFriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C503559210710640025B699 /* noFriendCell.swift */; };
 		5C50355C21071A680025B699 /* searchFriendsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C50355B21071A680025B699 /* searchFriendsCell.swift */; };
 		5C523CC72121AF3500642077 /* waitingBall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C523CC62121AF3500642077 /* waitingBall.swift */; };
@@ -313,6 +315,8 @@
 		5C4B465E217B27330054F777 /* chatOtherUsersCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = chatOtherUsersCell.xib; sourceTree = "<group>"; };
 		5C4E36E020D911AE00B1DAB0 /* loginnots_achv.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginnots_achv.swift; sourceTree = "<group>"; };
 		5C4E36E220D9122C00B1DAB0 /* loginFavoriteteams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginFavoriteteams.swift; sourceTree = "<group>"; };
+		5C4F8B1321A1343D00132621 /* promoteMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = promoteMember.swift; sourceTree = "<group>"; };
+		5C4F8B1521A1345F00132621 /* demoteMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = demoteMember.swift; sourceTree = "<group>"; };
 		5C503559210710640025B699 /* noFriendCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noFriendCell.swift; sourceTree = "<group>"; };
 		5C50355B21071A680025B699 /* searchFriendsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchFriendsCell.swift; sourceTree = "<group>"; };
 		5C523CC62121AF3500642077 /* waitingBall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waitingBall.swift; sourceTree = "<group>"; };
@@ -565,6 +569,7 @@
 			children = (
 				5C34C91620CFD6CF0095B968 /* achievementsViewController.swift */,
 				5C23EE9E21A03CB7000FE0CF /* achievementsReceive.swift */,
+				5C4F8B1221A1341D00132621 /* PromoteDemoteClanMember */,
 				5C6DE9AC219FF59200139892 /* groupCell */,
 				5C84D52720CCFFEE00A9DC67 /* achievementsCell.swift */,
 				5C07FF7821326F0900E8C0A1 /* changeUserNameAndPasswordCell.swift */,
@@ -804,6 +809,15 @@
 				5C4B465E217B27330054F777 /* chatOtherUsersCell.xib */,
 			);
 			path = otherUsers;
+			sourceTree = "<group>";
+		};
+		5C4F8B1221A1341D00132621 /* PromoteDemoteClanMember */ = {
+			isa = PBXGroup;
+			children = (
+				5C4F8B1321A1343D00132621 /* promoteMember.swift */,
+				5C4F8B1521A1345F00132621 /* demoteMember.swift */,
+			);
+			path = PromoteDemoteClanMember;
 			sourceTree = "<group>";
 		};
 		5C6DE9A9219FE05700139892 /* onlineTime */ = {
@@ -1588,11 +1602,13 @@
 				5C84D4F620CCFD2500A9DC67 /* ViewController.swift in Sources */,
 				5C6DE9AB219FE07700139892 /* onlineTime.swift in Sources */,
 				5CDC83582186DAD900F57852 /* clanGroups.swift in Sources */,
+				5C4F8B1621A1345F00132621 /* demoteMember.swift in Sources */,
 				5CF96F28213D3E6400B15CC7 /* massageViewController.swift in Sources */,
 				5C84D51E20CCFFBE00A9DC67 /* challengesViewController.swift in Sources */,
 				5CDB89E5217F28D200093006 /* clanDetailCell.swift in Sources */,
 				5C9FFCD620D8D1F3007A11C0 /* WritetblMatchTypes.swift in Sources */,
 				5C84D51C20CCFF9B00A9DC67 /* storeCell.swift in Sources */,
+				5C4F8B1421A1343D00132621 /* promoteMember.swift in Sources */,
 				5C06CFA3214F798400732DF7 /* tutorialViewController.swift in Sources */,
 				5CBB992920DE0AA000C17884 /* loadShopItems.swift in Sources */,
 				5CAEEFEE20D6404B00514842 /* gameDataModel.swift in Sources */,

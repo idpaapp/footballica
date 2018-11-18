@@ -31,9 +31,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     @objc func enterCreatedGroup() {
         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
-            self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
-            self.getChatroomData(isChatSend: false, completionHandler: {})
-            self.ChangeclanState()
+            DispatchQueue.main.async {
+                self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
+                self.getChatroomData(isChatSend: false, completionHandler: {})
+                self.ChangeclanState()
+            }
         })
     }
     
@@ -97,9 +99,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.topClanView.isHidden = false
         self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
         if getChats {
-            getChatroomData(isChatSend: false, completionHandler: {})
-            self.delegate?.clanJoinded()
-            self.clansTV.reloadData()
+            DispatchQueue.main.async {
+                self.getChatroomData(isChatSend: false, completionHandler: {})
+                self.delegate?.clanJoinded()
+                self.clansTV.reloadData()
+            }
         }
         self.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)")
         self.clanTitle.text = "\((login.res?.response?.calnData?.clan_title!)!)"
@@ -476,9 +480,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     @objc func refresh(_ sender: Any) {
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
-            getChatroomData(isChatSend: false, completionHandler: {
-                self.refreshControl.endRefreshing()
-            })
+            DispatchQueue.main.async {
+                self.getChatroomData(isChatSend: false, completionHandler: {
+                    self.refreshControl.endRefreshing()
+                })
+            }
         } else {
             self.refreshControl.endRefreshing()
         }
@@ -561,7 +567,9 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     @objc func updatePage() {
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
-        getChatroomData(isChatSend: false, completionHandler: {})
+            DispatchQueue.main.async {
+                self.getChatroomData(isChatSend: false, completionHandler: {})
+            }
         }
     }
     
@@ -596,6 +604,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                         PubProc.wb.hideWaiting()
                     }
                 } catch {
+                    
                     self.getChatroomData(isChatSend: isChatSend, completionHandler: {})
                     print(error)
                 }

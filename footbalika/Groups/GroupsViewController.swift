@@ -115,12 +115,14 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     func updateGroupInfo(id : String) {
+        DispatchQueue.main.async {
         self.isSelectedClan = true
         self.updateIsSelectedClan()
         self.checkIsClanSelected()
         self.cGroups.clanID = id
         self.cGroups?.getChatroomData(isChatSend: false, completionHandler: {})
         self.cGroups?.ChangeclanState()
+        }
     }
     
     func clanJoinded() {

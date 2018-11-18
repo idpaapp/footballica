@@ -8,7 +8,19 @@
 
 import UIKit
 
-class menuViewController: UIViewController {
+protocol achievementsViewControllerDelegate {
+    func updateClanData()
+    func dismissing()
+}
+
+class menuViewController: UIViewController  , achievementsViewControllerDelegate {
+    
+    
+    func updateClanData() {
+        self.delegate?.updatingClan()
+    }
+    
+    
     
     @IBOutlet weak var menuHeight: NSLayoutConstraint!
     
@@ -28,6 +40,7 @@ class menuViewController: UIViewController {
         return true
     }
     
+    var delegate : menuViewControllerDelegate!
     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     
@@ -243,6 +256,7 @@ class menuViewController: UIViewController {
                 vC.achievementCount = 5
                 }
             }
+            vC.delegate = self
         }
     }
     

@@ -324,36 +324,23 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? startMatchViewController {
-//            if self.gameListState == "currentGames" {
-//                vc.matchID = (self.res0?.response[self.selectedMatch].id)!
-//            } else {
-//                vc.matchID = (self.res1?.response[self.selectedMatch].id)!
-//            }
             vc.matchID = (self.res?.response[self.selectedMatch].id)!
         }
         if let vC = segue.destination as? menuViewController {
             vC.menuState = "profile"
+            vC.profileResponse = self.userStructure
         }
     }
     
     @objc func player1Select(_ sender : UIButton!) {
         getUserData(id : (self.res?.response[sender.tag].player1_id)!)
-//        if self.gameListState == "currentGames" {
-//            getUserData(id : (self.res0?.response[sender.tag].player1_id)!)
-//        } else {
-//            getUserData(id : (self.res1?.response[sender.tag].player1_id)!)
-//        }
     }
     
     @objc func player2Select(_ sender : UIButton!) {
         getUserData(id : (self.res?.response[sender.tag].player2_id)!)
-//        if self.gameListState == "currentGames" {
-//            getUserData(id : (self.res0?.response[sender.tag].player2_id)!)
-//        } else {
-//            getUserData(id : (self.res1?.response[sender.tag].player2_id)!)
-//        }
     }
     
+    var userStructure : loginStructure.Response? = nil
     @objc func getUserData(id : String) {
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false'}") { data, error in
             DispatchQueue.main.async {
@@ -368,7 +355,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                     
                     do {
                         
-                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        self.userStructure = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                         self.performSegue(withIdentifier: "showProfile", sender: self)
                         PubProc.wb.hideWaiting()
                     } catch {

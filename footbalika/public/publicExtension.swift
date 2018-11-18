@@ -67,6 +67,7 @@ public class fonts {
     public var iPhonefonts18 = UIFont(name: "DPA_Game", size: 18)!
     public var iPadfonts25 = UIFont(name: "DPA_Game", size: 25)!
     public var large35 = UIFont(name: "DPA_Game", size: 35)!
+    public var large200 = UIFont(name: "DPA_Game", size: 200)!
 }
 
 public class colors {

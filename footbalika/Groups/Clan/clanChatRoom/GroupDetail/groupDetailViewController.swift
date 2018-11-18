@@ -13,7 +13,20 @@ protocol createClanGroupViewControllerDelegate2 {
     func updateClanData()
 }
 
-class groupDetailViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout , UITableViewDelegate , UITableViewDataSource , createClanGroupViewControllerDelegate2 {
+protocol menuViewControllerDelegate {
+    func updatingClan()
+}
+
+class groupDetailViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout , UITableViewDelegate , UITableViewDataSource , createClanGroupViewControllerDelegate2 , menuViewControllerDelegate {
+    
+    func updatingClan() {
+        self.getClanData(id: (login.res?.response?.calnData?.clanid!)!, completionHandler: {
+            login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                self.setGroupButtons()
+                 self.delegate?.updateGroupInfo(id: self.id)
+            })
+        })
+    }
     
     var delegate : groupDetailViewControllerDelegate!
     var realm : Realm!
@@ -27,10 +40,10 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     
     func updateClanData() {
-        getClanData(id: self.id)
-        self.delegate?.updateGroupInfo(id: self.id)
+        getClanData(id: self.id, completionHandler: {
+            self.delegate?.updateGroupInfo(id: self.id)
+        })
     }
-    
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,7 +82,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
         if ((self.res?.response?.clanMembers?[indexPath.row].user_id!)!) == "\(loadingViewController.userid)" {
             self.isJoined = true
-            switch ((self.res?.response?.clanMembers?[indexPath.row].member_roll!)!){
+            switch ((self.res?.response?.clanMembers?[indexPath.row].member_roll!)!) {
             case publicConstants().teamCaptain:
                 self.isCharge = true
             case publicConstants().teamStarPlayer:
@@ -161,7 +174,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
     }
     
-    @objc func getClanData(id : String) {
+    @objc func getClanData(id : String , completionHandler : @escaping() -> Void) {
         PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'READ_CLAN' , 'clan_id' : '\(id)'}") { data, error in
             
             if data != nil {
@@ -171,7 +184,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                 }
                 
                 //                print(data ?? "")
-                
+                completionHandler()
                 do {
                     
                     self.res = try JSONDecoder().decode(clanGroup.Response.self , from : data!)
@@ -187,11 +200,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                     }
                     
                 } catch {
-                    self.getClanData(id: id)
+                    self.getClanData(id: id, completionHandler: {
+                    })
                     print(error)
                 }
             } else {
-                self.getClanData(id: id)
+                self.getClanData(id: id, completionHandler: {})
                 print("Error Connection")
                 print(error as Any)
                 // handle error
@@ -260,7 +274,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         setTitles()
         setGroupButtons()
         setupView(isHidden : true)
-        getClanData(id: self.id)
+        getClanData(id: self.id, completionHandler: {})
         
     }
     
@@ -329,7 +343,11 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     }
     
     @objc func setGroupButtons() {
-        self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: !isCharge, hideAction2: !isJoined, hideAction3: !isJoined )
+        if ((login.res?.response?.calnData?.member_roll!)!) != "1" {
+            self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: true, hideAction2: !isJoined, hideAction3: !isJoined )
+        } else {
+            self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: !isCharge, hideAction2: !isJoined, hideAction3: !isJoined )
+        }
     }
     
     @objc func joinGroup() {
@@ -348,7 +366,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
                             PubProc.wb.hideWaiting()
                             self.checkIsJoinIsCharge()
-                            self.getClanData(id: self.id)
+                            self.getClanData(id: self.id, completionHandler: {})
                             self.delegate?.joinOrLeaveGroup(state : "join" , clan_id : self.id)
                         })
                     } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
@@ -436,6 +454,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                     vc.profileResponse = login.res
                 }
             }
+            vc.delegate = self
         }
     }
 }

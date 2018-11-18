@@ -24,36 +24,46 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var acceptButtonLabel: UILabel!
     @IBOutlet weak var acceptButtonLabelForeGround: UILabel!
     
+    @IBOutlet weak var upgradeTitle: UILabel!
+    
     var alphaTimer : Timer!
     var TitleItem = String()
     var ImageItem = String()
     var isShopItem = Bool()
     var isPackage = Bool()
+    var isHomeUpgrade = Bool()
+    var upgradeText = String()
     var delegate : ItemViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         soundPlay().playBuyItem()
         
-        if !isPackage {
-        if isShopItem {
-        let dataDecoded:NSData = NSData(base64Encoded: ImageItem, options: NSData.Base64DecodingOptions(rawValue: 0))!
-        itemImage.image = UIImage(data: dataDecoded as Data)
+        if !isHomeUpgrade {
+            if !isPackage {
+                if isShopItem {
+                    let dataDecoded:NSData = NSData(base64Encoded: ImageItem, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                    itemImage.image = UIImage(data: dataDecoded as Data)
+                } else {
+                    itemImage.image = UIImage(named: "\(ImageItem)")
+                }
+            } else {
+                itemImage.setImageWithKingFisher(url: ImageItem)
+            }
         } else {
-          itemImage.image = UIImage(named: "\(ImageItem)")
-        }
-        } else {
-            itemImage.setImageWithKingFisher(url: ImageItem)
+            upgradeTitle.AttributesOutLine(font: fonts().large200, title: "\(self.upgradeText)", strokeWidth: -2.2)
+            itemImage.image = UIImage(named: "\(ImageItem)")
         }
         
         if UIDevice().userInterfaceIdiom == .phone {
-          headerTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(TitleItem)", strokeWidth: -6.0)
+            headerTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(TitleItem)", strokeWidth: -6.0)
             headerTitleForeGround.font = fonts().iPhonefonts
             acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: -6.0)
             acceptButtonLabelForeGround.font = fonts().iPhonefonts
         } else {
             
-           headerTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(TitleItem)", strokeWidth: -6.0)
+            headerTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(TitleItem)", strokeWidth: -6.0)
             headerTitleForeGround.font = fonts().iPadfonts
             acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: -6.0)
             acceptButtonLabelForeGround.font = fonts().iPhonefonts
@@ -62,23 +72,23 @@ class ItemViewController: UIViewController {
         acceptButtonLabelForeGround.text = "تأیید"
         headerTitleForeGround.text = TitleItem
         
-//       mainView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-//       headerImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-//       headerTitle.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-//       headerTitleForeGround.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-//       shinyImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-//       itemImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-//       doneOutlet.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-//
-//        UIView.animate(withDuration: 1.0, animations: {
-//                self.mainView.transform = CGAffineTransform.identity
-//                self.headerImage.transform = CGAffineTransform.identity
-//                self.headerTitle.transform = CGAffineTransform.identity
-//                self.headerTitleForeGround.transform = CGAffineTransform.identity
-//                self.shinyImage.transform = CGAffineTransform.identity
-//                self.itemImage.transform = CGAffineTransform.identity
-//                self.doneOutlet.transform = CGAffineTransform.identity
-//        })
+        //       mainView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        //       headerImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        //       headerTitle.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        //       headerTitleForeGround.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        //       shinyImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        //       itemImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        //       doneOutlet.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        //
+        //        UIView.animate(withDuration: 1.0, animations: {
+        //                self.mainView.transform = CGAffineTransform.identity
+        //                self.headerImage.transform = CGAffineTransform.identity
+        //                self.headerTitle.transform = CGAffineTransform.identity
+        //                self.headerTitleForeGround.transform = CGAffineTransform.identity
+        //                self.shinyImage.transform = CGAffineTransform.identity
+        //                self.itemImage.transform = CGAffineTransform.identity
+        //                self.doneOutlet.transform = CGAffineTransform.identity
+        //        })
         
     }
     
@@ -98,7 +108,7 @@ class ItemViewController: UIViewController {
             }
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

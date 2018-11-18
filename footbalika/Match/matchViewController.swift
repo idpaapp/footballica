@@ -129,15 +129,20 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         } else {
         PubProc.isSplash = true
         }
+        let lastLevel = (Int((login.res?.response?.mainInfo?.level)!)!)
         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+            if (Int((login.res?.response?.mainInfo?.level)!)!) != lastLevel {
+                self.upgradeImage = "ic_grade_badge"
+                self.upgradeTitle = "ارتقاء سطح به \(lastLevel+1)"
+                self.upgradeText = "\(lastLevel+1)"
+                self.performSegue(withIdentifier: "showUpgrade", sender: self)
+            } else {}
             self.fillData()
             DispatchQueue.main.async {
                 PubProc.wb.hideWaiting()
                 PubProc.isSplash = false
             }
         })
-        
-        
     }
     
     @objc func shakeFunstion() {
@@ -333,8 +338,19 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             vc.state = "WELCOME"
             vc.delegate = self
         }
+        
+        if let vc = segue.destination as? ItemViewController {
+            vc.isHomeUpgrade = true
+            vc.TitleItem = self.upgradeTitle
+            vc.ImageItem = self.upgradeImage
+            vc.upgradeText = self.upgradeText
+        }
     }
     
+    
+    var upgradeImage = String()
+    var upgradeTitle = String()
+    var upgradeText = String()
     @IBAction func showLeagus(_ sender: UIButton) {
         self.performSegue(withIdentifier: "leagueShow", sender: self)
     }

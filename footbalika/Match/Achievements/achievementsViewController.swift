@@ -19,6 +19,7 @@
     @IBOutlet weak var achievementsTV: UITableView!
     @IBOutlet weak var achievementLeaderBoardTopConstraint: NSLayoutConstraint!
     
+    var delegate : achievementsViewControllerDelegate!
     var pageState = String()
     var realm : Realm!
     var isClanInvite = false
@@ -643,7 +644,7 @@
                         cell.groupImage.setImageWithKingFisher(url: "\(urls().clan)\((self.profileResponse?.response?.calnData?.caln_logo!)!)")
                         cell.cupCountShow.cupCountLabel.text = "\((self.profileResponse?.response?.calnData?.clan_point!)!)"
                         
-                        switch (self.profileResponse?.response?.calnData?.clan_point!)! {
+                        switch (self.profileResponse?.response?.calnData?.member_roll!)! {
                         case publicConstants().teamCaptain:
                             cell.memberRoll.text = "کاپیتان"
                         case publicConstants().teamPlayer:
@@ -662,8 +663,12 @@
                                 let profileMemberRoll = Int((login.res?.response?.calnData?.member_roll!)!)
                                 let otherProfileMemberRoll = Int((self.profileResponse?.response?.calnData?.member_roll!)!)
 
+                                print(otherProfileMemberRoll)
                                 if profileMemberRoll! / otherProfileMemberRoll! < 1 {
                                     cell.promoteDemoteView.isHidden = false
+                                    cell.promoteDemoteView.action1.addTarget(self, action: #selector(promote), for: UIControlEvents.touchUpInside)
+                                    
+                                    cell.promoteDemoteView.action3.addTarget(self, action: #selector(demote), for: UIControlEvents.touchUpInside)
                                 } else {
                                     cell.promoteDemoteView.isHidden = true
                                 }
@@ -675,6 +680,8 @@
                 } else {
                     
                 }
+                
+                
                 return cell
             case 3 :
                 
@@ -801,6 +808,22 @@
         
     }
     
+    @objc func promote() {
+        promoteMember().promote(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!,
+            completionHandler: {String in
+            print(String)
+            self.delegate?.dismissing()
+            self.delegate?.updateClanData()
+        })
+    }
+    
+    @objc func demote() {
+        demoteMember().demoteMember(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!, completionHandler: {String in
+            print(String)
+            self.delegate?.dismissing()
+            self.delegate?.updateClanData()
+        })
+    }
     
     var reciverInvitationGroupId = String()
     @objc func iviteFriendToClan(_ sender : UIButton!) {
