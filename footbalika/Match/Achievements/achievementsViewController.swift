@@ -640,6 +640,8 @@
                 
                 if self.profileResponse?.response?.calnData?.clanMembers != nil {
                      if self.profileResponse?.response?.calnData?.clanMembers?.count != 0 {
+                        
+                        cell.showGroupButton.action1.addTarget(self, action: #selector(showGroup), for: UIControlEvents.touchUpInside)
                         cell.groupName.text = "\((self.profileResponse?.response?.calnData?.clan_title!)!)"
                         cell.groupImage.setImageWithKingFisher(url: "\(urls().clan)\((self.profileResponse?.response?.calnData?.caln_logo!)!)")
                         cell.cupCountShow.cupCountLabel.text = "\((self.profileResponse?.response?.calnData?.clan_point!)!)"
@@ -806,6 +808,10 @@
             }
         }
         
+    }
+    
+    @objc func showGroup() {
+        self.performSegue(withIdentifier: "showProfileGroup", sender: self)
     }
     
     @objc func promote() {
@@ -1345,6 +1351,11 @@
         if let vc = segue.destination as? changePassAndUserNameViewController {
             vc.isSignUp = self.isSignUp
             vc.isPasswordChange = self.isPass
+        }
+        
+        if let vc = segue.destination as? groupDetailViewController {
+            vc.id = (self.profileResponse?.response?.calnData?.clanid!)!
+            vc.isComeFromProfile = true
         }
     }
     

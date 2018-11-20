@@ -15,7 +15,6 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
     var realm : Realm!
     var delegate : groupMembersViewControllerDelegate!
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(self.membersCount)
         return self.membersCount
     }
     
@@ -25,7 +24,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         cell.topImage.image = publicImages().greenBall
         cell.bottomImage.image = publicImages().ic_timer
         cell.memberName.text = ((self.activeWarRes?.response?.members?[indexPath.row].username!)!)
-        cell.memberRole.text = ((self.activeWarRes?.response?.members?[indexPath.row].member_roll!)!)
+        cell.memberRole.text = ((self.activeWarRes?.response?.members?[indexPath.row].roll_title!)!)
         let url = "\(urls().avatar)\((self.activeWarRes?.response?.members?[indexPath.row].avatar!)!)"
         let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
         if realmID.count != 0 {
@@ -43,6 +42,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         } else {
             cell.memberLogo.setImageWithKingFisher(url: url2)
         }
+        
         cell.countNumber.text = "\(indexPath.row + 1)"
         cell.memberCup.text = "\((self.activeWarRes?.response?.members?[indexPath.row].user_point!)!)"
         cell.memberClanCup.text = "\((self.activeWarRes?.response?.members?[indexPath.row].user_time!)!)"
@@ -54,15 +54,49 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
     }
     
     var membersCount = Int()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         realm = try? Realm()
         self.clanMembersList.membersTV.dataSource = self
         self.clanMembersList.membersTV.delegate = self
         self.clanMembersList.membersTV.register(UINib(nibName: "groupMemberCell", bundle: nil), forCellReuseIdentifier: "groupMemberCell")
-        self.clanMembersList.useButton.addTarget(self, action: #selector(joiningClan), for: UIControlEvents.touchUpInside)
+        checkButtonAction()
     }
+    
+    var isActiveStartButton = Bool()
+    @objc func checkButtonAction() {
+        if isWarStart {
+            self.clanMembersList.useButton.addTarget(self, action: #selector(startClanWar), for: UIControlEvents.touchUpInside)
+            if self.activeWarRes?.response?.members != nil {
+            for i in 0...(self.activeWarRes?.response?.members?.count)! - 1 {
+                if (self.activeWarRes?.response?.members?[i].user_id!)! == loadingViewController.userid {
+                    
+                    if (self.activeWarRes?.response?.members?[i].status!)! == "2" {
+                        self.isActiveStartButton = false
+                        self.clanMembersList.useButton.setBackgroundImage(publicImages().inactiveLargeButton, for: UIControlState.normal)
+                    } else {
+                        self.isActiveStartButton = true
+                        self.clanMembersList.useButton.setBackgroundImage(publicImages().action_back_large_btn, for: UIControlState.normal)
+                    }
+                }
+                break
+            }
+            }
+            
+        } else {
+            self.isActiveStartButton = false
+            self.clanMembersList.useButton.addTarget(self, action: #selector(joiningClan), for: UIControlEvents.touchUpInside)
+        }
+    }
+    
+    @objc func startClanWar() {
+        if self.isActiveStartButton {
+            print("startWar")
+        }
+        
+    }
+    
+    
     
     @objc func enableOrDisableJoinWar(isEnable : Bool) {
         self.clanMembersList.useButton.isEnabled = isEnable
@@ -77,10 +111,20 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         }
     }
     
+    var isWarStart = false
     var isJoinActive = true
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         self.clanMembersList.mainView.round(corners: [.bottomLeft , .bottomRight], radius: 10)
+        
+        if isWarStart {
+            startWarUpdate()
+            self.clanMembersList.noPriceTitle.isHidden = false
+            self.clanMembersList.noPriceTitleForeGround.isHidden = false
+        } else {
+            self.clanMembersList.noPriceTitle.isHidden = true
+            self.clanMembersList.noPriceTitleForeGround.isHidden = true
         self.clanMembersList.useButtonPriceTitle.text = "پیوستن به بازی گروهی"
         self.clanMembersList.useButtonPrice.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingViewController.loadGameData?.response?.join_war_price!)!)", strokeWidth: 5.0)
         self.clanMembersList.useButtonPriceForeGround.font = fonts().iPhonefonts
@@ -92,6 +136,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
             self.clanMembersList.useButtonPriceIcon.image = publicImages().money
         default:
             self.clanMembersList.useButtonPriceIcon.image = UIImage()
+        }
         }
     }
     
@@ -125,8 +170,23 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
             if self.membersCount < 6 {
                 self.clanMembersList.warningTitle.text = "برای شروع بازی گروهی حداقل باید 6 نفر عضو شوند"
                 self.clanMembersList.warningTitle.textColor = publicColors().badNewsColor
-                self.clanMembersList.membersTV.reloadData()
+            } else {
+                self.clanMembersList.warningTitle.text = ""
             }
+            self.clanMembersList.membersTV.reloadData()
         }
+    }
+    
+    @objc func startWarUpdate() {
+        self.isWarStart = true
+        self.checkButtonAction()
+        self.clanMembersList.useButtonPrice.text = ""
+        self.clanMembersList.useButtonPriceForeGround.text = ""
+        self.clanMembersList.useButtonPriceTitle.text = ""
+        self.clanMembersList.noPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "شروع بازی", strokeWidth: -5.0)
+        self.clanMembersList.noPriceTitleForeGround.font = fonts().iPhonefonts
+        self.clanMembersList.useButtonPriceIcon.image = UIImage()
+        self.clanMembersList.noPriceTitleForeGround.text = "شروع بازی"
+        self.clanMembersList.useButton.setBackgroundImage(publicImages().action_back_large_btn, for: UIControlState.normal)
     }
 }

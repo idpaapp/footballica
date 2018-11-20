@@ -39,8 +39,6 @@ class clanMembersListView: UIView  {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.noPriceTitle.isHidden = true
-        self.noPriceTitleForeGround.isHidden = true
     }
     
     override init(frame: CGRect) {

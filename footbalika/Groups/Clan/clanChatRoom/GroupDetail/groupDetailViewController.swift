@@ -22,8 +22,9 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     func updatingClan() {
         self.getClanData(id: (login.res?.response?.calnData?.clanid!)!, completionHandler: {
             login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                self.id = (login.res?.response?.calnData?.clanid!)!
                 self.setGroupButtons()
-                 self.delegate?.updateGroupInfo(id: self.id)
+                self.delegate?.updateGroupInfo(id: self.id)
             })
         })
     }
@@ -34,6 +35,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     var res : clanGroup.Response? = nil
     let urlClass = urls()
     var menuState = String()
+    var isComeFromProfile = Bool()
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -80,36 +82,51 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             cell.mainView.backgroundColor = UIColor.init(red: 244/255, green: 244/255, blue: 241/255, alpha: 1.0)
         }
         
-        if ((self.res?.response?.clanMembers?[indexPath.row].user_id!)!) == "\(loadingViewController.userid)" {
-            self.isJoined = true
-            switch ((self.res?.response?.clanMembers?[indexPath.row].member_roll!)!) {
-            case publicConstants().teamCaptain:
-                self.isCharge = true
-            case publicConstants().teamStarPlayer:
-                self.isCharge = true
-            default :
-                self.isCharge = false
-            }
-        } else {
-            self.isJoined = false
-            self.isCharge = false
-        }
+//        if ((self.res?.response?.clanMembers?[indexPath.row].user_id!)!) == "\(loadingViewController.userid)" {
+//            self.isJoined = true
+//            switch ((self.res?.response?.clanMembers?[indexPath.row].member_roll!)!) {
+//            case publicConstants().teamCaptain:
+//                self.isCharge = true
+//            case publicConstants().teamStarPlayer:
+//                self.isCharge = true
+//            default :
+//                self.isCharge = false
+//            }
+//        } else {
+//            self.isJoined = false
+//            self.isCharge = false
+//        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.delegate?.showProfile(id: "\((self.res?.response?.clanMembers?[indexPath.row].user_id!)!)", isGroupDetailUser: true, completionHandler: {
-            if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
-                self.otherProfile = false
-            } else {
-                self.otherProfile = true
-            }
-            DispatchQueue.main.async {
-                self.menuState = "profile"
-                self.performSegue(withIdentifier: "showClanUserProfile", sender: self)
-            }
-        })
+        
+        if isComeFromProfile {
+            getProfileCheckFriend.init().getProfile(otherUserid: (self.res?.response?.clanMembers?[indexPath.row].user_id!)!, completionHandler: {
+                if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
+                    self.otherProfile = false
+                } else {
+                    self.otherProfile = true
+                }
+                DispatchQueue.main.async {
+                    self.menuState = "profile"
+                    self.performSegue(withIdentifier: "showClanUserProfile", sender: self)
+                }
+            })
+        } else {
+            self.delegate?.showProfile(id: "\((self.res?.response?.clanMembers?[indexPath.row].user_id!)!)", isGroupDetailUser: true, completionHandler: {
+                if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
+                    self.otherProfile = false
+                } else {
+                    self.otherProfile = true
+                }
+                DispatchQueue.main.async {
+                    self.menuState = "profile"
+                    self.performSegue(withIdentifier: "showClanUserProfile", sender: self)
+                }
+            })
+        }
     }
     
     var otherProfile = Bool()
@@ -343,6 +360,8 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     }
     
     @objc func setGroupButtons() {
+        print(isJoined)
+        print(isCharge)
         if ((login.res?.response?.calnData?.member_roll!)!) != "1" {
             self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: true, hideAction2: !isJoined, hideAction3: !isJoined )
         } else {
@@ -444,14 +463,18 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         }
         if let vc = segue.destination as? menuViewController {
             vc.menuState = self.menuState
-            if self.menuState == "friendsList" {
-                vc.isClanInvite = true
-                vc.friensRes = self.friendsRes
+            if isComeFromProfile {
+                vc.profileResponse = getProfileCheckFriend.profileResponse
             } else {
-                if self.otherProfile {
-                    vc.profileResponse = login.res2
+                if self.menuState == "friendsList" {
+                    vc.isClanInvite = true
+                    vc.friensRes = self.friendsRes
                 } else {
-                    vc.profileResponse = login.res
+                    if self.otherProfile {
+                        vc.profileResponse = login.res2
+                    } else {
+                        vc.profileResponse = login.res
+                    }
                 }
             }
             vc.delegate = self

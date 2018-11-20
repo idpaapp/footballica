@@ -453,7 +453,6 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                             PubProc.wb.hideWaiting()
                         }
                         
-                        
                     } catch {
                         self.searchingAction()
                         print(error)
