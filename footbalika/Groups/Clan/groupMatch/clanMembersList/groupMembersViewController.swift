@@ -89,9 +89,46 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         }
     }
     
+    var warQuestion : warQuestions.Response? = nil
     @objc func startClanWar() {
         if self.isActiveStartButton {
             print("startWar")
+                PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR_QUESTIONS' , 'user_id' : '\(loadingViewController.userid)'}") { data, error in
+                    
+                    if data != nil {
+                        
+                        DispatchQueue.main.async {
+                            PubProc.cV.hideWarning()
+                        }
+                        
+                        //                print(data ?? "")
+                        
+                        print(String(data: data!, encoding: String.Encoding.utf8)!)
+                        
+                        do {
+
+                            self.warQuestion = try JSONDecoder().decode(warQuestions.Response.self, from: data!)
+
+                            print(self.warQuestion?.response[0].title)
+                            
+                            self.delegate?.startAnswerWar(questions : self.warQuestion!)
+                            
+                        } catch {
+                            print(error)
+                        }
+                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                        }
+                        
+                    } else {
+                        self.startClanWar()
+                        print("Error Connection")
+                        print(error as Any)
+                        // handle error
+                    }
+                    }.resume()
+            
         }
         
     }

@@ -1128,9 +1128,11 @@
         case "alerts":
             if (self.alertsRes?.response?[indexPath.row].type!)! == "2" {
                 if UIDevice().userInterfaceIdiom == .phone {
-                    return 350
+//                    return 350
+                    return UITableViewAutomaticDimension
                 } else {
-                    return 350
+//                    return 350
+                    return UITableViewAutomaticDimension
                 }
             } else {
                 if UIDevice().userInterfaceIdiom == .phone {

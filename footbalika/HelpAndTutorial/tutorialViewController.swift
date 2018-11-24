@@ -20,7 +20,6 @@ protocol TutorialsDelegate {
 }
 
 
-
 class tutorialViewController: UIViewController , TutorialsDelegate {
     
     var matchData : matchDetails.Response? = nil;

@@ -32,6 +32,8 @@ class alertType1Cell: UITableViewCell {
         self.mainBackGround.layer.shadowRadius = 2.0
         self.mainBackGround.layer.shadowOpacity = 0.5
         self.mainBackGround.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.alertTitle.adjustsFontSizeToFitWidth = true
+        self.alertTitle.minimumScaleFactor = 0.5
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

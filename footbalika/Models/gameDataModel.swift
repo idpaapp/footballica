@@ -19,6 +19,7 @@ public class gameDataModel {
         let gameLeagues : [gameLeagues.response]
         let gameCharge : [gameCharge.response]
         let stadiumData : [stadiumData.response]
+        let ghesarSentences : [ghesarSentences]
         let userXps : [userXps.response]
         let onLineTime : Int64?
         let androidForceUpdateVersion : Int?
@@ -44,4 +45,9 @@ public class gameDataModel {
         let join_war_price_type : Int?
     }
     public var res : Response? = nil;
+    
+    public struct ghesarSentences : Decodable {
+       let id : String?
+       let desc_text : String?
+    }
 }

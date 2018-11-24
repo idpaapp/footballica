@@ -51,6 +51,9 @@
 		5C2AEF5120DE73AF00C5EEA6 /* leagueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2AEF5020DE73AF00C5EEA6 /* leagueCell.swift */; };
 		5C2B9ED12185EC7B00BCBB9F /* loginClanData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2B9ED02185EC7B00BCBB9F /* loginClanData.swift */; };
 		5C2E13EA217DE735003840D3 /* groupMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2E13E9217DE735003840D3 /* groupMatchViewController.swift */; };
+		5C30A41621A96D2200B41032 /* warQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30A41521A96D2200B41032 /* warQuestions.swift */; };
+		5C30A41A21A9777A00B41032 /* scoreBallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30A41821A9777A00B41032 /* scoreBallCell.swift */; };
+		5C30A41B21A9777A00B41032 /* scoreBallCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C30A41921A9777A00B41032 /* scoreBallCell.xib */; };
 		5C30B2E620E7A8D50008CDAA /* profile1Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30B2E520E7A8D50008CDAA /* profile1Cell.swift */; };
 		5C3418A520EB6C50001F93A4 /* menuAlert2Buttons.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C3418A420EB6C50001F93A4 /* menuAlert2Buttons.xib */; };
 		5C3418A720EB6C85001F93A4 /* menuAlert2Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3418A620EB6C85001F93A4 /* menuAlert2Buttons.swift */; };
@@ -288,6 +291,9 @@
 		5C2AEF5020DE73AF00C5EEA6 /* leagueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = leagueCell.swift; sourceTree = "<group>"; };
 		5C2B9ED02185EC7B00BCBB9F /* loginClanData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginClanData.swift; sourceTree = "<group>"; };
 		5C2E13E9217DE735003840D3 /* groupMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = groupMatchViewController.swift; sourceTree = "<group>"; };
+		5C30A41521A96D2200B41032 /* warQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = warQuestions.swift; sourceTree = "<group>"; };
+		5C30A41821A9777A00B41032 /* scoreBallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scoreBallCell.swift; sourceTree = "<group>"; };
+		5C30A41921A9777A00B41032 /* scoreBallCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = scoreBallCell.xib; sourceTree = "<group>"; };
 		5C30B2E520E7A8D50008CDAA /* profile1Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile1Cell.swift; sourceTree = "<group>"; };
 		5C3418A420EB6C50001F93A4 /* menuAlert2Buttons.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = menuAlert2Buttons.xib; sourceTree = "<group>"; };
 		5C3418A620EB6C85001F93A4 /* menuAlert2Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuAlert2Buttons.swift; sourceTree = "<group>"; };
@@ -548,6 +554,7 @@
 			isa = PBXGroup;
 			children = (
 				5C137BD721A4219A00237EC5 /* clanMatchFieldViewController.swift */,
+				5C30A41721A9773700B41032 /* scoreCVCell */,
 			);
 			path = clanMatchField;
 			sourceTree = "<group>";
@@ -705,6 +712,15 @@
 				5C89C4DD2196B4DC001E64E8 /* clanTimerView */,
 			);
 			path = groupMatch;
+			sourceTree = "<group>";
+		};
+		5C30A41721A9773700B41032 /* scoreCVCell */ = {
+			isa = PBXGroup;
+			children = (
+				5C30A41821A9777A00B41032 /* scoreBallCell.swift */,
+				5C30A41921A9777A00B41032 /* scoreBallCell.xib */,
+			);
+			path = scoreCVCell;
 			sourceTree = "<group>";
 		};
 		5C30B2E420E7A8B90008CDAA /* profile */ = {
@@ -1134,6 +1150,7 @@
 				5CECCCE0218DC40A002A2CCB /* createGroupLogo.swift */,
 				5C89C4E22196CD07001E64E8 /* getActiveWar.swift */,
 				5C14B9FB2196F9AC00B7A750 /* startWar.swift */,
+				5C30A41521A96D2200B41032 /* warQuestions.swift */,
 				5C055FFB20EA2D6C006267C1 /* connectionView */,
 			);
 			path = Models;
@@ -1462,6 +1479,7 @@
 				5C0CBDE4218493D9007B9C6E /* buyButton.xib in Resources */,
 				5C1D232C20F4CE6A00A6C126 /* whistle.mp3 in Resources */,
 				5C15C89E20EA130C0024E66C /* connectionView.xib in Resources */,
+				5C30A41B21A9777A00B41032 /* scoreBallCell.xib in Resources */,
 				5C6F538220E0A8F10037748F /* menuView.xib in Resources */,
 				5C4B4654217AFDF80054F777 /* clanGroupsCell.xib in Resources */,
 				5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */,
@@ -1615,6 +1633,7 @@
 				5C35D13E210DDD950086A414 /* shopDetailCell.swift in Sources */,
 				5C96230F218723C800A3481F /* clanChatRoom.swift in Sources */,
 				5C730C522120127300467711 /* predictMatchViewController.swift in Sources */,
+				5C30A41621A96D2200B41032 /* warQuestions.swift in Sources */,
 				5C402307217F391E00A06D40 /* groupDetailViewController.swift in Sources */,
 				5C137BD821A4219A00237EC5 /* clanMatchFieldViewController.swift in Sources */,
 				5C451DEE213E7DFD00970DE5 /* giftCodeReward.swift in Sources */,
@@ -1640,6 +1659,7 @@
 				5C6DE9BB21A0000700139892 /* cupCountView.swift in Sources */,
 				5CA52BF320E0B10800A58AFF /* menuCell.swift in Sources */,
 				5C430DDE20E3581E001C155B /* leaderBoardCell.swift in Sources */,
+				5C30A41A21A9777A00B41032 /* scoreBallCell.swift in Sources */,
 				5C9FFCF220D8F3FB007A11C0 /* login.swift in Sources */,
 				5C84D52A20CCFFEE00A9DC67 /* menuViewController.swift in Sources */,
 				5C9FFCDA20D8D59B007A11C0 /* tblShop.swift in Sources */,
