@@ -171,7 +171,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell
             print(indexPath.item)
-            let url = "\(((loadShop.res?.response?[0].items?[0].image!)!))"
+            let url = "\(((loadShop.res?.response?[0].items?[0].banner_image!)!))"
             let urls = URL(string: url)
             let resource = ImageResource(downloadURL: urls!, cacheKey: url)
             let processor = RoundCornerImageProcessor(cornerRadius: 10)

@@ -25,4 +25,7 @@ public class publicConstants {
     public var clanJoined = "0"
     public var magnifier = "1"
     public var war = "2"
+    public var defaultChatText2 = "...متن خود را بنویسید"
+    public var defaultChatText1 = "متن خود را بنویسید..."
+
 }

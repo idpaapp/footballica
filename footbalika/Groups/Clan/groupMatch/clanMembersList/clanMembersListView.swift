@@ -53,6 +53,9 @@ class clanMembersListView: UIView  {
         commonInit()
     }
     
+    override func layoutSubviews() {
+        self.mainView.round(corners: [.bottomRight , .bottomLeft], radius: 10)
+    }
     
     private func commonInit() {
         Bundle.main.loadNibNamed("clanMembersListView", owner: self, options: nil)

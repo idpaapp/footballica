@@ -94,6 +94,8 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     @objc func selectedClan(getChats : Bool) {
         self.bottomChatHeight.constant = 10
+        self.view.layoutIfNeeded()
+        self.view.layoutSubviews()
         self.chatViewHeight.constant = 60
         self.chatView.isHidden = false
         self.topClanView.isHidden = false
@@ -108,7 +110,6 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)")
         self.clanTitle.text = "\((login.res?.response?.calnData?.clan_title!)!)"
         self.clanCup.text = "\((login.res?.response?.calnData?.clan_point!)!)"
-        
     }
     
     
@@ -118,6 +119,8 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             self.selectedClan(getChats: true)
         } else {
             self.bottomChatHeight.constant = 0
+            self.view.layoutIfNeeded()
+            self.view.layoutSubviews()
             self.chatViewHeight.constant = 0
             self.chatView.isHidden = true
             self.topClanView.isHidden = true

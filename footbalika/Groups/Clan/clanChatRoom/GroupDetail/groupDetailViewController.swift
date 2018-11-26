@@ -212,6 +212,22 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         self.clanMembersTV.reloadData()
                         self.fillClanData()
                         self.setupView(isHidden : false)
+                        
+                        if login.res?.response?.calnData != nil {
+                            if login.res?.response?.calnData?.clanid != nil {
+                                
+                                if (login.res?.response?.calnData?.clanid!)! != self.id {
+                                    self.isJoined = false
+                                    self.isCharge = false
+                                }
+                            } else {
+                                
+                            }
+                            
+                        } else {
+                            
+                        }
+                        
                         self.setGroupButtons()
                         PubProc.wb.hideWaiting()
                     }
@@ -390,11 +406,19 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         })
                     } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
                         self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
+                        self.alertBody = "شما کاپ مورد نیاز گروه را ندارید"
+                        self.performSegue(withIdentifier: "clanAlert", sender: self)
                     } else if ((Res)!).contains("USER_HAS_CLAN") {
-                        self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+//                        self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+                        self.alertBody = "شما قبلاً عضو یک گروه هستید!"
+                        self.performSegue(withIdentifier: "clanAlert", sender: self)
                     } else {
                         self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
+                        self.alertBody = "شما امکان انجام این کار را ندارید!"
+                        self.performSegue(withIdentifier: "clanAlert", sender: self)
+
                     }
+                    
                     PubProc.wb.hideWaiting()
                 }
             } else {
@@ -455,6 +479,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         self.dismiss(animated : true , completion : nil)
     }
     
+    var alertBody = String()
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? createClanGroupViewController {
             vc.state = "editClan"
@@ -478,6 +503,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                 }
             }
             vc.delegate = self
+        }
+        
+        if let vc = segue.destination as? menuAlertViewController {
+            vc.alertTitle = "فوتبالیکا"
+            vc.alertBody = self.alertBody
+            vc.alertAcceptLabel = "تأیید"
         }
     }
 }

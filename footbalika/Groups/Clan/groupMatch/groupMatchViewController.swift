@@ -145,6 +145,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                             case publicConstants().magnifier :
                                 self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: false, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: false)
                                 self.state = "Searching"
+                                self.setGhesarSentences()
                                 self.setupClanTime()
                                 if !self.updateSearch {
                                     self.magnifierState()
@@ -269,6 +270,30 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         calculatingTimeLeft()
     }
     
+    @objc func setGhesarSentences() {
+        self.ghesarCount = self.ghesarCount + 1
+        
+        if self.ghesarCount == 20 {
+            self.ghesarCount = 0
+        } else  {
+            if self.ghesarCount == 1 {
+                var randomGhesar = arc4random_uniform(UInt32((loadingViewController.loadGameData?.response?.ghesarSentences.count)!))
+                while self.currentGhesar == randomGhesar {
+                    randomGhesar = arc4random_uniform(UInt32((loadingViewController.loadGameData?.response?.ghesarSentences.count)!))
+                }
+                self.currentGhesar = Int(randomGhesar)
+                
+                self.ghesarSentencesLabel.text = (loadingViewController.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
+                
+            } else {
+                
+                self.ghesarSentencesLabel.text = (loadingViewController.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
+                
+            }
+            
+        }
+    }
+    
     var currentTime = DateComponents()
     var updateSearch = Bool()
     @objc func calculatingTimeLeft() {
@@ -365,28 +390,6 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         self.clanTimer.clanTimerCounter.text = "\(differenceOfDate.hour!):\(minutes):\(seconds)"
         
         self.cTimer?.updateTimer(time: "\(differenceOfDate.hour!):\(minutes):\(seconds)")
-       
-       self.ghesarCount = self.ghesarCount + 1
-        
-        if self.ghesarCount == 20 {
-            self.ghesarCount = 0
-        } else  {
-            if self.ghesarCount == 1 {
-                var randomGhesar = arc4random_uniform(UInt32((loadingViewController.loadGameData?.response?.ghesarSentences.count)!))
-                while self.currentGhesar == randomGhesar {
-                    randomGhesar = arc4random_uniform(UInt32((loadingViewController.loadGameData?.response?.ghesarSentences.count)!))
-                }
-                self.currentGhesar = Int(randomGhesar)
-                
-                self.ghesarSentencesLabel.text = (loadingViewController.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
-                
-            } else {
-                
-                self.ghesarSentencesLabel.text = (loadingViewController.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
-                
-            }
-            
-        }
         
         if differenceOfDate.hour! == 0 && minutes == "00" && seconds == "00" {
             self.clanTimer.isHidden = true

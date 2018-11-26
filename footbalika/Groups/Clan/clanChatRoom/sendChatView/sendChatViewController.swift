@@ -28,6 +28,8 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
         return true
     }
     
+    var isEmptyTextView = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,6 +45,8 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
         self.clearChatTextView.addTarget(self, action: #selector(clearChatTexs), for: UIControlEvents.touchUpInside)
         self.clearChatTextView.isHidden = true
         self.chatTextView.delegate = self
+        checkingEmptyTextView()
+        self.chatTextView.text = publicConstants().defaultChatText1
     }
     
     
@@ -59,12 +63,45 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
         return numberOfChars < 701    // 701 Limit Value
     }
     
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if self.chatTextView.text! == "" {
+            self.isEmptyTextView = true
+            checkingEmptyTextView()
+        } else {
+            self.isEmptyTextView = false
+            checkingEmptyTextView()
+        }
+    }
+    
+    @objc func checkingEmptyTextView() {
+        if self.isEmptyTextView {
+            self.chatTextView.text = publicConstants().defaultChatText2
+            self.chatTextView.textColor = .lightGray
+        } else {
+            self.chatTextView.text = self.chatTextView.text!
+            self.chatTextView.textColor = publicColors().textColor
+        }
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+         if self.isEmptyTextView {
+            self.chatTextView.text = ""
+         } else {
+            self.chatTextView.text = self.chatTextView.text!
+        }
+        self.chatTextView.textColor = publicColors().textColor
+        self.chatTextView.textAlignment = .right
+        return true
+    }
+    
     @objc func textViewDidChange(_ textField: UITextView) {
 
         self.textForSend = self.chatTextView.text!
         if self.chatTextView.text! == "" {
+            self.isEmptyTextView = true
             self.clearChatTextView.isHidden = true
         } else {
+            self.isEmptyTextView = false
             self.clearChatTextView.isHidden = false
         }
         

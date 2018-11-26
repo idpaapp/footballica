@@ -39,6 +39,7 @@ public class publicColors {
     public var startGroupGameColor = #colorLiteral(red: 0.2705882353, green: 0.01568627451, blue: 0.4666666667, alpha: 1)
     public var goodNewsColor = #colorLiteral(red: 0.3828445673, green: 0.8042317033, blue: 0.5987154245, alpha: 1)
     public var badNewsColor = #colorLiteral(red: 0.8323555589, green: 0.2498360276, blue: 0.1824916899, alpha: 1)
+    public var textColor = #colorLiteral(red: 0.1294117647, green: 0.1294117647, blue: 0.1294117647, alpha: 1)
 }
 
 public class publicImages {
@@ -47,6 +48,7 @@ public class publicImages {
     public var normalAnswerImage = UIImage(named: "answer_btn")
     public var redBall = UIImage(named: "ic_red_ball")
     public var greenBall = UIImage(named: "ic_green_ball")
+    public var grayBall = UIImage(named: "ic_gray_ball")
     public var radioButtonFill = UIImage(named : "radioButtonFill")
     public var radioButtonEmpty = UIImage(named : "radioButtonEmpty")
     public var emptyImage = UIImage()

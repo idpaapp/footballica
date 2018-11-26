@@ -17,6 +17,7 @@ public class loadShopItems {
         let id : String?
         let title : String?
         let image : String?
+        let banner_image : String?
         let type : String?
         let price : String?
         let price_type : String?
