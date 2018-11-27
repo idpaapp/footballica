@@ -13,17 +13,25 @@ protocol groupMembersViewControllerDelegate {
     func startAnswerWar(questions : warQuestions.Response)
 }
 
-class groupMatchViewController: UIViewController , groupMembersViewControllerDelegate {
+protocol clanMatchFieldViewControllerDelegate {
+    func updateAfterFinishGame()
+}
+
+class groupMatchViewController: UIViewController , groupMembersViewControllerDelegate , clanMatchFieldViewControllerDelegate {
     
     @IBOutlet weak var clanResultsContainerView: UIView!
     
     @IBOutlet weak var timerContainerView: UIView!
     
-    
+    func updateAfterFinishGame() {
+        self.isClanMatchField = false
+    }
     var warQuestions :  warQuestions.Response? = nil
+    var isClanMatchField = Bool()
     func startAnswerWar(questions : warQuestions.Response) {
         self.warQuestions = questions
         DispatchQueue.main.async {
+            self.isClanMatchField = true
             self.performSegue(withIdentifier: "clanMatchField", sender: self)
         }
     }
@@ -94,6 +102,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     var activeWarRes : getActiveWar.Response? = nil
     
     @objc func updateclanGamePage() {
+        if !isClanMatchField {
         PubProc.isSplash = true
         DispatchQueue.main.async {
             self.bombCount.text = "\(((login.res?.response?.mainInfo?.bomb)!)!)"
@@ -150,7 +159,10 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                                 if !self.updateSearch {
                                     self.magnifierState()
                                     self.updateSearch = true
+                                    if !self.isUpdated {
                                     self.startGameTimer()
+                                     self.isUpdated = true
+                                    }
                                 }
                                  self.members?.isWarStart = false
                             case publicConstants().war :
@@ -184,6 +196,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                 // handle error
             }
             }.resume()
+        }
     }
     
     override func viewDidLoad() {
@@ -272,8 +285,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     @objc func setGhesarSentences() {
         self.ghesarCount = self.ghesarCount + 1
-        
-        if self.ghesarCount == 20 {
+        if self.ghesarCount == 30 {
             self.ghesarCount = 0
         } else  {
             if self.ghesarCount == 1 {
@@ -468,6 +480,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         
         if let vc = segue.destination as? clanMatchFieldViewController {
             vc.warQuestions = self.warQuestions
+            vc.delegate = self
         }
         
         

@@ -100,6 +100,11 @@ class menuAlertViewController: UIViewController {
                 let passData : [String:Bool] = ["isPass" : false]
                 let nc = NotificationCenter.default
                 nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
+                
+                } else if self.alertState == "clanMatch" {
+                    
+                    
+                    
             } else if self.alertState == "signUpError" {
                 self.delegate?.dismissingMA2()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {

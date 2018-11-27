@@ -23,7 +23,6 @@ class ItemViewController: UIViewController {
     @IBOutlet weak var doneOutlet: RoundButton!
     @IBOutlet weak var acceptButtonLabel: UILabel!
     @IBOutlet weak var acceptButtonLabelForeGround: UILabel!
-    
     @IBOutlet weak var upgradeTitle: UILabel!
     
     var alphaTimer : Timer!
@@ -37,6 +36,7 @@ class ItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         soundPlay().playBuyItem()
         
@@ -92,9 +92,23 @@ class ItemViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         alphaTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateAlpha), userInfo: nil, repeats: true)
+        self.upgradeTitle.isHidden = true
+        self.itemImage.isHidden = true
+        self.upgradeTitle.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+        self.itemImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+        self.upgradeTitle.isHidden = false
+        self.itemImage.isHidden = false
+        UIView.animate(withDuration: 0.5) {
+            self.upgradeTitle.transform = CGAffineTransform.identity
+            self.itemImage.transform = CGAffineTransform.identity
+        }
     }
     
     @objc func updateAlpha() {

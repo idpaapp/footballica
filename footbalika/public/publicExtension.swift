@@ -40,6 +40,9 @@ public class publicColors {
     public var goodNewsColor = #colorLiteral(red: 0.3828445673, green: 0.8042317033, blue: 0.5987154245, alpha: 1)
     public var badNewsColor = #colorLiteral(red: 0.8323555589, green: 0.2498360276, blue: 0.1824916899, alpha: 1)
     public var textColor = #colorLiteral(red: 0.1294117647, green: 0.1294117647, blue: 0.1294117647, alpha: 1)
+    public var warProgressTopColor = #colorLiteral(red: 0.09019607843, green: 0.968627451, blue: 0.9647058824, alpha: 1)
+    public var warProgressMiddleColor = #colorLiteral(red: 0.05882352941, green: 0.6941176471, blue: 0.9803921569, alpha: 1)
+    public var warProgressBottomColor = #colorLiteral(red: 0.07450980392, green: 0.6745098039, blue: 0.9411764706, alpha: 1)
 }
 
 public class publicImages {
@@ -61,6 +64,8 @@ public class publicImages {
     public var action_back_large_btn = UIImage(named: "action_back_large_btn")
     public var label_back_dark = UIImage(named: "label_back_dark")
     public var accept_btn = UIImage(named: "accept_btn")
+    public var bomb = UIImage(named: "bomb")
+    public var freezeTimer = UIImage(named: "freeze_timer")
 }
 
 public class fonts {
@@ -607,5 +612,17 @@ extension UIImageView {
 extension UILabel {
     func setLabelBackGroundImage(image : UIImage) {
         self.backgroundColor = UIColor(patternImage: image)
+    }
+}
+
+extension UIImage {
+    func noir() -> UIImage {
+        let context = CIContext(options: nil)
+        let currentFilter = CIFilter(name: "CIPhotoEffectNoir")
+        currentFilter!.setValue(CIImage(image: self), forKey: kCIInputImageKey)
+        let output = currentFilter!.outputImage
+        let cgimg = context.createCGImage(output!, from: output!.extent)
+        let processedImage = UIImage(cgImage: cgimg!, scale: scale, orientation: imageOrientation)
+        return processedImage
     }
 }

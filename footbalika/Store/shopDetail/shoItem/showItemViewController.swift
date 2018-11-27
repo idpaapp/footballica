@@ -79,7 +79,7 @@ class showItemViewController: UIViewController {
             itemPriceTitleForeGround.text = "\(price)"
             switch priceType {
             case "1":
-                itemPriceIcon.image = UIImage()
+                itemPriceIcon.image = publicImages().emptyImage
             case "2":
                 itemPriceIcon.image = UIImage(named: "ic_coin")
             case "3":

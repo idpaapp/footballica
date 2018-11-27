@@ -12,11 +12,11 @@ import RealmSwift
 
 class clanMatchFieldViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
     
-    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
+    var delegate : clanMatchFieldViewControllerDelegate!
     
     var realm : Realm!
     
@@ -66,9 +66,12 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     
     @IBOutlet weak var backGroundStadiumImage: KBImageView!
     
+    @IBOutlet weak var progressBar: UIProgressView!
+    
     var warQuestions : warQuestions.Response? = nil 
     
     var answers = [Int]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,30 +102,140 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         
         setConstraints()
         setButtonsActions()
+        checkBombandFreeze()
+        countingTime()
+        
+    }
+    
+    var time = Float()
+    func countingTime() {
+        self.time = Float((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!)
+    }
+    
+    @objc func checkBombandFreeze() {
+        if Int(((login.res?.response?.mainInfo?.bomb)!)!)! > 0 {
+        } else {
+            disabledBomb()
+            self.bomb.isUserInteractionEnabled = false
+        }
+        if Int(((login.res?.response?.mainInfo?.freeze)!)!)! > 0 {
+        } else {
+            disabledFreezeTimer()
+            self.freezTimer.isUserInteractionEnabled = false
+        }
+    }
+    
+    
+    @objc func disabledBomb() {
+        self.bomb.setImage(publicImages().bomb!.noir(), for: UIControlState.normal)
+    }
+    
+    @objc func disabledFreezeTimer() {
+        self.freezTimer.setImage(publicImages().freezeTimer!.noir(), for: UIControlState.normal)
         
     }
     
     @objc func setButtonsActions() {
         self.answer1Outlet.addTarget(self, action: #selector(answer1Action), for: .touchUpInside)
-       self.answer2Outlet.addTarget(self, action: #selector(answer2Action), for: .touchUpInside)
-       self.answer3Outlet.addTarget(self, action: #selector(answer3Action), for: .touchUpInside)
-       self.answer4Outlet.addTarget(self, action: #selector(answer4Action), for: .touchUpInside)
+        self.answer2Outlet.addTarget(self, action: #selector(answer2Action), for: .touchUpInside)
+        self.answer3Outlet.addTarget(self, action: #selector(answer3Action), for: .touchUpInside)
+        self.answer4Outlet.addTarget(self, action: #selector(answer4Action), for: .touchUpInside)
+        self.bomb.addTarget(self, action: #selector(bombAction), for: UIControlEvents.touchUpInside)
+        self.freezTimer.addTarget(self, action: #selector(freezAction), for: UIControlEvents.touchUpInside)
     }
     
-    @objc func answer1Action() {
+    @objc func bombAction() {
+        self.bomb.isUserInteractionEnabled = false
+        disabledBomb()
+        //        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
         
+        
+    }
+    
+    var isFreez = Bool()
+    @objc func freezAction() {
+        self.freezTimer.isUserInteractionEnabled = false
+        disabledFreezeTimer()
+        self.isFreez = true
+        //        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
+        
+    }
+    
+    
+    @objc func answer1Action() {
+        checkAnswer(answerSelectedIndex: 1)
+        DisableEnableInterFace(State : false)
     }
     
     @objc func answer2Action() {
-        
+        checkAnswer(answerSelectedIndex: 2)
+        DisableEnableInterFace(State : false)
     }
     
     @objc func answer3Action() {
-        
+        checkAnswer(answerSelectedIndex: 3)
+        DisableEnableInterFace(State : false)
     }
     
     @objc func answer4Action() {
+        checkAnswer(answerSelectedIndex: 4)
+        DisableEnableInterFace(State : false)
+    }
+    
+    func checkAnswer(answerSelectedIndex : Int) {
+        self.currentQuestion = self.currentQuestion + 1
+        if answerSelectedIndex == correctAnswer {
+            self.answers[self.currentQuestion - 1] = 2
+            UIView.animate(withDuration: 0.3) {
+                DispatchQueue.main.async {
+                    self.scoreCV.reloadData()
+                }
+            }
+            soundPlay().playCorrectAnswerSound()
+            switch answerSelectedIndex {
+            case 1:
+                self.answer1Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+            case 2:
+                self.answer2Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+            case 3:
+                self.answer3Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+            default :
+                self.answer4Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+            }
+        } else {
+            soundPlay().playWrongAnswerSound()
+            self.answers[self.currentQuestion - 1] = 1
+            UIView.animate(withDuration: 0.3) {
+                DispatchQueue.main.async {
+                    self.scoreCV.reloadData()
+                }
+            }
+            switch answerSelectedIndex {
+            case 1:
+                self.answer1Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+            case 2:
+                self.answer2Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+            case 3:
+                self.answer3Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+            default :
+                self.answer4Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+            }
+            
+            switch correctAnswer {
+            case 1:
+                self.answer1Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+            case 2:
+                self.answer2Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+            case 3:
+                self.answer3Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+            default :
+                self.answer4Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
+            }
+        }
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.hideQuestion()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -148,10 +261,20 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.startMatch()
+            self.restMatchFunction()
         }
     }
     
-    var currentQuestion = Int()
+    func restMatchFunction() {
+        if musicPlay.musicPlayer?.isPlaying == true {
+            musicPlay().playMenuMusic()
+        } else {}
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            self.beforeMatchTimer()
+//        }
+    }
+    
+    var currentQuestion = 0
     var correctAnswer = Int()
     
     func startMatch() {
@@ -169,16 +292,38 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
             musicPlay().playQuizeMusic()
         }
         
-        correctAnswer = (self.warQuestions?.response[currentQuestion].ans_correct_id!)!
         var questionImage = String()
-        if self.warQuestions?.response[currentQuestion].q_image != nil {
-            questionImage = (self.warQuestions?.response[currentQuestion].q_image!)!
+        if (self.warQuestions?.response[self.currentQuestion].q_image!)! != "" {
+            questionImage = (self.warQuestions?.response[self.currentQuestion].q_image!)!
         } else {
             questionImage = ""
         }
-        showQuestion(questionTitle: "\((self.warQuestions?.response[currentQuestion].title!)!)", answer1: "\((self.warQuestions?.response[currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.warQuestions?.response[currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.warQuestions?.response[currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.warQuestions?.response[currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.warQuestions?.response[currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
+        showQuestion(questionTitle: "\((self.warQuestions?.response[self.currentQuestion].title!)!)", answer1: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.warQuestions?.response[self.currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
+        
+        timerHand()
+        updateProgressBar()
     }
     
+    @objc func updateProgressBar() {
+        self.progressBar.progress = 1
+        UIView.animate(withDuration: TimeInterval((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!), animations: { () -> Void in
+            self.progressBar.setProgress(0, animated: true)
+        })
+    }
+    
+    var gameTimer : Timer!
+    
+    func timerHand() {
+        gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateTimer), userInfo: nil, repeats: true)
+    }
+    
+    @objc func UpdateTimer() {
+        self.time = self.time - 1
+        if self.time == 0 {
+            self.checkFinishGame = true
+        }
+        
+    }
     
     
     func showQuestion(questionTitle : String , answer1 : String , answer2 : String , answer3 : String , answer4 : String , correctAnswer : Int , questionImage : String) {
@@ -211,7 +356,8 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.answer3Outlet.titleLabel?.minimumScaleFactor = 0.5
         self.answer4Outlet.titleLabel?.minimumScaleFactor = 0.5
         
-        
+        self.correctAnswer = (self.warQuestions?.response[self.currentQuestion].ans_correct_id!)!
+
         let dataDecoded:NSData = NSData(base64Encoded: questionImage , options: NSData.Base64DecodingOptions(rawValue: 0))!
         self.imageQuestion.image = UIImage(data: dataDecoded as Data)
         UIView.animate(withDuration: 0.8) {
@@ -255,7 +401,82 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         }
         self.bomb.isUserInteractionEnabled = true
         self.freezTimer.isUserInteractionEnabled = true
-        currentQuestion = currentQuestion + 1
+    }
+    
+    var checkFinishGame = Bool()
+    func hideQuestion() {
+        if self.isFreez {
+            gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateTimer), userInfo: nil, repeats: true)
+            self.isFreez = false
+        } else {}
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.imageQuestionTitle.text = " "
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            if self.currentQuestion == (self.warQuestions?.response.count)! {
+                if self.time  <= 0 {
+                    if self.checkFinishGame == false {
+                        self.checkFinishGame = true
+                        self.view.isUserInteractionEnabled = false
+                        DispatchQueue.main.async {
+                            if musicPlay.musicPlayer?.isPlaying == true {
+                                musicPlay().playQuizeMusic()
+                            } else {}
+                            self.DisableEnableInterFace(State : false)
+                            self.performSegue(withIdentifier: "gameOver", sender: self)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                                self.view.isUserInteractionEnabled = true
+                            })
+                            soundPlay().playEndGameSound()
+                        }
+                    }
+                } else {
+                    if musicPlay.musicPlayer?.isPlaying == true {
+                    } else {musicPlay().playQuizeMusic()}
+                    self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.UpdateTimer), userInfo: nil, repeats: true)
+                }
+            }
+        }
+        
+        UIView.animate(withDuration: 0.8) {
+            self.questionTitleConstraint.constant = -((UIScreen.main.bounds.height / 3) + 50)
+            self.answer1Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5) + 30)
+            self.answer3Constraint.constant = -((2 * UIScreen.main.bounds.width / 5) + 30)
+            self.answer2Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5 ) + 30)
+            self.answer4Constraint.constant = -((2 * UIScreen.main.bounds.width / 5 ) + 30)
+            self.view.layoutIfNeeded()
+        }
+        
+        if self.currentQuestion < (self.warQuestions?.response.count)! {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
+                self.answer1Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
+                self.answer2Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
+                self.answer3Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
+                self.answer4Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
+                self.correctAnswer = (self.warQuestions?.response[self.currentQuestion].ans_correct_id!)!
+                var questionImage = String()
+                if self.warQuestions?.response[self.currentQuestion].q_image != nil {
+                    questionImage = (self.warQuestions?.response[self.currentQuestion].q_image!)!
+                } else {
+                    questionImage = ""
+                }
+                
+                self.showQuestion(questionTitle: "\((self.warQuestions?.response[self.currentQuestion].title!)!)", answer1: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.warQuestions?.response[self.currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
+            })
+        } else {
+            if self.checkFinishGame == false {
+                self.checkFinishGame = true
+                musicPlay().playQuizeMusic()
+                self.gameTimer.invalidate()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    musicPlay().playMenuMusic()
+                }
+                self.delegate?.updateAfterFinishGame()
+                dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     @objc func DisableEnableInterFace(State : Bool) {
@@ -263,6 +484,8 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.answer2Outlet.isUserInteractionEnabled = State
         self.answer3Outlet.isUserInteractionEnabled = State
         self.answer4Outlet.isUserInteractionEnabled = State
+        self.bomb.isUserInteractionEnabled = State
+        self.freezTimer.isUserInteractionEnabled = State
     }
     
     @objc func setExclusiveTouches() {
@@ -352,27 +575,18 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         return CGSize(width: UIScreen.main.bounds.width / CGFloat((self.warQuestions?.response.count)!) , height: 45)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let VC = segue.destination as? menuAlertViewController {
+            VC.alertTitle = "اخطار"
+            VC.alertBody = "وقت تمام شد"
+            VC.alertAcceptLabel = "تأیید"
+            VC.alertState = "clanMatch"
+        }
+    }
     
 }
 
-//    self.bomb.addTarget(self, action: #selector(bombAction), for: UIControlEvents.touchUpInside)
-//    self.freezTimer.addTarget(self, action: #selector(freezAction), for: UIControlEvents.touchUpInside)
-//
-//var res : questionsList.Response? = nil;
-//
-//
-//func restMatchFunction() {
-//    updateGameResault()
-//    if musicPlay.musicPlayer?.isPlaying == true {
-//        musicPlay().playMenuMusic()
-//    } else {}
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//        self.beforeMatchTimer()
-//    }
-//}
-//
-//
-//
+
 //var timerCount = -1
 //let AlertState = "matchField"
 //var startDate = Date()
@@ -419,190 +633,14 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
 //    }
 //}
 //
-//override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//    if let VC = segue.destination as? menuAlertViewController {
-//        self.watchView.updateProgress(75)
-//        self.timerLabel.text = "45"
-//        VC.alertTitle = "اخطار"
-//        VC.alertBody = "وقت تمام شد"
-//        VC.alertAcceptLabel = "تأیید"
-//        VC.alertState = AlertState
-//        VC.matchField = self
-//    }
-//}
-//
-//
-//var time : CGFloat = 0
-//var gameTimer : Timer!
-//
-//func timerHand() {
-//
-//    gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
-//
-//}
-//
 //var currentQuestion = 0
 //var correctAnswer = Int()
 //var Score = Int()
 //
 //
 //
-
 //}
 //
-//func hideQuestion() {
-//    if self.isFreez {
-//        checkBombAndFreez()
-//        gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateWatch), userInfo: nil, repeats: true)
-//        self.isFreez = false
-//    } else {}
-//
-//    self.freezTimer.isUserInteractionEnabled = false
-//    self.bomb.isUserInteractionEnabled = false
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-//        self.imageQuestionTitle.text = " "
-//    }
-//
-//    let doubleCheckTimer : CGFloat = time
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//        if self.currentQuestion < 3 &&  doubleCheckTimer == self.time {
-//            self.time = self.time + 0.0165
-//            self.timerCount = self.timerCount + 1
-//            if self.timerCount >= 45 {
-//                if self.checkFinishGame == false {
-//                    self.checkFinishGame = true
-//                    self.view.isUserInteractionEnabled = false
-//                    DispatchQueue.main.async {
-//                        if musicPlay.musicPlayer?.isPlaying == true {
-//                            musicPlay().playQuizeMusic()
-//                        } else {}
-//                        self.DisableEnableInterFace(State : false)
-//                        self.performSegue(withIdentifier: "gameOver", sender: self)
-//                        NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-//                            self.view.isUserInteractionEnabled = true
-//                        })
-//                        soundPlay().playEndGameSound()
-//                    }
-//                }
-//            } else {
-//                if musicPlay.musicPlayer?.isPlaying == true {
-//                } else {musicPlay().playQuizeMusic()}
-//                self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.updateWatch), userInfo: nil, repeats: true)
-//            }
-//        }
-//    }
-//
-//    UIView.animate(withDuration: 0.8) {
-//        self.questionTitleConstraint.constant = -((UIScreen.main.bounds.height / 3) + 50)
-//        self.answer1Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5) + 30)
-//        self.answer3Constraint.constant = -((2 * UIScreen.main.bounds.width / 5) + 30)
-//        self.answer2Constraint.constant =  -((2 * UIScreen.main.bounds.width / 5 ) + 30)
-//        self.answer4Constraint.constant = -((2 * UIScreen.main.bounds.width / 5 ) + 30)
-//        self.view.layoutIfNeeded()
-//    }
-//
-//    if currentQuestion < 4 {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
-//            self.answer1Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
-//            self.answer2Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
-//            self.answer3Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
-//            self.answer4Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
-//            self.correctAnswer = (self.res?.response?[self.currentQuestion].ans_correct_id!)!
-//            var questionImage = String()
-//            if self.res?.response?[self.currentQuestion].q_image != nil {
-//                questionImage = (self.res?.response?[self.currentQuestion].q_image!)!
-//            } else {
-//                questionImage = ""
-//            }
-//
-//            self.showQuestion(questionTitle: "\((self.res?.response?[self.currentQuestion].title!)!)", answer1: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.res?.response?[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.res?.response?[self.currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
-//        })
-//    } else {
-//        if self.checkFinishGame == false {
-//            self.checkFinishGame = true
-//            musicPlay().playQuizeMusic()
-//            self.gameTimer.invalidate()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//                musicPlay().playMenuMusic()
-//            }
-//            dismiss(animated: true, completion: nil)
-//            NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
-//        }
-//    }
-//}
-//
-//
-//
-//
-//@IBAction func answer1Action(_ sender: RoundButton) {
-//    checkAnswer(answerSelectedIndex: 1)
-//    DisableEnableInterFace(State : false)
-//}
-//
-//@IBAction func answer2Action(_ sender: RoundButton) {
-//    checkAnswer(answerSelectedIndex: 2)
-//    DisableEnableInterFace(State : false)
-//}
-//
-//@IBAction func answer3Action(_ sender: RoundButton) {
-//    checkAnswer(answerSelectedIndex: 3)
-//    DisableEnableInterFace(State : false)
-//}
-//
-//@IBAction func answer4Action(_ sender: RoundButton) {
-//    checkAnswer(answerSelectedIndex: 4)
-//    DisableEnableInterFace(State : false)
-//}
-//
-//func checkAnswer(answerSelectedIndex : Int) {
-//    if answerSelectedIndex == correctAnswer {
-//        soundPlay().playCorrectAnswerSound()
-//        Score = Score + 1
-//        balls[currentQuestion - 1] = 1
-//        ballCheck()
-//        switch answerSelectedIndex {
-//        case 1:
-//            self.answer1Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
-//        case 2:
-//            self.answer2Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
-//        case 3:
-//            self.answer3Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
-//        default :
-//            self.answer4Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
-//        }
-//    } else {
-//        soundPlay().playWrongAnswerSound()
-//        balls[currentQuestion - 1] = 0
-//        ballCheck()
-//        switch answerSelectedIndex {
-//        case 1:
-//            self.answer1Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
-//        case 2:
-//            self.answer2Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
-//        case 3:
-//            self.answer3Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
-//        default :
-//            self.answer4Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
-//        }
-//
-//        switch correctAnswer {
-//        case 1:
-//            self.answer1Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
-//        case 2:
-//            self.answer2Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
-//        case 3:
-//            self.answer3Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
-//        default :
-//            self.answer4Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
-//        }
-//    }
-//
-//    scoreLabel.text = "امتیاز شما : \(Score) از ۴"
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//        self.hideQuestion()
-//    }
-//}
 //
 //var balls = [2,2,2,2]
 //let defaults = UserDefaults.standard
