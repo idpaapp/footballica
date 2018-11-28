@@ -17,6 +17,7 @@ class showTimerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.timerTitle.text = "زمان باقی مانده"
+        self.timerCountDown.text = ""
     }
     
     @objc func updateTimer(time : String) {

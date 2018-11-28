@@ -31,7 +31,6 @@ class groupMatchResaultViewController: UIViewController , UITableViewDataSource 
         self.addViews(view: self.clanMembers)
         self.setMembersView()
         self.clanMembersData()
-        
     }
     
     @objc func clanMembersData() {

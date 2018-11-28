@@ -82,20 +82,20 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             cell.mainView.backgroundColor = UIColor.init(red: 244/255, green: 244/255, blue: 241/255, alpha: 1.0)
         }
         
-//        if ((self.res?.response?.clanMembers?[indexPath.row].user_id!)!) == "\(loadingViewController.userid)" {
-//            self.isJoined = true
-//            switch ((self.res?.response?.clanMembers?[indexPath.row].member_roll!)!) {
-//            case publicConstants().teamCaptain:
-//                self.isCharge = true
-//            case publicConstants().teamStarPlayer:
-//                self.isCharge = true
-//            default :
-//                self.isCharge = false
-//            }
-//        } else {
-//            self.isJoined = false
-//            self.isCharge = false
-//        }
+        //        if ((self.res?.response?.clanMembers?[indexPath.row].user_id!)!) == "\(loadingViewController.userid)" {
+        //            self.isJoined = true
+        //            switch ((self.res?.response?.clanMembers?[indexPath.row].member_roll!)!) {
+        //            case publicConstants().teamCaptain:
+        //                self.isCharge = true
+        //            case publicConstants().teamStarPlayer:
+        //                self.isCharge = true
+        //            default :
+        //                self.isCharge = false
+        //            }
+        //        } else {
+        //            self.isJoined = false
+        //            self.isCharge = false
+        //        }
         
         return cell
     }
@@ -185,8 +185,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let size = CGSize(width: UIScreen.main.bounds.width / 5 - 12 , height: UIScreen.main.bounds.height / 6 - 20)
-        
+        var size = CGSize()
+        if UIDevice().userInterfaceIdiom == .phone {
+            size = CGSize(width: UIScreen.main.bounds.width / 5 - 12 , height: UIScreen.main.bounds.height / 6 - 20)
+        } else {
+            size = CGSize(width: UIScreen.main.bounds.width * 2 / 15 - 8 , height: UIScreen.main.bounds.height * 2 / 18 - 20)
+        }
         return size
         
     }
@@ -409,14 +413,14 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         self.alertBody = "شما کاپ مورد نیاز گروه را ندارید"
                         self.performSegue(withIdentifier: "clanAlert", sender: self)
                     } else if ((Res)!).contains("USER_HAS_CLAN") {
-//                        self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+                        //                        self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
                         self.alertBody = "شما قبلاً عضو یک گروه هستید!"
                         self.performSegue(withIdentifier: "clanAlert", sender: self)
                     } else {
                         self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
                         self.alertBody = "شما امکان انجام این کار را ندارید!"
                         self.performSegue(withIdentifier: "clanAlert", sender: self)
-
+                        
                     }
                     
                     PubProc.wb.hideWaiting()

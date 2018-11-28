@@ -144,21 +144,81 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.freezTimer.addTarget(self, action: #selector(freezAction), for: UIControlEvents.touchUpInside)
     }
     
+    var isBombUsed = Bool()
+    
     @objc func bombAction() {
         self.bomb.isUserInteractionEnabled = false
         disabledBomb()
-        //        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
+        self.isBombUsed = true
+        if (self.warQuestions?.response[self.currentQuestion].ans_correct_id!)! == 1 ||  (self.warQuestions?.response[self.currentQuestion].ans_correct_id!)! == 4 {
+            
+            self.answer2Outlet.isUserInteractionEnabled = false
+            self.answer3Outlet.isUserInteractionEnabled = false
+            self.answer2Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+            self.answer3Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+            
+        } else {
+            
+            self.answer1Outlet.isUserInteractionEnabled = false
+            self.answer4Outlet.isUserInteractionEnabled = false
+            self.answer1Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+            self.answer4Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
+        }
         
+        //             PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
+        //
+        //                if data != nil {
+        //
+        //                    DispatchQueue.main.async {
+        //                        PubProc.cV.hideWarning()
+        //                    }
+        //
+        //                    //                print(data ?? "")
+        //
+        //
+        //                    DispatchQueue.main.async {
+        //                        PubProc.wb.hideWaiting()
+        //                    }
+        //
+        //                } else {
+        //                    self.bombAction()
+        //                    print("Error Connection")
+        //                    print(error as Any)
+        //                    // handle error
+        //                }
+        //                }.resume()
         
     }
     
     var isFreez = Bool()
+    
     @objc func freezAction() {
         self.freezTimer.isUserInteractionEnabled = false
         disabledFreezeTimer()
         self.isFreez = true
-        //        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
-        
+        self.gameTimer.invalidate()
+        nukeAllAnimations()
+        //            PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
+        //
+        //                if data != nil {
+        //
+        //                    DispatchQueue.main.async {
+        //                        PubProc.cV.hideWarning()
+        //                    }
+        //
+        //                    //                print(data ?? "")
+        //
+        //                    DispatchQueue.main.async {
+        //                        PubProc.wb.hideWaiting()
+        //                    }
+        //
+        //                } else {
+        //                    self.freezAction()
+        //                    print("Error Connection")
+        //                    print(error as Any)
+        //                    // handle error
+        //                }
+        //                }.resume()
     }
     
     
@@ -269,9 +329,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         if musicPlay.musicPlayer?.isPlaying == true {
             musicPlay().playMenuMusic()
         } else {}
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            self.beforeMatchTimer()
-//        }
+        
     }
     
     var currentQuestion = 0
@@ -301,14 +359,22 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         showQuestion(questionTitle: "\((self.warQuestions?.response[self.currentQuestion].title!)!)", answer1: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_1!)!)", answer2: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_2!)!)", answer3: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_3!)!)", answer4: "\((self.warQuestions?.response[self.currentQuestion].ans_json?.ans_4!)!)", correctAnswer: (self.warQuestions?.response[self.currentQuestion].ans_correct_id!)!, questionImage: "\(questionImage)")
         
         timerHand()
-        updateProgressBar()
+        self.progressBar.progress = 1
+        updateProgressBar(currentTime: Float((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!))
     }
     
-    @objc func updateProgressBar() {
-        self.progressBar.progress = 1
-        UIView.animate(withDuration: TimeInterval((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!), animations: { () -> Void in
+    @objc func updateProgressBar(currentTime : Float) {
+        UIView.animate(withDuration: TimeInterval(currentTime), animations: { () -> Void in
             self.progressBar.setProgress(0, animated: true)
         })
+    }
+    
+    var isStopedAnimations = Bool()
+    func nukeAllAnimations() {
+        self.isStopedAnimations = true
+        self.progressBar.subviews.forEach({$0.layer.removeAllAnimations()})
+        
+        self.progressBar.progress = 1
     }
     
     var gameTimer : Timer!
@@ -322,7 +388,6 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         if self.time == 0 {
             self.checkFinishGame = true
         }
-        
     }
     
     
@@ -357,13 +422,17 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.answer4Outlet.titleLabel?.minimumScaleFactor = 0.5
         
         self.correctAnswer = (self.warQuestions?.response[self.currentQuestion].ans_correct_id!)!
-
+        
         let dataDecoded:NSData = NSData(base64Encoded: questionImage , options: NSData.Base64DecodingOptions(rawValue: 0))!
         self.imageQuestion.image = UIImage(data: dataDecoded as Data)
         UIView.animate(withDuration: 0.8) {
-            self.bomb.isUserInteractionEnabled = true
-            self.freezTimer.isUserInteractionEnabled = true
-            self.bomb.isEnabled = true
+            if !self.isBombUsed {
+                self.bomb.isUserInteractionEnabled = true
+                self.bomb.isEnabled = true
+            }
+            if !self.isFreez {
+                self.freezTimer.isUserInteractionEnabled = true
+            }
             if UIDevice().userInterfaceIdiom == .phone {
                 if UIScreen.main.nativeBounds.height == 2436 {
                     //iPhone X
@@ -399,16 +468,24 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
             }
             
         }
-        self.bomb.isUserInteractionEnabled = true
-        self.freezTimer.isUserInteractionEnabled = true
+        if !self.isBombUsed {
+            self.bomb.isUserInteractionEnabled = true
+        }
+        if !self.isFreez {
+            self.freezTimer.isUserInteractionEnabled = true
+        }
     }
     
     var checkFinishGame = Bool()
     func hideQuestion() {
         if self.isFreez {
             gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateTimer), userInfo: nil, repeats: true)
-            self.isFreez = false
-        } else {}
+        }
+        
+        if self.isStopedAnimations {
+            self.isStopedAnimations = false
+            self.updateProgressBar(currentTime: self.time)
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
             self.imageQuestionTitle.text = " "
@@ -484,8 +561,12 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.answer2Outlet.isUserInteractionEnabled = State
         self.answer3Outlet.isUserInteractionEnabled = State
         self.answer4Outlet.isUserInteractionEnabled = State
-        self.bomb.isUserInteractionEnabled = State
-        self.freezTimer.isUserInteractionEnabled = State
+        if !self.isBombUsed {
+            self.bomb.isUserInteractionEnabled = State
+        }
+        if !self.isFreez {
+            self.freezTimer.isUserInteractionEnabled = State
+        }
     }
     
     @objc func setExclusiveTouches() {
