@@ -22,7 +22,7 @@ class menuAlertViewController: UIViewController {
     }
     
     var matchField : mainMatchFieldViewController!
-    
+    var clanDelegate : menuAlertViewControllerDelegate!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -103,7 +103,7 @@ class menuAlertViewController: UIViewController {
                 
                 } else if self.alertState == "clanMatch" {
                     
-                    
+                    self.clanDelegate?.dismissing()
                     
             } else if self.alertState == "signUpError" {
                 self.delegate?.dismissingMA2()

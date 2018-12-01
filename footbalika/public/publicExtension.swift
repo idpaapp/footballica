@@ -520,6 +520,14 @@ extension UIView {
         self.layer.mask = mask
     }
     
+    
+    func makeCircular() {
+        self.layer.cornerRadius = 0.5 * bounds.size.height
+        self.clipsToBounds = true
+        self.layoutIfNeeded()
+    }
+    
+    
     func fadeTransition(_ duration:CFTimeInterval) {
         let animation = CATransition()
         animation.timingFunction = CAMediaTimingFunction(name:

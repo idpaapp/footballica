@@ -10,10 +10,27 @@ import UIKit
 import KBImageView
 import RealmSwift
 
-class clanMatchFieldViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout {
+protocol menuAlertViewControllerDelegate {
+    func dismissing()
+}
+
+class clanMatchFieldViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , menuAlertViewControllerDelegate{
     
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    func dismissing() {
+        if musicPlay.musicPlayer?.isPlaying == false {
+            musicPlay().playMenuMusic()
+        } else {}
+        self.dismiss(animated: true, completion: nil)
+        
+        sendClanMatchScores().sendClanMatchScores(time: "\(self.time)", score: <#T##String#>, userid: loadingViewController.userid, war_id: self.warID )
+//        ws_UpdateGameResult.php
+//        mode: UPDT_WAR_RESULT
+//        score, time, userid, war_id
+        
     }
     
     var delegate : clanMatchFieldViewControllerDelegate!
@@ -72,9 +89,10 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     
     var answers = [Int]()
     
-    
+    var warID = String()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         self.scoreCV.register(UINib(nibName: "scoreBallCell", bundle: nil), forCellWithReuseIdentifier: "scoreBallCell")
         
@@ -305,6 +323,10 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     
     func beforeMatchTimer() {
         
+        if musicPlay.musicPlayer?.isPlaying == true {
+            musicPlay().playMenuMusic()
+        } else {}
+        
         beforeStartCountDown.text = "3"
         beforeStartTitle.text = "واسه شروع اماده ای؟"
         soundPlay().playBeepSound()
@@ -321,19 +343,18 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             self.startMatch()
-            self.restMatchFunction()
         }
-    }
-    
-    func restMatchFunction() {
-        if musicPlay.musicPlayer?.isPlaying == true {
-            musicPlay().playMenuMusic()
-        } else {}
-        
     }
     
     var currentQuestion = 0
     var correctAnswer = Int()
+    
+    
+    @objc func musicQuize() {
+        DispatchQueue.main.async {
+            musicPlay().playQuizeMusic()
+        }
+    }
     
     func startMatch() {
         UIView.animate(withDuration: 0.5) {
@@ -346,10 +367,8 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         beforeStartCountDown.isHidden = true
         beforeStartTitle.isHidden = true
         beforeStartStackView.isHidden = true
-        DispatchQueue.main.async {
-            musicPlay().playQuizeMusic()
-        }
         
+        musicQuize()
         var questionImage = String()
         if (self.warQuestions?.response[self.currentQuestion].q_image!)! != "" {
             questionImage = (self.warQuestions?.response[self.currentQuestion].q_image!)!
@@ -374,7 +393,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.isStopedAnimations = true
         self.progressBar.subviews.forEach({$0.layer.removeAllAnimations()})
         
-        self.progressBar.progress = 1
+        self.progressBar.progress = self.time / Float((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!)
     }
     
     var gameTimer : Timer!
@@ -385,8 +404,16 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     
     @objc func UpdateTimer() {
         self.time = self.time - 1
-        if self.time == 0 {
+        
+        if self.time == 5 {
+            thirdSoundPlay().playThirdSound()
+        }
+        if self.time == 1 {
             self.checkFinishGame = true
+            soundPlay().playEndGameSound()
+            musicQuize()
+            self.performSegue(withIdentifier: "clanMatchFieldAlert", sender: self)
+            self.gameTimer.invalidate()
         }
     }
     
@@ -492,29 +519,29 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            if self.currentQuestion == (self.warQuestions?.response.count)! {
-                if self.time  <= 0 {
-                    if self.checkFinishGame == false {
-                        self.checkFinishGame = true
-                        self.view.isUserInteractionEnabled = false
-                        DispatchQueue.main.async {
-                            if musicPlay.musicPlayer?.isPlaying == true {
-                                musicPlay().playQuizeMusic()
-                            } else {}
-                            self.DisableEnableInterFace(State : false)
-                            self.performSegue(withIdentifier: "gameOver", sender: self)
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                                self.view.isUserInteractionEnabled = true
-                            })
-                            soundPlay().playEndGameSound()
-                        }
-                    }
-                } else {
-                    if musicPlay.musicPlayer?.isPlaying == true {
-                    } else {musicPlay().playQuizeMusic()}
-                    self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.UpdateTimer), userInfo: nil, repeats: true)
-                }
-            }
+//            if self.currentQuestion == (self.warQuestions?.response.count)! {
+//                if self.time  <= 0 {
+//                    if self.checkFinishGame == false {
+//                        self.checkFinishGame = true
+//                        self.view.isUserInteractionEnabled = false
+//                        DispatchQueue.main.async {
+//                            if musicPlay.musicPlayer?.isPlaying == true {
+//                                musicPlay().playQuizeMusic()
+//                            } else {}
+//                            self.DisableEnableInterFace(State : false)
+//                            self.performSegue(withIdentifier: "gameOver", sender: self)
+//                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+//                                self.view.isUserInteractionEnabled = true
+//                            })
+//                            soundPlay().playEndGameSound()
+//                        }
+//                    }
+//                } else {
+//                    if musicPlay.musicPlayer?.isPlaying == true {
+//                    } else {musicPlay().playQuizeMusic()}
+//                    self.gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(self.UpdateTimer), userInfo: nil, repeats: true)
+//                }
+//            }
         }
         
         UIView.animate(withDuration: 0.8) {
@@ -526,6 +553,8 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
             self.view.layoutIfNeeded()
         }
         
+        print(self.currentQuestion)
+        print((self.warQuestions?.response.count)!)
         if self.currentQuestion < (self.warQuestions?.response.count)! {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
                 self.answer1Outlet.setBackgroundImage(publicImages().normalAnswerImage, for: .normal)
@@ -662,6 +691,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
             VC.alertBody = "وقت تمام شد"
             VC.alertAcceptLabel = "تأیید"
             VC.alertState = "clanMatch"
+            VC.clanDelegate = self
         }
     }
     

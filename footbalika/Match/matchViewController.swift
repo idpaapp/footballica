@@ -48,6 +48,10 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     @IBOutlet weak var giftOutlet: RoundButton!
     var matchID = String()
     
+    @IBOutlet weak var alertCounterView: UIView!
+    @IBOutlet weak var alertCounterLabel: UILabel!
+    
+    
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
         scrollToPage().scrollPageViewController(index: 4)
@@ -56,7 +60,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         NotificationCenter.default.post(name: Notification.Name("openCoinsOrMoney"), object: nil, userInfo: pageIndexDict)
         self.view.isUserInteractionEnabled = true
     }
-
+    
     @IBAction func addCoin(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
         scrollToPage().scrollPageViewController(index: 4)
@@ -66,15 +70,15 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         self.view.isUserInteractionEnabled = true
     }
     
-//    @objc func menuButtonChanged(index : Int) {
-//        let pageIndexDict:[String: Int] = ["button": index]
-//        NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
-//    }
-//
-//    @objc func scrollPageViewController(index : Int) {
-//        let pageIndexDict:[String: Int] = ["pageIndex": index]
-//        NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-//    }
+    //    @objc func menuButtonChanged(index : Int) {
+    //        let pageIndexDict:[String: Int] = ["button": index]
+    //        NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
+    //    }
+    //
+    //    @objc func scrollPageViewController(index : Int) {
+    //        let pageIndexDict:[String: Int] = ["pageIndex": index]
+    //        NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
+    //    }
     
     var urlClass = urls()
     var menuState = String()
@@ -84,30 +88,32 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     @objc func fillData() {
         if (login.res?.response?.mainInfo?.status) != nil {
-        level.text = (login.res?.response?.mainInfo?.level)!
-        money.text = (login.res?.response?.mainInfo?.cashs)!
-        xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
-        coin.text = (login.res?.response?.mainInfo?.coins)!
-        xp.minimumScaleFactor = 0.5
-        xp.adjustsFontSizeToFitWidth = true
-        xpProgressBackGround.layer.cornerRadius  = 3
-        profileName.text = (login.res?.response?.mainInfo?.username)!
-        cup.text = (login.res?.response?.mainInfo?.cups)!
-        self.xpProgress.progress = 0.0
-        let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
+            level.text = (login.res?.response?.mainInfo?.level)!
+            money.text = (login.res?.response?.mainInfo?.cashs)!
+            xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
+            coin.text = (login.res?.response?.mainInfo?.coins)!
+            xp.minimumScaleFactor = 0.5
+            xp.adjustsFontSizeToFitWidth = true
+            xpProgressBackGround.layer.cornerRadius  = 3
+            profileName.text = (login.res?.response?.mainInfo?.username)!
+            cup.text = (login.res?.response?.mainInfo?.cups)!
+            self.xpProgress.progress = 0.0
+            let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
             self.avatar.setImageWithRealmPath(url : urlAvatar)
-                if self.avatar.image != UIImage() {
+            if self.avatar.image != UIImage() {
             } else {
                 self.avatar.setImageWithKingFisher(url: urlAvatar)
             }
             
-        mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
+            mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        notificationsView()
         
         if UIDevice().userInterfaceIdiom == .phone  {
             startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
@@ -125,9 +131,9 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         }
         
         if matchViewController.isTutorial {
-         PubProc.isSplash = false
+            PubProc.isSplash = false
         } else {
-        PubProc.isSplash = true
+            PubProc.isSplash = true
         }
         let lastLevel = (Int((login.res?.response?.mainInfo?.level)!)!)
         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
@@ -155,7 +161,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         }
         DispatchQueue.main.asyncAfter(deadline: .now() +
         0.5) {
-             PubProc.wb.hideWaiting()
+            PubProc.wb.hideWaiting()
             if let dict = notification.userInfo as NSDictionary? {
                 if let match_id = dict["matchID"] as? String{
                     self.matchID = match_id
@@ -173,6 +179,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        notificationsView()
         if wholeMainPageButtons != nil {
             if UIScreen.main.bounds.height < 568 {
                 wholeMainPageButtons.constant = 20
@@ -207,7 +214,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         nc.addObserver(self, selector: #selector(fillData), name: Notification.Name("changingUserPassNotification"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.startNewMatch(_:)), name: NSNotification.Name(rawValue: "startNewMatch"), object: nil)
-
+        
         
         self.startLabelForeGround.minimumScaleFactor = 0.5
         self.startLabel.minimumScaleFactor = 0.5
@@ -220,6 +227,24 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         fillData()
     }
     
+    
+    func notificationsView() {
+        self.alertCounterView.makeCircular()
+        let alertCounts = (login.res?.response?.nots_achv?.not_count!)!
+        if alertCounts != "0" {
+            self.alertCounterView.isHidden = false
+            if alertCounts.count > 2 {
+                self.alertCounterLabel.text = "+99"
+            } else {
+                self.alertCounterLabel.text = "\(alertCounts)"
+            }
+        } else {
+            self.alertCounterLabel.text = ""
+            self.alertCounterView.isHidden = true
+        }
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         let pageIndexDict:[String: Int] = ["button": 2]
@@ -227,12 +252,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
         self.xpProgress.progress = 0.0
         DispatchQueue.main.async {
-        UIView.animate(withDuration: 0.3, animations: { () -> Void in
-   
-            if  login.res?.response?.mainInfo?.max_points_gain != nil {
-                self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
-            }
-        })
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                
+                if  login.res?.response?.mainInfo?.max_points_gain != nil {
+                    self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
+                }
+            })
         }
     }
     
@@ -243,7 +268,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
             self.menuState = "Achievements"
             self.performSegue(withIdentifier: "achievement", sender: self)
-            })
+        })
     }
     
     @IBAction func setting(_ sender: RoundButton) {
@@ -251,11 +276,11 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         self.performSegue(withIdentifier: "achievement", sender: self)
     }
     
-
+    
     @IBAction func eliminateCupAction(_ sender: RoundButton) {
         self.performSegue(withIdentifier : "predictMatch" , sender : self)
-//        scrollPageViewController(index: 1)
-//        menuButtonChanged(index: 1)
+        //        scrollPageViewController(index: 1)
+        //        menuButtonChanged(index: 1)
     }
     
     @IBAction func StartAMatch(_ sender: RoundButton) {
@@ -271,10 +296,10 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 
                 if data != nil {
                     
-//                      print(data ?? "")
-
-                        self.matchCreateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
-
+                    //                      print(data ?? "")
+                    
+                    self.matchCreateRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
                     DispatchQueue.main.async {
                         PubProc.cV.hideWarning()
                     }

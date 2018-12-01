@@ -109,6 +109,14 @@
                         
                         DispatchQueue.main.async {
                             self.achievementCount = (self.alertsRes?.response?.count)!
+                            
+                            for i in 0...(self.alertsRes?.response?.count)! - 1 {
+                                if (self.alertsRes?.response?[i].option_field!)!.contains("") {
+                                    
+                                } else {
+                                    
+                                }
+                            }
                             UIView.performWithoutAnimation {
                                 self.achievementsTV.reloadData()
                             }

@@ -26,11 +26,14 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     func updateAfterFinishGame() {
         self.isClanMatchField = false
     }
+    
     var warQuestions :  warQuestions.Response? = nil
     var isClanMatchField = Bool()
+    
     func startAnswerWar(questions : warQuestions.Response) {
         self.warQuestions = questions
         DispatchQueue.main.async {
+                PubProc.wb.hideWaiting()
             self.isClanMatchField = true
             self.performSegue(withIdentifier: "clanMatchField", sender: self)
         }
@@ -100,7 +103,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     var cResults: clanResultsViewController?
     var isUpdated = false
     var activeWarRes : getActiveWar.Response? = nil
-    
+    var warID = String()
     @objc func updateclanGamePage() {
         if !isClanMatchField {
         PubProc.isSplash = true
@@ -142,6 +145,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                         case "OK" :
                             switch ((self.activeWarRes?.response?.status!)!) {
                             case publicConstants().clanJoined :
+                                self.warID = (self.activeWarRes?.response?.id!)!
                                 self.state = "OK"
                                 self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: false, hidetimerContainerView: true)
                                 self.setupClanTime()
@@ -152,6 +156,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                                 }
                                  self.members?.isWarStart = false
                             case publicConstants().magnifier :
+                                self.warID = (self.activeWarRes?.response?.id!)!
                                 self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: false, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: false)
                                 self.state = "Searching"
                                 self.setGhesarSentences()
@@ -166,6 +171,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                                 }
                                  self.members?.isWarStart = false
                             case publicConstants().war :
+                                self.warID = (self.activeWarRes?.response?.id!)!
                                 self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: false, clanMembers: false, hidetimerContainerView: false)
                                 self.cResults?.groupsUpdate(clanImage: ((login.res?.response?.calnData?.caln_logo!)!), oppClanImage: (self.activeWarRes?.response?.opp_clan_logo!)!, clanName: ((login.res?.response?.calnData?.clan_title!)!), oppClanName: (self.activeWarRes?.response?.opp_clan_title!)!, clanScore: (self.activeWarRes?.response?.war_point!)!, oppClanScore: (self.activeWarRes?.response?.opp_war_point!)!)
                                 self.setupClanTime()
@@ -342,17 +348,31 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
             seconds = "\(timesSeconds)"
         }
         
-        var minutes = String()
-        if (differenceOfDate.minute!.description.count) == 1 {
-            minutes = "0\(differenceOfDate.minute!)"
+        var timesMinutes = Int()
+        if self.currentTime.hour != nil {
+            timesMinutes = min(self.currentTime.minute!, differenceOfDate.minute!)
         } else {
-            minutes = "\(differenceOfDate.minute!)"
+            timesMinutes = differenceOfDate.minute!
+        }
+        
+        var minutes = String()
+        if (timesMinutes.description.count) == 1 {
+            minutes = "0\(timesMinutes)"
+        } else {
+            minutes = "\(timesMinutes)"
+        }
+        
+        var timesHours = Int()
+        if self.currentTime.hour != nil {
+            timesHours = min(self.currentTime.hour!, differenceOfDate.hour!)
+        } else {
+            timesHours = differenceOfDate.hour!
         }
         
         if self.currentTime.hour != nil {
             if min(self.currentTime.second!, differenceOfDate.second!) == differenceOfDate.second! {
-                self.clanTimer.clanTimerCounter.text = "\(differenceOfDate.hour!):\(minutes):\(seconds)"
-                self.cTimer?.updateTimer(time: "\(differenceOfDate.hour!):\(minutes):\(seconds)")
+                self.clanTimer.clanTimerCounter.text = "\(timesHours):\(minutes):\(seconds)"
+                self.cTimer?.updateTimer(time: "\(timesHours):\(minutes):\(seconds)")
                 if differenceOfDate.hour! == 0 && minutes == "00" && seconds == "00" {
                     self.clanTimer.isHidden = true
                 }
@@ -481,6 +501,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         if let vc = segue.destination as? clanMatchFieldViewController {
             vc.warQuestions = self.warQuestions
             vc.delegate = self
+            vc.warID = self.warID
         }
         
         

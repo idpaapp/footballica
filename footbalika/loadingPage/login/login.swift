@@ -28,8 +28,8 @@ public class login {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                         
-                        print(String(data: data!, encoding: String.Encoding.utf8) as? String)
-                        print((login.res?.response?.calnData))
+//                        print(String(data: data!, encoding: String.Encoding.utf8) as? String)
+//                        print((login.res?.response?.calnData))
                         
                         completionHandler()
                         if rest {
@@ -48,8 +48,8 @@ public class login {
                         
                         login.res2 = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
                         
-                        print(String(data: data!, encoding: String.Encoding.utf8) as? String)
-                        print((login.res2?.response?.calnData))
+//                        print(String(data: data!, encoding: String.Encoding.utf8) as? String)
+//                        print((login.res2?.response?.calnData))
                         
                         completionHandler()
                         if rest {

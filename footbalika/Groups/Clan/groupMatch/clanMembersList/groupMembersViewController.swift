@@ -108,8 +108,6 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
                         do {
 
                             self.warQuestion = try JSONDecoder().decode(warQuestions.Response.self, from: data!)
-
-                            print(self.warQuestion?.response[0].title)
                             
                             self.delegate?.startAnswerWar(questions : self.warQuestion!)
                             
@@ -117,9 +115,6 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
                             print(error)
                         }
                         
-                        DispatchQueue.main.async {
-                            PubProc.wb.hideWaiting()
-                        }
                         
                     } else {
                         self.startClanWar()
