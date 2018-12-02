@@ -12,7 +12,7 @@ public class loadShop {
     static var res : loadShopStructure.Response? = nil;
     var writeShops = readAndWritetblShop()
     public func loadingShop(userid : String , rest : Bool , completionHandler: @escaping () -> Void) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_loadShop", JSONStr: "{'mode':'mainPage' , 'userid' : '\(userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_loadShopIOS", JSONStr: "{'mode':'mainPage' , 'userid' : '\(userid)'}") { data, error in
             DispatchQueue.main.async {
                     PubProc.cV.hideWarning()
                     PubProc.wb.hideWaiting()

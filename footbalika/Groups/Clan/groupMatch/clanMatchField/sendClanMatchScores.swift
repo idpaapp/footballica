@@ -9,28 +9,31 @@
 import Foundation
 
 public class sendClanMatchScores {
-    public func sendClanMatchScores(time : String , score :String , userid : String , war_id : String , completionHandler : @escaping() -> Void) {
+    public func sendClanMatchScores(jsonStr : String , completionHandler : @escaping() -> Void) {
     
-            PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode' : 'UPDT_WAR_RESULT' , 'score' : '\(score)' , 'time' : '\(time)' , 'userid' : '\(userid)' , 'war_id' : '\(war_id)' }") { data, error in
-                if data != nil {
-                                        
-                    DispatchQueue.main.async {
-                        PubProc.cV.hideWarning()
-                    }
-                    
-                    //                print(data ?? "")
-                    completionHandler()
-                    DispatchQueue.main.async {
-                        PubProc.wb.hideWaiting()
-                    }
-                    
-                } else {
-                    self.sendClanMatchScores(time: time, score: score, userid: userid, war_id: war_id, completionHandler: {})
-                    print("Error Connection")
-                    print(error as Any)
-                    // handle error
-                }
-                }.resume()
+        print("sendingClanMatchData : \(jsonStr)")
+        completionHandler()
+//            PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: jsonStr) { data, error in
+//                if data != nil {
+//
+//                    DispatchQueue.main.async {
+//                        PubProc.cV.hideWarning()
+//                    }
+//
+//                    //                print(data ?? "")
+//        UserDefaults.standard.set("" , forKey : "clanGameLeft")
+//                    completionHandler()
+//                    DispatchQueue.main.async {
+//                        PubProc.wb.hideWaiting()
+//                    }
+//
+//                } else {
+//                    self.sendClanMatchScores(jsonStr: jsonStr, completionHandler: {})
+//                    print("Error Connection")
+//                    print(error as Any)
+//                    // handle error
+//                }
+//                }.resume()
     }
         
 }

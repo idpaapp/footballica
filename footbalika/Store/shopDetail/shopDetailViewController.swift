@@ -130,7 +130,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
 //            svc.delegate = self
 //        }
         
-        StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)' 'item_type' : 'coin'}"
+        StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)' ,  'item_type' : 'COIN'}"
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             
@@ -220,6 +220,8 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     
                     let trans = String(data: data!, encoding: String.Encoding.utf8) as String?
                     
+                    
+                    print(trans!)
                     DispatchQueue.main.async {
                         PubProc.cV.hideWarning()
                     }
@@ -230,6 +232,8 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                                 self.performSegue(withIdentifier: "showItem", sender: self)
                             })
                         })
+                    } else {}
+                    DispatchQueue.main.async {
                         PubProc.wb.hideWaiting()
                     }
                 } else {

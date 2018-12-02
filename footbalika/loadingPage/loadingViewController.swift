@@ -151,7 +151,8 @@ class loadingViewController: UIViewController {
     var playMenuMusic = Bool()
     var playgameSounds = Bool()
     var alerts = Bool()
-    
+    var gameLeft = String()
+    var clanGameLeft = String()
     override func viewDidLoad() {
         super.viewDidLoad()
         versionCheck()
@@ -161,7 +162,7 @@ class loadingViewController: UIViewController {
         nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
         
         realm = try! Realm()
-        self.gameData()
+        
         
         launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         
@@ -173,8 +174,10 @@ class loadingViewController: UIViewController {
             alerts = UserDefaults.standard.bool(forKey: "alerts")
             loadingViewController.userid = defaults.string(forKey: "userid") ?? String()
             defaults.set(false , forKey: "tutorial")
+//             self.gameLeft = String()
+              self.gameData()
         } else {
-            
+            self.gameData()
             let userid = "\(loadingViewController.userid)"
             defaults.set(userid, forKey: "userid")
             defaults.set(true, forKey: "launchedBefore")

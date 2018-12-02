@@ -55,11 +55,14 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
            openCoinOrMoney(Title: text)
         }
     }
-    
+    var packageIndex = Int()
     var mainShopIndex = Int()
+    
     @objc func rData() {
         let index = loadShop.res?.response?.index(where: { $0.type == 2})
         self.mainShopIndex = index!
+        let index2 = loadShop.res?.response?.index(where: { $0.type == 3})
+        self.packageIndex = index2!
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
@@ -137,28 +140,29 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         return (loadShop.res?.response?[self.mainShopIndex].items?.count)!
         } else {
 //            print((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1)
-        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1
+            print("count cells\((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?[self.packageIndex].items?.count)!)")
+        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?[self.packageIndex].items?.count)!
 //        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + 1
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print(indexPath.item)
-        if indexPath.item >= self.mainShopIndex {
+//        print(indexPath.item)
+        if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)! {
 //        if indexPath.item > 0 {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
-        cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].image!)!))")
+        cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].image!)!))")
         
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
+        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: -7.0)
         cell.storeLabelForeGround.font = iPhonefonts
         } else {
-            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))", strokeWidth: -7.0)
+            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: -7.0)
             cell.storeLabelForeGround.font = iPadfonts
         }
             
-        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - self.mainShopIndex].title!)!))"
-        cell.storeSelect.tag = indexPath.item - self.mainShopIndex
+        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))"
+        cell.storeSelect.tag = indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!
         cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
             if matchViewController.isTutorial {
                 cell.storeSelect.isUserInteractionEnabled = false
@@ -170,8 +174,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         } else {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell
-            print(indexPath.item)
-            let url = "\(((loadShop.res?.response?[0].items?[0].banner_image!)!))"
+//            print(indexPath.item)
+            let url = "\(((loadShop.res?.response?[self.packageIndex].items?[indexPath.item].banner_image!)!))"
             let urls = URL(string: url)
             let resource = ImageResource(downloadURL: urls!, cacheKey: url)
             let processor = RoundCornerImageProcessor(cornerRadius: 10)
@@ -196,8 +200,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     @objc func choosePackage() {
         
-        if (loadShop.res?.response?[self.selectedPackage].items?[0].price_type!)! == "0" || (loadShop.res?.response?[self.selectedPackage].items?[0].price_type!)! == "2" || (loadShop.res?.response?[self.selectedPackage].items?[0].price_type!)! == "3" {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handlePackages", JSONStr: "{'package_id' : '\((loadShop.res?.response?[self.selectedPackage].items?[0].id!)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
+        if (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "0" || (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "2" || (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "3" {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handlePackages", JSONStr: "{'package_id' : '\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -223,7 +227,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                                             NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
 //                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
                                             self.rData()
-                                            if  ((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!) != "سکه" || ((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!) != "پول"  {
+                                            if  ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!) != "سکه" || ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!) != "پول"  {
                                                 self.storeCV.reloadData()
                                                 PubProc.wb.hideWaiting()
                                             }
@@ -256,8 +260,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             
         } else {
             
-            StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[self.selectedPackage].items?[0].id!)!)' 'item_type' : 'package'}"
-            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'package_id':'\((loadShop.res?.response?[self.selectedPackage].items?[0].id!)!)','userid':'\(loadingViewController.userid)'}") as NSString
+            StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)' , 'item_type' : 'PACKAGE'}"
+            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'package_id':'\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)','userid':'\(loadingViewController.userid)'}") as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
             let searchURL : NSURL = NSURL(string: urlStr as String)!
             print(searchURL)
@@ -293,17 +297,17 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         }
         
         if let vc = segue.destination as? showItemViewController {
-            vc.mainTitle = ((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!)
-            vc.mainImage = ((loadShop.res?.response?[self.selectedPackage].items?[0].image!)!)
-            vc.price = ((loadShop.res?.response?[self.selectedPackage].items?[0].price!)!)
+            vc.mainTitle = ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!)
+            vc.mainImage = ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!)
+            vc.price = ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price!)!)
             vc.myVitrin = true
-            vc.priceType = ((loadShop.res?.response?[self.selectedPackage].items?[0].price_type!)!)
+            vc.priceType = ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)!)
             vc.isPackage = true
         }
         
         if let vc = segue.destination as? ItemViewController {
-            vc.TitleItem = (loadShop.res?.response?[self.selectedPackage].items?[0].title!)!
-            vc.ImageItem = (loadShop.res?.response?[self.selectedPackage].items?[0].image!)!
+            vc.TitleItem = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!
+            vc.ImageItem = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
             vc.isPackage = true
             vc.delegate = self
         }
@@ -337,7 +341,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             packageScreenSize = CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) , height: 0.57 * (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)))
         }
         
-        if indexPath.item >= self.mainShopIndex  {
+        if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)!  {
             if UIDevice().userInterfaceIdiom == .phone  {
                 if UIScreen.main.nativeBounds.height == 2436 {
                     //iPhone X
@@ -387,16 +391,42 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         } else {
             openCoinOrMoney(Title: "سکه")
         }
-        
     }
     
-    @objc func showBoughtItem() {
-        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
-            loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
-                StoreViewController.packageShowAfterWeb = ""
-                self.performSegue(withIdentifier: "showItem", sender: self)
-            })
-        })
+    @objc func showBoughtItem() {        
+        PubProc.HandleDataBase.readJson(wsName: "ws_verifyPurchase", JSONStr: "\(StoreViewController.packageShowAfterWeb)") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                      print(data ?? "")
+                    
+                    let trans = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    
+                    print(trans!)
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    StoreViewController.packageShowAfterWeb = ""
+                    if ((trans)!).contains("TRANSACTION_OK") {
+                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                            loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                StoreViewController.packageShowAfterWeb = ""
+                                self.performSegue(withIdentifier: "showItem", sender: self)
+                            })
+                        })
+                    } else {}
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                    }
+                } else {
+                    self.showBoughtItem()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
     }
     
     override func viewDidAppear(_ animated: Bool) {

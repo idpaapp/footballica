@@ -247,6 +247,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        UserDefaults.standard.set(true, forKey: "launchedBefore")
         let pageIndexDict:[String: Int] = ["button": 2]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)

@@ -20,16 +20,18 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         return true
     }
     
+    var score = Int()
     func dismissing() {
         if musicPlay.musicPlayer?.isPlaying == false {
             musicPlay().playMenuMusic()
         } else {}
         self.dismiss(animated: true, completion: nil)
         
-        sendClanMatchScores().sendClanMatchScores(time: "\(self.time)", score: <#T##String#>, userid: loadingViewController.userid, war_id: self.warID )
-//        ws_UpdateGameResult.php
-//        mode: UPDT_WAR_RESULT
-//        score, time, userid, war_id
+//        sendClanMatchScores().sendClanMatchScores(jsonStr : "{'mode' : 'UPDT_WAR_RESULT' , 'score' : '\(self.score)' , 'time' : '\(self.time)' , 'userid' : '\(loadingViewController.userid)' , 'war_id' : '\(self.warID)'}" , completionHandler: {
+//
+//
+//
+//        })
         
     }
     
@@ -122,7 +124,14 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         setButtonsActions()
         checkBombandFreeze()
         countingTime()
+        setDefaultsClanMatch(time: 0)
         
+    }
+    
+    var matchJsonStr = String()
+    
+    func setDefaultsClanMatch(time : Float) {
+         self.matchJsonStr = "{'mode' : 'UPDT_WAR_RESULT' , 'score' : '\(self.score)' , 'time' : '\(Int(time))' , 'userid' : '\(loadingViewController.userid)' , 'war_id' : '\(self.warID)'}" 
     }
     
     var time = Float()
@@ -263,6 +272,8 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     func checkAnswer(answerSelectedIndex : Int) {
         self.currentQuestion = self.currentQuestion + 1
         if answerSelectedIndex == correctAnswer {
+            self.score = self.score + 1
+            setDefaultsClanMatch(time: self.time)
             self.answers[self.currentQuestion - 1] = 2
             UIView.animate(withDuration: 0.3) {
                 DispatchQueue.main.async {
@@ -281,6 +292,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
                 self.answer4Outlet.setBackgroundImage(publicImages().correctAnswerImage, for: .normal)
             }
         } else {
+            setDefaultsClanMatch(time: self.time)
             soundPlay().playWrongAnswerSound()
             self.answers[self.currentQuestion - 1] = 1
             UIView.animate(withDuration: 0.3) {

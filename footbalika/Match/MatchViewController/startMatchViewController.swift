@@ -30,35 +30,65 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         getUserData(id : (self.res?.response?.matchData?.player2_id)!)
     }
     
+    var profile : loginStructure.Response? = nil
     @objc func getUserData(id : String) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
+                    
+                    PubProc.cV.hideWarning()
                     
                     //                print(data ?? "")
                     
                     do {
                         
-                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        self.profile = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+                        
+                        self.performSegue(withIdentifier: "showPF", sender: self)
                         DispatchQueue.main.async {
                             PubProc.wb.hideWaiting()
                         }
-                        self.performSegue(withIdentifier: "showPF", sender: self)                        
                     } catch {
-                        self.getUserData(id : id)
+                        self.getUserData(id: id)
                         print(error)
                     }
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                    self.getUserData(id : id)
-                    })
+                    self.getUserData(id: id)
                     print("Error Connection")
                     print(error as Any)
                     // handle error
                 }
             }
             }.resume()
+//        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false'}") { data, error in
+//            DispatchQueue.main.async {
+//
+//                if data != nil {
+//
+//                    //                print(data ?? "")
+//
+//                    do {
+//
+//                        login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
+//                        DispatchQueue.main.async {
+//                            PubProc.wb.hideWaiting()
+//                        }
+//                        self.performSegue(withIdentifier: "showPF", sender: self)
+//                    } catch {
+//                        self.getUserData(id : id)
+//                        print(error)
+//                    }
+//                } else {
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+//                    self.getUserData(id : id)
+//                    })
+//                    print("Error Connection")
+//                    print(error as Any)
+//                    // handle error
+//                }
+//            }
+//            }.resume()
     }
     
     
@@ -524,6 +554,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         
         if let vC = segue.destination as? menuViewController {
             vC.menuState = "profile"
+            vC.profileResponse = self.profile
         }
         
         
