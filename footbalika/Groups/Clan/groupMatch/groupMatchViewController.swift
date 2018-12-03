@@ -23,6 +23,9 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     @IBOutlet weak var timerContainerView: UIView!
     
+    @IBOutlet weak var clanReward: UIView!
+    
+    
     func updateAfterFinishGame() {
         self.isClanMatchField = false
     }
@@ -141,13 +144,13 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                         switch ((self.activeWarRes?.status!)!) {
                         case "NO_ACTIVE_WAR" :
                             self.state = "NO_ACTIVE_WAR"
-                            self.setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: startButtonState, hideClanResults: true, clanMembers: true, hidetimerContainerView: true)
+                            self.setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: startButtonState, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
                         case "OK" :
                             switch ((self.activeWarRes?.response?.status!)!) {
                             case publicConstants().clanJoined :
                                 self.warID = (self.activeWarRes?.response?.id!)!
                                 self.state = "OK"
-                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: false, hidetimerContainerView: true)
+                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: false, hidetimerContainerView: true, hideClanReward: true)
                                 self.setupClanTime()
                                 self.setupClanMemberList(isStartWar: false)
                                 if !self.isUpdated {
@@ -157,7 +160,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                                  self.members?.isWarStart = false
                             case publicConstants().magnifier :
                                 self.warID = (self.activeWarRes?.response?.id!)!
-                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: false, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: false)
+                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: false, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
                                 self.state = "Searching"
                                 self.setGhesarSentences()
                                 self.setupClanTime()
@@ -172,7 +175,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                                  self.members?.isWarStart = false
                             case publicConstants().war :
                                 self.warID = (self.activeWarRes?.response?.id!)!
-                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: false, clanMembers: false, hidetimerContainerView: false)
+                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: false, clanMembers: false, hidetimerContainerView: false, hideClanReward: true)
                                 self.cResults?.groupsUpdate(clanImage: ((login.res?.response?.calnData?.caln_logo!)!), oppClanImage: (self.activeWarRes?.response?.opp_clan_logo!)!, clanName: ((login.res?.response?.calnData?.clan_title!)!), oppClanName: (self.activeWarRes?.response?.opp_clan_title!)!, clanScore: (self.activeWarRes?.response?.war_point!)!, oppClanScore: (self.activeWarRes?.response?.opp_war_point!)!)
                                 self.setupClanTime()
                                 self.setupClanMemberList(isStartWar: false)
@@ -207,14 +210,20 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true)
+        setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
-            updateclanGamePage()
+            clanRewards()
         }
         setStartGroupGameButton()
     }
     
-    func setPageOutlets(hidRonaldoAndMessi : Bool , hideMagnifier : Bool , hideClanTimer : Bool , hideStartGameButton : Bool , hideClanResults : Bool , clanMembers : Bool , hidetimerContainerView : Bool) {
+    var warRewards : warRewards.Response? 
+    @objc func clanRewards() {
+        
+        updateclanGamePage()
+    }
+    
+    func setPageOutlets(hidRonaldoAndMessi : Bool , hideMagnifier : Bool , hideClanTimer : Bool , hideStartGameButton : Bool , hideClanResults : Bool , clanMembers : Bool , hidetimerContainerView : Bool , hideClanReward : Bool) {
         self.ronaldoAndMessi.isHidden = hidRonaldoAndMessi
         self.magnifier.isHidden = hideMagnifier
         self.clanTimer.isHidden = hideClanTimer
@@ -223,6 +232,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         self.clanResultsContainerView.isHidden = hideClanResults
         self.timerContainerView.isHidden = hidetimerContainerView
         self.ghesarSentencesLabel.isHidden = hideMagnifier
+        self.clanReward.isHidden = hideClanReward
     }
     
     @objc func setStartGroupGameButton() {
@@ -250,7 +260,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                     self.startWarRes = try JSONDecoder().decode(startWar.Response.self, from: data!)
                     DispatchQueue.main.async {
                         if ((self.startWarRes?.status!)!) == "OK" {
-                            self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: false, hidetimerContainerView: true)
+                            self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: false, hidetimerContainerView: true, hideClanReward: true)
                             //                            self.setupClanTime()
                             self.updateclanGamePage()
                         } else if ((self.startWarRes?.status!)!) == "THERE_IS_ACTIVE_WAR" {
@@ -474,17 +484,20 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                 } else {
                     heightOfButtomMenu = 135
                 }
-                self.magnifier.animatingImageView(Radius : 50, circleCenter: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2 - heightOfButtomMenu))
-                self.view.layoutIfNeeded()
+                DispatchQueue.main.async {
+                    self.magnifier.animatingImageView(Radius : 50, circleCenter: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2 - heightOfButtomMenu))
+                    self.view.layoutIfNeeded()
+                }
             }
         }
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        magnifierState()
-    }
+//    override func viewDidLayoutSubviews() {
+//        super.viewDidLayoutSubviews()
+//        magnifierState()
+//    }
     
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

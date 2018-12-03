@@ -46,6 +46,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         cell.countNumber.text = "\(indexPath.row + 1)"
         cell.memberCup.text = "\((self.activeWarRes?.response?.members?[indexPath.row].user_point!)!)"
         cell.memberClanCup.text = "\((self.activeWarRes?.response?.members?[indexPath.row].user_time!)!)"
+        
         return cell
     }
     
@@ -67,22 +68,6 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
     @objc func checkButtonAction() {
         if isWarStart {
             self.clanMembersList.useButton.addTarget(self, action: #selector(startClanWar), for: UIControlEvents.touchUpInside)
-            if self.activeWarRes?.response?.members != nil {
-            for i in 0...(self.activeWarRes?.response?.members?.count)! - 1 {
-                if (self.activeWarRes?.response?.members?[i].user_id!)! == loadingViewController.userid {
-                    
-                    if (self.activeWarRes?.response?.members?[i].status!)! == "2" {
-                        self.isActiveStartButton = false
-                        self.clanMembersList.useButton.setBackgroundImage(publicImages().inactiveLargeButton, for: UIControlState.normal)
-                    } else {
-                        self.isActiveStartButton = true
-                        self.clanMembersList.useButton.setBackgroundImage(publicImages().action_back_large_btn, for: UIControlState.normal)
-                    }
-                }
-                break
-            }
-            }
-            
         } else {
             self.isActiveStartButton = false
             self.clanMembersList.useButton.addTarget(self, action: #selector(joiningClan), for: UIControlEvents.touchUpInside)
@@ -219,6 +204,27 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         self.clanMembersList.noPriceTitleForeGround.font = fonts().iPhonefonts
         self.clanMembersList.useButtonPriceIcon.image = UIImage()
         self.clanMembersList.noPriceTitleForeGround.text = "شروع بازی"
-        self.clanMembersList.useButton.setBackgroundImage(publicImages().action_back_large_btn, for: UIControlState.normal)
+        if self.activeWarRes != nil {
+            let index = self.activeWarRes?.response?.members?.index(where: { $0.user_id == loadingViewController.userid})
+
+            switch (self.activeWarRes?.response?.members?[index!].status!)! {
+
+            case publicConstants().activeWarStartButton:
+
+                self.isActiveStartButton = true
+                self.clanMembersList.useButton.setBackgroundImage(publicImages().action_back_large_btn, for: UIControlState.normal)
+
+                self.clanMembersList.useButton.isUserInteractionEnabled = true
+
+            case publicConstants().inactiveWarStartButton:
+
+                self.isActiveStartButton = false
+                self.clanMembersList.useButton.setBackgroundImage(publicImages().inactiveLargeButton, for: UIControlState.normal)
+
+                self.clanMembersList.useButton.isUserInteractionEnabled = false
+            default :
+                break
+            }
+        }
     }
 }

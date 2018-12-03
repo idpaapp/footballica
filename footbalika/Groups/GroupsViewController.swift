@@ -28,7 +28,6 @@ protocol groupDetailViewControllerDelegate {
 
 class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate {
     
-    
     func showProfile(id : String , isGroupDetailUser : Bool , completionHandler : @escaping () -> Void) {
         self.getProfile(userid : id, isGroupDetail: isGroupDetailUser, completionHandler: {
             completionHandler()
@@ -163,7 +162,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @IBOutlet weak var groupGameOutlet: RoundButton!
     @IBOutlet weak var groupsGamePage: UIView!
     @IBOutlet weak var groupsMatchPage: UIView!
-    
+        
     var state = "friendsList"
     var searchCount = 1
     

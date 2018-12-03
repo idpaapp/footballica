@@ -19,6 +19,8 @@
 		5C0CBDDF21849086007B9C6E /* minMaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0CBDDE21849086007B9C6E /* minMaxView.swift */; };
 		5C0CBDE2218493D1007B9C6E /* buyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0CBDE1218493D1007B9C6E /* buyButton.swift */; };
 		5C0CBDE4218493D9007B9C6E /* buyButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C0CBDE3218493D9007B9C6E /* buyButton.xib */; };
+		5C0DFB0121B54CFE00B4BA1F /* warRewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0DFB0021B54CFE00B4BA1F /* warRewards.swift */; };
+		5C0DFB0421B551C200B4BA1F /* clanRewardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0DFB0321B551C200B4BA1F /* clanRewardsViewController.swift */; };
 		5C0FB796211AC85700A7DA3A /* buy_item.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C0FB795211AC85600A7DA3A /* buy_item.mp3 */; };
 		5C12536020F0C4A6005A64E8 /* chargeTypesDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C12535F20F0C4A6005A64E8 /* chargeTypesDownload.swift */; };
 		5C12536220F0C4FE005A64E8 /* stadiumDataDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C12536120F0C4FE005A64E8 /* stadiumDataDownload.swift */; };
@@ -260,6 +262,8 @@
 		5C0CBDDE21849086007B9C6E /* minMaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = minMaxView.swift; sourceTree = "<group>"; };
 		5C0CBDE1218493D1007B9C6E /* buyButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = buyButton.swift; sourceTree = "<group>"; };
 		5C0CBDE3218493D9007B9C6E /* buyButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = buyButton.xib; sourceTree = "<group>"; };
+		5C0DFB0021B54CFE00B4BA1F /* warRewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = warRewards.swift; sourceTree = "<group>"; };
+		5C0DFB0321B551C200B4BA1F /* clanRewardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clanRewardsViewController.swift; sourceTree = "<group>"; };
 		5C0FB795211AC85600A7DA3A /* buy_item.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buy_item.mp3; sourceTree = "<group>"; };
 		5C12535F20F0C4A6005A64E8 /* chargeTypesDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chargeTypesDownload.swift; sourceTree = "<group>"; };
 		5C12536120F0C4FE005A64E8 /* stadiumDataDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stadiumDataDownload.swift; sourceTree = "<group>"; };
@@ -550,6 +554,14 @@
 				5C0CBDE3218493D9007B9C6E /* buyButton.xib */,
 			);
 			path = buyButton;
+			sourceTree = "<group>";
+		};
+		5C0DFB0221B5518E00B4BA1F /* clanRewards */ = {
+			isa = PBXGroup;
+			children = (
+				5C0DFB0321B551C200B4BA1F /* clanRewardsViewController.swift */,
+			);
+			path = clanRewards;
 			sourceTree = "<group>";
 		};
 		5C137BD621A4215E00237EC5 /* clanMatchField */ = {
@@ -1006,6 +1018,7 @@
 		5C86357321770474002A5831 /* Clan */ = {
 			isa = PBXGroup;
 			children = (
+				5C0DFB0221B5518E00B4BA1F /* clanRewards */,
 				5CEE3BCC21844E4B006C72E1 /* createClanGroup */,
 				5CC5375F21858B1800B15560 /* GroupLogo */,
 				5C86357121770461002A5831 /* clanGroupsViewController.swift */,
@@ -1154,6 +1167,7 @@
 				5C89C4E22196CD07001E64E8 /* getActiveWar.swift */,
 				5C14B9FB2196F9AC00B7A750 /* startWar.swift */,
 				5C30A41521A96D2200B41032 /* warQuestions.swift */,
+				5C0DFB0021B54CFE00B4BA1F /* warRewards.swift */,
 				5C055FFB20EA2D6C006267C1 /* connectionView */,
 			);
 			path = Models;
@@ -1709,6 +1723,7 @@
 				5C4B4659217B25F60054F777 /* chatNewsCell.swift in Sources */,
 				5C9FFCF420D8F6FA007A11C0 /* loginStructure.swift in Sources */,
 				5C3B279A2104663500150FB2 /* gamesList.swift in Sources */,
+				5C0DFB0421B551C200B4BA1F /* clanRewardsViewController.swift in Sources */,
 				5C84D51720CCFF7100A9DC67 /* pageVC.swift in Sources */,
 				5C963AC620F4A814009DB6A6 /* mainMatchFieldViewController.swift in Sources */,
 				5C89C4DF2196B50F001E64E8 /* clanTimerView.swift in Sources */,
@@ -1724,6 +1739,7 @@
 				5C9FFCF620D8F74C007A11C0 /* loginMainInfo.swift in Sources */,
 				5C84D4F420CCFD2500A9DC67 /* AppDelegate.swift in Sources */,
 				5C84D52E20CCFFFF00A9DC67 /* GamesList.swift in Sources */,
+				5C0DFB0121B54CFE00B4BA1F /* warRewards.swift in Sources */,
 				5C84D50F20CCFED500A9DC67 /* loadingViewController.swift in Sources */,
 				5CC4045220E2074300EC97FF /* gameCharges.swift in Sources */,
 				5CEE3BD221845028006C72E1 /* createClanGroupViewController.swift in Sources */,

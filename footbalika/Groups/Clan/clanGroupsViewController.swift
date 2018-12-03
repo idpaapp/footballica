@@ -157,7 +157,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     
                     let cell = tableView.dequeueReusableCell(withIdentifier: "currentUserCell", for: indexPath) as! currentUserCell
                     
-//                    let url = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
+                    //                    let url = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
                     let url = "\(urlClass.avatar)\((self.chatRes?.response?[indexPath.row].avatar!)!)"
                     
                     let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
@@ -260,7 +260,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "clanGroupsCell", for: indexPath) as! clanGroupsCell
-
+            
             cell.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\(((self.res?.response?[indexPath.row].caln_logo!)!))")
             cell.clanCup.text = ((self.res?.response?[indexPath.row].clan_score!)!)
             cell.clanName.text = ((self.res?.response?[indexPath.row].title!)!)
@@ -289,7 +289,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             case publicConstants().DEMOTE :
                 return 45
             case publicConstants().CLAN_WAR :
-                return 126
+                if  UIScreen.main.bounds.height <= 568 {
+                    return 110
+                } else {
+                    return 126
+                }
             case publicConstants().WAR_RESULT :
                 return 126
             case publicConstants().WAR_CANCELED :
@@ -374,25 +378,25 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     @objc func showDetails() {
         DispatchQueue.main.async {
-        UIView.animate(withDuration: 0.5) {
-            self.showHideDetailsConstraint.constant = 190
-            self.view.layoutIfNeeded()
-        }
-        UIView.animate(withDuration: 0.5) {
-            self.clanDetailsView.alpha = 1.0
-        }
+            UIView.animate(withDuration: 0.5) {
+                self.showHideDetailsConstraint.constant = 190
+                self.view.layoutIfNeeded()
+            }
+            UIView.animate(withDuration: 0.5) {
+                self.clanDetailsView.alpha = 1.0
+            }
         }
     }
     
     @objc func hideDetails() {
         DispatchQueue.main.async {
-        UIView.animate(withDuration: 0.5) {
-            self.showHideDetailsConstraint.constant = 10
-            self.view.layoutIfNeeded()
-        }
-        UIView.animate(withDuration: 0.3) {
-            self.clanDetailsView.alpha = 0.0
-        }
+            UIView.animate(withDuration: 0.5) {
+                self.showHideDetailsConstraint.constant = 10
+                self.view.layoutIfNeeded()
+            }
+            UIView.animate(withDuration: 0.3) {
+                self.clanDetailsView.alpha = 0.0
+            }
         }
     }
     
@@ -500,7 +504,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = .white
-//        refreshControl.attributedTitle = NSAttributedString(string: "در حال به روز رسانی" , attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
+        //        refreshControl.attributedTitle = NSAttributedString(string: "در حال به روز رسانی" , attributes: [NSAttributedStringKey.foregroundColor: UIColor.white])
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         self.clansTV.addSubview(refreshControl)
         

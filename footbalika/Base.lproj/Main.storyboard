@@ -2437,11 +2437,11 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eSi-8t-hPe" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
                                                     <rect key="frame" x="10" y="15" width="289" height="40"/>
                                                     <subviews>
-                                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  کد یا نام کاربر مورد نظر را بنویسید" textAlignment="right" adjustsFontForContentSizeCategory="YES" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5WF-6y-Cxn">
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  کد یا نام کاربر مورد نظر را بنویسید" textAlignment="right" adjustsFontForContentSizeCategory="YES" minimumFontSize="2" translatesAutoresizingMaskIntoConstraints="NO" id="5WF-6y-Cxn">
                                                             <rect key="frame" x="0.0" y="0.0" width="289" height="40"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="textColor"/>
-                                                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                                                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                                         </textField>
                                                     </subviews>
@@ -2736,14 +2736,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NdJ-UH-PF7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1901" y="1277"/>
+            <point key="canvasLocation" x="1900.0000000000002" y="1276.6304347826087"/>
         </scene>
         <!--Menu Alert View Controller-->
         <scene sceneID="iod-O4-49j">
             <objects>
                 <viewController id="fuF-wP-gKN" customClass="menuAlertViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1St-8u-xsT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="561"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="6mo-N4-xIX"/>
@@ -9397,10 +9397,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dark_btn_wide" translatesAutoresizingMaskIntoConstraints="NO" id="jud-QQ-VOC">
-                                <rect key="frame" x="31" y="27.666666666666671" width="100" height="25"/>
+                                <rect key="frame" x="30.999999999999993" y="27.666666666666671" width="100.33333333333331" height="25"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5a-7T-wVp">
-                                <rect key="frame" x="31" y="27.666666666666671" width="100" height="25"/>
+                                <rect key="frame" x="30.999999999999993" y="27.666666666666671" width="100.33333333333331" height="25"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -9408,15 +9408,14 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="freeze_timer2" translatesAutoresizingMaskIntoConstraints="NO" id="11c-1m-YJl">
                                 <rect key="frame" x="10" y="20" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="NF9-dg-J6c"/>
                                     <constraint firstAttribute="width" secondItem="11c-1m-YJl" secondAttribute="height" multiplier="1:1" id="YQm-Uh-1Lo"/>
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dark_btn_wide" translatesAutoresizingMaskIntoConstraints="NO" id="Ebj-iv-WNc">
-                                <rect key="frame" x="283" y="27.666666666666671" width="100" height="25"/>
+                                <rect key="frame" x="282.66666666666669" y="27.666666666666671" width="100.33333333333331" height="25"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cbx-fK-kPp">
-                                <rect key="frame" x="283" y="27.666666666666671" width="100" height="25"/>
+                                <rect key="frame" x="282.66666666666669" y="27.666666666666671" width="100.33333333333331" height="25"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -9424,7 +9423,6 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bomb2" translatesAutoresizingMaskIntoConstraints="NO" id="ybn-nF-opx">
                                 <rect key="frame" x="364" y="18" width="40" height="40"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="HE3-fR-tNJ"/>
                                     <constraint firstAttribute="width" secondItem="ybn-nF-opx" secondAttribute="height" multiplier="1:1" id="fck-fr-XZP"/>
                                 </constraints>
                             </imageView>
@@ -9455,32 +9453,37 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nfi-eQ-bas" customClass="clanTimerView" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="107" y="50" width="200" height="150"/>
+                                <rect key="frame" x="107" y="50" width="200" height="140.33333333333334"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="150" id="DvB-YZ-jmG"/>
                                     <constraint firstAttribute="width" constant="200" id="GZV-BM-cZx"/>
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EJb-B8-eWA">
-                                <rect key="frame" x="0.0" y="200" width="414" height="351"/>
+                                <rect key="frame" x="0.0" y="190.33333333333334" width="414" height="360.66666666666663"/>
                                 <connections>
                                     <segue destination="kL7-Bc-wM3" kind="embed" identifier="membersOfGroup" id="XDp-aF-KLq"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pDN-3a-MfM">
-                                <rect key="frame" x="10" y="68" width="394" height="124"/>
+                                <rect key="frame" x="10" y="68" width="394" height="114.33333333333331"/>
                                 <connections>
                                     <segue destination="4XO-8b-yNG" kind="embed" identifier="clanResults" id="VjC-Dl-3PZ"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ii1-1G-Iui">
-                                <rect key="frame" x="139" y="20" width="136" height="76"/>
+                                <rect key="frame" x="139.33333333333331" y="20" width="135.33333333333331" height="76"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="76" id="Fbu-yz-VUv"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="UE9-Zv-Apb" kind="embed" identifier="timer" id="oLj-A8-LFU"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pnb-AH-GiQ">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="561"/>
+                                <connections>
+                                    <segue destination="M1r-G0-cAs" kind="embed" id="fBA-ad-Y8X"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -9494,6 +9497,7 @@
                             <constraint firstItem="W5q-E3-wfv" firstAttribute="width" secondItem="FZ5-Yi-jeA" secondAttribute="width" multiplier="2:3" id="3R7-wr-Tf5"/>
                             <constraint firstItem="R5a-7T-wVp" firstAttribute="leading" secondItem="11c-1m-YJl" secondAttribute="trailing" constant="-19" id="5Ky-Lz-X4Z"/>
                             <constraint firstItem="EJb-B8-eWA" firstAttribute="width" secondItem="FZ5-Yi-jeA" secondAttribute="width" multiplier="1:1" id="8JQ-fc-lHG"/>
+                            <constraint firstItem="pnb-AH-GiQ" firstAttribute="top" secondItem="FZ5-Yi-jeA" secondAttribute="top" id="8KR-In-hgf"/>
                             <constraint firstItem="EJb-B8-eWA" firstAttribute="top" secondItem="pDN-3a-MfM" secondAttribute="bottom" constant="8" id="8Sc-sB-PBQ"/>
                             <constraint firstItem="R5a-7T-wVp" firstAttribute="width" secondItem="11c-1m-YJl" secondAttribute="width" multiplier="5:2" id="C6g-dd-WP2"/>
                             <constraint firstItem="jud-QQ-VOC" firstAttribute="height" secondItem="R5a-7T-wVp" secondAttribute="height" id="Ddc-Jt-mAz"/>
@@ -9509,8 +9513,11 @@
                             <constraint firstItem="Ebj-iv-WNc" firstAttribute="height" secondItem="cbx-fK-kPp" secondAttribute="height" id="LYK-Hg-VMt"/>
                             <constraint firstItem="Nfi-eQ-bas" firstAttribute="top" secondItem="FZ5-Yi-jeA" secondAttribute="topMargin" constant="30" id="Lu9-3q-H4v"/>
                             <constraint firstItem="y5l-Uo-BkL" firstAttribute="bottom" secondItem="BuI-cP-c1g" secondAttribute="bottom" constant="20" id="MFJ-kD-r4S"/>
+                            <constraint firstItem="Nfi-eQ-bas" firstAttribute="height" secondItem="FZ5-Yi-jeA" secondAttribute="height" multiplier="1:4" id="Mwm-sN-iq0"/>
                             <constraint firstItem="ii1-1G-Iui" firstAttribute="top" secondItem="y5l-Uo-BkL" secondAttribute="top" id="Nhb-St-bWN"/>
                             <constraint firstItem="ybn-nF-opx" firstAttribute="leading" secondItem="cbx-fK-kPp" secondAttribute="trailing" constant="-19" id="P6c-2a-zrF"/>
+                            <constraint firstItem="pnb-AH-GiQ" firstAttribute="trailing" secondItem="y5l-Uo-BkL" secondAttribute="trailing" id="Rmd-zU-thJ"/>
+                            <constraint firstItem="pnb-AH-GiQ" firstAttribute="bottom" secondItem="y5l-Uo-BkL" secondAttribute="bottom" id="UoR-Ic-A2s"/>
                             <constraint firstItem="R5a-7T-wVp" firstAttribute="centerY" secondItem="11c-1m-YJl" secondAttribute="centerY" id="VJc-OP-uc8"/>
                             <constraint firstItem="BuI-cP-c1g" firstAttribute="width" secondItem="W5q-E3-wfv" secondAttribute="width" multiplier="2:3" id="VKQ-Lx-aF3"/>
                             <constraint firstItem="Nfi-eQ-bas" firstAttribute="centerX" secondItem="FZ5-Yi-jeA" secondAttribute="centerX" id="a19-u7-Qr0"/>
@@ -9520,6 +9527,7 @@
                             <constraint firstItem="Lkx-Is-IEs" firstAttribute="centerY" secondItem="FZ5-Yi-jeA" secondAttribute="centerY" id="cNR-sh-rIe"/>
                             <constraint firstItem="ii1-1G-Iui" firstAttribute="leading" secondItem="jud-QQ-VOC" secondAttribute="trailing" constant="8" id="f36-Mb-U2v"/>
                             <constraint firstItem="EJb-B8-eWA" firstAttribute="top" secondItem="Nfi-eQ-bas" secondAttribute="bottom" id="g9s-hA-sKX"/>
+                            <constraint firstItem="pnb-AH-GiQ" firstAttribute="leading" secondItem="y5l-Uo-BkL" secondAttribute="leading" id="gh5-TZ-uhK"/>
                             <constraint firstItem="ikL-zk-Ayx" firstAttribute="centerX" secondItem="Lkx-Is-IEs" secondAttribute="centerX" id="hUl-ET-hAN"/>
                             <constraint firstItem="jud-QQ-VOC" firstAttribute="width" secondItem="R5a-7T-wVp" secondAttribute="width" id="iCa-G5-waA"/>
                             <constraint firstItem="EJb-B8-eWA" firstAttribute="centerX" secondItem="y5l-Uo-BkL" secondAttribute="centerX" id="iIY-ye-qV7"/>
@@ -9527,6 +9535,8 @@
                             <constraint firstItem="y5l-Uo-BkL" firstAttribute="trailing" secondItem="ikL-zk-Ayx" secondAttribute="trailing" constant="10" id="iki-cO-jCo"/>
                             <constraint firstItem="cbx-fK-kPp" firstAttribute="width" secondItem="ybn-nF-opx" secondAttribute="width" multiplier="5:2" id="khs-78-Msa"/>
                             <constraint firstItem="Ebj-iv-WNc" firstAttribute="width" secondItem="cbx-fK-kPp" secondAttribute="width" id="kys-QX-aJi"/>
+                            <constraint firstItem="ybn-nF-opx" firstAttribute="height" secondItem="FZ5-Yi-jeA" secondAttribute="height" multiplier="1:14" id="ngQ-Sd-9dW"/>
+                            <constraint firstItem="11c-1m-YJl" firstAttribute="height" secondItem="ybn-nF-opx" secondAttribute="height" id="q7i-1R-q5t"/>
                             <constraint firstItem="BuI-cP-c1g" firstAttribute="centerX" secondItem="y5l-Uo-BkL" secondAttribute="centerX" id="qmN-Kd-Iwe"/>
                             <constraint firstItem="y5l-Uo-BkL" firstAttribute="bottom" secondItem="EJb-B8-eWA" secondAttribute="bottom" constant="10" id="rq5-Su-nhZ"/>
                             <constraint firstItem="jud-QQ-VOC" firstAttribute="centerY" secondItem="R5a-7T-wVp" secondAttribute="centerY" id="tIR-2B-tjy"/>
@@ -9539,6 +9549,7 @@
                         <outlet property="bombCount" destination="cbx-fK-kPp" id="vdv-Ud-fFz"/>
                         <outlet property="clanMembersContainerView" destination="EJb-B8-eWA" id="SWd-QU-Fk6"/>
                         <outlet property="clanResultsContainerView" destination="pDN-3a-MfM" id="GYk-qU-liX"/>
+                        <outlet property="clanReward" destination="pnb-AH-GiQ" id="6on-Er-Yeb"/>
                         <outlet property="clanTimer" destination="Nfi-eQ-bas" id="pwY-6u-AY4"/>
                         <outlet property="freezeCount" destination="R5a-7T-wVp" id="be9-Rz-I3M"/>
                         <outlet property="ghesarSentencesLabel" destination="ikL-zk-Ayx" id="Io2-pR-Hd6"/>
@@ -9551,18 +9562,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nIF-CW-zg2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-697" y="2228"/>
+            <point key="canvasLocation" x="-697.10144927536237" y="2227.5815217391305"/>
         </scene>
         <!--Group Members View Controller-->
         <scene sceneID="BdD-zp-VTa">
             <objects>
                 <viewController id="kL7-Bc-wM3" customClass="groupMembersViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mc4-jd-ZVm">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="351"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="360.66666666666663"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5gv-19-rgO" customClass="clanMembersListView" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="351"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="360.66666666666669"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -9669,18 +9680,18 @@
             <objects>
                 <viewController id="4XO-8b-yNG" customClass="clanResultsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="QJH-r6-onf">
-                        <rect key="frame" x="0.0" y="0.0" width="394" height="124"/>
+                        <rect key="frame" x="0.0" y="0.0" width="394" height="114.33333333333331"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="vrC-Rc-diu">
-                                <rect key="frame" x="0.0" y="0.0" width="394" height="124"/>
+                                <rect key="frame" x="0.0" y="0.0" width="394" height="114.33333333333333"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="avg-2D-pjy" customClass="clanLeftResaultView" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="197" height="124"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="197" height="114.33333333333333"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Seq-a6-Uka" customClass="clanRightResaultView" customModule="footbalika" customModuleProvider="target">
-                                        <rect key="frame" x="197" y="0.0" width="197" height="124"/>
+                                        <rect key="frame" x="197" y="0.0" width="197" height="114.33333333333333"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
                                 </subviews>
@@ -9709,20 +9720,20 @@
             <objects>
                 <viewController id="UE9-Zv-Apb" customClass="showTimerViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OVk-53-wP9">
-                        <rect key="frame" x="0.0" y="0.0" width="136" height="76"/>
+                        <rect key="frame" x="0.0" y="0.0" width="135.33333333333331" height="76"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="eCO-e4-49C">
-                                <rect key="frame" x="0.0" y="0.0" width="136" height="76"/>
+                                <rect key="frame" x="0.0" y="0.0" width="135.33333333333334" height="76"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49b-pj-xdi">
-                                        <rect key="frame" x="0.0" y="0.0" width="136" height="38"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="135.33333333333334" height="38"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ye-tb-dWR">
-                                        <rect key="frame" x="0.0" y="38" width="136" height="38"/>
+                                        <rect key="frame" x="0.0" y="38" width="135.33333333333334" height="38"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                                         <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                         <nil key="highlightedColor"/>
@@ -10076,6 +10087,20 @@
             </objects>
             <point key="canvasLocation" x="-1459.4202898550725" y="3134.5108695652175"/>
         </scene>
+        <!--Clan Rewards View Controller-->
+        <scene sceneID="h8m-j5-NLq">
+            <objects>
+                <viewController restorationIdentifier="clanRewardsViewController" storyboardIdentifier="clanRewardsViewController" id="M1r-G0-cAs" customClass="clanRewardsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ITg-Nq-btA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="561"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nZI-yF-9yJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="154" y="3104"/>
+        </scene>
     </scenes>
     <resources>
         <image name="accept_btn" width="193" height="78"/>
@@ -10151,12 +10176,12 @@
         <segue reference="Y0k-hE-f5g"/>
         <segue reference="g8B-Ay-vU8"/>
         <segue reference="uc8-hl-oU7"/>
-        <segue reference="uy9-ug-KDx"/>
-        <segue reference="8Zf-Y3-3ch"/>
+        <segue reference="L4x-qM-2EV"/>
+        <segue reference="Lbr-OX-ZK3"/>
         <segue reference="wU6-MG-i6J"/>
         <segue reference="254-gE-KV2"/>
         <segue reference="Ke5-Nx-c39"/>
-        <segue reference="ita-is-WN4"/>
+        <segue reference="EEH-ra-CAp"/>
         <segue reference="N21-7O-RH3"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -10,12 +10,12 @@ import UIKit
 import Kingfisher
 
 protocol ShopTutorialDelegate {
-     func shopTutorialSelect()
-     func goToGroupsPage()
+    func shopTutorialSelect()
+    func goToGroupsPage()
 }
 
 protocol ItemViewControllerDelegate {
-     func continueHelp()
+    func continueHelp()
 }
 
 class StoreViewController: UIViewController , UICollectionViewDataSource , UICollectionViewDelegate , UICollectionViewDelegateFlowLayout , ShopTutorialDelegate , ItemViewControllerDelegate {
@@ -27,7 +27,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         }
     }
     
-        
+    
     func shopTutorialSelect() {
         self.storeCV.reloadData()
     }
@@ -52,7 +52,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     @objc func openCoinsOrMoney(notification: Notification){
         self.view.isUserInteractionEnabled = true
         if let text = notification.userInfo?["title"] as? String {
-           openCoinOrMoney(Title: text)
+            openCoinOrMoney(Title: text)
         }
     }
     var packageIndex = Int()
@@ -120,67 +120,67 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData(notification:)), name: Notification.Name("refreshUserData"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.openCoinsOrMoney(notification:)), name: Notification.Name("openCoinsOrMoney"), object: nil)
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(showBoughtItem), name: Notification.Name("showingBoughtItem"), object: nil)
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(choosePackage), name: Notification.Name("packageSelected"), object: nil)
-
+        
         self.storeCV.allowsMultipleSelection = false
         self.xpProgressBackGround.layer.cornerRadius = 3
         xp.minimumScaleFactor = 0.5
         xp.adjustsFontSizeToFitWidth = true
     }
-
+    
     var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
     var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
     var bouncingObject = UIButton()
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if (loadShop.res?.response?.count)! == 1 {
-        return (loadShop.res?.response?[self.mainShopIndex].items?.count)!
+            return (loadShop.res?.response?[self.mainShopIndex].items?.count)!
         } else {
-//            print((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1)
+            //            print((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?.count)! - 1)
             print("count cells\((loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?[self.packageIndex].items?.count)!)")
-        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?[self.packageIndex].items?.count)!
-//        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + 1
+            return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + (loadShop.res?.response?[self.packageIndex].items?.count)!
+            //        return (loadShop.res?.response?[self.mainShopIndex].items?.count)! + 1
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        print(indexPath.item)
+        //        print(indexPath.item)
         if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)! {
-//        if indexPath.item > 0 {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
-        cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].image!)!))")
-        
-        if UIDevice().userInterfaceIdiom == .phone {
-        cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: -7.0)
-        cell.storeLabelForeGround.font = iPhonefonts
-        } else {
-            cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: -7.0)
-            cell.storeLabelForeGround.font = iPadfonts
-        }
+            //        if indexPath.item > 0 {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
+            cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].image!)!))")
             
-        cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))"
-        cell.storeSelect.tag = indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!
-        cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
+            if UIDevice().userInterfaceIdiom == .phone {
+                cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: -7.0)
+                cell.storeLabelForeGround.font = iPhonefonts
+            } else {
+                cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: -7.0)
+                cell.storeLabelForeGround.font = iPadfonts
+            }
+            
+            cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))"
+            cell.storeSelect.tag = indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!
+            cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
             if matchViewController.isTutorial {
                 cell.storeSelect.isUserInteractionEnabled = false
             } else {
                 cell.storeSelect.isUserInteractionEnabled = true
             }
-        return cell
+            return cell
             
         } else {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell
-//            print(indexPath.item)
+            //            print(indexPath.item)
             let url = "\(((loadShop.res?.response?[self.packageIndex].items?[indexPath.item].banner_image!)!))"
             let urls = URL(string: url)
             let resource = ImageResource(downloadURL: urls!, cacheKey: url)
             let processor = RoundCornerImageProcessor(cornerRadius: 10)
             cell.packageButton.kf.setBackgroundImage(with: resource , for: UIControlState.normal, options : [.transition(ImageTransition.fade(0.5)) , .processor(processor)])
-
+            
             cell.packageButton.tag = indexPath.item
             cell.packageButton.addTarget(self, action: #selector(packageSelected), for: UIControlEvents.touchUpInside)
             cell.packageButton.clipsToBounds = true
@@ -189,7 +189,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             return cell
         }
     }
-        
+    
     var selectedPackage = Int()
     @objc func packageSelected(_ sender : UIButton!) {
         self.selectedPackage = sender.tag
@@ -201,31 +201,31 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     @objc func choosePackage() {
         
         if (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "0" || (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "2" || (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "3" {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handlePackages", JSONStr: "{'package_id' : '\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
-            DispatchQueue.main.async {
-                
-                if data != nil {
-                    DispatchQueue.main.async {
-                        PubProc.cV.hideWarning()
-                    }
+            PubProc.HandleDataBase.readJson(wsName: "ws_handlePackages", JSONStr: "{'package_id' : '\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
+                DispatchQueue.main.async {
                     
-                    //                      print(data ?? "")
-                    
-                    let chooseRes = String(data: data!, encoding: String.Encoding.utf8) as String?
-                    
-                    print((chooseRes)!)
-                    
-                    if ((chooseRes)!).contains("TRANSACTION_COMPELETE") {
+                    if data != nil {
                         DispatchQueue.main.async {
-                            login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
-                                
-                                self.performSegue(withIdentifier: "showItem", sender: self)
-                                self.view.isUserInteractionEnabled = true
-                                //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                            PubProc.cV.hideWarning()
+                        }
+                        
+                        //                      print(data ?? "")
+                        
+                        let chooseRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+                        
+                        print((chooseRes)!)
+                        
+                        if ((chooseRes)!).contains("TRANSACTION_COMPELETE") {
+                            DispatchQueue.main.async {
+                                login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                                    
+                                    self.performSegue(withIdentifier: "showItem", sender: self)
+                                    self.view.isUserInteractionEnabled = true
+                                    //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                     DispatchQueue.main.async{
                                         loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
                                             NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
-//                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
+                                            //                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
                                             self.rData()
                                             if  ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!) != "سکه" || ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!) != "پول"  {
                                                 self.storeCV.reloadData()
@@ -233,30 +233,30 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                                             }
                                         })
                                     }
-                                //                                })
-                            })
+                                    //                                })
+                                })
+                            }
+                        } else  if ((chooseRes)!).contains("NOT_ENOUGH_RESOURCE") {
+                            self.view.isUserInteractionEnabled = true
+                            self.notEnough = "شما به اندازه ی کافی پول یا سکه ندارید"
+                            self.performSegue(withIdentifier: "shopAlert", sender: self)
+                            PubProc.wb.hideWaiting()
+                        } else {
+                            self.view.isUserInteractionEnabled = true
+                            self.notEnough = "تراکنش نا موفق بود!"
+                            self.performSegue(withIdentifier: "shopAlert", sender: self)
+                            PubProc.wb.hideWaiting()
                         }
-                    } else  if ((chooseRes)!).contains("NOT_ENOUGH_RESOURCE") {
-                        self.view.isUserInteractionEnabled = true
-                        self.notEnough = "شما به اندازه ی کافی پول یا سکه ندارید"
-                        self.performSegue(withIdentifier: "shopAlert", sender: self)
-                        PubProc.wb.hideWaiting()
                     } else {
+                        self.choosePackage()
                         self.view.isUserInteractionEnabled = true
-                        self.notEnough = "تراکنش نا موفق بود!"
-                        self.performSegue(withIdentifier: "shopAlert", sender: self)
+                        print("Error Connection")
+                        print(error as Any)
                         PubProc.wb.hideWaiting()
+                        // handle error
                     }
-                } else {
-                    self.choosePackage()
-                    self.view.isUserInteractionEnabled = true
-                    print("Error Connection")
-                    print(error as Any)
-                    PubProc.wb.hideWaiting()
-                    // handle error
                 }
-            }
-            }.resume()
+                }.resume()
             
         } else {
             
@@ -289,7 +289,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             if (loadShop.res?.response?[self.mainShopIndex].items?[selectedShop].type)! == "3" {
                 vc.myVitrin = true
             } else {
-               vc.myVitrin = false
+                vc.myVitrin = false
             }
             
             vc.mainShopIndex = self.mainShopIndex
@@ -306,8 +306,10 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         }
         
         if let vc = segue.destination as? ItemViewController {
-            vc.TitleItem = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!
-            vc.ImageItem = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
+            //            vc.TitleItem = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!
+            //            vc.ImageItem = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
+            vc.TitleItem =  self.packageTitle
+            vc.ImageItem = self.packageImage
             vc.isPackage = true
             vc.delegate = self
         }
@@ -325,7 +327,9 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     }
     
     var notEnough = String()
-     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    var packageTitle = String()
+    var packageImage = String()
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         var packageScreenSize = CGSize()
         if UIDevice().userInterfaceIdiom == .phone  {
@@ -409,6 +413,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                     }
                     StoreViewController.packageShowAfterWeb = ""
                     if ((trans)!).contains("TRANSACTION_OK") {
+                        self.packageTitle = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!
+                        self.packageImage = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
                         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
                             loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
                                 StoreViewController.packageShowAfterWeb = ""

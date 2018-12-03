@@ -22,17 +22,25 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     
     var score = Int()
     func dismissing() {
+        setDefaultsClanMatch(time: self.time)
+        DispatchQueue.main.async {
+            PubProc.wb.showWaiting()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            DispatchQueue.main.async {
+                PubProc.wb.hideWaiting()
+            }
         if musicPlay.musicPlayer?.isPlaying == false {
             musicPlay().playMenuMusic()
         } else {}
-        self.dismiss(animated: true, completion: nil)
-        
-//        sendClanMatchScores().sendClanMatchScores(jsonStr : "{'mode' : 'UPDT_WAR_RESULT' , 'score' : '\(self.score)' , 'time' : '\(self.time)' , 'userid' : '\(loadingViewController.userid)' , 'war_id' : '\(self.warID)'}" , completionHandler: {
-//
-//
-//
-//        })
-        
+            sendClanMatchScores().sendClanMatchScores(jsonStr : self.matchJsonStr , completionHandler: {
+            DispatchQueue.main.async {
+                PubProc.wb.hideWaiting()
+                self.delegate?.updateAfterFinishGame()
+            }
+            self.dismiss(animated: true, completion: nil)
+        })
+        }
     }
     
     var delegate : clanMatchFieldViewControllerDelegate!
@@ -92,6 +100,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     var answers = [Int]()
     
     var warID = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,6 +144,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     }
     
     var time = Float()
+    
     func countingTime() {
         self.time = Float((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!)
     }
@@ -192,60 +202,61 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
             self.answer4Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
         }
         
-        //             PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
-        //
-        //                if data != nil {
-        //
-        //                    DispatchQueue.main.async {
-        //                        PubProc.cV.hideWarning()
-        //                    }
-        //
-        //                    //                print(data ?? "")
-        //
-        //
-        //                    DispatchQueue.main.async {
-        //                        PubProc.wb.hideWaiting()
-        //                    }
-        //
-        //                } else {
-        //                    self.bombAction()
-        //                    print("Error Connection")
-        //                    print(error as Any)
-        //                    // handle error
-        //                }
-        //                }.resume()
+                     PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
+        
+                        if data != nil {
+        
+                            DispatchQueue.main.async {
+                                PubProc.cV.hideWarning()
+                            }
+        
+                            //                print(data ?? "")
+        
+        
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                            }
+        
+                        } else {
+                            self.bombAction()
+                            print("Error Connection")
+                            print(error as Any)
+                            // handle error
+                        }
+                        }.resume()
         
     }
     
     var isFreez = Bool()
-    
+    var freezeUsed = false
     @objc func freezAction() {
         self.freezTimer.isUserInteractionEnabled = false
         disabledFreezeTimer()
         self.isFreez = true
         self.gameTimer.invalidate()
         nukeAllAnimations()
-        //            PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
-        //
-        //                if data != nil {
-        //
-        //                    DispatchQueue.main.async {
-        //                        PubProc.cV.hideWarning()
-        //                    }
-        //
-        //                    //                print(data ?? "")
-        //
-        //                    DispatchQueue.main.async {
-        //                        PubProc.wb.hideWaiting()
-        //                    }
-        //
-        //                } else {
-        //                    self.freezAction()
-        //                    print("Error Connection")
-        //                    print(error as Any)
-        //                    // handle error
-        //                }
-        //                }.resume()
+        self.freezeUsed = true
+                    PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
+
+                        if data != nil {
+
+                            DispatchQueue.main.async {
+                                PubProc.cV.hideWarning()
+                            }
+
+                            //                print(data ?? "")
+
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                            }
+
+                        } else {
+                            self.freezAction()
+                            print("Error Connection")
+                            print(error as Any)
+                            // handle error
+                        }
+                        }.resume()
     }
     
     
@@ -359,8 +370,8 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     }
     
     var currentQuestion = 0
-    var correctAnswer = Int()
     
+    var correctAnswer = Int()
     
     @objc func musicQuize() {
         DispatchQueue.main.async {
@@ -416,11 +427,10 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     
     @objc func UpdateTimer() {
         self.time = self.time - 1
-        
-        if self.time == 5 {
+        if self.time == 4 {
             thirdSoundPlay().playThirdSound()
         }
-        if self.time == 1 {
+        if self.time == 0 {
             self.checkFinishGame = true
             soundPlay().playEndGameSound()
             musicQuize()
@@ -517,8 +527,18 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     
     var checkFinishGame = Bool()
     func hideQuestion() {
+        
         if self.isFreez {
+            if self.currentQuestion < (self.warQuestions?.response.count)! {
+                if self.freezeUsed {
             gameTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(UpdateTimer), userInfo: nil, repeats: true)
+                 self.freezeUsed = false
+                }
+            }
+        } else {
+            if self.currentQuestion >= (self.warQuestions?.response.count)! {
+                self.gameTimer.invalidate()
+            }
         }
         
         if self.isStopedAnimations {
@@ -586,13 +606,13 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         } else {
             if self.checkFinishGame == false {
                 self.checkFinishGame = true
-                musicPlay().playQuizeMusic()
-                self.gameTimer.invalidate()
+//                musicPlay().playQuizeMusic()
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                    musicPlay().playMenuMusic()
+//                }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    musicPlay().playMenuMusic()
+                    self.dismissing()
                 }
-                self.delegate?.updateAfterFinishGame()
-                dismiss(animated: true, completion: nil)
             }
         }
     }

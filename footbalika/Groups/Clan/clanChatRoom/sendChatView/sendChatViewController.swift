@@ -9,7 +9,7 @@
 import UIKit
 
 class sendChatViewController: UIViewController , UITextViewDelegate {
-
+    
     @IBOutlet weak var sendButton: RoundButton!
     
     @IBOutlet weak var chatTextView: UITextView!
@@ -32,7 +32,7 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.sendButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ارسال", strokeWidth: -5.0)
         self.sendButtonTitleForeGround.font = fonts().iPhonefonts
         self.sendButtonTitleForeGround.text = "ارسال"
@@ -84,9 +84,9 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-         if self.isEmptyTextView {
+        if self.isEmptyTextView {
             self.chatTextView.text = ""
-         } else {
+        } else {
             self.chatTextView.text = self.chatTextView.text!
         }
         self.chatTextView.textColor = publicColors().textColor
@@ -95,7 +95,7 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
     }
     
     @objc func textViewDidChange(_ textField: UITextView) {
-
+        
         self.textForSend = self.chatTextView.text!
         if self.chatTextView.text! == "" {
             self.isEmptyTextView = true
@@ -135,13 +135,19 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
                 numberOfLines = 3
             }
         } else {
-            if  UIScreen.main.bounds.height <= 667  {
+            if UIScreen.main.bounds.height <= 667  {
                 if numberOfLines > 5 {
                     numberOfLines = 5
                 }
             } else {
-                if numberOfLines > 7 {
-                    numberOfLines = 7
+                if UIDevice().userInterfaceIdiom == .pad {
+                    if numberOfLines > 9 {
+                        numberOfLines = 9
+                    }
+                } else {
+                    if numberOfLines > 7 {
+                        numberOfLines = 7
+                    }
                 }
             }
         }
@@ -168,6 +174,12 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
         case 7:
             heightConstant = 210
             self.chatTextView.isScrollEnabled = true
+        case 8:
+            heightConstant = 240
+            self.chatTextView.isScrollEnabled = true
+        case 9:
+            heightConstant = 270
+            self.chatTextView.isScrollEnabled = true
         default:
             heightConstant = 60
             self.chatTextView.isScrollEnabled = true
@@ -184,5 +196,5 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
 }

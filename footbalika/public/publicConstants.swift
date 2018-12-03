@@ -27,5 +27,7 @@ public class publicConstants {
     public var war = "2"
     public var defaultChatText2 = "...متن خود را بنویسید"
     public var defaultChatText1 = "متن خود را بنویسید..."
+    public var activeWarStartButton = "1"
+    public var inactiveWarStartButton = "2"
 
 }

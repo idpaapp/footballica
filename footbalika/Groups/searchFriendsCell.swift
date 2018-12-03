@@ -26,7 +26,6 @@ class searchFriendsCell: UITableViewCell , UITextFieldDelegate {
         self.searchTextField.delegate = self
         self.clearTextField.isHidden = true
         self.searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: UIControlEvents.editingChanged)
-
         self.clearTextField.addTarget(self, action: #selector(clearTextFieldComplete), for: UIControlEvents.touchUpInside)
         if UIDevice().userInterfaceIdiom == .phone {
         searchButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جستجو", strokeWidth: -4.0)
@@ -36,13 +35,14 @@ class searchFriendsCell: UITableViewCell , UITextFieldDelegate {
             searchButtonTitleForeGround.font = fonts().iPadfonts
         }
         searchButtonTitleForeGround.text = "جستجو"
-        
         searchButtonTitle.adjustsFontSizeToFitWidth = true
         searchButtonTitle.minimumScaleFactor = 0.5
         searchButtonTitleForeGround.adjustsFontSizeToFitWidth = true
         searchButtonTitleForeGround.minimumScaleFactor = 0.5
         searchTextField.addPadding(.right(5))
         searchTextField.addPadding(.left(30))
+        searchTextField.adjustsFontSizeToFitWidth = true
+        searchTextField.minimumFontSize = 5.0
     }
     
     @objc func clearTextFieldComplete() {
@@ -52,7 +52,6 @@ class searchFriendsCell: UITableViewCell , UITextFieldDelegate {
     }
     
     @objc func textFieldDidChange(textField: UITextField) {
-
         if self.searchTextField.text! != "" {
             self.clearTextField.isHidden = false
         } else {
