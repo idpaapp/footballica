@@ -43,6 +43,8 @@ public class publicColors {
     public var warProgressTopColor = #colorLiteral(red: 0.09019607843, green: 0.968627451, blue: 0.9647058824, alpha: 1)
     public var warProgressMiddleColor = #colorLiteral(red: 0.05882352941, green: 0.6941176471, blue: 0.9803921569, alpha: 1)
     public var warProgressBottomColor = #colorLiteral(red: 0.07450980392, green: 0.6745098039, blue: 0.9411764706, alpha: 1)
+    public var lostColor = #colorLiteral(red: 0.9992443919, green: 0.1151522771, blue: 0.3904713392, alpha: 1)
+    public var winColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
 }
 
 public class publicImages {
@@ -66,6 +68,9 @@ public class publicImages {
     public var accept_btn = UIImage(named: "accept_btn")
     public var bomb = UIImage(named: "bomb")
     public var freezeTimer = UIImage(named: "freeze_timer")
+    public var emptyAvatar = UIImage(named: "ic_avatar_large")
+    public var cup = UIImage(named: "ic_cup")
+    public var badge = UIImage(named: "ic_grade_badge")
 }
 
 public class fonts {

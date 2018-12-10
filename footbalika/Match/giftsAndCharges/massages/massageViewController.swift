@@ -76,10 +76,10 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
             self.totalViewWidth.constant = 300
             self.giftCodeTextField.delegate = self
             self.giftCodeTextField.textColor = publicColors().textFieldTintTextColor
-            sendGiftCodeTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: -6.0)
+            sendGiftCodeTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: 8.0)
             sendGiftCodeTitleForeGround.font = fonts().iPhonefonts
             sendGiftCodeTitleForeGround.text = "تأیید"
-            giftCodeTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "کد هدیه", strokeWidth: -6.0)
+            giftCodeTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "کد هدیه", strokeWidth: 8.0)
             giftCodeTitleForeGround.font = fonts().iPhonefonts
             giftCodeTitleForeGround.text = "کد هدیه"
             self.sendGiftCode.addTarget(self, action: #selector(checkGiftCode), for: UIControlEvents.touchUpInside)
@@ -97,18 +97,18 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
         
         self.massageDesc.text = "توضیحات"
         
-        self.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.massagePageTitle)", strokeWidth: -6.0)
+        self.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.massagePageTitle)", strokeWidth: 8.0)
         self.topForeGroundTitle.font = fonts().iPhonefonts
         self.topForeGroundTitle.text = "\(self.massagePageTitle)"
         
-        self.massageTitle.attributedPlaceholder = NSAttributedString(string: "نام کاربری" ,attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
+        self.massageTitle.attributedPlaceholder = NSAttributedString(string: "عنوان" ,attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
         self.massageTitle.textColor = publicColors().textFieldTintTextColor
         
         self.massageTitle.addTarget(self, action: #selector(textFieldDidChange) , for: UIControlEvents.editingChanged)
         
         self.sendMassage.addTarget(self, action: #selector(sendingMassage), for: UIControlEvents.touchUpInside)
         
-        self.sendMassageTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ارسال", strokeWidth: -6.0)
+        self.sendMassageTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ارسال", strokeWidth: 8.0)
         self.sendMassageTitleForeGround.text = "ارسال"
         self.sendMassageTitleForeGround.font = fonts().iPhonefonts
         }

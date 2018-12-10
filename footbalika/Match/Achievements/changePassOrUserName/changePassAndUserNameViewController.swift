@@ -90,19 +90,19 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
             self.signUpUserNameTextField.attributedPlaceholder = NSAttributedString(string: "نام کاربری" ,attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
             self.passSignUpTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور",attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
             self.ReagentCodeTextField.attributedPlaceholder = NSAttributedString(string: "کد معرف" ,attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
-            signUpUserNameTitle.AttributesOutLine(font: font, title: "نام کاربری", strokeWidth: -6.0)
+            signUpUserNameTitle.AttributesOutLine(font: font, title: "نام کاربری", strokeWidth: 8.0)
             signUpUserNameTitleForeGround.font = font
             signUpUserNameTitleForeGround.text = "نام کاربری"
             
-            passSignUpTitle.AttributesOutLine(font: font, title: "کلمه عبور", strokeWidth: -6.0)
+            passSignUpTitle.AttributesOutLine(font: font, title: "کلمه عبور", strokeWidth: 8.0)
             passSignUpTitleForeGround.font = font
             passSignUpTitleForeGround.text = "کلمه عبور"
             
-            ReagentCodeTitle.AttributesOutLine(font: font, title: "کد معرف", strokeWidth: -6.0)
+            ReagentCodeTitle.AttributesOutLine(font: font, title: "کد معرف", strokeWidth: 8.0)
             ReagentCodeTitleForeGround.font = font
             ReagentCodeTitleForeGround.text = "کد معرف"
             
-            signUpTitle.AttributesOutLine(font: font, title: "ثبت نام" , strokeWidth: -6.0)
+            signUpTitle.AttributesOutLine(font: font, title: "ثبت نام" , strokeWidth: 8.0)
             signUpTitleForeGround.font = font
             signUpTitleForeGround.text = "ثبت نام"
 
@@ -116,15 +116,15 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
             
             self.newPassTextField.attributedPlaceholder = NSAttributedString(string: "کلمه عبور جدید",attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
             
-            currentPassTitle.AttributesOutLine(font: font, title: "کلمه عبور فعلی", strokeWidth: -6.0)
+            currentPassTitle.AttributesOutLine(font: font, title: "کلمه عبور فعلی", strokeWidth: 8.0)
             currentPassTitleForeGround.font = font
             currentPassTitleForeGround.text = "کلمه عبور فعلی"
             
-            newPassTitle.AttributesOutLine(font: font, title: "کلمه عبور جدید", strokeWidth: -6.0)
+            newPassTitle.AttributesOutLine(font: font, title: "کلمه عبور جدید", strokeWidth: 8.0)
             newPassTitleForeGround.font = font
             newPassTitleForeGround.text = "کلمه عبور جدید"
             
-            changePassTitle.AttributesOutLine(font: font, title: "تأیید", strokeWidth: -6.0)
+            changePassTitle.AttributesOutLine(font: font, title: "تأیید", strokeWidth: 8.0)
             changePassTitleForeGround.font = font
             changePassTitleForeGround.text = "تأیید"
             
@@ -155,11 +155,11 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
             
             self.changeUserAction.addTarget(self, action: #selector(changeUserName), for: UIControlEvents.touchUpInside)
             
-            userTitle.AttributesOutLine(font: font, title: "نام کاربری", strokeWidth: -6.0)
+            userTitle.AttributesOutLine(font: font, title: "نام کاربری", strokeWidth: 8.0)
             userTitleForeGround.font = font
             userTitleForeGround.text = "نام کاربری"
             
-            userRequire.AttributesOutLine(font: font, title: "\((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)", strokeWidth: -7.0)
+            userRequire.AttributesOutLine(font: font, title: "\((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)", strokeWidth: 8.0)
             userRequireForeGround.font = font
             userRequireForeGround.text = "\((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)"
             

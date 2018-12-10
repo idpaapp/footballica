@@ -25,20 +25,25 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
     private func VCInstance(name : String) -> UIViewController {
         
         if UIDevice().userInterfaceIdiom == .phone {
-         if UIScreen.main.nativeBounds.height == 2436 {
-            //iPhone X
-        return UIStoryboard(name : "iPhoneX" , bundle : nil).instantiateViewController(withIdentifier: name)
+            if UIScreen.main.nativeBounds.height == 2436 {
+                //iPhone X
+                return UIStoryboard(name : "iPhoneX" , bundle : nil).instantiateViewController(withIdentifier: name)
+            } else {
+                return UIStoryboard(name : "Main" , bundle : nil).instantiateViewController(withIdentifier: name)
+            }
         } else {
-        return UIStoryboard(name : "Main" , bundle : nil).instantiateViewController(withIdentifier: name)
-        }
-        } else {
-           return UIStoryboard(name : "iPad" , bundle : nil).instantiateViewController(withIdentifier: name)
+            return UIStoryboard(name : "iPad" , bundle : nil).instantiateViewController(withIdentifier: name)
         }
     }
     
     
     var indexOfCurrentPage = 2
-    @objc func scrollFunction(notification: Notification){
+    @objc func scrollFunction(notification: Notification) {
+        if !matchViewController.isTutorial {
+            self.delegate = self
+        } else {
+            self.delegate = nil
+        }
         if let index = notification.userInfo?["pageIndex"] as? Int {
             if indexOfCurrentPage < index {
                 setViewControllers([VCArr[index]], direction: .forward, animated: true, completion: nil)
@@ -68,7 +73,11 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         pageControl.currentPageIndicatorTintColor = UIColor.clear
         pageControl.isHidden = true
         self.view.backgroundColor = UIColor.clear
-        self.delegate = self
+        if !matchViewController.isTutorial {
+            self.delegate = self
+        } else {
+            self.delegate = nil
+        }
         self.dataSource = self
         if let firstVC = VCArr.last {
             setViewControllers([firstVC] , direction: .forward , animated: true, completion: nil)
@@ -77,8 +86,6 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         
         setViewControllers([VCArr[2]], direction: .reverse, animated: false, completion: nil)
         setViewControllers([VCArr[2]], direction: .forward, animated: false , completion: nil)
-
-
     }
     
     override func viewDidLayoutSubviews() {
@@ -116,7 +123,7 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         guard VCArr.count > previousIndex else {
             return nil
         }
-
+        
         let pageIndexDict:[String: Int] = ["button": viewControllerIndex]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         
@@ -136,10 +143,12 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
         guard VCArr.count > nextIndex else {
             return nil
         }
+        
+        
         let pageIndexDict:[String: Int] = ["button": viewControllerIndex]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         
-
+        
         return VCArr[nextIndex]
     }
     

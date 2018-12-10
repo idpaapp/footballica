@@ -54,10 +54,10 @@ public class gift : menuView {
         
         self.isOpaque = false
         if UIDevice().userInterfaceIdiom == .phone {
-            self.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جوایز", strokeWidth: -4.0)
+            self.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جوایز", strokeWidth: 8.0)
              self.topTitleForeGround.font = fonts().iPhonefonts
         } else {
-            self.topTitle.AttributesOutLine(font: fonts().iPadfonts, title: "جوایز", strokeWidth: -4.0)
+            self.topTitle.AttributesOutLine(font: fonts().iPadfonts, title: "جوایز", strokeWidth: 8.0)
             self.topTitleForeGround.font = fonts().iPadfonts
         }
         self.topTitleForeGround.text = "جوایز"

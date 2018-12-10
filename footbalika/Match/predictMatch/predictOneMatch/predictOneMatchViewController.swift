@@ -84,11 +84,11 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
         
         self.awayResault.addTarget(self, action: #selector(textFieldDidChange), for: UIControlEvents.editingChanged)
 
-        self.mainTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "پیش بینی", strokeWidth: -6.0)
+        self.mainTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "پیش بینی", strokeWidth: 8.0)
         
         self.mainTitleForeGround.text = "پیش بینی"
         self.mainTitleForeGround.font = fonts().iPadfonts25
-        self.submitTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "ثبت", strokeWidth: -6.0)
+        self.submitTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "ثبت", strokeWidth: 8.0)
         self.submitForeGroundTitle.font = fonts().iPadfonts25
         self.submitForeGroundTitle.text = "ثبت"
         

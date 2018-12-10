@@ -344,41 +344,43 @@
             
             cell.achievementImage.setImageWithKingFisher(url: "\(urlClass.icons)\((loadingAchievements.res?.response?[indexPath.row].img_logo!)!)")
             
-            if intProgress < 10 {
+            if intProgress < Int((loadingAchievements.res?.response?[indexPath.row].max_point)!)! {
                 if UIDevice().userInterfaceIdiom == .phone {
-                    cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
+                    cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/\((loadingAchievements.res?.response?[indexPath.row].max_point)!)", strokeWidth: 5.0)
                     cell.progressTitleForeGround.font = fonts().iPhonefonts
-                    cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                    cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: 5.0)
                     cell.acievementTitleForeGround.font = fonts().iPhonefonts
                     
                 } else {
-                    cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10", strokeWidth: -5.0)
+                    cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/\((loadingAchievements.res?.response?[indexPath.row].max_point)!)", strokeWidth: 5.0)
                     cell.progressTitleForeGround.font = fonts().iPadfonts
-                    cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                    cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: 5.0)
                     cell.acievementTitleForeGround.font = fonts().iPadfonts
                 }
-                cell.progressTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/10"
+                
+                cell.progressTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].progress)!)/\((loadingAchievements.res?.response?[indexPath.row].max_point)!)"
+                
             } else {
                 
                 cell.receiveGift.tag = indexPath.row
                 cell.receiveGift.addTarget(self, action: #selector(receivingGift), for: UIControlEvents.touchUpInside)
                 if UIDevice().userInterfaceIdiom == .phone {
-                    cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "دریافت جایزه", strokeWidth: -5.0)
+                    cell.progressTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "دریافت جایزه", strokeWidth: 8.0)
                     cell.progressTitleForeGround.font = fonts().iPhonefonts
-                    cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                    cell.acievementTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: 8.0)
                     cell.acievementTitleForeGround.font = fonts().iPhonefonts
                     
                 } else {
-                    cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "دریافت جایزه", strokeWidth: -5.0)
+                    cell.progressTitle.AttributesOutLine(font: fonts().iPadfonts, title: "دریافت جایزه", strokeWidth: 8.0)
                     cell.progressTitleForeGround.font = fonts().iPadfonts
-                    cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: -7.0)
+                    cell.acievementTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\((loadingAchievements.res?.response?[indexPath.row].title!)!)", strokeWidth: 8.0)
                     cell.acievementTitleForeGround.font = fonts().iPadfonts
                 }
                 cell.progressTitleForeGround.text = "دریافت جایزه"
                 
             }
             cell.achievementDesc.text = "\((loadingAchievements.res?.response?[indexPath.row].describtion!)!)"
-            let progressAchievement = (Float((loadingAchievements.res?.response?[indexPath.row].progress)!)!) / 10.0
+            let progressAchievement = (Float((loadingAchievements.res?.response?[indexPath.row].progress)!)!) / (Float((loadingAchievements.res?.response?[indexPath.row].max_point)!)!)
             //            print("progress\(progressAchievement)")
             cell.achievementProgress.progress = progressAchievement
             return cell
@@ -507,7 +509,6 @@
                 
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "alertTypeChooseCell", for: indexPath) as! alertTypeChooseCell
-                
                 cell.alertTitle.text = (self.alertsRes?.response?[indexPath.row].username!)!
                 cell.alertDate.text = (self.alertsRes?.response?[indexPath.row].p_message_date!)!
                 let url = "\(urlClass.avatar)\((self.alertsRes?.response?[indexPath.row].avatar!)!)"
@@ -563,14 +564,14 @@
                 }
                 
                 if UIDevice().userInterfaceIdiom == .phone {
-                    cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: -4.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: -4.0)
+                    cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: 8.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: 8.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: 8.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPhonefonts
                 } else {
-                    cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: -7.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: -4.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: -4.0)
+                    cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: 8.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: 8.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: 8.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPadfonts
                 }
                 cell.profileCup.text = "\((self.profileResponse?.response?.mainInfo?.cups!)!)"
@@ -592,7 +593,7 @@
                         cell.completingProfile.isHidden = false
                         cell.profileCompletingTitle.isHidden = false
                         cell.profileCompletingTitleForeGround.isHidden = false
-                        cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ثبت نام کنید", strokeWidth: -6.0)
+                        cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ثبت نام کنید", strokeWidth: 8.0)
                         cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
                         cell.profileCompletingTitleForeGround.text = "ثبت نام کنید"
                         cell.completingProfile.addTarget(self, action: #selector(signUp), for: UIControlEvents.touchUpInside)
@@ -629,7 +630,7 @@
                         cell.friendshipRequest.isHidden = false
                         cell.profileCompletingTitleForeGround.isHidden = false
                         cell.profileCompletingTitle.isHidden = false
-                        cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: -6.0)
+                        cell.profileCompletingTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "درخواست دوستی", strokeWidth: 8.0)
                         cell.profileCompletingTitleForeGround.font = fonts().iPhonefonts
                         cell.profileCompletingTitleForeGround.text = "درخواست دوستی"
                         cell.friendshipRequest.addTarget(self, action: #selector(requestFriendShip) , for: UIControlEvents.touchUpInside)
@@ -647,7 +648,7 @@
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profileGroupCell", for: indexPath) as! profileGroupCell
                 
                 if self.profileResponse?.response?.calnData?.clanMembers != nil {
-                     if self.profileResponse?.response?.calnData?.clanMembers?.count != 0 {
+                    if self.profileResponse?.response?.calnData?.clanMembers?.count != 0 {
                         
                         cell.showGroupButton.action1.addTarget(self, action: #selector(showGroup), for: UIControlEvents.touchUpInside)
                         cell.groupName.text = "\((self.profileResponse?.response?.calnData?.clan_title!)!)"
@@ -667,21 +668,25 @@
                             cell.promoteDemoteView.isHidden = true
                         } else {
                             //other ClanMember
-                            if (self.profileResponse?.response?.calnData?.clanid!)! != (login.res?.response?.calnData?.clanid!)! {
-                                cell.promoteDemoteView.isHidden = true
-                            } else {
-                                let profileMemberRoll = Int((login.res?.response?.calnData?.member_roll!)!)
-                                let otherProfileMemberRoll = Int((self.profileResponse?.response?.calnData?.member_roll!)!)
-
-                                print(otherProfileMemberRoll)
-                                if profileMemberRoll! / otherProfileMemberRoll! < 1 {
-                                    cell.promoteDemoteView.isHidden = false
-                                    cell.promoteDemoteView.action1.addTarget(self, action: #selector(promote), for: UIControlEvents.touchUpInside)
-                                    
-                                    cell.promoteDemoteView.action3.addTarget(self, action: #selector(demote), for: UIControlEvents.touchUpInside)
-                                } else {
+                            
+                            if login.res?.response?.calnData?.clanid != nil {
+                                if (self.profileResponse?.response?.calnData?.clanid!)! != (login.res?.response?.calnData?.clanid!)! {
                                     cell.promoteDemoteView.isHidden = true
+                                } else {
+                                    let profileMemberRoll = Int((login.res?.response?.calnData?.member_roll!)!)
+                                    let otherProfileMemberRoll = Int((self.profileResponse?.response?.calnData?.member_roll!)!)
+                                    
+                                    if profileMemberRoll! / otherProfileMemberRoll! < 1 {
+                                        cell.promoteDemoteView.isHidden = false
+                                        cell.promoteDemoteView.action1.addTarget(self, action: #selector(promote), for: UIControlEvents.touchUpInside)
+                                        
+                                        cell.promoteDemoteView.action3.addTarget(self, action: #selector(demote), for: UIControlEvents.touchUpInside)
+                                    } else {
+                                        cell.promoteDemoteView.isHidden = true
+                                    }
                                 }
+                            } else {
+                                cell.promoteDemoteView.isHidden = true
                             }
                         }
                     } else {
@@ -690,18 +695,16 @@
                 } else {
                     
                 }
-                
-                
                 return cell
             case 3 :
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile2Cell", for: indexPath) as! profile2Cell
                 cell.secondProfileTitleForeGround.text = "آمار و نتایج بازی ها"
                 if UIDevice().userInterfaceIdiom == .phone {
-                    cell.secondProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "آمار و نتایج بازی ها", strokeWidth: -7.0)
+                    cell.secondProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "آمار و نتایج بازی ها", strokeWidth: 8.0)
                     cell.secondProfileTitleForeGround.font = fonts().iPhonefonts18
                 } else {
-                    cell.secondProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "آمار و نتایج بازی ها", strokeWidth: -7.0)
+                    cell.secondProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "آمار و نتایج بازی ها", strokeWidth: 8.0)
                     cell.secondProfileTitleForeGround.font = fonts().iPadfonts25
                 }
                 cell.contentView.backgroundColor = grayColor
@@ -719,10 +722,10 @@
                 cell.maximumWinCount.text = "\((self.profileResponse?.response?.mainInfo?.max_wins_count!)!)"
                 cell.thirdProfileTitleForeGround.text = "آمار و نتایج جام های حذفی"
                 if UIDevice().userInterfaceIdiom == .phone {
-                    cell.thirdProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "آمار و نتایج جام های حذفی", strokeWidth: -7.0)
+                    cell.thirdProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "آمار و نتایج جام های حذفی", strokeWidth: 8.0)
                     cell.thirdProfileTitleForeGround.font = fonts().iPhonefonts18
                 } else {
-                    cell.thirdProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "آمار و نتایج جام های حذفی", strokeWidth: -7.0)
+                    cell.thirdProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "آمار و نتایج جام های حذفی", strokeWidth: 8.0)
                     cell.thirdProfileTitleForeGround.font = fonts().iPadfonts25
                 }
                 return cell
@@ -732,10 +735,10 @@
                 cell.contentView.backgroundColor = grayColor
                 cell.fourthProfileTitleForeGround.text = "استادیوم"
                 if UIDevice().userInterfaceIdiom == .phone {
-                    cell.fourthProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "استادیوم", strokeWidth: -7.0)
+                    cell.fourthProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "استادیوم", strokeWidth: 8.0)
                     cell.fourthProfileTitleForeGround.font = fonts().iPhonefonts18
                 } else {
-                    cell.fourthProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "استادیوم", strokeWidth: -7.0)
+                    cell.fourthProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "استادیوم", strokeWidth: 8.0)
                     cell.fourthProfileTitleForeGround.font = fonts().iPadfonts25
                 }
                 
@@ -755,28 +758,29 @@
         default:
             if indexPath.row == 0 {
                 
-                if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "googleEntranceCell", for: indexPath) as! googleEntranceCell
+                if (login.res?.response?.mainInfo?.email!)!.contains("@gmail.com") {
                     
-                    cell.googleSignIn.addTarget(self, action: #selector(googleSigningIn), for: UIControlEvents.touchUpInside)
-                    
-                    
-                    return cell
-                    
-                } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "googleSignOutCell", for: indexPath) as! googleSignOutCell
                     
                     if UIDevice().userInterfaceIdiom == .phone {
-                        cell.userEmail.AttributesOutLine(font: fonts().iPhonefonts, title: "\((login.res?.response?.mainInfo?.email!)!)", strokeWidth: -7.0)
+                        cell.userEmail.AttributesOutLine(font: fonts().iPhonefonts, title: "\((login.res?.response?.mainInfo?.email!)!)", strokeWidth: 8.0)
                         cell.userEmailForeGround.font = fonts().iPhonefonts
                     } else {
-                        cell.userEmail.AttributesOutLine(font: fonts().iPadfonts, title: "\((login.res?.response?.mainInfo?.email!)!)", strokeWidth: -7.0)
+                        cell.userEmail.AttributesOutLine(font: fonts().iPadfonts, title: "\((login.res?.response?.mainInfo?.email!)!)", strokeWidth: 8.0)
                         cell.userEmailForeGround.font = fonts().iPadfonts
                     }
                     
                     cell.userEmailForeGround.text = "\((login.res?.response?.mainInfo?.email!)!)"
                     
                     cell.signOut.addTarget(self, action: #selector(googleSigningOut), for: UIControlEvents.touchUpInside)
+                    
+                    return cell
+                    
+                } else {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "googleEntranceCell", for: indexPath) as! googleEntranceCell
+                    
+                    cell.googleSignIn.addTarget(self, action: #selector(googleSigningIn), for: UIControlEvents.touchUpInside)
+                    
                     
                     return cell
                 }
@@ -793,10 +797,10 @@
                 let cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath) as! settingsCell
                 
                 if UIDevice().userInterfaceIdiom == .phone {
-                    cell.settingLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
+                    cell.settingLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: 8.0)
                     cell.settingLabelForeGround.font = fonts().iPhonefonts
                 } else {
-                    cell.settingLabel.AttributesOutLine(font: fonts().iPadfonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: -7.0)
+                    cell.settingLabel.AttributesOutLine(font: fonts().iPadfonts, title: "\(settingsTitle[indexPath.row - 1])", strokeWidth: 8.0)
                     cell.settingLabelForeGround.font = fonts().iPadfonts
                 }
                 cell.settingLabelForeGround.text = "\(settingsTitle[indexPath.row - 1])"
@@ -824,10 +828,10 @@
     
     @objc func promote() {
         promoteMember().promote(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!,
-            completionHandler: {String in
-            print(String)
-            self.delegate?.dismissing()
-            self.delegate?.updateClanData()
+                                completionHandler: {String in
+                                    print(String)
+                                    self.delegate?.dismissing()
+                                    self.delegate?.updateClanData()
         })
     }
     
@@ -859,7 +863,6 @@
             self.view.isUserInteractionEnabled = false
             // Perform any operations on signed in user here.
             let email = user.profile.email
-            print(email!)
             GoogleSigningIn(email : email!)
         }
     }
@@ -867,60 +870,50 @@
     @objc func GoogleSigningIn(email : String) {
         PubProc.isSplash = false
         PubProc.wb.hideWaiting()
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GoogleSignIn' , 'email' : '\(email)'}") { data, error in
-            DispatchQueue.main.async {
+        signInOrOut(mode: "AddEmail", email: email)
+        
+    }
+    
+    @objc func signInOrOut(mode : String , email : String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "{'mode' : '\(mode)' , 'email' : '\(email)' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+            
+            if data != nil {
                 
-                if data != nil {
-                    
-                    do {
-                        
-                        login.res = try JSONDecoder().decode(loginStructure.Response.self, from: data!)
-                        
-                        self.view.isUserInteractionEnabled = true
-                        DispatchQueue.main.async {
-                            PubProc.cV.hideWarning()
-                            PubProc.isSplash = true
-                        }
-                        
-                        //                print(data ?? "")
-                        print((login.res?.status!)!)
-                        
-                        if (login.res?.status?.contains("NEW_USER"))! || (login.res?.status?.contains("OK"))! {
-                            
-                            self.dismiss(animated: true, completion: nil)
-                            
-                            loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
-                            let userid = "\(loadingViewController.userid)"
-                            UserDefaults.standard.set(userid, forKey: "userid")
-                            loadShop.init().loadingShop(userid: userid, rest: true, completionHandler: {
-                                let nc = NotificationCenter.default
-                                nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : nil)
-                            })
-                            PubProc.wb.hideWaiting()
-                        } else {
-                            self.GoogleSigningIn(email : email)
-                        }
-                        
-                    } catch {
-                        self.GoogleSigningIn(email : email)
-                        print(error)
-                    }
-                    
-                } else {
-                    self.GoogleSigningIn(email : email)
-                    print("Error Connection")
-                    print(error as Any)
-                    // handle error
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
                 }
+                
+                //                print(data ?? "")
+                
+                let res = String(data: data!, encoding: String.Encoding.utf8)
+                
+                if res!.contains("OK") {
+                    self.dismiss(animated: true, completion: nil)
+                    let nc = NotificationCenter.default
+                    nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : nil)
+                } else if res!.contains("EMAIL_CONNECTED_BEFORE") {
+                    
+                } else if res!.contains("EMAIL_IS_EXISTS") {
+                    
+                }
+                
+                DispatchQueue.main.async {
+                    PubProc.wb.hideWaiting()
+                }
+                
+            } else {
+                self.signInOrOut(mode: mode , email : email)
+                print("Error Connection")
+                print(error as Any)
+                // handle error
             }
             }.resume()
-        
     }
     
     @objc func googleSigningOut() {
         GIDSignIn.sharedInstance().signOut()
+        signInOrOut(mode: "AddEmail", email: "")
         //google SingnOut
-        
     }
     
     @objc func acceptingGameOrFriend(_ sender : UIButton!) {
@@ -928,18 +921,41 @@
             // accept friendship Request
             acceptOrRejectFriendShipRequest(mode: "CONFIRM_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
             
+        } else  if ((self.alertsRes?.response?[sender.tag].type!)!) == "5" {
+            self.acceptOrRejectClanRequest(mode: "JOIN_ON_REQUEST", user_id: "\(((self.alertsRes?.response?[sender.tag].sender_id!)!))", clan_id: "\(((login.res?.response?.calnData?.clanid!)!))")
         } else {
             //accept gameRequest
             acceptFriendlyMatch(userid: (self.alertsRes?.response?[sender.tag].reciver_id!)!, friendid: (self.alertsRes?.response?[sender.tag].sender_id!)!, massageId: (self.alertsRes?.response?[sender.tag].id!)!)
         }
     }
     
-    
     @objc func cancelGameOrFriend(_ sender : UIButton!) {
-        
-        //reject friendship Request & reject gameRequest
-        acceptOrRejectFriendShipRequest(mode: "REJECT_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
-        
+        if ((self.alertsRes?.response?[sender.tag].type!)!) == "5" {
+            self.acceptOrRejectClanRequest(mode: "REJECT_JOIN", user_id: "\(((self.alertsRes?.response?[sender.tag].sender_id!)!))", clan_id: "\(((login.res?.response?.calnData?.clanid!)!))")
+        } else {
+            //reject friendship Request & reject gameRequest
+            acceptOrRejectFriendShipRequest(mode: "REJECT_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
+        }
+    }
+    
+    @objc func acceptOrRejectClanRequest(mode: String , user_id : String , clan_id: String) {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : '\(mode)' ,'user_id':'\(user_id)' , 'clan_id' : '\(clan_id)'}") { data, error in
+            DispatchQueue.main.async {
+                
+                if data != nil {
+                    
+                    //                print(data ?? "")
+                    
+                    self.alertsJson()
+                    
+                } else {
+                    self.acceptOrRejectClanRequest(mode: mode, user_id: user_id, clan_id: clan_id)
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+            }
+            }.resume()
     }
     
     @objc func acceptFriendlyMatch(userid: String , friendid: String , massageId : String) {
@@ -976,7 +992,7 @@
                     //                print(data ?? "")
                     
                     self.alertsJson()
-
+                    
                 } else {
                     self.acceptOrRejectFriendShipRequest(mode: mode, user1_id: user1_id, user2_id: user2_id, message_id: message_id)
                     print("Error Connection")
@@ -1040,44 +1056,44 @@
     }
     
     
-//    var collectingItemAchievement : String? = nil;
-//
-//    @objc func achievementReceive(id : Int) {
-//        PubProc.HandleDataBase.readJson(wsName: "ws_updateAchievements", JSONStr: "{'achievement_id' : '\(id)' ,'userid':'\(loadingViewController.userid)'}") { data, error in
-//            DispatchQueue.main.async {
-//
-//                if data != nil {
-//
-//                    //                print(data ?? "")
-//                    DispatchQueue.main.async {
-//                        PubProc.cV.hideWarning()
-//                    }
-//
-//                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
-//
-//                    print(((self.collectingItemAchievement)!))
-//                    if ((self.collectingItemAchievement)!).contains("OK") {
-//                        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
-//                            DispatchQueue.main.async {
-//                                self.achievementsTV.reloadData()
-//                                PubProc.wb.hideWaiting()
-//                                thirdSoundPlay().playCollectItemSound()
-//                            }
-//                        })
-//                    } else {
-//                        DispatchQueue.main.async {
-//                            PubProc.wb.hideWaiting()
-//                        }
-//                    }
-//                } else {
-//                    self.achievementReceive(id : id)
-//                    print("Error Connection")
-//                    print(error as Any)
-//                    // handle error
-//                }
-//            }
-//            }.resume()
-//    }
+    //    var collectingItemAchievement : String? = nil;
+    //
+    //    @objc func achievementReceive(id : Int) {
+    //        PubProc.HandleDataBase.readJson(wsName: "ws_updateAchievements", JSONStr: "{'achievement_id' : '\(id)' ,'userid':'\(loadingViewController.userid)'}") { data, error in
+    //            DispatchQueue.main.async {
+    //
+    //                if data != nil {
+    //
+    //                    //                print(data ?? "")
+    //                    DispatchQueue.main.async {
+    //                        PubProc.cV.hideWarning()
+    //                    }
+    //
+    //                    self.collectingItemAchievement = String(data: data!, encoding: String.Encoding.utf8) as String?
+    //
+    //                    print(((self.collectingItemAchievement)!))
+    //                    if ((self.collectingItemAchievement)!).contains("OK") {
+    //                        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
+    //                            DispatchQueue.main.async {
+    //                                self.achievementsTV.reloadData()
+    //                                PubProc.wb.hideWaiting()
+    //                                thirdSoundPlay().playCollectItemSound()
+    //                            }
+    //                        })
+    //                    } else {
+    //                        DispatchQueue.main.async {
+    //                            PubProc.wb.hideWaiting()
+    //                        }
+    //                    }
+    //                } else {
+    //                    self.achievementReceive(id : id)
+    //                    print("Error Connection")
+    //                    print(error as Any)
+    //                    // handle error
+    //                }
+    //            }
+    //            }.resume()
+    //    }
     
     @objc func receivingGift(_ sender : UIButton!) {
         let aId = Int((loadingAchievements.res?.response?[sender.tag].id!)!)
@@ -1136,10 +1152,10 @@
         case "alerts":
             if (self.alertsRes?.response?[indexPath.row].type!)! == "2" {
                 if UIDevice().userInterfaceIdiom == .phone {
-//                    return 350
+                    //                    return 350
                     return UITableViewAutomaticDimension
                 } else {
-//                    return 350
+                    //                    return 350
                     return UITableViewAutomaticDimension
                 }
             } else {

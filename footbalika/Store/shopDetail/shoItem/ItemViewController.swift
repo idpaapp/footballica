@@ -37,7 +37,6 @@ class ItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         soundPlay().playBuyItem()
         
         if !isHomeUpgrade {
@@ -52,20 +51,20 @@ class ItemViewController: UIViewController {
                 itemImage.setImageWithKingFisher(url: ImageItem)
             }
         } else {
-            upgradeTitle.AttributesOutLine(font: fonts().large200, title: "\(self.upgradeText)", strokeWidth: -2.2)
+            upgradeTitle.AttributesOutLine(font: fonts().large200, title: "\(self.upgradeText)", strokeWidth: 8.0)
             itemImage.image = UIImage(named: "\(ImageItem)")
         }
         
         if UIDevice().userInterfaceIdiom == .phone {
-            headerTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(TitleItem)", strokeWidth: -6.0)
+            headerTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(TitleItem)", strokeWidth: 8.0)
             headerTitleForeGround.font = fonts().iPhonefonts
-            acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: -6.0)
+            acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: 8.0)
             acceptButtonLabelForeGround.font = fonts().iPhonefonts
         } else {
             
-            headerTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(TitleItem)", strokeWidth: -6.0)
+            headerTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(TitleItem)", strokeWidth: 8.0)
             headerTitleForeGround.font = fonts().iPadfonts
-            acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: -6.0)
+            acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "تأیید", strokeWidth: 8.0)
             acceptButtonLabelForeGround.font = fonts().iPhonefonts
         }
         
@@ -107,7 +106,11 @@ class ItemViewController: UIViewController {
         self.itemImage.isHidden = false
         UIView.animate(withDuration: 0.5) {
             self.upgradeTitle.transform = CGAffineTransform.identity
-            self.itemImage.transform = CGAffineTransform.identity
+            if UIScreen.main.bounds.height < 500 {
+                self.itemImage.transform = CGAffineTransform.identity.scaledBy(x: 0.7, y: 0.7)
+            } else {
+                self.itemImage.transform = CGAffineTransform.identity
+            }
         }
     }
     

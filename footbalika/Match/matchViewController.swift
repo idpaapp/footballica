@@ -19,6 +19,10 @@ protocol TutorialDelegate {
 
 class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate {
     
+    @IBAction func tapsellAction(_ sender: Any) {
+        self.performSegue(withIdentifier: "showAds", sender: self)
+    }
+    
     func openGameChargePage() {
         DispatchQueue.main.async {
             self.openGameChargingPage()
@@ -29,13 +33,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         self.performSegue(withIdentifier: "showTutorial", sender: self)
     }
     
-    
     @IBOutlet weak var wholeMainPageButtons: NSLayoutConstraint!
     @IBOutlet weak var startLabelForeGround: UILabel!
     @IBOutlet weak var startLabel: UILabel!
     @IBOutlet weak var profileName: UILabel!
     @IBOutlet weak var friendlyLabel: UILabel!
+    @IBOutlet weak var friendlyLabelForeGround: UILabel!
     @IBOutlet weak var eliminateCupLabel: UILabel!
+    @IBOutlet weak var eliminateCupLabelForeGround: UILabel!
     @IBOutlet weak var mainCupImage: UIImageView!
     @IBOutlet weak var avatar: UIImageView!
     @IBOutlet weak var cup: UILabel!
@@ -50,7 +55,6 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     @IBOutlet weak var alertCounterView: UIView!
     @IBOutlet weak var alertCounterLabel: UILabel!
-    
     
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
@@ -98,13 +102,16 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             profileName.text = (login.res?.response?.mainInfo?.username)!
             cup.text = (login.res?.response?.mainInfo?.cups)!
             self.xpProgress.progress = 0.0
+            if ((login.res?.response?.mainInfo?.avatar)!) != "user_empty.png" {
             let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
             self.avatar.setImageWithRealmPath(url : urlAvatar)
             if self.avatar.image != UIImage() {
             } else {
                 self.avatar.setImageWithKingFisher(url: urlAvatar)
             }
-            
+            } else {
+                self.avatar.image = publicImages().emptyAvatar
+            }
             mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
     }
@@ -116,18 +123,25 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         notificationsView()
         
         if UIDevice().userInterfaceIdiom == .phone  {
-            startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 6.0)
-            friendlyLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title: "دوستانه", strokeWidth: -4.0)
-            eliminateCupLabel.AttributesOutLine(font: UIFont(name: "DPA_Game", size: 18)!, title:  "پیش بینی", strokeWidth: -4.0)
+            startLabel.AttributesOutLine(font: fonts.init().iPhonefonts, title: "شروع بازی", strokeWidth: 8.0)
+            friendlyLabel.AttributesOutLine(font: fonts().iPhonefonts18, title: "دوستانه", strokeWidth: 8.0)
+            eliminateCupLabel.AttributesOutLine(font: fonts().iPhonefonts18, title:  "پیش بینی", strokeWidth: 8.0)
+            eliminateCupLabelForeGround.font = fonts().iPhonefonts18
+            eliminateCupLabelForeGround.text = "پیش بینی"
+            friendlyLabelForeGround.font = fonts().iPhonefonts18
+            friendlyLabelForeGround.text = "دوستانه"
             startLabelForeGround.text =  "شروع بازی"
             startLabelForeGround.font = fonts.init().iPhonefonts
         } else {
-            startLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "شروع بازی", strokeWidth: -4.0)
-            friendlyLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "دوستانه", strokeWidth: -4.0)
-            eliminateCupLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "پیش بینی", strokeWidth: -4.0)
+            startLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "شروع بازی", strokeWidth: 8.0)
+            friendlyLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "دوستانه", strokeWidth: 8.0)
+            eliminateCupLabel.AttributesOutLine(font: fonts.init().iPadfonts, title: "پیش بینی", strokeWidth: 8.0)
+            eliminateCupLabelForeGround.font = fonts().iPadfonts
+            eliminateCupLabelForeGround.text = "پیش بینی"
             startLabelForeGround.text =  "شروع بازی"
             startLabelForeGround.font = fonts.init().iPadfonts
-            
+            friendlyLabelForeGround.font = fonts().iPadfonts
+            friendlyLabelForeGround.text = "دوستانه"
         }
         
         if matchViewController.isTutorial {
@@ -215,15 +229,18 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.startNewMatch(_:)), name: NSNotification.Name(rawValue: "startNewMatch"), object: nil)
         
-        
         self.startLabelForeGround.minimumScaleFactor = 0.5
         self.startLabel.minimumScaleFactor = 0.5
         self.friendlyLabel.minimumScaleFactor = 0.5
         self.eliminateCupLabel.minimumScaleFactor = 0.5
+        self.eliminateCupLabelForeGround.minimumScaleFactor = 0.5
+        self.friendlyLabelForeGround.minimumScaleFactor = 0.5
         self.startLabel.adjustsFontSizeToFitWidth = true
         self.startLabelForeGround.adjustsFontSizeToFitWidth = true
         self.friendlyLabel.adjustsFontSizeToFitWidth = true
         self.eliminateCupLabel.adjustsFontSizeToFitWidth = true
+        self.eliminateCupLabelForeGround.adjustsFontSizeToFitWidth = true
+        self.friendlyLabelForeGround.adjustsFontSizeToFitWidth = true
         fillData()
     }
     
@@ -373,10 +390,10 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         }
     }
     
-    
     var upgradeImage = String()
     var upgradeTitle = String()
     var upgradeText = String()
+    
     @IBAction func showLeagus(_ sender: UIButton) {
         self.performSegue(withIdentifier: "leagueShow", sender: self)
     }

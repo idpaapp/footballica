@@ -59,11 +59,11 @@ class groupMatchResaultViewController: UIViewController , UITableViewDataSource 
     
     @objc func setMembersView() {
         self.clanMembers.warningTitle.text = ""
-        self.clanMembers.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "تعداد بازیکنان : \((self.matchResaultRes?.response?.members?.count)!)", strokeWidth: 4.0)
+        self.clanMembers.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "تعداد بازیکنان : \((self.matchResaultRes?.response?.members?.count)!)", strokeWidth: 8.0)
         self.clanMembers.topTitleForeGround.font = fonts().iPhonefonts
         self.clanMembers.topTitleForeGround.text = "تعداد بازیکنان : \((self.matchResaultRes?.response?.members?.count)!)"
         self.clanMembers.useButton.setBackgroundImage(publicImages().activeButton, for: UIControlState.normal)
-        self.clanMembers.noPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "خب", strokeWidth: 4.0)
+        self.clanMembers.noPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "خب", strokeWidth: 8.0)
         self.clanMembers.noPriceTitleForeGround.font = fonts().iPhonefonts
         self.clanMembers.noPriceTitleForeGround.text = "خب"
         self.clanMembers.useButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)

@@ -33,7 +33,7 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.sendButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ارسال", strokeWidth: -5.0)
+        self.sendButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ارسال", strokeWidth: 8.0)
         self.sendButtonTitleForeGround.font = fonts().iPhonefonts
         self.sendButtonTitleForeGround.text = "ارسال"
         self.chatTextView.layer.cornerRadius = 10

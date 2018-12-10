@@ -192,11 +192,11 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             cell.menuLeftView.isHidden = false
         }
             
-            if self.giftMenu.giftsImages[indexPath.row] == "google_plus" {
-                cell.googleSignIn.isHidden = false
-            } else {
-                cell.googleSignIn.isHidden = true
-            }
+//            if self.giftMenu.giftsImages[indexPath.row] == "google_plus" {
+//                cell.googleSignIn.isHidden = false
+//            } else {
+//                cell.googleSignIn.isHidden = true
+//            }
             
         cell.menuLeftLabel.text = self.giftMenu.giftsNumbers[indexPath.row]
         cell.menuLabel.text = self.giftMenu.giftsTitles[indexPath.row]
@@ -218,7 +218,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                 cell.menuLeftImage.image = UIImage(named: "money")
             }
         
-            cell.googleSignIn.isHidden = true
+//            cell.googleSignIn.isHidden = true
             cell.menuLeftLabel.text = self.gameChargeMenu.gameChargesNumbers[indexPath.row]
             cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
             cell.selectMenu.tag = indexPath.row
@@ -337,7 +337,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             self.performSegue(withIdentifier: "giftAlert", sender: self)
         } else {
             //signIn
-            
+           GIDSignIn.sharedInstance().signIn()
         }
     }
     

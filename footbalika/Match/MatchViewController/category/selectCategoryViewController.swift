@@ -51,10 +51,10 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         
         }
         if UIDevice().userInterfaceIdiom == .phone {
-            mainTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "انتخاب دسته بندی سؤالات", strokeWidth: -6.0)
+            mainTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "انتخاب دسته بندی سؤالات", strokeWidth: 8.0)
             mainTitleForeGround.font = fonts().iPhonefonts
         } else {
-            mainTitle.AttributesOutLine(font: fonts().iPadfonts, title: "انتخاب دسته بندی سؤالات", strokeWidth: -6.0)
+            mainTitle.AttributesOutLine(font: fonts().iPadfonts, title: "انتخاب دسته بندی سؤالات", strokeWidth: 8.0)
             mainTitleForeGround.font = fonts().iPadfonts
         }
         mainTitleForeGround.text = "انتخاب دسته بندی سؤالات"
@@ -84,10 +84,10 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        let cell = tableView.dequeueReusableCell(withIdentifier: "selectCategoryCell", for: indexPath) as! selectCategoryCell
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.questionTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(titles[indexPath.row])", strokeWidth: -6.0)
+        cell.questionTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(titles[indexPath.row])", strokeWidth: 8.0)
         cell.questionForeGroundTitle.font = fonts().iPhonefonts
         } else {
-        cell.questionTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(titles[indexPath.row])", strokeWidth: -6.0)
+        cell.questionTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(titles[indexPath.row])", strokeWidth: 8.0)
             cell.questionForeGroundTitle.font = fonts().iPadfonts
         }
         cell.questionForeGroundTitle.text = titles[indexPath.row]

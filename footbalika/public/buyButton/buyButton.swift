@@ -27,10 +27,10 @@ class buyButton: UIView {
     @IBOutlet weak var priceStackView: UIStackView!
     
     @objc func setPriceTitle(title : String , font : UIFont) {
-        self.priceAmount.AttributesOutLine(font: font, title: title, strokeWidth: -5.0)
+        self.priceAmount.AttributesOutLine(font: font, title: title, strokeWidth: 8.0)
         self.priceAmountForeGround.font = font
         self.priceAmountForeGround.text = title
-        self.freeTitle.AttributesOutLine(font: font, title: title, strokeWidth: -5.0)
+        self.freeTitle.AttributesOutLine(font: font, title: title, strokeWidth: 8.0)
         self.freeTitleForeGround.font = font
         self.freeTitleForeGround.text = title
     }

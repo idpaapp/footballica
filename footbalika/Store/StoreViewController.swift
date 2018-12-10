@@ -154,10 +154,10 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].image!)!))")
             
             if UIDevice().userInterfaceIdiom == .phone {
-                cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: -7.0)
+                cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: 8.0)
                 cell.storeLabelForeGround.font = iPhonefonts
             } else {
-                cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: -7.0)
+                cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: 8.0)
                 cell.storeLabelForeGround.font = iPadfonts
             }
             

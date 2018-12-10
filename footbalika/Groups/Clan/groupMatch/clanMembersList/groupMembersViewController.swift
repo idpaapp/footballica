@@ -143,7 +143,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
             self.clanMembersList.noPriceTitle.isHidden = true
             self.clanMembersList.noPriceTitleForeGround.isHidden = true
         self.clanMembersList.useButtonPriceTitle.text = "پیوستن به بازی گروهی"
-        self.clanMembersList.useButtonPrice.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingViewController.loadGameData?.response?.join_war_price!)!)", strokeWidth: 5.0)
+        self.clanMembersList.useButtonPrice.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingViewController.loadGameData?.response?.join_war_price!)!)", strokeWidth: 8.0)
         self.clanMembersList.useButtonPriceForeGround.font = fonts().iPhonefonts
         self.clanMembersList.useButtonPriceForeGround.text = "\((loadingViewController.loadGameData?.response?.join_war_price!)!)"
         switch String((loadingViewController.loadGameData?.response?.join_war_price_type!)!) {
@@ -159,7 +159,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
     
     func reloadingData(members : Int) {
         self.membersCount = members
-        self.clanMembersList.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "تعداد بازیکنان : \(self.membersCount)", strokeWidth: 5.0)
+        self.clanMembersList.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "تعداد بازیکنان : \(self.membersCount)", strokeWidth: 8.0)
         if self.activeWarRes != nil {
             if self.activeWarRes?.response?.members != nil {
                 if ((self.activeWarRes?.response?.members?.index(where : {$0.user_id == loadingViewController.userid})) != nil) {
@@ -200,7 +200,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         self.clanMembersList.useButtonPrice.text = ""
         self.clanMembersList.useButtonPriceForeGround.text = ""
         self.clanMembersList.useButtonPriceTitle.text = ""
-        self.clanMembersList.noPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "شروع بازی", strokeWidth: -5.0)
+        self.clanMembersList.noPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "شروع بازی", strokeWidth: 8.0)
         self.clanMembersList.noPriceTitleForeGround.font = fonts().iPhonefonts
         self.clanMembersList.useButtonPriceIcon.image = UIImage()
         self.clanMembersList.noPriceTitleForeGround.text = "شروع بازی"

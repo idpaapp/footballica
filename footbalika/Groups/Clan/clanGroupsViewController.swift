@@ -276,7 +276,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if login.res?.response?.calnData?.clanMembers != nil {
+        if login.res?.response?.calnData?.clanid != nil {
             switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
             case publicConstants().CHAT :
                 return UITableViewAutomaticDimension
@@ -305,7 +305,6 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             return 80
         }
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
@@ -365,7 +364,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.searchTextField.addPadding(.left(35))
         handleTextFieldClearButton(isHidden: true)
         self.clanDetailsView.alpha = 0.0
-        self.searchButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جستجو", strokeWidth: -5.0)
+        self.searchButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جستجو", strokeWidth: 8.0)
         self.searchButtonTitleForeGround.font = fonts().iPhonefonts
         self.searchButtonTitleForeGround.text = "جستجو"
         self.searchButton.addTarget(self, action: #selector(searchingAction), for: UIControlEvents.touchUpInside)

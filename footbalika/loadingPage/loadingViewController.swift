@@ -214,9 +214,9 @@ class loadingViewController: UIViewController {
                     self.loadingProgress.progress = self.currentProgress
                     if UIDevice().userInterfaceIdiom == .phone {
                         print("self.currentProgress\(self.currentProgress)")
-                        self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
+                        self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: 8.0)
                     } else {
-                        self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
+                        self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: 8.0)
                     }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -233,9 +233,9 @@ class loadingViewController: UIViewController {
                         self.currentProgress = self.currentProgress + 0.01
                         self.loadingProgress.progress = self.currentProgress
                         if UIDevice().userInterfaceIdiom == .phone {
-                            self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
+                            self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: 8.0)
                         } else {
-                            self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -6.0)
+                            self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: 8.0)
                         }
                     }
                 }

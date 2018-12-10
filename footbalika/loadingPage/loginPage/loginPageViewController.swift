@@ -120,23 +120,23 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
         GIDSignIn.sharedInstance().uiDelegate = self
         
         self.mainLoginView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        self.mainTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ورود به سیستم", strokeWidth: -6.0)
+        self.mainTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ورود به سیستم", strokeWidth: 8.0)
         self.mainTitleForeGround.font = fonts().iPhonefonts
         self.mainTitleForeGround.text = "ورود به سیستم"
         
-        self.userName.AttributesOutLine(font: fonts().iPhonefonts, title: "نام کاربری", strokeWidth: -6.0)
+        self.userName.AttributesOutLine(font: fonts().iPhonefonts, title: "نام کاربری", strokeWidth: 8.0)
         self.userNameForeGround.font = fonts().iPhonefonts
         self.userNameForeGround.text = "نام کاربری"
         
-        self.password.AttributesOutLine(font: fonts().iPhonefonts, title: "کلمه عبور", strokeWidth: -6.0)
+        self.password.AttributesOutLine(font: fonts().iPhonefonts, title: "کلمه عبور", strokeWidth: 8.0)
         self.passwordForeGround.font = fonts().iPhonefonts
         self.passwordForeGround.text = "کلمه عبور"
         
-        self.normalEnterTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ورود", strokeWidth: -6.0)
+        self.normalEnterTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "ورود", strokeWidth: 8.0)
         self.normalEnterForeGround.font = fonts().iPhonefonts
         self.normalEnterForeGround.text = "ورود"
         
-        self.newUserTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "کاربر جدید", strokeWidth: -6.0)
+        self.newUserTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "کاربر جدید", strokeWidth: 8.0)
         self.newUserTitleForeGround.font = fonts().iPhonefonts
         self.newUserTitleForeGround.text = "کاربر جدید"
         

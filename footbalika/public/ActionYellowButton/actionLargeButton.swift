@@ -67,7 +67,7 @@ class actionLargeButton: UIView {
     }
     
     @objc func setButtonTitle (buttonLabel : UILabel , title : String , buttonForeGroundLabel : UILabel) {
-        buttonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: title, strokeWidth: -5.0)
+        buttonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: title, strokeWidth: 8.0)
         buttonForeGroundLabel.font = fonts().iPhonefonts
         buttonForeGroundLabel.text = title
     }
@@ -93,3 +93,4 @@ class actionLargeButton: UIView {
     }
 
 }
+

@@ -156,7 +156,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "clanDetailCell", for: indexPath) as! clanDetailCell
         
-        cell.clanDetailTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(clanDetailTitles[indexPath.item])", strokeWidth: -5.0)
+        cell.clanDetailTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(clanDetailTitles[indexPath.item])", strokeWidth: 8.0)
         cell.clanDetailTitleForeGround.font = fonts().iPhonefonts
         cell.clanDetailTitleForeGround.text = clanDetailTitles[indexPath.item]
         cell.clanDetailImage.image = UIImage(named: "\(clanDetailImages[indexPath.item])")
@@ -175,7 +175,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             text = "\((self.res?.response?.clan_score!)!)"
         }
         
-        cell.clanDetailAmount.AttributesOutLine(font: fonts().iPhonefonts, title: "\(text)", strokeWidth: -5.0)
+        cell.clanDetailAmount.AttributesOutLine(font: fonts().iPhonefonts, title: "\(text)", strokeWidth: 8.0)
         cell.clanDetailAmountForeGround.font = fonts().iPhonefonts
         cell.clanDetailAmountForeGround.text = text
         
@@ -296,7 +296,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
         self.clanCup.backgroundColor = UIColor(patternImage: UIImage(named: "label_back_dark")!)
         
-        self.groupTitle.AttributesOutLine(font: fonts().iPadfonts, title: "گروه", strokeWidth: -7.0)
+        self.groupTitle.AttributesOutLine(font: fonts().iPadfonts, title: "گروه", strokeWidth: 8.0)
         self.groupTitleForeGround.font = fonts().iPadfonts
         self.groupTitleForeGround.text = "گروه"
         
@@ -380,12 +380,15 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     }
     
     @objc func setGroupButtons() {
-        print(isJoined)
-        print(isCharge)
+
+        if ((login.res?.response?.calnData?.clanid)) != nil {
         if ((login.res?.response?.calnData?.member_roll!)!) != "1" {
             self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: true, hideAction2: !isJoined, hideAction3: !isJoined )
         } else {
             self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: !isCharge, hideAction2: !isJoined, hideAction3: !isJoined )
+        }
+        } else {
+             self.actionLargeButton.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)
         }
     }
     

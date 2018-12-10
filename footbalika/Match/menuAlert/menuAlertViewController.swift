@@ -51,21 +51,21 @@ class menuAlertViewController: UIViewController {
         self.showAlert.acceptButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
         self.showAlert.isOpaque = false
         if UIDevice().userInterfaceIdiom == .phone {
-        self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -4.0)
+        self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: 8.0)
         self.showAlert.topForeGroundLabel.text = "\(self.alertTitle)"
         self.showAlert.topForeGroundLabel.font = fonts().iPhonefonts
         self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 20)!
         self.showAlert.mainTitle.text = "\(self.alertBody)"
-        self.showAlert.acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertAcceptLabel)", strokeWidth: -4.0)
+        self.showAlert.acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertAcceptLabel)", strokeWidth: 8.0)
         self.showAlert.acceptButtonLabelForeGround.font = fonts().iPhonefonts
         self.showAlert.acceptButtonLabelForeGround.text = "\(self.alertAcceptLabel)"
         } else {
-            self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -4.0)
+            self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: 8.0)
             self.showAlert.topForeGroundLabel.text = "\(self.alertTitle)"
             self.showAlert.topForeGroundLabel.font = fonts().iPhonefonts
             self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 20)!
             self.showAlert.mainTitle.text = "\(self.alertBody)"
-            self.showAlert.acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertAcceptLabel)", strokeWidth: -4.0)
+            self.showAlert.acceptButtonLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertAcceptLabel)", strokeWidth: 8.0)
             self.showAlert.acceptButtonLabelForeGround.font = fonts().iPhonefonts
             self.showAlert.acceptButtonLabelForeGround.text = "\(self.alertAcceptLabel)"
         }

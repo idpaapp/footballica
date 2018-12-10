@@ -14,7 +14,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     var menuTitles = ["لیست بازی ها" ,
                       "چالش" ,
                       "مسابقه" ,
-                      "دوستان" ,
+                      "گروه" ,
                       "فروشگاه"]
     
     
@@ -74,6 +74,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     
     var selectedItem = 2
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if !matchViewController.isTutorial {
         self.view.isUserInteractionEnabled = false
         selectedItem = indexPath.item
         let pageIndexDict:[String: Int] = ["pageIndex": selectedItem]
@@ -87,6 +88,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: {
             self.view.isUserInteractionEnabled = true
         })
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

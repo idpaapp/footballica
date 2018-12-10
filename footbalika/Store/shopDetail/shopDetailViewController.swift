@@ -304,22 +304,22 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height == 2436 {
                 //iPhone X
-                cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: -7.0)
-                cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: -5.0)
+                cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: 8.0)
+                cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: 8.0)
                 cell.shopDetailPriceForeGround.font = fonts().iPadfonts
                 cell.shopDetailTitleForeGround.font = fonts().iPadfonts
             } else {
                 //other iPhones
-                cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: -7.0)
-                cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: -5.0)
+                cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: 8.0)
+                cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: 8.0)
                  cell.shopDetailPriceForeGround.font = fonts().iPadfonts
                 cell.shopDetailTitleForeGround.font = fonts().iPadfonts
             }
             
         } else {
             //iPad
-            cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: -7.0)
-            cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: -5.0)
+            cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: 8.0)
+            cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: 8.0)
             cell.shopDetailPriceForeGround.font = fonts().iPadfonts
             cell.shopDetailTitleForeGround.font = fonts().iPadfonts
         }

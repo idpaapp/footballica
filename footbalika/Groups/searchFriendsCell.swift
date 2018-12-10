@@ -28,10 +28,10 @@ class searchFriendsCell: UITableViewCell , UITextFieldDelegate {
         self.searchTextField.addTarget(self, action: #selector(textFieldDidChange), for: UIControlEvents.editingChanged)
         self.clearTextField.addTarget(self, action: #selector(clearTextFieldComplete), for: UIControlEvents.touchUpInside)
         if UIDevice().userInterfaceIdiom == .phone {
-        searchButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جستجو", strokeWidth: -4.0)
+        searchButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "جستجو", strokeWidth: 8.0)
           searchButtonTitleForeGround.font = fonts().iPhonefonts
         } else {
-        searchButtonTitle.AttributesOutLine(font: fonts().iPadfonts, title: "جستجو", strokeWidth: -4.0)
+        searchButtonTitle.AttributesOutLine(font: fonts().iPadfonts, title: "جستجو", strokeWidth: 8.0)
             searchButtonTitleForeGround.font = fonts().iPadfonts
         }
         searchButtonTitleForeGround.text = "جستجو"

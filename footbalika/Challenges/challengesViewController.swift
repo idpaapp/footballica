@@ -24,12 +24,12 @@ class challengesViewController: UIViewController {
 //        let TextFont = UIFont(name: "DPA_Game", size: 60)!
          if UIDevice().userInterfaceIdiom == .phone  {
         self.gradeTitleForeGround.font = fonts
-        self.gradeNumber.AttributesOutLine(font: fonts, title: "20", strokeWidth: -4.0)
-        self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: -10.0)
+        self.gradeNumber.AttributesOutLine(font: fonts, title: "20", strokeWidth: 8.0)
+        self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: 8.0)
          } else {
         self.gradeTitleForeGround.font = iPadfonts
-        self.gradeNumber.AttributesOutLine(font: iPadfonts, title: "20", strokeWidth: -4.0)
-        self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: -5.0)
+        self.gradeNumber.AttributesOutLine(font: iPadfonts, title: "20", strokeWidth: 8.0)
+        self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: 8.0)
         }
         self.gradeTitleForeGround.minimumScaleFactor = 0.1
         self.gradeTitleForeGround.adjustsFontSizeToFitWidth = true

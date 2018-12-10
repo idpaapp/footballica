@@ -46,6 +46,10 @@ class achievementsCell: UITableViewCell {
         }
         self.achievementDesc.adjustsFontSizeToFitWidth = true
         self.achievementDesc.minimumScaleFactor = 0.5
+        self.progressTitle.minimumScaleFactor = 0.5
+        self.progressTitle.adjustsFontSizeToFitWidth = true
+        self.progressTitleForeGround.minimumScaleFactor = 0.5
+        self.progressTitleForeGround.adjustsFontSizeToFitWidth = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

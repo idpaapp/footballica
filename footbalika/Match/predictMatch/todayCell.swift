@@ -25,7 +25,7 @@ class todayCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.submitTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "ثبت پیش بینی", strokeWidth: -6.0)
+        self.submitTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "ثبت پیش بینی", strokeWidth: 8.0)
         self.submitTitleForeGround.text = "ثبت پیش بینی"
         self.submitTitleForeGround.font = fonts().iPhonefonts18
         team1Title.adjustsFontSizeToFitWidth = true

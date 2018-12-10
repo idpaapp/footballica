@@ -70,14 +70,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
             self.showAlert.acceptButton.addTarget(self, action: #selector(accepting), for: UIControlEvents.touchUpInside)
             self.showAlert.isOpaque = false
             if UIDevice().userInterfaceIdiom == .phone {
-                self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -6.0)
+                self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: 8.0)
                 self.showAlert.topForeGroundLabel.text = "\(self.alertTitle)"
                 self.showAlert.topForeGroundLabel.font = fonts().iPhonefonts
                 self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 13)!
                 self.showAlert.mainTitle.text = "\(self.alertBody)"
 
             } else {
-                self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: -6.0)
+                self.showAlert.topLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.alertTitle)", strokeWidth: 8.0)
                 self.showAlert.topForeGroundLabel.text = "\(self.alertTitle)"
                 self.showAlert.topForeGroundLabel.font = fonts().iPhonefonts
                 self.showAlert.mainTitle.font = UIFont(name: "DPA_Game", size: 13)!

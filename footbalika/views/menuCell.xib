@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,16 +28,16 @@
                         <rect key="frame" x="5" y="5" width="335" height="80.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hCb-dN-Gjr">
-                                <rect key="frame" x="271.5" y="14" width="53.5" height="53.5"/>
+                                <rect key="frame" x="271.5" y="13.5" width="53.5" height="53.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="hCb-dN-Gjr" secondAttribute="height" multiplier="1:1" id="goY-so-fU6"/>
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nVi-gR-kdb">
-                                <rect key="frame" x="5" y="10.5" width="80.5" height="60.5"/>
+                                <rect key="frame" x="5" y="10" width="80.5" height="60.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XNF-gh-oKp">
-                                        <rect key="frame" x="45.5" y="14.5" width="30" height="30"/>
+                                        <rect key="frame" x="45.5" y="15.5" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="ODx-ll-xkW"/>
                                             <constraint firstAttribute="width" secondItem="XNF-gh-oKp" secondAttribute="height" multiplier="1:1" id="h7p-tx-mbN"/>
@@ -87,10 +85,6 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TtT-ae-ulg">
                         <rect key="frame" x="0.0" y="0.0" width="345" height="90.5"/>
                     </button>
-                    <view alpha="0.10000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n6j-vf-87X" customClass="GIDSignInButton">
-                        <rect key="frame" x="-0.5" y="-0.5" width="345" height="91"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -98,20 +92,15 @@
                     <constraint firstItem="Ri6-am-7nu" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="1Mp-xK-MdN"/>
                     <constraint firstAttribute="bottom" secondItem="TtT-ae-ulg" secondAttribute="bottom" id="GBx-tA-Ao4"/>
                     <constraint firstAttribute="trailing" secondItem="Ri6-am-7nu" secondAttribute="trailing" constant="5" id="N63-wa-ILP"/>
-                    <constraint firstItem="n6j-vf-87X" firstAttribute="centerX" secondItem="TtT-ae-ulg" secondAttribute="centerX" id="OBC-lZ-37G"/>
                     <constraint firstItem="TtT-ae-ulg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Rdu-lf-q1U"/>
-                    <constraint firstItem="n6j-vf-87X" firstAttribute="width" secondItem="TtT-ae-ulg" secondAttribute="width" id="Tdw-rk-HYI"/>
                     <constraint firstItem="TtT-ae-ulg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Tzo-Et-MaS"/>
                     <constraint firstAttribute="bottom" secondItem="Ri6-am-7nu" secondAttribute="bottom" constant="5" id="XkZ-AV-ZEL"/>
                     <constraint firstAttribute="trailing" secondItem="TtT-ae-ulg" secondAttribute="trailing" id="Xqm-1Z-aMI"/>
-                    <constraint firstItem="n6j-vf-87X" firstAttribute="height" secondItem="TtT-ae-ulg" secondAttribute="height" id="iML-jr-vQa"/>
-                    <constraint firstItem="n6j-vf-87X" firstAttribute="centerY" secondItem="TtT-ae-ulg" secondAttribute="centerY" id="wJp-5r-xyE"/>
                     <constraint firstItem="Ri6-am-7nu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="xHN-oD-I6t"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="googleSignIn" destination="n6j-vf-87X" id="67W-Mu-XGC"/>
                 <outlet property="mainView" destination="Ri6-am-7nu" id="6Ye-lY-hoU"/>
                 <outlet property="menuImage" destination="hCb-dN-Gjr" id="fXM-Gi-ouZ"/>
                 <outlet property="menuLabel" destination="w14-US-z0g" id="Moy-AZ-LAe"/>

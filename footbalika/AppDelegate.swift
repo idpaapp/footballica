@@ -61,6 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 self.window = UIWindow(frame: UIScreen.main.bounds)
                 let storyBoard = UIStoryboard(name: "Main", bundle: nil)
                 let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+//                let viewController = storyBoard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
                 self.window?.rootViewController = viewController
                 self.window?.makeKeyAndVisible()
             }

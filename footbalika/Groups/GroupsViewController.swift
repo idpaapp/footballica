@@ -26,7 +26,19 @@ protocol groupDetailViewControllerDelegate {
     func showProfile(id : String , isGroupDetailUser : Bool, completionHandler : @escaping () -> Void)
 }
 
-class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate {
+protocol groupMatchViewControllerDelegate {
+    func showRewards(rewardItems : warRewards.reward)
+}
+
+class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate , groupMatchViewControllerDelegate {
+    
+    var rewardItems : warRewards.reward? = nil
+    
+    func showRewards(rewardItems : warRewards.reward) {
+        self.rewardItems = rewardItems
+        self.performSegue(withIdentifier: "showClanRewardsItem", sender: self)
+    }
+    
     
     func showProfile(id : String , isGroupDetailUser : Bool , completionHandler : @escaping () -> Void) {
         self.getProfile(userid : id, isGroupDetail: isGroupDetailUser, completionHandler: {
@@ -285,6 +297,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+                
+        
         let pageIndexDict:[String: Int] = ["button": 3]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
@@ -331,7 +345,6 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                             }
                         }
 //                        print((self.resUser?.response?[0].avatar!)!)
-                        
                     } catch {
                         self.searchFunction()
                         print(error)
@@ -343,7 +356,6 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     // handle error
                 }
             }.resume()
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -462,12 +474,12 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             let noFriendsTitle = "کسی در لیست دوستان شما وجود ندارد"
             let noFriendsButtonTitle = "  جستجوی دوستان  "
             if UIDevice().userInterfaceIdiom == .phone {
-            cell.noFriendTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(noFriendsTitle)", strokeWidth: -4.0)
-            cell.noFriendButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(noFriendsButtonTitle)", strokeWidth: -4.0)
+            cell.noFriendTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(noFriendsTitle)", strokeWidth: 8.0)
+            cell.noFriendButtonTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(noFriendsButtonTitle)", strokeWidth: 8.0)
             } else {
                 
-            cell.noFriendTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(noFriendsTitle)", strokeWidth: -4.0)
-            cell.noFriendButtonTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(noFriendsButtonTitle)", strokeWidth: -4.0)
+            cell.noFriendTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(noFriendsTitle)", strokeWidth: 8.0)
+            cell.noFriendButtonTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(noFriendsButtonTitle)", strokeWidth: 8.0)
             }
             
             cell.noFriendTitleForeGround.text = noFriendsTitle
@@ -604,6 +616,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
         
         if let vc = segue.identifier as? groupMatchViewController {
+            vc.delegate = self
             if segue.identifier == "groupsMatch" {
                 self.gMatchs = segue.destination as? groupMatchViewController
             }
@@ -611,6 +624,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         
         if let vc = segue.destination as? groupMatchResaultViewController {
             vc.matchResaultRes = self.matchResaultres
+        }
+        
+        if let vc = segue.destination as? clanItemsRewardsViewController {
+            vc.rewardsItems = self.rewardItems
         }
     }
     

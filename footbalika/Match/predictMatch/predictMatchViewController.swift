@@ -184,6 +184,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     var state = "today"
     
     @objc func getUserInfo(_ sender : UIButton!) {
+        print((self.predictLeaderBoardRes?.response?[sender.tag].id!)!)
         getProfile(userid : (self.predictLeaderBoardRes?.response?[sender.tag].id!)!)
     }
     
@@ -264,7 +265,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         topLabelFunction(text: "امتیاز شما")
         scoreAnimation()
         self.leaderBoardConstraint.constant = 0
-        pageTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "پیش بینی", strokeWidth: -6.0)
+        pageTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "پیش بینی", strokeWidth: 8.0)
         pageTitleForeGround.font = fonts().iPadfonts25
         pageTitleForeGround.text = "پیش بینی"
         self.todayOutlet.backgroundColor = UIColor.white
@@ -273,7 +274,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     
     
     @objc func topLabelFunction(text : String) {
-        yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "\(text)", strokeWidth: -6.0)
+        yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "\(text)", strokeWidth: 8.0)
         yourScoreTitleForeGround.font = fonts().iPadfonts25
         yourScoreTitleForeGround.text = "\(text)"
     }

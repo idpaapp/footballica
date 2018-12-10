@@ -17,7 +17,12 @@ protocol clanMatchFieldViewControllerDelegate {
     func updateAfterFinishGame()
 }
 
-class groupMatchViewController: UIViewController , groupMembersViewControllerDelegate , clanMatchFieldViewControllerDelegate {
+protocol clanRewardsViewControllerDelegate {
+    func updateAfterClaimReward()
+    func showClanRewards(rewardItems : warRewards.reward)
+}
+
+class groupMatchViewController: UIViewController , groupMembersViewControllerDelegate , clanMatchFieldViewControllerDelegate , clanRewardsViewControllerDelegate {
     
     @IBOutlet weak var clanResultsContainerView: UIView!
     
@@ -25,9 +30,23 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     @IBOutlet weak var clanReward: UIView!
     
+    func updateAfterClaimReward() {
+        clanRewards()
+    }
+    
+    
+    var delegate : groupMatchViewControllerDelegate!
+    func showClanRewards(rewardItems : warRewards.reward) {
+        self.delegate?.showRewards(rewardItems : rewardItems)
+    }
     
     func updateAfterFinishGame() {
         self.isClanMatchField = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        self.isClanMatchField = true
     }
     
     var warQuestions :  warQuestions.Response? = nil
@@ -36,7 +55,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     func startAnswerWar(questions : warQuestions.Response) {
         self.warQuestions = questions
         DispatchQueue.main.async {
-                PubProc.wb.hideWaiting()
+            PubProc.wb.hideWaiting()
             self.isClanMatchField = true
             self.performSegue(withIdentifier: "clanMatchField", sender: self)
         }
@@ -88,6 +107,8 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     @IBOutlet weak var ghesarSentencesLabel: UILabel!
     
+    @IBOutlet weak var ghesarBackGround: DesignableView!
+    
     @IBOutlet weak var ronaldoAndMessi: UIImageView!
     
     @IBOutlet weak var clanTimer: clanTimerView!
@@ -107,14 +128,132 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     var isUpdated = false
     var activeWarRes : getActiveWar.Response? = nil
     var warID = String()
+    
     @objc func updateclanGamePage() {
-        if !isClanMatchField {
-        PubProc.isSplash = true
-        DispatchQueue.main.async {
-            self.bombCount.text = "\(((login.res?.response?.mainInfo?.bomb)!)!)"
-            self.freezeCount.text = "\(((login.res?.response?.mainInfo?.freeze)!)!)"
+        if self.warReward?.unclaimed_reward?.reward != nil {
+            if (self.warReward?.unclaimed_reward?.is_claimed!)! != "0" {
+                clanData()
+            } else {
+                clanData()
+            }
+        } else {
+            clanData()
         }
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_ACTIVE_WAR' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)'}") { data, error in
+    }
+    
+    @objc func clanData() {
+        if !isClanMatchField {
+            PubProc.isSplash = true
+            DispatchQueue.main.async {
+                self.bombCount.text = "\(((login.res?.response?.mainInfo?.bomb)!)!)"
+                self.freezeCount.text = "\(((login.res?.response?.mainInfo?.freeze)!)!)"
+            }
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_ACTIVE_WAR' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)'}") { data, error in
+                
+                if data != nil {
+                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    
+                    //                print(data ?? "")
+                    
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                    }
+                    PubProc.isSplash = false
+                    
+                    do {
+                        
+                        self.activeWarRes = try JSONDecoder().decode(getActiveWar.Response.self, from: data!)
+                        var startButtonState = Bool()
+                        if ((login.res?.response?.calnData?.member_roll!)!) == "1" {
+                            startButtonState = false
+                        } else {
+                            startButtonState = true
+                        }
+                        
+                        DispatchQueue.main.async {
+                            
+                            switch ((self.activeWarRes?.status!)!) {
+                            case "NO_ACTIVE_WAR" :
+                                self.state = "NO_ACTIVE_WAR"
+                                self.setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: startButtonState, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
+                            case "OK" :
+                                switch ((self.activeWarRes?.response?.status!)!) {
+                                case publicConstants().clanJoined :
+                                    self.warID = (self.activeWarRes?.response?.id!)!
+                                    self.state = "OK"
+                                    self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: false, hidetimerContainerView: true, hideClanReward: true)
+                                    self.setupClanTime()
+                                    self.setupClanMemberList(isStartWar: false)
+                                    if !self.isUpdated {
+                                        self.startGameTimer()
+                                        self.isUpdated = true
+                                    }
+                                    self.members?.isWarStart = false
+                                case publicConstants().magnifier :
+                                    self.warID = (self.activeWarRes?.response?.id!)!
+                                    self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: false, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
+                                    self.state = "Searching"
+                                    self.setGhesarSentences()
+                                    self.setupClanTime()
+                                    if !self.updateSearch {
+                                        self.magnifierState()
+                                        self.updateSearch = true
+                                        if !self.isUpdated {
+                                            self.startGameTimer()
+                                            self.isUpdated = true
+                                        }
+                                    }
+                                    self.members?.isWarStart = false
+                                case publicConstants().war :
+                                    self.warID = (self.activeWarRes?.response?.id!)!
+                                    self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: false, clanMembers: false, hidetimerContainerView: false, hideClanReward: true)
+                                    self.cResults?.groupsUpdate(clanImage: ((login.res?.response?.calnData?.caln_logo!)!), oppClanImage: (self.activeWarRes?.response?.opp_clan_logo!)!, clanName: ((login.res?.response?.calnData?.clan_title!)!), oppClanName: (self.activeWarRes?.response?.opp_clan_title!)!, clanScore: (self.activeWarRes?.response?.war_point!)!, oppClanScore: (self.activeWarRes?.response?.opp_war_point!)!)
+                                    self.setupClanTime()
+                                    self.setupClanMemberList(isStartWar: false)
+                                    self.members?.startWarUpdate()
+                                    self.members?.activeWarRes = self.activeWarRes
+                                    self.members?.reloadingData(members: (self.activeWarRes?.response?.members?.count)!)
+                                    self.members?.isWarStart = true
+                                    if !self.isUpdated {
+                                        self.startGameTimer()
+                                        self.isUpdated = true
+                                    }
+                                default :
+                                    break
+                                }
+                            default :
+                                break
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                    
+                } else {
+                    self.updateclanGamePage()
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+                }.resume()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
+        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+            clanRewards()
+        }
+    }
+    
+    var warReward : warRewards.Response?
+    @objc func clanRewards() {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR_CLAN_DATA' , 'user_id' : '\(loadingViewController.userid)'}") { data, error in
             
             if data != nil {
                 
@@ -124,103 +263,44 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                 
                 //                print(data ?? "")
                 
-                DispatchQueue.main.async {
-                    PubProc.wb.hideWaiting()
-                }
-                PubProc.isSplash = false
-                
                 do {
                     
-                    self.activeWarRes = try JSONDecoder().decode(getActiveWar.Response.self, from: data!)
-                    var startButtonState = Bool()
-                    if ((login.res?.response?.calnData?.member_roll!)!) == "1" {
-                        startButtonState = false
+                    self.warReward = try JSONDecoder().decode(warRewards.Response.self, from: data!)
+                    
+                    if self.warReward?.unclaimed_reward?.reward != nil {
+                        if (self.warReward?.unclaimed_reward?.is_claimed!)! == "0" {
+                            self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: false)
+                            
+                            let vc = self.childViewControllers.last as! clanRewardsViewController
+                            vc.warId = (self.warReward?.unclaimed_reward?.war_id!)!
+                            vc.claimId = (self.warReward?.unclaimed_reward?.id!)!
+                            vc.rewardItems = self.warReward?.unclaimed_reward?.reward
+                            vc.getClanRwards()
+                            //                        warRewards
+                        } else {
+                            self.updateclanGamePage()
+                            self.setStartGroupGameButton()
+                        }
                     } else {
-                        startButtonState = true
+                        self.updateclanGamePage()
+                        self.setStartGroupGameButton()
                     }
                     
-                    DispatchQueue.main.async {
-                        
-                        switch ((self.activeWarRes?.status!)!) {
-                        case "NO_ACTIVE_WAR" :
-                            self.state = "NO_ACTIVE_WAR"
-                            self.setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: startButtonState, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
-                        case "OK" :
-                            switch ((self.activeWarRes?.response?.status!)!) {
-                            case publicConstants().clanJoined :
-                                self.warID = (self.activeWarRes?.response?.id!)!
-                                self.state = "OK"
-                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: false, hidetimerContainerView: true, hideClanReward: true)
-                                self.setupClanTime()
-                                self.setupClanMemberList(isStartWar: false)
-                                if !self.isUpdated {
-                                    self.startGameTimer()
-                                    self.isUpdated = true
-                                }
-                                 self.members?.isWarStart = false
-                            case publicConstants().magnifier :
-                                self.warID = (self.activeWarRes?.response?.id!)!
-                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: false, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
-                                self.state = "Searching"
-                                self.setGhesarSentences()
-                                self.setupClanTime()
-                                if !self.updateSearch {
-                                    self.magnifierState()
-                                    self.updateSearch = true
-                                    if !self.isUpdated {
-                                    self.startGameTimer()
-                                     self.isUpdated = true
-                                    }
-                                }
-                                 self.members?.isWarStart = false
-                            case publicConstants().war :
-                                self.warID = (self.activeWarRes?.response?.id!)!
-                                self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: false, clanMembers: false, hidetimerContainerView: false, hideClanReward: true)
-                                self.cResults?.groupsUpdate(clanImage: ((login.res?.response?.calnData?.caln_logo!)!), oppClanImage: (self.activeWarRes?.response?.opp_clan_logo!)!, clanName: ((login.res?.response?.calnData?.clan_title!)!), oppClanName: (self.activeWarRes?.response?.opp_clan_title!)!, clanScore: (self.activeWarRes?.response?.war_point!)!, oppClanScore: (self.activeWarRes?.response?.opp_war_point!)!)
-                                self.setupClanTime()
-                                self.setupClanMemberList(isStartWar: false)
-                                self.members?.startWarUpdate()
-                                self.members?.activeWarRes = self.activeWarRes
-                                self.members?.reloadingData(members: (self.activeWarRes?.response?.members?.count)!)
-                                self.members?.isWarStart = true
-                                if !self.isUpdated {
-                                    self.startGameTimer()
-                                    self.isUpdated = true
-                                }
-                            default :
-                                break
-                            }
-                        default :
-                            break
-                        }
-                    }
                 } catch {
                     print(error)
                 }
                 
+                DispatchQueue.main.async {
+                    PubProc.wb.hideWaiting()
+                }
+                
             } else {
-                self.updateclanGamePage()
+                self.clanRewards()
                 print("Error Connection")
                 print(error as Any)
                 // handle error
             }
             }.resume()
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
-        if login.res?.response?.calnData?.clanMembers?.count != 0 {
-            clanRewards()
-        }
-        setStartGroupGameButton()
-    }
-    
-    var warRewards : warRewards.Response? 
-    @objc func clanRewards() {
-        
-        updateclanGamePage()
     }
     
     func setPageOutlets(hidRonaldoAndMessi : Bool , hideMagnifier : Bool , hideClanTimer : Bool , hideStartGameButton : Bool , hideClanResults : Bool , clanMembers : Bool , hidetimerContainerView : Bool , hideClanReward : Bool) {
@@ -232,6 +312,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         self.clanResultsContainerView.isHidden = hideClanResults
         self.timerContainerView.isHidden = hidetimerContainerView
         self.ghesarSentencesLabel.isHidden = hideMagnifier
+        self.ghesarBackGround.isHidden = hideMagnifier
         self.clanReward.isHidden = hideClanReward
     }
     
@@ -492,12 +573,12 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         }
     }
     
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        magnifierState()
-//    }
+    //    override func viewDidLayoutSubviews() {
+    //        super.viewDidLayoutSubviews()
+    //        magnifierState()
+    //    }
     
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -526,6 +607,10 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         //        }
         if segue.identifier == "clanResults" {
             self.cResults = segue.destination as? clanResultsViewController
+        }
+        
+        if let vc = segue.destination as? clanRewardsViewController {
+            vc.delegate = self
         }
     }
 }

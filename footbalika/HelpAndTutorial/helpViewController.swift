@@ -27,7 +27,7 @@ class helpViewController: UIViewController {
     var tDelegate : TutorialsDelegate?
     var shopDelegate : ShopTutorialDelegate?
     var groupsDelegate : TutorialGroupsDelegate?
-    
+    var matchDelegate : helpViewControllerDelegate!
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -56,14 +56,13 @@ class helpViewController: UIViewController {
     func normalTutorialHelp() {
         let hID = ((helpViewController.helpRes?.response?.filter {$0.id == self.id})!)
         helpDescription.text = (hID.first?.desc_text!)!
-        acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\((hID.first?.key_title!)!)", strokeWidth: -6.0)
+        acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\((hID.first?.key_title!)!)", strokeWidth: 8.0)
         acceptLabelForeGround.font = fonts().iPhonefonts
         acceptLabelForeGround.text = "\((hID.first?.key_title!)!)"
     }
     
     @objc func slideShowing() {
         if self.state == "START_GAME" {
-            
             switch self.id {
             case "4" :
                 normalTutorialHelp()
@@ -112,7 +111,7 @@ class helpViewController: UIViewController {
     
     @objc func showingHelp() {
         helpDescription.text = self.desc[self.currentSlide]
-        acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.acceptTitle[self.currentSlide])", strokeWidth: -6.0)
+        acceptLabel.AttributesOutLine(font: fonts().iPhonefonts, title: "\(self.acceptTitle[self.currentSlide])", strokeWidth: 8.0)
         acceptLabelForeGround.font = fonts().iPhonefonts
         acceptLabelForeGround.text = "\(self.acceptTitle[self.currentSlide])"
     }
@@ -168,7 +167,6 @@ class helpViewController: UIViewController {
                 } else {
                     self.showingHelp()
                 }
-                
             case "goToGroups" :
                 self.dismissing()
                 self.shopDelegate?.goToGroupsPage()
@@ -176,6 +174,9 @@ class helpViewController: UIViewController {
             case "lastTutorialPage" :
                 self.dismissing()
                 self.groupsDelegate?.finishTutorial()
+            case "MATCH_HELP" :
+                self.dismissing()
+                self.matchDelegate?.showMatchResult()
             default :
                 if self.currentSlide == self.desc.count {
                     self.dismissing()
@@ -192,8 +193,6 @@ class helpViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
     }
-    
 
 }

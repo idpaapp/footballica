@@ -35,7 +35,7 @@ class profileGroupCell: UITableViewCell {
     @objc func setupView() {
         self.showGroupButton.setButtons(hideAction: true, hideAction1: false, hideAction2: true, hideAction3: true)
         self.showGroupButton.setTitles(actionTitle: "", action1Title: "گروه ", action2Title: "", action3Title: "")
-        self.profileGroupCellTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "گروه", strokeWidth: 5.0)
+        self.profileGroupCellTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "گروه", strokeWidth: 8.0)
         self.profileGroupCellTitleForeGround.font = fonts().iPhonefonts
         self.profileGroupCellTitleForeGround.text = "گروه"
         self.promoteDemoteView.setButtons(hideAction: true, hideAction1: false, hideAction2: true, hideAction3: false)
