@@ -12,39 +12,40 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     
     @IBOutlet weak var yourScoreTitle: UILabel!
     @IBOutlet weak var yourScoreTitleForeGround: UILabel!
+    @IBOutlet weak var yourScoreSelect: RoundButton!
     @IBOutlet weak var leaderBoardConstraint: NSLayoutConstraint!
     @IBOutlet weak var pageTitle: UILabel!
     @IBOutlet weak var pageTitleForeGround: UILabel!
-    @IBOutlet weak var predictWidthView: NSLayoutConstraint!
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.state == "today"  {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {        
+        switch self.state {
+        case  "today":
             if self.todayRes != nil {
                 print((self.todayRes?.response?.count)!)
-            return (self.todayRes?.response?.count)!
+                return (self.todayRes?.response?.count)!
             } else {
-                return 0 
+                return 0
             }
-            
-            } else if self.state == "past" {
+        case "past" :
             if self.pastRes != nil {
                 print((self.pastRes?.response?.count)!)
                 return (self.pastRes?.response?.count)!
             } else {
                 return 0
             }
-            
-        } else {
+        case "leaderBoard" :
             if self.predictLeaderBoardRes != nil {
                 print((self.predictLeaderBoardRes?.response?.count)!)
                 return (self.predictLeaderBoardRes?.response?.count)!
             } else {
                 return 0
             }
+        default:
+            return 0
         }
     }
     
@@ -104,6 +105,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             cell.submitPrediction.isHidden = true
             cell.team1Prediction.isHidden = false
             cell.team2Prediction.isHidden = false
+            
             cell.mainTitle.text = "\((self.pastRes?.response?[indexPath.row].p_game_time!)!)"
             cell.team1Title.text = "\((self.pastRes?.response?[indexPath.row].home_name!)!)"
             cell.team2Title.text = "\((self.pastRes?.response?[indexPath.row].away_name!)!)"
@@ -121,18 +123,27 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "predictLeaderBoardCell", for: indexPath) as! predictLeaderBoardCell
             
-            cell.userAvatar.setImageWithKingFisher(url: "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)")
+            DispatchQueue.main.async {
+//                cell.userAvatar.setImageWithKingFisher(url: "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)")
+
+                cell.aVURL = "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)"
+                cell.updateImage()
+                
+                if "\((self.predictLeaderBoardRes?.response?[indexPath.row].id!)!)" == loadingViewController.userid {
+                    cell.userBackGroud.backgroundColor = publicColors().currentUser
+                } else {
+                    cell.userBackGroud.backgroundColor = publicColors().otherUsers
+                }
             
             cell.userName.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].username!)!)"
             cell.number.text = "\(indexPath.row + 1)"
             cell.userScore.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].cups!)!)"
+            }
             cell.selectLeaderBoardUser.tag = indexPath.row
             cell.selectLeaderBoardUser.addTarget(self, action: #selector(getUserInfo), for: UIControlEvents.touchUpInside)
             return cell
         }
     }
-    
-    
     
     
     
@@ -210,8 +221,16 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         self.getProfile(userid: userid)
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.getProfile(userid: userid)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -248,16 +267,11 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if UIDevice().userInterfaceIdiom == .phone {
-            predictWidthView.constant = (UIScreen.main.bounds.width * 8) / 9
-        } else {
             if UIDevice().userInterfaceIdiom == .pad
                 && UIScreen.main.nativeBounds.size.height >= 2224 {
-                predictWidthView.constant = 600
-            } else {
-            predictWidthView.constant = (UIScreen.main.bounds.width * 4) / 5
+                
+                
             }
-        }
         
         todayJson()
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshAfterPredict(notification:)), name: Notification.Name("refreshPrediction"), object: nil)
@@ -277,38 +291,48 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         yourScoreTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "\(text)", strokeWidth: 8.0)
         yourScoreTitleForeGround.font = fonts().iPadfonts25
         yourScoreTitleForeGround.text = "\(text)"
+        self.yourScoreSelect.addTarget( self, action: #selector(scrollToMyRow), for: UIControlEvents.touchUpInside)
+    }
+    
+    @objc func scrollToMyRow() {
+        if self.state == "leaderBoard" {
+        let index = self.predictLeaderBoardRes?.response?.index(where : {$0.id == loadingViewController.userid})
+        self.predictMatchTV.scrollToRow(at: IndexPath(row: index!, section: 0), at: .top, animated: true)
+        }
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     @IBAction func todayAction(_ sender: RoundButton) {
+        if  self.state != "today" {
         self.predictLeaderBoardOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.pastOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.todayOutlet.backgroundColor = UIColor.white
-        self.state = "today"
         todayJson()
+        }
     }
     
     @IBAction func predictLeaderBoardAction(_ sender: RoundButton) {
+        if self.state != "leaderBoard" {
         self.todayOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.pastOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.predictLeaderBoardOutlet.backgroundColor = UIColor.white
-        self.state = "leaderBoard"
         leaderBoardJson()
-
+        }
     }
     
     @IBAction func pastAction(_ sender: RoundButton) {
+        if  self.state != "past" {
         self.todayOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.predictLeaderBoardOutlet.backgroundColor = colors().lightBrownBackGroundColor
         self.pastOutlet.backgroundColor = UIColor.white
-        self.state = "past"
         pastJson()
+        }
     }
-    
     
     @objc func pastJson() {
         PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'GET_PREV_GAMES' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
@@ -322,7 +346,13 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         
                         self.pastRes = try JSONDecoder().decode(prediction.Response.self , from : data!)
                         DispatchQueue.main.async {
-                            self.predictMatchTV.reloadData()
+                            UIView.performWithoutAnimation {
+                                self.state = "past"
+                                self.predictMatchTV.reloadData()
+                                if self.pastRes?.response?.count != 0 {
+                                    self.predictMatchTV.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                                }
+                            }
                                 PubProc.cV.hideWarning()
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
@@ -336,8 +366,16 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         self.pastJson()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.pastJson()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -373,17 +411,29 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                                     }
                                 })
                             }
-                            self.predictMatchTV.reloadData()
+                            UIView.performWithoutAnimation {
+                                self.state = "today"
+                                self.predictMatchTV.reloadData()
+                                if self.todayRes?.response?.count != 0 {
+                                    self.predictMatchTV.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                                }
+                            }
                         }
-                        
-
                         PubProc.wb.hideWaiting()
                     } catch {
                         self.pastJson()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.pastJson()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -406,7 +456,13 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         
                         self.topLabelFunction(text: "امتیاز شما : \((self.predictLeaderBoardRes?.user_pts)!)")
                         DispatchQueue.main.async {
-                            self.predictMatchTV.reloadData()
+                            UIView.performWithoutAnimation {
+                                self.state = "leaderBoard"
+                                self.predictMatchTV.reloadData()
+                                if self.predictLeaderBoardRes?.response?.count != 0 {
+                                    self.predictMatchTV.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                                }
+                            }
                             PubProc.cV.hideWarning()
                         }
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
@@ -421,8 +477,16 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
                         self.pastJson()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.pastJson()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

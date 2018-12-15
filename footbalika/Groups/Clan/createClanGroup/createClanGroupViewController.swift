@@ -139,8 +139,16 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
                     
                     PubProc.wb.hideWaiting()
                 }
+                PubProc.countRetry = 0
             } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.creatingGroup()
+                    })
+                }
                 print("Error Connection")
                 print(error as Any)
                 // handle error
@@ -210,8 +218,16 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
                     
                     PubProc.wb.hideWaiting()
                 }
+                PubProc.countRetry = 0
             } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.creatingGroup()
+                    })
+                }
                 print("Error Connection")
                 print(error as Any)
                 // handle error

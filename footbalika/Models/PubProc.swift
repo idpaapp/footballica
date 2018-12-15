@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 public class PubProc {
     static var HandleString = THandleString()
     static var HandleDataBase = THandleDataBase()
@@ -26,7 +25,7 @@ public class PubProc {
     static var wb = waitingBall()
     static var cV = connectionView()
     static var showWarning = Bool()
-    
+    static var countRetry = Int()
     
     public class THandleDataBase {
 //        var cV = connectionView()
@@ -49,8 +48,6 @@ public class PubProc {
                     completionHandler(nil, (error! as NSError))
                     print("error=\(String(describing: error))")
                     DispatchQueue.main.async {
-                        cV.connectionErrorTitle.text = "ارتباط شما با اینترنت قطع شده لطفاً اینترنت خود را چک کنید"
-                        cV.connectionErrorImage.image = UIImage(named: "noWifi")
                         cV.showWarning()
                     }
                     return
@@ -63,8 +60,6 @@ public class PubProc {
                     print("response = \(String(describing: response!))")
                     
                     DispatchQueue.main.async {
-                    cV.connectionErrorTitle.text = "در حال حاضر ارتباط با سرور مقدور نمی باشد!"
-                    cV.connectionErrorImage.image = UIImage(named: "noServer")
                     cV.showWarning()
                     }
                 }

@@ -18,7 +18,6 @@ class DesignableView: UIView {
     @IBInspectable  var bottomRight: Bool = false
     @IBInspectable  var cornerEdgesAllow: Bool = true
     
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         

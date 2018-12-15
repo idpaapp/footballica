@@ -168,9 +168,16 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
                             self.checkGiftCode()
                             print(error)
                         }
-                        
+                        PubProc.countRetry = 0
                     } else {
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
+                            
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.checkGiftCode()
+                            })
+                        }
                         print("Error Connection")
                         print(error as Any)
                         // handle error
@@ -232,9 +239,16 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
                                 PubProc.wb.hideWaiting()
                                 PubProc.cV.hideWarning()
                             }
-                            
+                            PubProc.countRetry = 0 
                         } else {
+                            PubProc.countRetry = PubProc.countRetry + 1
+                            if PubProc.countRetry == 10 {
+                                
+                            } else {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                             self.sendingMassage()
+                                })
+                            }
                             print("Error Connection")
                             print(error as Any)
                             // handle error

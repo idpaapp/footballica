@@ -51,6 +51,12 @@ class createClanGroupView: UIView , UITextFieldDelegate , UITextViewDelegate{
         self.privateGroup.radioButton.setBackgroundImage(publicImages().radioButtonEmpty, for: UIControlState.normal)
         self.privateGroup.radioButton.isExclusiveTouch = true
         self.publicGroup.radioButton.isExclusiveTouch = true
+        
+        if UIDevice().userInterfaceIdiom == .pad {
+            self.buyButton.buyAction.transform = CGAffineTransform.identity.scaledBy(x: 0.7, y: 1.1)
+        } else {
+            self.buyButton.buyAction.transform = CGAffineTransform.identity.scaledBy(x: 1, y: 1.2)
+        }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {

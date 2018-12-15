@@ -52,9 +52,17 @@ public class loadShop {
                         })
                         print(error)
                     }
+                    PubProc.countRetry = 0 
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.loadingShop(userid: userid, rest: rest, completionHandler: {
                     })
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

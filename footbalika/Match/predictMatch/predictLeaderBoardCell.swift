@@ -10,20 +10,25 @@ import UIKit
 
 class predictLeaderBoardCell: UITableViewCell {
     
+    @IBOutlet weak var userBackGroud: DesignableView!
     @IBOutlet weak var number: UILabel!
     @IBOutlet weak var userAvatar: UIImageView!
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userScore: UILabel!
-    
     @IBOutlet weak var selectLeaderBoardUser: RoundButton!
     
-    
-    
+    var aVURL = String()
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.number.adjustsFontSizeToFitWidth = true
         self.number.minimumScaleFactor = 0.5
+        
+    }
+    
+    
+    func updateImage() {
+        self.userAvatar.setImageWithKingFisher(url: aVURL)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

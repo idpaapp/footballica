@@ -184,7 +184,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
         var size = CGSize()
         if UIDevice().userInterfaceIdiom == .phone {
             size = CGSize(width: UIScreen.main.bounds.width / 5 - 12 , height: UIScreen.main.bounds.height / 6 - 20)
@@ -192,7 +191,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             size = CGSize(width: UIScreen.main.bounds.width * 2 / 15 - 8 , height: UIScreen.main.bounds.height * 2 / 18 - 20)
         }
         return size
-        
     }
     
     @objc func getClanData(id : String , completionHandler : @escaping() -> Void) {
@@ -241,8 +239,16 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                     })
                     print(error)
                 }
+                PubProc.countRetry = 0
             } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.getClanData(id: id, completionHandler: {})
+                    })
+                }
                 print("Error Connection")
                 print(error as Any)
                 // handle error
@@ -344,8 +350,16 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         self.firendlyMatch()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.firendlyMatch()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -428,8 +442,16 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                     
                     PubProc.wb.hideWaiting()
                 }
+                PubProc.countRetry = 0
             } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.joinGroup()
+                    })
+                }
                 print("Error Connection")
                 print(error as Any)
                 // handle error
@@ -468,8 +490,16 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                     }
                     PubProc.wb.hideWaiting()
                 }
+                PubProc.countRetry = 0
             } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.leaveGroup()
+                    })
+                }
                 print("Error Connection")
                 print(error as Any)
                 // handle error

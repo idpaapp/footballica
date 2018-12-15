@@ -98,8 +98,16 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                         self.gameLists(mode: mode, isSplash: isSplash)
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.gameLists(mode: mode, isSplash: isSplash)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -362,8 +370,16 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                         self.getUserData(id : id)
                         print(error)
                     }
+                    PubProc.countRetry = 0 
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.getUserData(id : id)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

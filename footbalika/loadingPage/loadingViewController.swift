@@ -132,10 +132,16 @@ class loadingViewController: UIViewController {
                         self.gameData()
                         print(error)
                     }
+                    PubProc.countRetry = 0 
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.gameData()
                     })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -214,9 +220,9 @@ class loadingViewController: UIViewController {
                     self.loadingProgress.progress = self.currentProgress
                     if UIDevice().userInterfaceIdiom == .phone {
                         print("self.currentProgress\(self.currentProgress)")
-                        self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: 8.0)
+                        self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -5.0)
                     } else {
-                        self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: 8.0)
+                        self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -5.0)
                     }
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -233,9 +239,9 @@ class loadingViewController: UIViewController {
                         self.currentProgress = self.currentProgress + 0.01
                         self.loadingProgress.progress = self.currentProgress
                         if UIDevice().userInterfaceIdiom == .phone {
-                            self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: 8.0)
+                            self.loadingProgressLabel.AttributesOutLine(font: self.fonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -5.0)
                         } else {
-                            self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: 8.0)
+                            self.loadingProgressLabel.AttributesOutLine(font: self.iPadFonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -5.0)
                         }
                     }
                 }

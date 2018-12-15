@@ -96,8 +96,16 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                         self.performSegue(withIdentifier: "shopAlert", sender: self)
                         PubProc.wb.hideWaiting()
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.chooseItem()
+                        })
+                    }
                     self.view.isUserInteractionEnabled = true
                     print("Error Connection")
                     print(error as Any)
@@ -236,8 +244,16 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     DispatchQueue.main.async {
                         PubProc.wb.hideWaiting()
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.showBoughtItem()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

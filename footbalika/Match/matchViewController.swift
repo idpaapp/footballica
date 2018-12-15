@@ -104,18 +104,13 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             self.xpProgress.progress = 0.0
             if ((login.res?.response?.mainInfo?.avatar)!) != "user_empty.png" {
             let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
-            self.avatar.setImageWithRealmPath(url : urlAvatar)
-            if self.avatar.image != UIImage() {
-            } else {
                 self.avatar.setImageWithKingFisher(url: urlAvatar)
-            }
             } else {
                 self.avatar.image = publicImages().emptyAvatar
             }
             mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -333,9 +328,16 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                         self.performSegue(withIdentifier: "startingMatch", sender: self)
                         PubProc.wb.hideWaiting()
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.requestNewMatch()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -459,8 +461,16 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                         self.getProfile()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.getProfile()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -498,8 +508,16 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                         self.firendlyMatch()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.firendlyMatch()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

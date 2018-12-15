@@ -9,13 +9,10 @@
 import UIKit
 
 public class connectionView: UIView {
-
-    @IBOutlet weak var connectionViewConstraint: NSLayoutConstraint!
-    @IBOutlet var contentView: UIView!
-    @IBOutlet weak var mainView: UIView!
-    @IBOutlet weak var connectionErrorTitle: UILabel!
     
-    @IBOutlet weak var connectionErrorImage: UIImageView!
+    @IBOutlet var contentView: UIView!
+    
+    @IBOutlet weak var noWifiLogo: UIImageView!    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,44 +24,40 @@ public class connectionView: UIView {
         commonInit()
     }
     
-    override public func draw(_ rect: CGRect) {
-        self.mainView.layer.cornerRadius = 12
-    }
-    
+    var noWifiTimer: Timer!
     public func showWarning() {
+        noWifiTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(showNoWifi), userInfo: nil, repeats: true)
         if PubProc.showWarning == false {
-        PubProc.showWarning = true
-        DispatchQueue.main.async {
-        self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        UIApplication.shared.keyWindow!.addSubview(self)
-        UIApplication.shared.keyWindow!.bringSubview(toFront: self)
-        self.layer.zPosition = 5
-        self.isOpaque = false
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-                UIView.animate(withDuration: 0.5) {
-                    if UIScreen.main.nativeBounds.height == 2436 {
-                        self.connectionViewConstraint.constant = -20
-                    } else {
-                        self.connectionViewConstraint.constant = -10
-                    }
-                    self.contentView.layoutIfNeeded()
-                }
-            })
+            PubProc.showWarning = true
+            DispatchQueue.main.async {
+                self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                UIApplication.shared.keyWindow!.addSubview(self)
+                UIApplication.shared.keyWindow!.bringSubview(toFront: self)
+                self.layer.zPosition = 5
+                self.isOpaque = false
             }
         }
     }
     
+    @objc func showNoWifi() {
+        //        UIView.animate(withDuration: 1.0, animations: {
+        //            self.noWifiLogo.alpha = 0.5
+        //        }, completion: { (finish) in
+        //            UIView.animate(withDuration: 1.0, animations: {
+        //                self.noWifiLogo.alpha = 1.0
+        //            })
+        //        })
+    }
+    
     public func hideWarning() {
-        if PubProc.showWarning == true {
-        PubProc.showWarning = false
-        DispatchQueue.main.async {
-        UIView.animate(withDuration: 0.5, animations: {
-            self.connectionViewConstraint.constant = 40
-            self.contentView.layoutIfNeeded()
-        }, completion: { (finish) in
-            self.removeFromSuperview()
-        })
+        if noWifiTimer != nil {
+            noWifiTimer.invalidate()
         }
+        if PubProc.showWarning == true {
+            PubProc.showWarning = false
+            DispatchQueue.main.async {
+                self.removeFromSuperview()
+            }
         }
     }
     
@@ -75,5 +68,5 @@ public class connectionView: UIView {
         contentView.autoresizingMask = [.flexibleHeight , .flexibleWidth]
         
     }
-
+    
 }

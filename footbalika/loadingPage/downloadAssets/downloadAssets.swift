@@ -21,54 +21,64 @@ public class downloadAssets {
     var chargeRead = readAndWritetblChargeTypes()
     var matchTypeRead = readAndWritetblMatchTypes()
     
-    
+    var m = [AnyObject]()
+    var c = [AnyObject]()
+
     public func getIDs() {
-        
-        DispatchQueue.main.async {
-            
-        
+            self.getMatchTypesIDs()
+    }
+    
+    @objc func getMatchTypesIDs() {
         var matchType = ["id" : Int(),"image_path" : String()] as [String : Any]
-
-        var m = [AnyObject]()
+        
         if WritetblMatchTypes.matchTypeImagesID.count != 0 {
-        for i in 0...WritetblMatchTypes.matchTypeImagesID.count - 1 {
-            matchType.updateValue("\(WritetblMatchTypes.matchTypeImagesPath[i])", forKey: "image_path")
-            matchType.updateValue("\(WritetblMatchTypes.matchTypeImagesID[i])", forKey: "id")
-        
-            m.append(matchType as AnyObject)
-            
+            for i in 0...WritetblMatchTypes.matchTypeImagesID.count - 1 {
+                matchType.updateValue("\(WritetblMatchTypes.matchTypeImagesPath[i])", forKey: "image_path")
+                matchType.updateValue("\(WritetblMatchTypes.matchTypeImagesID[i])", forKey: "id")
+                
+                self.m.append(matchType as AnyObject)
+                if i == WritetblMatchTypes.matchTypeImagesID.count - 1 {
+                    getChargeTypes()
+                }
             }
-        }
-        
-        var c = [AnyObject]()
-        var chartgeType = ["id" : Int(),"image_path" : String()] as [String : Any]
-
-        if WritetblChargeTypes.chargeTypeImagesID.count != 0 {
-        for i in 0...WritetblChargeTypes.chargeTypeImagesID.count - 1 {
-            chartgeType.updateValue("\(WritetblChargeTypes.chargeTypeImagesPath[i])", forKey: "image_path")
-            chartgeType.updateValue("\(WritetblChargeTypes.chargeTypeImagesID[i])", forKey: "id")
-            c.append(chartgeType as AnyObject)
-            }
-        }
-        
-        if m.count == 0 && c.count == 0 {
-        downloadShop.init().getIDs()
         } else {
-            let jsonPost = [["MatchTypes" : m , "ChargeTypes" : c]] as [[String : Any]]
-        let jsonData = try? JSONSerialization.data(withJSONObject: jsonPost, options: [])
-        let jsonString = String(data: jsonData!, encoding: .utf8)!
+            getChargeTypes()
+        }
+    }
+    
+    @objc func getChargeTypes() {
+        var chartgeType = ["id" : Int(),"image_path" : String()] as [String : Any]
+        
+        if WritetblChargeTypes.chargeTypeImagesID.count != 0 {
+            for i in 0...WritetblChargeTypes.chargeTypeImagesID.count - 1 {
+                chartgeType.updateValue("\(WritetblChargeTypes.chargeTypeImagesPath[i])", forKey: "image_path")
+                chartgeType.updateValue("\(WritetblChargeTypes.chargeTypeImagesID[i])", forKey: "id")
+                self.c.append(chartgeType as AnyObject)
+                if i == WritetblChargeTypes.chargeTypeImagesID.count - 1 {
+                    fetchingData()
+                }
+            }
+        } else {
+            fetchingData()
+        }
+    }
+    
+    @objc func fetchingData() {
+        if self.m.count == 0 && self.c.count == 0 {
+            downloadShop.init().getIDs()
+        } else {
+            let jsonPost = [["MatchTypes" : self.m , "ChargeTypes" : self.c]] as [[String : Any]]
+            let jsonData = try? JSONSerialization.data(withJSONObject: jsonPost, options: [])
+            let jsonString = String(data: jsonData!, encoding: .utf8)!
             self.downloadingAssets(postString : jsonString)
         }
-        
-//        StadiumData
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let nc = NotificationCenter.default
             nc.post(name: Notification.Name("updateProgress"), object: nil)
-            }
         }
-        
     }
+    
     
     public func downloadingAssets(postString : String) {
         
@@ -82,8 +92,7 @@ public class downloadAssets {
                     do {
                         
                         self.res = try JSONDecoder().decode(Response.self , from : data!)
-                        
-                        DispatchQueue.main.async {
+                                                    
                             
                         if ((self.res?.chargeTypes?.count)!) != 0 {
                             self.chargeTypesDl()
@@ -101,13 +110,20 @@ public class downloadAssets {
                             
                         downloadShop.init().getIDs()
                             
-                        }
                     } catch {
                         self.downloadingAssets(postString : postString)
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.downloadingAssets(postString : postString)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -116,16 +132,9 @@ public class downloadAssets {
             }.resume()
     }
     
-//    func stadiumDl() {
-//        for i in 0...((self.res?.stadiumData?.count)!) - 1 {
-//            stadiumData.writeToDBtblStadiumTypes(id: Int((self.res?.stadiumData?[i].id!)!)!, title: "", imagePath: (self.res?.stadiumData?[i].image_path!)!, extendedBase64Image: (self.res?.stadiumData?[i].image_base64!)!)
-//        }
-//    }
-    
-    
     func matchTypeDl() {
         for i in 0...((self.res?.matchTypes?.count)!) - 1 {
-            matchTypeRead.writeToDBtblMatchTypes(gameTypesID: Int((self.res?.matchTypes?[i].id!)!)!, gameTypesTitle:"", gameTypesImg_logo: (self.res?.matchTypes?[i].image_path!)! , base64: (self.res?.matchTypes?[i].image_base64!)! )
+            matchTypeRead.writeToDBtblMatchTypes(gameTypesID: Int((self.res?.matchTypes?[i].id!)!)!, gameTypesTitle:"", gameTypesImg_logo: (self.res?.matchTypes?[i].image_path!)! , base64: (self.res?.matchTypes?[i].image_base64!)!)
         }
     }
     

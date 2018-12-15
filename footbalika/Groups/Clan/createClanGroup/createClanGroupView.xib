@@ -104,13 +104,13 @@
                                     <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no"/>
                                 </textField>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NaR-mf-TGH" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
-                                    <rect key="frame" x="118" y="48" width="110" height="80"/>
+                                    <rect key="frame" x="118" y="48" width="110" height="84"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clan_cup" translatesAutoresizingMaskIntoConstraints="NO" id="f7Y-Kq-hqm">
-                                            <rect key="frame" x="0.0" y="0.0" width="110" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="110" height="84"/>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oLn-1k-PaW" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="110" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="110" height="84"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <state key="normal">
@@ -142,7 +142,6 @@
                                         <constraint firstItem="f7Y-Kq-hqm" firstAttribute="width" secondItem="NaR-mf-TGH" secondAttribute="width" id="Xgq-wM-8r5"/>
                                         <constraint firstItem="oLn-1k-PaW" firstAttribute="centerX" secondItem="f7Y-Kq-hqm" secondAttribute="centerX" id="iBV-C0-qpH"/>
                                         <constraint firstItem="oLn-1k-PaW" firstAttribute="centerY" secondItem="f7Y-Kq-hqm" secondAttribute="centerY" id="rtX-f0-aS0"/>
-                                        <constraint firstAttribute="height" constant="80" id="yWR-ee-D8k"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
@@ -164,78 +163,73 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fFv-Xs-I2S" customClass="actionLargeButton" customModule="footbalika" customModuleProvider="target">
-                                    <rect key="frame" x="8" y="98" width="73.5" height="30"/>
+                                    <rect key="frame" x="8" y="104" width="73.5" height="28"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="yOI-Lf-lNe"/>
-                                    </constraints>
                                 </view>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="I0h-JM-nbk">
-                                    <rect key="frame" x="8" y="138" width="220" height="121"/>
+                                    <rect key="frame" x="8" y="142" width="220" height="126"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="13"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                                 </textView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="توضیحات" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLa-ul-kGa">
-                                    <rect key="frame" x="233" y="138" width="70" height="20.5"/>
+                                    <rect key="frame" x="233" y="142" width="70" height="20.5"/>
                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="13"/>
                                     <color key="textColor" red="0.4941176471" green="0.50196078430000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="نوع گروه" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2pE-p4-PUx">
-                                    <rect key="frame" x="233" y="269" width="70" height="20.5"/>
+                                    <rect key="frame" x="233" y="278" width="70" height="20.5"/>
                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="13"/>
                                     <color key="textColor" red="0.4941176471" green="0.50196078430000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="LDD-dl-txB">
-                                    <rect key="frame" x="8" y="269" width="220" height="30"/>
+                                    <rect key="frame" x="8" y="278" width="220" height="31.5"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VqR-GL-qA4" customClass="radioButtonView" customModule="footbalika" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="107.5" height="30"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="107.5" height="31.5"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bmH-DK-YcY" customClass="radioButtonView" customModule="footbalika" customModuleProvider="target">
-                                            <rect key="frame" x="112.5" y="0.0" width="107.5" height="30"/>
+                                            <rect key="frame" x="112.5" y="0.0" width="107.5" height="31.5"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </view>
                                     </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="30" id="LOm-Ta-UaT"/>
-                                    </constraints>
                                 </stackView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vtP-MP-dRP" customClass="minMaxView" customModule="footbalika" customModuleProvider="target">
-                                    <rect key="frame" x="8" y="309" width="220" height="30"/>
+                                    <rect key="frame" x="8" y="319.5" width="220" height="31.5"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="حداقل کاپ" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p7w-2e-S86">
-                                    <rect key="frame" x="233" y="309" width="70" height="20.5"/>
+                                    <rect key="frame" x="233" y="319.5" width="70" height="20.5"/>
                                     <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="13"/>
                                     <color key="textColor" red="0.4941176471" green="0.50196078430000002" blue="0.49803921569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uXV-k4-DwO" customClass="buyButton" customModule="footbalika" customModuleProvider="target">
-                                    <rect key="frame" x="92.5" y="349" width="123" height="40"/>
+                                    <rect key="frame" x="92.5" y="361" width="123" height="28"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="40" id="qag-gR-uNC"/>
-                                    </constraints>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" red="0.94557863473892212" green="0.93045365810394287" blue="0.86774349212646484" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstItem="I0h-JM-nbk" firstAttribute="leading" secondItem="Vhu-Gd-fXm" secondAttribute="leading" constant="8" id="1Y4-Br-2Dp"/>
                                 <constraint firstItem="oLa-ul-kGa" firstAttribute="leading" secondItem="I0h-JM-nbk" secondAttribute="trailing" constant="5" id="1bJ-H5-D44"/>
+                                <constraint firstItem="uXV-k4-DwO" firstAttribute="height" secondItem="fFv-Xs-I2S" secondAttribute="height" id="2Lc-54-MS7"/>
                                 <constraint firstItem="uXV-k4-DwO" firstAttribute="top" secondItem="vtP-MP-dRP" secondAttribute="bottom" constant="10" id="4Bv-13-phf"/>
                                 <constraint firstItem="vtP-MP-dRP" firstAttribute="leading" secondItem="LDD-dl-txB" secondAttribute="leading" id="4Nm-lv-7co"/>
                                 <constraint firstAttribute="trailing" secondItem="2pE-p4-PUx" secondAttribute="trailing" constant="5" id="Bx3-Zf-eiF"/>
                                 <constraint firstItem="uXV-k4-DwO" firstAttribute="width" secondItem="Vhu-Gd-fXm" secondAttribute="width" multiplier="2:5" id="C7J-VS-X7K"/>
+                                <constraint firstItem="NaR-mf-TGH" firstAttribute="height" secondItem="I0h-JM-nbk" secondAttribute="height" multiplier="2:3" id="GFi-9L-RGR"/>
                                 <constraint firstItem="hSy-hn-n6t" firstAttribute="leading" secondItem="Vhu-Gd-fXm" secondAttribute="leading" constant="8" id="Iuz-Sc-ZJw"/>
                                 <constraint firstAttribute="trailing" secondItem="p7w-2e-S86" secondAttribute="trailing" constant="5" id="L1T-Qi-Gof"/>
                                 <constraint firstItem="LDD-dl-txB" firstAttribute="trailing" secondItem="I0h-JM-nbk" secondAttribute="trailing" id="L8H-1b-0Tc"/>
                                 <constraint firstItem="vtP-MP-dRP" firstAttribute="trailing" secondItem="LDD-dl-txB" secondAttribute="trailing" id="MY1-Rg-3aV"/>
+                                <constraint firstItem="fFv-Xs-I2S" firstAttribute="height" secondItem="oLn-1k-PaW" secondAttribute="height" multiplier="1:3" id="Ohf-e7-MHU"/>
                                 <constraint firstItem="hSy-hn-n6t" firstAttribute="top" secondItem="Vhu-Gd-fXm" secondAttribute="top" constant="8" id="RGa-6f-LYO"/>
+                                <constraint firstItem="LDD-dl-txB" firstAttribute="height" secondItem="I0h-JM-nbk" secondAttribute="height" multiplier="1:4" id="SET-CH-J4d"/>
                                 <constraint firstItem="2pE-p4-PUx" firstAttribute="top" secondItem="LDD-dl-txB" secondAttribute="top" id="TuN-r9-uGO"/>
                                 <constraint firstItem="VQ0-Jv-FXM" firstAttribute="leading" secondItem="NaR-mf-TGH" secondAttribute="trailing" constant="5" id="UFH-zf-jTx"/>
                                 <constraint firstItem="oLa-ul-kGa" firstAttribute="top" secondItem="I0h-JM-nbk" secondAttribute="top" id="UPT-ye-vrZ"/>

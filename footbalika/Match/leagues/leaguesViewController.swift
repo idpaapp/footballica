@@ -43,9 +43,9 @@ class leaguesViewController: UIViewController, UITableViewDataSource , UITableVi
         cell.leagueImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].img_logo!)!)")
         
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.leagueTitle.AttributesOutLine(font: fonts.init().iPhonefonts, title: "\(((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: 8.0)
+        cell.leagueTitle.AttributesOutLine(font: fonts.init().iPhonefonts, title: "\(((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: -5.0)
         } else {
-        cell.leagueTitle.AttributesOutLine(font: fonts.init().iPadfonts, title: "\(((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: 8.0)
+        cell.leagueTitle.AttributesOutLine(font: fonts.init().iPadfonts, title: "\(((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: -5.0)
         }
         return cell
     }

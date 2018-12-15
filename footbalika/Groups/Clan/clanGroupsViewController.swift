@@ -74,9 +74,16 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                         PubProc.wb.hideWaiting()
                         
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.sendChat(chatString: chatString)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -463,8 +470,16 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                         self.searchingAction()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.searchingAction()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -580,11 +595,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     var chatRes : clanChatRoom.Response? = nil
     @objc func getChatroomData(isChatSend : Bool , completionHandler : @escaping () -> Void) {
-        
+        PubProc.isSplash = true
         PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'READ_CLAN_CHATS' , 'clan_id' : '\(self.clanID)'}") { data, error in
             
             if data != nil {
-                
+                PubProc.isSplash = false
                 DispatchQueue.main.async {
                     PubProc.cV.hideWarning()
                 }
@@ -613,8 +628,16 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     self.getChatroomData(isChatSend: isChatSend, completionHandler: {})
                     print(error)
                 }
+                PubProc.countRetry = 0 
             } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.getChatroomData(isChatSend: isChatSend, completionHandler: {})
+                    })
+                }
                 print("Error Connection")
                 print(error as Any)
                 // handle error

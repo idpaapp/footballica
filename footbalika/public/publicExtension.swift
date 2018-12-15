@@ -45,6 +45,8 @@ public class publicColors {
     public var warProgressBottomColor = #colorLiteral(red: 0.07450980392, green: 0.6745098039, blue: 0.9411764706, alpha: 1)
     public var lostColor = #colorLiteral(red: 0.9992443919, green: 0.1151522771, blue: 0.3904713392, alpha: 1)
     public var winColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+    public var currentUser = #colorLiteral(red: 0.6352941176, green: 0.8078431373, blue: 0.7137254902, alpha: 1)
+    public var otherUsers = #colorLiteral(red: 0.9568627451, green: 0.9568627451, blue: 0.9450980392, alpha: 1)
 }
 
 public class publicImages {
@@ -160,12 +162,13 @@ struct soundPlay {
             // play a click sound on your player
             guard let url = Bundle.main.url(forResource: "click", withExtension: "mp3") else { return }
             do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                 try AVAudioSession.sharedInstance().setActive(true)
                 
                 soundPlay.player = try AVAudioPlayer(contentsOf: url)
                 guard let player = soundPlay.player else { return }
                 player.numberOfLoops = 0
+                player.prepareToPlay()
                 player.play()
                 
             } catch let error {
@@ -179,7 +182,7 @@ struct soundPlay {
             guard let url = Bundle.main.url(forResource: "whistle", withExtension: "mp3") else { return }
             
             do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                 try AVAudioSession.sharedInstance().setActive(true)
                 
                 soundPlay.player = try AVAudioPlayer(contentsOf: url)
@@ -200,7 +203,7 @@ struct soundPlay {
             guard let url = Bundle.main.url(forResource: "buy_item", withExtension: "mp3") else { return }
             
             do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                 try AVAudioSession.sharedInstance().setActive(true)
                 
                 soundPlay.player = try AVAudioPlayer(contentsOf: url)
@@ -220,7 +223,7 @@ struct soundPlay {
             guard let url = Bundle.main.url(forResource: "beep", withExtension: "mp3") else { return }
             
             do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                 try AVAudioSession.sharedInstance().setActive(true)
                 
                 soundPlay.player = try AVAudioPlayer(contentsOf: url)
@@ -240,7 +243,7 @@ struct soundPlay {
             guard let url = Bundle.main.url(forResource: "correctAnswer", withExtension: "mp3") else { return }
             
             do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                 try AVAudioSession.sharedInstance().setActive(true)
                 
                 soundPlay.player = try AVAudioPlayer(contentsOf: url)
@@ -260,7 +263,7 @@ struct soundPlay {
             guard let url = Bundle.main.url(forResource: "wrong_answer", withExtension: "wav") else { return }
             
             do {
-                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                 try AVAudioSession.sharedInstance().setActive(true)
                 
                 soundPlay.player = try AVAudioPlayer(contentsOf: url)
@@ -284,12 +287,13 @@ struct soundPlay {
                 guard let url = Bundle.main.url(forResource: "referee_whistle_end", withExtension: "mp3") else { return }
                 
                 do {
-                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                     try AVAudioSession.sharedInstance().setActive(true)
                     
                     soundPlay.player = try AVAudioPlayer(contentsOf: url)
                     guard let player = soundPlay.player else { return }
                     player.numberOfLoops = 0
+                    player.prepareToPlay()
                     player.play()
                     
                 } catch let error {
@@ -327,12 +331,13 @@ struct musicPlay {
                 guard let url = Bundle.main.url(forResource: "menu", withExtension: "mp3") else { return }
                 
                 do {
-                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                     try AVAudioSession.sharedInstance().setActive(true)
                     
                     musicPlay.musicPlayer = try AVAudioPlayer(contentsOf: url)
                     guard let player = musicPlay.musicPlayer else { return }
                     player.numberOfLoops = -1
+                    player.prepareToPlay()
                     player.play()
                     
                 } catch let error {
@@ -355,7 +360,7 @@ struct musicPlay {
                 musicPlay.musicPlayer?.stop()
             } else {
                 do {
-                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                     try AVAudioSession.sharedInstance().setActive(true)
                     
                     musicPlay.musicPlayer = try AVAudioPlayer(contentsOf: url)
@@ -384,12 +389,13 @@ struct thirdSoundPlay {
                 guard let url = Bundle.main.url(forResource: "last_ticking", withExtension: "mp3") else { return }
                 
                 do {
-                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                     try AVAudioSession.sharedInstance().setActive(true)
                     
                     thirdSoundPlay.thirdPlayer = try AVAudioPlayer(contentsOf: url)
                     guard let player = thirdSoundPlay.thirdPlayer else { return }
                     player.numberOfLoops = 0
+                    player.prepareToPlay()
                     player.play()
                     
                 } catch let error {
@@ -412,12 +418,13 @@ struct thirdSoundPlay {
                 guard let url = Bundle.main.url(forResource: "collectItem", withExtension: "mp3") else { return }
                 
                 do {
-                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
+                    try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategorySoloAmbient)
                     try AVAudioSession.sharedInstance().setActive(true)
                     
                     thirdSoundPlay.thirdPlayer = try AVAudioPlayer(contentsOf: url)
                     guard let player = thirdSoundPlay.thirdPlayer else { return }
                     player.numberOfLoops = 0
+                    player.prepareToPlay()
                     player.play()
                     
                 } catch let error {
@@ -517,7 +524,6 @@ extension String {
 
 
 extension UIView {
-    
     func round(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         let mask = CAShapeLayer()
@@ -525,13 +531,11 @@ extension UIView {
         self.layer.mask = mask
     }
     
-    
     func makeCircular() {
         self.layer.cornerRadius = 0.5 * bounds.size.height
         self.clipsToBounds = true
         self.layoutIfNeeded()
     }
-    
     
     func fadeTransition(_ duration:CFTimeInterval) {
         let animation = CATransition()
@@ -588,7 +592,6 @@ extension UIImageView {
         
         // we add the animation to the squares 'layer' property
         self.layer.add(anim, forKey: "animate position along path")
-        
     }
     
     @objc func setImageWithKingFisher(url : String) {

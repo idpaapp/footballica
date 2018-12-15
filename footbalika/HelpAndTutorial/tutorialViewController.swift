@@ -383,8 +383,16 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                         self.readMatchData()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.readMatchData()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

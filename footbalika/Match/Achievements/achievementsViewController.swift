@@ -70,8 +70,16 @@
                         self.leaderBoardJson()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.leaderBoardJson()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -127,8 +135,16 @@
                         self.leaderBoardJson()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.leaderBoardJson()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -152,7 +168,6 @@
                         
                         achievementsViewController.friendsRes = try JSONDecoder().decode(friendList.Response.self , from : data!)
                         
-                        
                         for i in 0...(achievementsViewController.friendsRes?.response?.count)! - 1 {
                             self.friendsId.append((achievementsViewController.friendsRes?.response?[i].friend_id!)!)
                         }
@@ -169,8 +184,16 @@
                         self.otherProfileJson()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.otherProfileJson()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -748,10 +771,12 @@
                 if realmID.count != 0 {
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.stadiumImage.image = UIImage(data: dataDecoded as Data)
+                    if realmID.first?.img_base64 == "" {
+                        cell.stadiumImage.setImageWithKingFisher(url: url)
+                    }
                 } else {
                     cell.stadiumImage.setImageWithKingFisher(url: url)
                 }
-                
                 return cell
             }
             
@@ -859,6 +884,9 @@
               withError error: Error!) {
         if let error = error {
             print("\(error.localizedDescription)")
+            DispatchQueue.main.async {
+                PubProc.wb.hideWaiting()
+            }
         } else {
             self.view.isUserInteractionEnabled = false
             // Perform any operations on signed in user here.
@@ -887,22 +915,42 @@
                 
                 let res = String(data: data!, encoding: String.Encoding.utf8)
                 
-                if res!.contains("OK") {
-                    self.dismiss(animated: true, completion: nil)
-                    let nc = NotificationCenter.default
-                    nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : nil)
-                } else if res!.contains("EMAIL_CONNECTED_BEFORE") {
-                    
-                } else if res!.contains("EMAIL_IS_EXISTS") {
-                    
-                }
-                
-                DispatchQueue.main.async {
-                    PubProc.wb.hideWaiting()
-                }
-                
+               
+                login.init().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                    DispatchQueue.main.async {
+                        
+                        if res!.contains("OK") {
+                            
+                            
+                            
+                            
+                        } else if res!.contains("EMAIL_CONNECTED_BEFORE") {
+                            
+                            
+                            
+                            
+                        } else if res!.contains("EMAIL_IS_EXISTS") {
+                            
+                            
+                            
+                            
+                        }
+                        PubProc.wb.hideWaiting()
+                        self.dismiss(animated: true, completion: nil)
+                        let nc = NotificationCenter.default
+                        nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : nil)
+                    }
+                })
+              PubProc.countRetry = 0
             } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.signInOrOut(mode: mode , email : email)
+                    })
+                }
                 print("Error Connection")
                 print(error as Any)
                 // handle error
@@ -947,9 +995,16 @@
                     //                print(data ?? "")
                     
                     self.alertsJson()
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.acceptOrRejectClanRequest(mode: mode, user_id: user_id, clan_id: clan_id)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -971,9 +1026,16 @@
                     
                     
                     self.messageRead(id: massageId, matchID: (String(data: data!, encoding: String.Encoding.utf8) as String?)!)
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.acceptFriendlyMatch(userid: userid, friendid: friendid, massageId: massageId)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -992,9 +1054,16 @@
                     //                print(data ?? "")
                     
                     self.alertsJson()
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.acceptOrRejectFriendShipRequest(mode: mode, user1_id: user1_id, user2_id: user2_id, message_id: message_id)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -1024,8 +1093,16 @@
                         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "startNewMatch"), object: nil, userInfo: info)
                         self.dismiss(animated: false, completion: nil)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.messageRead(id: id, matchID: matchID)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -1316,9 +1393,16 @@
                             print(error)
                         }
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.getUserInfo(id : id, isResfresh: isResfresh)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

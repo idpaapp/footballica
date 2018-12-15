@@ -127,8 +127,16 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                                     self.accepting()
                                     print(error)
                                 }
+                                PubProc.countRetry = 0
                             } else {
+                                PubProc.countRetry = PubProc.countRetry + 1
+                                if PubProc.countRetry == 10 {
+                                    
+                                } else {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                                 self.accepting()
+                                    })
+                                }
                                 print("Error Connection")
                                 print(error as Any)
                                 // handle error
@@ -156,15 +164,25 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                             self.alertTitle = "فوتبالیکا"
                             self.alertState = "friendlyMatch"
                             self.performSegue(withIdentifier: "notMore", sender: self)
-                        } else {
-                            self.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
+                            PubProc.wb.hideWaiting()
+                        } else if self.ResponseFriendlyMatch.contains("Request_sent") {
+                            self.alertBody = "درخواست مسابقه قبلاً فرستاده شده!"
                             self.alertTitle = "فوتبالیکا"
                             self.performSegue(withIdentifier: "notMore", sender: self)
+                            PubProc.wb.hideWaiting()
+                        } else {
+                            self.accepting()
                         }
-                        
-                        PubProc.wb.hideWaiting()
+                        PubProc.countRetry = 0
                     } else {
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
+                            
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
+                            })
+                        }
                         print("Error Connection")
                         print(error as Any)
                         // handle error
@@ -195,16 +213,20 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                             let pageIndexDict:[String: String] = ["userID": self.userid]
                             NotificationCenter.default.post(name: Notification.Name("refreshUsersAfterCancelling"), object: nil, userInfo: pageIndexDict)
                             self.dismissing()
+                            PubProc.wb.hideWaiting()
+                        } else {
+                            self.accepting()
+                        }
+                        PubProc.countRetry = 0
+                    } else {
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
                             
                         } else {
-                            self.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
-                            self.alertTitle = "فوتبالیکا"
-                            self.performSegue(withIdentifier: "notMore", sender: self)
-                        }
-                        
-                        PubProc.wb.hideWaiting()
-                    } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
+                            })
+                        }
                         print("Error Connection")
                         print(error as Any)
                         // handle error
@@ -235,19 +257,26 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                             let pageIndexDict:[String: String] = ["userID": self.userid]
                             NotificationCenter.default.post(name: Notification.Name("refreshUsersAfterCancelling"), object: nil, userInfo: pageIndexDict)
                             self.dismissing()
+                            PubProc.wb.hideWaiting()
                         } else if self.ResponseFriendlyMatch.contains("Request_sent") {
                             self.alertBody = "شما قبلاً درخواست دوستی ارسال کرده اید!"
                             self.alertTitle = "فوتبالیکا"
                             self.performSegue(withIdentifier: "notMore", sender: self)
+                            PubProc.wb.hideWaiting()
                         } else {
-                            self.alertBody = "به دلایلی انجام این کار امکان پذیر نمی باشد لطفاً مجدد سعی کنید"
-                            self.alertTitle = "فوتبالیکا"
-                            self.performSegue(withIdentifier: "notMore", sender: self)
+                           self.accepting()
                         }
                         
-                        PubProc.wb.hideWaiting()
+                        PubProc.countRetry = 0
                     } else {
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
+                            
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
+                            })
+                        }
                         print("Error Connection")
                         print(error as Any)
                         // handle error
@@ -292,9 +321,16 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                         } catch {
                                 print(error)
                             }
-                        
+                        PubProc.countRetry = 0
                     } else {
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
+                            
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
+                            })
+                        }
                         print("Error Connection")
                         print(error as Any)
                         // handle error
@@ -327,9 +363,16 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                             PubProc.wb.hideWaiting()
                         }
                         
-                        
+                        PubProc.countRetry = 0
                     } else {
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
+                            
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
+                            })
+                        }
                         print("Error Connection")
                         print(error as Any)
                         // handle error
@@ -378,9 +421,16 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                         } catch {
                             print(error)
                         }
-                        
+                        PubProc.countRetry = 0
                     } else {
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
+                            
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
+                            })
+                        }
                         print("Error Connection")
                         print(error as Any)
                         // handle error
@@ -425,9 +475,16 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                             
                             
                         
-                        
+                        PubProc.countRetry = 0 
                     } else {
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
+                            
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
+                            })
+                        }
                         print("Error Connection")
                         print(error as Any)
                         // handle error

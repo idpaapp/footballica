@@ -217,12 +217,14 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                         
                         if ((chooseRes)!).contains("TRANSACTION_COMPELETE") {
                             DispatchQueue.main.async {
+                                
+                                self.packageTitle = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!
+                                self.packageImage = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
                                 login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
                                     
                                     self.performSegue(withIdentifier: "showItem", sender: self)
                                     self.view.isUserInteractionEnabled = true
                                     //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                    DispatchQueue.main.async{
                                         loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
                                             NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
                                             //                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
@@ -232,7 +234,6 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                                                 PubProc.wb.hideWaiting()
                                             }
                                         })
-                                    }
                                     //                                })
                                 })
                             }
@@ -247,8 +248,16 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                             self.performSegue(withIdentifier: "shopAlert", sender: self)
                             PubProc.wb.hideWaiting()
                         }
+                        PubProc.countRetry = 0
                     } else {
-                        self.choosePackage()
+                        PubProc.countRetry = PubProc.countRetry + 1
+                        if PubProc.countRetry == 10 {
+                            
+                        } else {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                                self.choosePackage()
+                            })
+                        }
                         self.view.isUserInteractionEnabled = true
                         print("Error Connection")
                         print(error as Any)
@@ -413,6 +422,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                     }
                     StoreViewController.packageShowAfterWeb = ""
                     if ((trans)!).contains("TRANSACTION_OK") {
+                        
+                        print((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!)
                         self.packageTitle = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!
                         self.packageImage = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
                         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
@@ -425,8 +436,16 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                     DispatchQueue.main.async {
                         PubProc.wb.hideWaiting()
                     }
+                    PubProc.countRetry = 0 
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.showBoughtItem()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

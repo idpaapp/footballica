@@ -93,7 +93,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
         cell.questionForeGroundTitle.text = titles[indexPath.row]
         let dataDecoded:NSData = NSData(base64Encoded: images[indexPath.row], options: NSData.Base64DecodingOptions(rawValue: 0))!
         cell.questionImage.image = UIImage(data: dataDecoded as Data)
-        
+                
         return cell
     }
     
@@ -133,9 +133,16 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
                         self.insertNewGame()
                         PubProc.wb.hideWaiting()
                     }
-                    
+                    PubProc.countRetry = 0 
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.insertNewGame()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

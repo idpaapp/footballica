@@ -11,45 +11,45 @@ import RealmSwift
 
 public class downloadStadiums {
     
-    struct Response : Decodable{
+    struct Response : Decodable {
         let stadiumData : [stadiumDataDownload.stadiumData]?
     }
     
-    
-    
     var res : Response? = nil;
-
+    
     var stadiumData = readAndWritetblStadiums()
-    
-    
+    var s = [AnyObject]()
+
     public func getIDs() {
         
-        DispatchQueue.main.async {
-            
-            var stadiumType = ["id" : Int(),"image_path" : String()] as [String : Any]
-            
-            var s = [AnyObject]()
-            if WritetblStadiums.stadiumTypeImagesID.count != 0 {
-                for i in 0...WritetblStadiums.stadiumTypeImagesID.count - 1 {
-                    stadiumType.updateValue("\(WritetblStadiums.stadiumTypeImagesPath[i])", forKey: "image_path")
-                    stadiumType.updateValue("\(WritetblStadiums.stadiumTypeImagesID[i])", forKey: "id")
-                    
-                    s.append(stadiumType as AnyObject)
-                    
+        var stadiumType = ["id" : Int(),"image_path" : String()] as [String : Any]
+        
+        if WritetblStadiums.stadiumTypeImagesID.count != 0 {
+            for i in 0...WritetblStadiums.stadiumTypeImagesID.count - 1 {
+                stadiumType.updateValue("\(WritetblStadiums.stadiumTypeImagesPath[i])", forKey: "image_path")
+                stadiumType.updateValue("\(WritetblStadiums.stadiumTypeImagesID[i])", forKey: "id")
+                
+                s.append(stadiumType as AnyObject)
+                if i == WritetblStadiums.stadiumTypeImagesID.count - 1 {
+                    fetchingData()
                 }
             }
-            
-            if s.count == 0 {
-                downloadShop.init().getIDs()
-            } else {
-                let jsonPost = [["StadiumData" : s]] as [[String : Any]]
-                let jsonData = try? JSONSerialization.data(withJSONObject: jsonPost, options: [])
-                let jsonString = String(data: jsonData!, encoding: .utf8)!
-                self.downloadingAssets(postString : jsonString)
-            }
-            
+        } else {
+            fetchingData()
         }
         
+       
+    }
+    
+    @objc func fetchingData() {
+        if s.count == 0 {
+            downloadShop.init().getIDs()
+        } else {
+            let jsonPost = [["StadiumData" : s]] as [[String : Any]]
+            let jsonData = try? JSONSerialization.data(withJSONObject: jsonPost, options: [])
+            let jsonString = String(data: jsonData!, encoding: .utf8)!
+            self.downloadingAssets(postString : jsonString)
+        }
     }
     
     public func downloadingAssets(postString : String) {
@@ -65,21 +65,26 @@ public class downloadStadiums {
                         
                         self.res = try JSONDecoder().decode(Response.self , from : data!)
                         
-                        DispatchQueue.main.async {
-                            
                             //                        print((self.res?.stadiumData))
                             
                             if ((self.res?.stadiumData?.count)!) != 0 {
                                 self.stadiumDl()
                             }
                             
-                        }
                     } catch {
                         self.downloadingAssets(postString : postString)
                         print(error)
                     }
+                    PubProc.countRetry = 0 
                 } else {
-                    self.downloadingAssets(postString : postString)
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                            self.downloadingAssets(postString : postString)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

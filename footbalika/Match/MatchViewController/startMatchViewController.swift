@@ -61,8 +61,16 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         self.getUserData(id: id)
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.getUserData(id: id)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -213,10 +221,16 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         })
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.loadMatchData(id: id)
                     })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -266,11 +280,16 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     } else {
                         self.updateGameReault()
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.updateGameReault()
                     })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -292,11 +311,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "startMatchCell", for: indexPath) as! startMatchCell
 //        print((self.res?.response?.detailData?[indexPath.row].last_questions)!)
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.matchResult.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: 8.0)
-        cell.matchTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: 8.0)
+        cell.matchResult.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
+        cell.matchTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
         } else {
-        cell.matchResult.AttributesOutLine(font: fonts().large35, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: 8.0)
-        cell.matchTitle.AttributesOutLine(font: fonts().large35, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: 8.0)
+        cell.matchResult.AttributesOutLine(font: fonts().large35, title: "\((self.res?.response?.detailData?[indexPath.row].player1_result)!) _ \((self.res?.response?.detailData?[indexPath.row].player2_result)!) ", strokeWidth: -3.0)
+        cell.matchTitle.AttributesOutLine(font: fonts().large35, title: "\((self.res?.response?.detailData?[indexPath.row].game_type_name)!)".replacedArabicCharactersToPersian, strokeWidth: -3.0)
         }
         
         if self.res?.response?.detailData?[indexPath.row].player1_result_sheet != nil {
@@ -595,10 +614,16 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                     PubProc.wb.hideWaiting()
                     NotificationCenter.default.post(name: Notification.Name("reloadGameData"), object: nil)
                         self.dismiss(animated: true, completion: nil)
+                    PubProc.countRetry = 0 
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.surrenderring(match_id: match_id)
                     })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error

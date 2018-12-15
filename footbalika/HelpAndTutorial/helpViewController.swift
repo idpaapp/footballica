@@ -26,7 +26,7 @@ class helpViewController: UIViewController {
     var delegate : TutorialDelegate?
     var tDelegate : TutorialsDelegate?
     var shopDelegate : ShopTutorialDelegate?
-    var groupsDelegate : TutorialGroupsDelegate?
+    var groupsDelegate : helpViewControllerDelegate2?
     var matchDelegate : helpViewControllerDelegate!
     override var prefersStatusBarHidden: Bool {
         return true

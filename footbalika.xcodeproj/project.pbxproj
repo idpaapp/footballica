@@ -84,6 +84,7 @@
 		5C3E9EA4219AF3CB0009EAE6 /* windows.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C3E9EA3219AF3CB0009EAE6 /* windows.xib */; };
 		5C3E9EA7219B05880009EAE6 /* clanRightResaultView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C3E9EA6219B05880009EAE6 /* clanRightResaultView.xib */; };
 		5C3E9EA9219B05AA0009EAE6 /* clanRightResaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3E9EA8219B05AA0009EAE6 /* clanRightResaultView.swift */; };
+		5C3F100821BFB53200CE5A65 /* noInternetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3F100721BFB53200CE5A65 /* noInternetViewController.swift */; };
 		5C402307217F391E00A06D40 /* groupDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C402306217F391E00A06D40 /* groupDetailViewController.swift */; };
 		5C42381A21BB95D7007C483C /* itemReawrdView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C42381921BB95D7007C483C /* itemReawrdView.xib */; };
 		5C42381C21BB95F5007C483C /* itemReawrdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C42381B21BB95F5007C483C /* itemReawrdView.swift */; };
@@ -345,6 +346,7 @@
 		5C3E9EA3219AF3CB0009EAE6 /* windows.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = windows.xib; sourceTree = "<group>"; };
 		5C3E9EA6219B05880009EAE6 /* clanRightResaultView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = clanRightResaultView.xib; sourceTree = "<group>"; };
 		5C3E9EA8219B05AA0009EAE6 /* clanRightResaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clanRightResaultView.swift; sourceTree = "<group>"; };
+		5C3F100721BFB53200CE5A65 /* noInternetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noInternetViewController.swift; sourceTree = "<group>"; };
 		5C402306217F391E00A06D40 /* groupDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = groupDetailViewController.swift; sourceTree = "<group>"; };
 		5C42381921BB95D7007C483C /* itemReawrdView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = itemReawrdView.xib; sourceTree = "<group>"; };
 		5C42381B21BB95F5007C483C /* itemReawrdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = itemReawrdView.swift; sourceTree = "<group>"; };
@@ -868,6 +870,14 @@
 			path = clanResaultView;
 			sourceTree = "<group>";
 		};
+		5C3F100621BFB50100CE5A65 /* noInternet */ = {
+			isa = PBXGroup;
+			children = (
+				5C3F100721BFB53200CE5A65 /* noInternetViewController.swift */,
+			);
+			path = noInternet;
+			sourceTree = "<group>";
+		};
 		5C402305217F38FC00A06D40 /* GroupDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1055,6 +1065,7 @@
 				5C84D4FA20CCFD2700A9DC67 /* Assets.xcassets */,
 				5C6F537E20E0A8820037748F /* views */,
 				5CE8718F214E3C66004D6EE5 /* HelpAndTutorial */,
+				5C3F100621BFB50100CE5A65 /* noInternet */,
 				5C84D50920CCFED500A9DC67 /* iPad.storyboard */,
 				5C84D50D20CCFED500A9DC67 /* iPhoneX.storyboard */,
 				5C84D4F720CCFD2500A9DC67 /* Main.storyboard */,
@@ -1840,6 +1851,7 @@
 				5C9FFCF420D8F6FA007A11C0 /* loginStructure.swift in Sources */,
 				5C3B279A2104663500150FB2 /* gamesList.swift in Sources */,
 				5C0DFB0421B551C200B4BA1F /* clanRewardsViewController.swift in Sources */,
+				5C3F100821BFB53200CE5A65 /* noInternetViewController.swift in Sources */,
 				5C84D51720CCFF7100A9DC67 /* pageVC.swift in Sources */,
 				5C963AC620F4A814009DB6A6 /* mainMatchFieldViewController.swift in Sources */,
 				5C89C4DF2196B50F001E64E8 /* clanTimerView.swift in Sources */,

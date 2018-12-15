@@ -143,9 +143,16 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         self.GoogleSigningIn(email : email)
                         print(error)
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.GoogleSigningIn(email : email)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -248,20 +255,32 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         self.alertBody = "تراکنش با موفقیت انجام شد!"
                         self.alertAcceptLabel = "تأیید"
                         self.performSegue(withIdentifier: "giftAlert", sender: self)
+                        
+                    } else if ((self.chargeRes)!).contains("NOT_ENOUGH_RESOURCE") {
+                        self.alertTitle = "اخطار"
+                        self.alertBody = "شما منابع لازم برای انجام این کار را ندارید!"
+                        self.alertAcceptLabel = "تأیید"
+                        self.performSegue(withIdentifier: "giftAlert", sender: self)
                     } else {
                         self.alertTitle = "اخطار"
                         self.alertBody = "تراکنش با موفقیت انجام نشد!"
                         self.alertAcceptLabel = "تأیید"
                         self.performSegue(withIdentifier: "giftAlert", sender: self)
                     }
-                    
                         DispatchQueue.main.async {
                             PubProc.wb.hideWaiting()
                             PubProc.cV.hideWarning()
                         }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.chargeGame(id : id)
+                        })
+                    }
 //                    print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -413,9 +432,16 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                     } catch {
                         print(error)
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.supportingUs()
+                        })
+                    }
 //                    print("Error Connection")
                     print(error as Any)
                     // handle error

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import IQKeyboardManagerSwift
 
 class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
 
@@ -31,6 +32,13 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
     var predictionId = Int()
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        var aScore = (textField.text!)
+        aScore = aScore.replacedArabicDigitsWithEnglish
+        if Int(aScore) == nil {
+            textField.text = ""
+        }
+        
         guard let text = textField.text else { return true }
         let newLength = text.count + string.count - range.length
         return newLength <= 2
@@ -39,26 +47,36 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
     var homeScore = Int()
     var awayScore = Int()
     
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
+    
     @objc func textFieldDidChange(textField: UITextField) {
         if self.homeResault.text! != "" {
             var hScore = (self.homeResault.text!)
             hScore = hScore.replacedArabicDigitsWithEnglish
-            homeScore = Int(hScore)!
-            print(homeScore)
+            if Int(hScore) != nil {
+                homeScore = Int(hScore)!
+            } else {
+                homeScore = 0
+            }
         } else {
             homeScore = 0
-//            print(homeScore)
         }
         
         
         if self.awayResault.text! != "" {
             var aScore = (self.awayResault.text!)
             aScore = aScore.replacedArabicDigitsWithEnglish
-            awayScore = Int(aScore)!
-            print(awayScore)
+            if Int(aScore) != nil {
+                awayScore = Int(aScore)!
+            } else {
+                awayScore = 0
+            }
         } else {
             awayScore = 0
-//            print(awayScore)
         }
     }
     
@@ -93,9 +111,12 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
         self.submitForeGroundTitle.text = "ثبت"
         
         homeTeamImage.setImageWithKingFisher(url: "\(homeImg)")
-        
         awayTeamImage.setImageWithKingFisher(url: "\(awayImg)")
-        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        endEditting()
     }
 
     override func didReceiveMemoryWarning() {
@@ -107,7 +128,13 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    @objc func endEditting() {
+        self.homeResault.endEditing(true)
+        self.awayResault.endEditing(true)
+    }
+    
     @IBAction func submitResault(_ sender: RoundButton) {
+        endEditting()
         self.performSegue(withIdentifier: "askToPredict", sender: self)
     }
     
@@ -117,8 +144,7 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
         vc.jsonStr = "{'mode':'INS_PREDICtION' , 'userid' : '\(loadingViewController.userid)' , 'prediction_id' : '\(predictionId)' , 'home_prediction' : '\(homeScore)' , 'away_prediction' : '\(awayScore)'}"
         
         vc.state = "prediction"
-        vc.alertBody = "آیا برای ثبت نتیجه اطمینان دارید؟ \nاین مقادیر قابل ویرایش نمی باشد."
+        vc.alertBody = "پیش بینی شما \(awayScore) : \(homeScore) \n آیا برای ثبت نتیجه اطمینان دارید؟ \n این مقادیر قابل ویرایش نمی باشد."
         vc.alertTitle = "فوتبالیکا"
     }
-
 }

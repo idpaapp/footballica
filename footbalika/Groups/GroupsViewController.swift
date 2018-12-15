@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-protocol TutorialGroupsDelegate {
+protocol helpViewControllerDelegate2 {
     func finishTutorial()
 }
 
@@ -30,7 +30,7 @@ protocol groupMatchViewControllerDelegate {
     func showRewards(rewardItems : warRewards.reward)
 }
 
-class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , TutorialGroupsDelegate , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate , groupMatchViewControllerDelegate {
+class GroupsViewController: UIViewController , UITableViewDelegate , UITableViewDataSource , searchFriendsCellDelegate , helpViewControllerDelegate2 , clanGroupsViewControllerDelegate , groupDetailViewControllerDelegate , groupMatchViewControllerDelegate {
     
     var rewardItems : warRewards.reward? = nil
     
@@ -73,9 +73,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 } catch {
                     print(error)
                 }
-                
+               PubProc.countRetry = 0
             } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.showFinishedWarResault(id: id)
+                    })
+                }
                 print("Error Connection")
                 print(error as Any)
                 // handle error
@@ -153,10 +160,14 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     func finishTutorial() {
-        scrollToPage().scrollPageViewController(index: 2)
-        scrollToPage().menuButtonChanged(index: 2)
-        defaults.set(false , forKey: "tutorial")
-        matchViewController.isTutorial = false
+        self.view.isUserInteractionEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            scrollToPage().scrollPageViewController(index: 2)
+            scrollToPage().menuButtonChanged(index: 2)
+            self.defaults.set(false , forKey: "tutorial")
+            matchViewController.isTutorial = false
+            self.view.isUserInteractionEnabled = true
+        }
     }
     
     var searchText = String()
@@ -221,8 +232,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         self.getFriendsList(isSplash: isSplash)
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.getFriendsList(isSplash: isSplash)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -272,7 +291,11 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         realm = try? Realm()
 //        getFriendsList(isSplash: true)
         friendsActionColor()
-        checkIsClanSelected()
+        if matchViewController.isTutorial {
+            self.isSelectedClan = false
+        } else {
+            checkIsClanSelected()
+        }
         friendsTableView.keyboardDismissMode = .onDrag
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshUserData(notification:)), name: NSNotification.Name(rawValue: "refreshUsersAfterCancelling"), object: nil)
 
@@ -349,8 +372,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                         self.searchFunction()
                         print(error)
                     }
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.searchFunction()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -527,7 +558,6 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     var otherProfile = Bool()
-    
     @objc func getProfile(userid : String , isGroupDetail : Bool , completionHandler : @escaping () -> Void) {
         PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
                 
@@ -570,8 +600,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                             print(error)
                         }
                     }
+                    PubProc.countRetry = 0 
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.getProfile(userid: userid, isGroupDetail: isGroupDetail, completionHandler: {})
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -590,8 +628,8 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
         
         if let vc = segue.destination as? helpViewController {
-            vc.state = "lastTutorialPage"
             vc.groupsDelegate = self
+            vc.state = "lastTutorialPage"
         }
         if let vc = segue.destination as? clanGroupsViewController {
             DispatchQueue.main.async {

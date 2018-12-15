@@ -39,6 +39,9 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
               withError error: Error!) {
         if let error = error {
             print("\(error.localizedDescription)")
+            DispatchQueue.main.async {
+                PubProc.wb.hideWaiting()
+            }
         } else {
             self.view.isUserInteractionEnabled = false
             // Perform any operations on signed in user here.
@@ -99,9 +102,16 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
                         self.GoogleSigningIn(email : email)
                         print(error)
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.GoogleSigningIn(email : email)
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -229,9 +239,16 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
                         self.normalLogin()
                         print(error)
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.normalLogin()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
@@ -279,9 +296,16 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
                     } catch {
                         print(error)
                     }
-                    
+                    PubProc.countRetry = 0
                 } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.newUserAction()
+                        })
+                    }
                     print("Error Connection")
                     print(error as Any)
                     // handle error
