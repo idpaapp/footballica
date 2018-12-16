@@ -8,11 +8,7 @@
 import UIKit
 import TapsellSDKv3
 
-class testTapsellViewController: UIViewController {
-    
-    @IBOutlet weak var getAds: UIButton!
-    
-    @IBOutlet weak var showAds: UIButton!
+public class testTapsellViewController: UIViewController {
     
     weak var tapsellAd : TapsellAd?
     
@@ -29,25 +25,30 @@ class testTapsellViewController: UIViewController {
         }
     }
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tapsellInitialize();
-        self.getAds.layer.cornerRadius = 10
-        self.showAds.layer.cornerRadius = 10
-        self.getAds.addTarget(self, action: #selector(gettingAds), for: UIControl.Event.touchUpInside)
-        self.showAds.addTarget(self, action: #selector(showingAds), for: UIControl.Event.touchUpInside)
+    override public var prefersStatusBarHidden: Bool {
+        return true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidLoad() {
+        super.viewDidLoad()
+        tapsellInitialize()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("showADS"), object: nil)
+    }
+    
+    @objc func methodOfReceivedNotification(notification: Notification) {
+        self.gettingAds()
+    }
+
+    
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
-            self.gettingAds()
-        })
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
+//            self.gettingAds()
+//        })
     }
     
     @objc func gettingAds() {
-        print("clock")
+        DispatchQueue.main.async {
         let requestOptions = TSAdRequestOptions()
         requestOptions.setCacheType(CacheTypeCached)
         
@@ -70,9 +71,11 @@ class testTapsellViewController: UIViewController {
             NSLog("Expiring")
             self.dismissing()
         })
+        }
     }
     
     @objc func showingAds() {
+        DispatchQueue.main.async {
         if(self.tapsellAd != nil)
         {
             let showOptions = TSAdShowOptions()
@@ -84,6 +87,8 @@ class testTapsellViewController: UIViewController {
             }, andClosedCallback: { (tapsellAd) in
                 print("Close Shod");
             })
+        
+        }
         }
     }
     

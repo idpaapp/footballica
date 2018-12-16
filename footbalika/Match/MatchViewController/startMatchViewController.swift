@@ -137,7 +137,11 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
 
     func loadMatchData(id : String) {
         self.playGameOutlet.isUserInteractionEnabled = false
-        
+        var lastState = String()
+        if self.res != nil {
+             lastState = (((self.res?.response?.matchData?.status)!)!)
+        }
+
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(id) , 'userid' : \(loadingViewController.userid)}") { data, error in
             DispatchQueue.main.async {
                 
@@ -205,9 +209,29 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                                 self.surrenderOutlet.isHidden = false
                             }
                             if (Int((self.res?.response?.matchData?.status)!)!) >= 2 {
+                                
                                 self.playGameOutlet.setTitle("خروج", for: UIControlState.normal)
                                 self.playGameOutlet.isUserInteractionEnabled = true
                                 self.surrenderOutlet.isHidden = true
+                                
+                                if lastState !=  (((self.res?.response?.matchData?.status)!)!) {
+                                    
+                                   var p1Score = (Int((self.res?.response?.matchData?.player1_result)!)!)
+                                    
+                                    var p2Score = (Int((self.res?.response?.matchData?.player2_result)!)!)
+                                    
+//                                    switch (p1Score , p2Score) {
+//                                    case _ where p1Score > p2Score :
+//                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
+//                                    case _ where p1Score == p2Score :
+//                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
+//                                    case _ where p1Score < p2Score :
+//                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
+//                                    default :
+//                                        break
+//                                    }
+                                    self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
+                                }
                             }
                             self.startMatchTV.reloadData()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {

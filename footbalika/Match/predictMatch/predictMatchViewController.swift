@@ -297,7 +297,9 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     @objc func scrollToMyRow() {
         if self.state == "leaderBoard" {
         let index = self.predictLeaderBoardRes?.response?.index(where : {$0.id == loadingViewController.userid})
+            if index != nil {
         self.predictMatchTV.scrollToRow(at: IndexPath(row: index!, section: 0), at: .top, animated: true)
+            }
         }
     }
 

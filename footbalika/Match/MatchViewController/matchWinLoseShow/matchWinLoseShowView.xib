@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="matchWinLoseShowView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="5mf-KN-ZR0"/>
+                <outlet property="mainWindow" destination="yeW-7m-qlZ" id="qnN-Tr-3Iq"/>
+                <outlet property="okButton" destination="cCg-kN-wQ7" id="zdT-ua-xG2"/>
+                <outlet property="winLoseTable" destination="L11-K1-oRB" id="yvW-IK-vTs"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="376" height="318"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yeW-7m-qlZ" customClass="windows" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="376" height="318"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" restorationIdentifier="matchHelpTVCell" translatesAutoresizingMaskIntoConstraints="NO" id="L11-K1-oRB" customClass="matchHelpTVCell" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="58" width="376" height="180"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cCg-kN-wQ7" customClass="actionLargeButton" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="62.5" y="248" width="251" height="60"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="cCg-kN-wQ7" firstAttribute="centerX" secondItem="yeW-7m-qlZ" secondAttribute="centerX" id="KZj-4E-DNj"/>
+                        <constraint firstItem="L11-K1-oRB" firstAttribute="top" secondItem="yeW-7m-qlZ" secondAttribute="top" constant="58" id="Qk9-se-J56"/>
+                        <constraint firstAttribute="bottom" secondItem="cCg-kN-wQ7" secondAttribute="bottom" constant="10" id="c36-1D-lup"/>
+                        <constraint firstItem="cCg-kN-wQ7" firstAttribute="width" secondItem="yeW-7m-qlZ" secondAttribute="width" multiplier="2:3" id="eIW-1Y-MIG"/>
+                        <constraint firstItem="cCg-kN-wQ7" firstAttribute="top" secondItem="L11-K1-oRB" secondAttribute="bottom" constant="10" id="fWZ-cm-vZ4"/>
+                        <constraint firstItem="cCg-kN-wQ7" firstAttribute="height" secondItem="L11-K1-oRB" secondAttribute="height" multiplier="1:3" id="iFn-lS-W5o"/>
+                        <constraint firstAttribute="trailing" secondItem="L11-K1-oRB" secondAttribute="trailing" id="syW-Ln-fiI"/>
+                        <constraint firstItem="L11-K1-oRB" firstAttribute="leading" secondItem="yeW-7m-qlZ" secondAttribute="leading" id="tL6-fR-YyY"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="yeW-7m-qlZ" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="bjE-4A-Hns"/>
+                <constraint firstItem="yeW-7m-qlZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="igR-Ej-uSQ"/>
+                <constraint firstItem="yeW-7m-qlZ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="wfS-hb-1h3"/>
+                <constraint firstItem="yeW-7m-qlZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="x8w-2U-Ofh"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="129.59999999999999" y="153.82308845577214"/>
+        </view>
+    </objects>
+</document>

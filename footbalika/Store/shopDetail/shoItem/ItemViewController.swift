@@ -36,10 +36,8 @@ class ItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        soundPlay().playBuyItem()
-        
         if !isHomeUpgrade {
+            soundPlay().playBuyItem()
             if !isPackage {
                 if isShopItem {
                     let dataDecoded:NSData = NSData(base64Encoded: ImageItem, options: NSData.Base64DecodingOptions(rawValue: 0))!
@@ -51,6 +49,7 @@ class ItemViewController: UIViewController {
                 itemImage.setImageWithKingFisher(url: ImageItem)
             }
         } else {
+            soundPlay().playSpecialSound(name : "level_up")
             upgradeTitle.AttributesOutLine(font: fonts().large200, title: "\(self.upgradeText)", strokeWidth: 8.0)
             itemImage.image = UIImage(named: "\(ImageItem)")
         }

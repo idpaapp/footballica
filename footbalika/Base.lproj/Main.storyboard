@@ -178,47 +178,17 @@
         <!--Test Tapsell View Controller-->
         <scene sceneID="H7S-vl-qOb">
             <objects>
-                <viewController storyboardIdentifier="testTapsellViewController" id="ury-st-lZr" customClass="testTapsellViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="testTapsellViewController" modalPresentationStyle="overFullScreen" id="ury-st-lZr" customClass="testTapsellViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ixn-a8-X0D">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZbN-z0-3MP">
-                                <rect key="frame" x="51.666666666666657" y="363" width="310.66666666666674" height="30"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hHR-gh-2rH">
-                                        <rect key="frame" x="0.0" y="0.0" width="150.33333333333334" height="30"/>
-                                        <color key="backgroundColor" red="1" green="0.097542226309999994" blue="0.1060993522" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="نمایش آگهی">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="alx-o9-Izb">
-                                        <rect key="frame" x="160.33333333333331" y="0.0" width="150.33333333333331" height="30"/>
-                                        <color key="backgroundColor" red="0.61568627450000002" green="0.40400278569999998" blue="0.78154826160000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <state key="normal" title="گرفتن آگهی">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                            </stackView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="ZbN-z0-3MP" firstAttribute="centerX" secondItem="siW-OM-gor" secondAttribute="centerX" id="7iI-ba-x3b"/>
-                            <constraint firstItem="ZbN-z0-3MP" firstAttribute="width" secondItem="Ixn-a8-X0D" secondAttribute="width" multiplier="3:4" id="Jii-cW-5tz"/>
-                            <constraint firstItem="ZbN-z0-3MP" firstAttribute="centerY" secondItem="siW-OM-gor" secondAttribute="centerY" id="vHu-iw-TBI"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="siW-OM-gor"/>
                     </view>
-                    <connections>
-                        <outlet property="getAds" destination="alx-o9-Izb" id="7k5-Hq-aY6"/>
-                        <outlet property="showAds" destination="hHR-gh-2rH" id="frn-bN-qLL"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Z7-O0-5lX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-758" y="602"/>
+            <point key="canvasLocation" x="-765.21739130434787" y="677.44565217391312"/>
         </scene>
         <!--Main Page View Controller-->
         <scene sceneID="yTo-Ux-ea1">
@@ -2335,6 +2305,7 @@
                         <segue destination="33x-am-hmp" kind="presentation" identifier="surrender" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="gga-GI-CGB"/>
                         <segue destination="tgK-rF-cIf" kind="presentation" identifier="matchHelping" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="pkX-UX-t3e"/>
                         <segue destination="OW6-b4-0X8" kind="presentation" identifier="matchRewardResults" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="YW5-PE-AS5"/>
+                        <segue destination="5Qc-Sg-BOV" kind="presentation" identifier="matchWinLoseShow" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="gXy-t4-uRS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wN9-4S-68n" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2862,7 +2833,7 @@
             <objects>
                 <viewController id="fuF-wP-gKN" customClass="menuAlertViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1St-8u-xsT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="561"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="6mo-N4-xIX"/>
@@ -3916,6 +3887,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hgN-wU-YqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4573.913043478261" y="561.68478260869574"/>
+        </scene>
+        <!--Match Win Lose Show View Controller-->
+        <scene sceneID="e5H-5V-HE8">
+            <objects>
+                <viewController storyboardIdentifier="matchWinLoseShowViewController" id="5Qc-Sg-BOV" customClass="matchWinLoseShowViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HvM-2n-rsj">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TWG-nx-YKk" customClass="matchWinLoseShowView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="41.333333333333343" y="210.33333333333326" width="331.33333333333326" height="315.33333333333326"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="0.40180864726027399" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="TWG-nx-YKk" firstAttribute="centerX" secondItem="HvM-2n-rsj" secondAttribute="centerX" id="3c3-0e-IF7"/>
+                            <constraint firstItem="TWG-nx-YKk" firstAttribute="centerY" secondItem="HvM-2n-rsj" secondAttribute="centerY" id="4l4-Po-AR9"/>
+                            <constraint firstItem="TWG-nx-YKk" firstAttribute="height" secondItem="HvM-2n-rsj" secondAttribute="height" multiplier="3:7" id="U1p-Mm-QIo"/>
+                            <constraint firstItem="TWG-nx-YKk" firstAttribute="width" secondItem="HvM-2n-rsj" secondAttribute="width" multiplier="8:10" id="s4N-rJ-Dgh"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Lmo-hX-5rU"/>
+                    </view>
+                    <connections>
+                        <outlet property="mainView" destination="TWG-nx-YKk" id="m3p-Y7-Qrh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="btg-Ey-6l8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5446" y="562"/>
         </scene>
         <!--Login Page View Controller-->
         <scene sceneID="viL-40-mkS">
@@ -10493,12 +10494,12 @@
         <segue reference="qfX-oJ-sWu"/>
         <segue reference="SKf-IP-Y8U"/>
         <segue reference="uc8-hl-oU7"/>
-        <segue reference="l2J-5r-H8i"/>
-        <segue reference="5V0-Wb-Tgp"/>
-        <segue reference="HVJ-mz-ueE"/>
+        <segue reference="8KG-l0-WU3"/>
+        <segue reference="pkX-UX-t3e"/>
+        <segue reference="gga-GI-CGB"/>
         <segue reference="254-gE-KV2"/>
         <segue reference="Ke5-Nx-c39"/>
-        <segue reference="vZ5-a4-B8V"/>
+        <segue reference="Pz1-qE-64n"/>
         <segue reference="8Br-Iq-R9b"/>
     </inferredMetricsTieBreakers>
 </document>

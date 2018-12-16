@@ -395,11 +395,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     @objc func setGroupButtons() {
 
+        print((login.res?.response?.calnData?.member_roll!)!)
         if ((login.res?.response?.calnData?.clanid)) != nil {
         if ((login.res?.response?.calnData?.member_roll!)!) != "1" {
             self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: true, hideAction2: !isJoined, hideAction3: !isJoined )
         } else {
-            self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: !isCharge, hideAction2: !isJoined, hideAction3: !isJoined )
+            self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: !isCharge, hideAction2: !isJoined, hideAction3: true )
         }
         } else {
              self.actionLargeButton.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)

@@ -25,7 +25,7 @@ class matchRewardsResultTableViewController: UIViewController , UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "matchHelpTVCell", for: indexPath) as! matchHelpTVCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "matchHelpTVCell", for: indexPath) as! matchHelpTVCell        
         
         //coin Reward
         cell.viewCoin.helpImage.image = publicImages().coin

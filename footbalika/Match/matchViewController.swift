@@ -19,8 +19,13 @@ protocol TutorialDelegate {
 
 class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate {
     
+    let ts = testTapsellViewController()
+    
     @IBAction func tapsellAction(_ sender: Any) {
-        self.performSegue(withIdentifier: "showAds", sender: self)
+        NotificationCenter.default.post(name: Notification.Name("showADS"), object: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.performSegue(withIdentifier: "showAds", sender: self)
+        }
     }
     
     func openGameChargePage() {

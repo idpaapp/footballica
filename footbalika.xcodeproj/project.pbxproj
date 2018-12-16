@@ -65,6 +65,12 @@
 		5C30A41A21A9777A00B41032 /* scoreBallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30A41821A9777A00B41032 /* scoreBallCell.swift */; };
 		5C30A41B21A9777A00B41032 /* scoreBallCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C30A41921A9777A00B41032 /* scoreBallCell.xib */; };
 		5C30B2E620E7A8D50008CDAA /* profile1Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30B2E520E7A8D50008CDAA /* profile1Cell.swift */; };
+		5C32D72821C66BF300160BD7 /* level_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C32D72521C66BF200160BD7 /* level_up.mp3 */; };
+		5C32D72921C66BF300160BD7 /* league_down.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C32D72621C66BF300160BD7 /* league_down.mp3 */; };
+		5C32D72A21C66BF300160BD7 /* league_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C32D72721C66BF300160BD7 /* league_up.mp3 */; };
+		5C32D72D21C67A5700160BD7 /* matchWinLoseShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C32D72C21C67A5700160BD7 /* matchWinLoseShowViewController.swift */; };
+		5C32D72F21C67ACF00160BD7 /* matchWinLoseShowView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C32D72E21C67ACF00160BD7 /* matchWinLoseShowView.xib */; };
+		5C32D73121C67AE600160BD7 /* matchWinLoseShowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C32D73021C67AE600160BD7 /* matchWinLoseShowView.swift */; };
 		5C3418A520EB6C50001F93A4 /* menuAlert2Buttons.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C3418A420EB6C50001F93A4 /* menuAlert2Buttons.xib */; };
 		5C3418A720EB6C85001F93A4 /* menuAlert2Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3418A620EB6C85001F93A4 /* menuAlert2Buttons.swift */; };
 		5C3418A920EB6D01001F93A4 /* menuAlert2ButtonsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3418A820EB6D01001F93A4 /* menuAlert2ButtonsViewController.swift */; };
@@ -329,6 +335,12 @@
 		5C30A41821A9777A00B41032 /* scoreBallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scoreBallCell.swift; sourceTree = "<group>"; };
 		5C30A41921A9777A00B41032 /* scoreBallCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = scoreBallCell.xib; sourceTree = "<group>"; };
 		5C30B2E520E7A8D50008CDAA /* profile1Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile1Cell.swift; sourceTree = "<group>"; };
+		5C32D72521C66BF200160BD7 /* level_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = level_up.mp3; sourceTree = "<group>"; };
+		5C32D72621C66BF300160BD7 /* league_down.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = league_down.mp3; sourceTree = "<group>"; };
+		5C32D72721C66BF300160BD7 /* league_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = league_up.mp3; sourceTree = "<group>"; };
+		5C32D72C21C67A5700160BD7 /* matchWinLoseShowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = matchWinLoseShowViewController.swift; sourceTree = "<group>"; };
+		5C32D72E21C67ACF00160BD7 /* matchWinLoseShowView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = matchWinLoseShowView.xib; sourceTree = "<group>"; };
+		5C32D73021C67AE600160BD7 /* matchWinLoseShowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = matchWinLoseShowView.swift; sourceTree = "<group>"; };
 		5C3418A420EB6C50001F93A4 /* menuAlert2Buttons.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = menuAlert2Buttons.xib; sourceTree = "<group>"; };
 		5C3418A620EB6C85001F93A4 /* menuAlert2Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuAlert2Buttons.swift; sourceTree = "<group>"; };
 		5C3418A820EB6D01001F93A4 /* menuAlert2ButtonsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuAlert2ButtonsViewController.swift; sourceTree = "<group>"; };
@@ -742,6 +754,9 @@
 				5CE8507920F5FCB900BB303A /* wrong_answer.wav */,
 				5C234EFD20FA08FE00926611 /* last_ticking.mp3 */,
 				5C234EFF20FA105500926611 /* referee_whistle_end.mp3 */,
+				5C32D72621C66BF300160BD7 /* league_down.mp3 */,
+				5C32D72721C66BF300160BD7 /* league_up.mp3 */,
+				5C32D72521C66BF200160BD7 /* level_up.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -829,6 +844,16 @@
 				5CC5DC4120EA0448006F2855 /* profileButtonsCell.swift */,
 			);
 			path = profile;
+			sourceTree = "<group>";
+		};
+		5C32D72B21C679F000160BD7 /* matchWinLoseShow */ = {
+			isa = PBXGroup;
+			children = (
+				5C32D72C21C67A5700160BD7 /* matchWinLoseShowViewController.swift */,
+				5C32D73021C67AE600160BD7 /* matchWinLoseShowView.swift */,
+				5C32D72E21C67ACF00160BD7 /* matchWinLoseShowView.xib */,
+			);
+			path = matchWinLoseShow;
 			sourceTree = "<group>";
 		};
 		5C35D13A210DDD5F0086A414 /* shopDetail */ = {
@@ -1100,6 +1125,7 @@
 			children = (
 				5C84D52220CCFFE600A9DC67 /* startMatchViewController.swift */,
 				5C84D52020CCFFE600A9DC67 /* startMatchCell.swift */,
+				5C32D72B21C679F000160BD7 /* matchWinLoseShow */,
 				5CCB9BCC20F1DB8800B92355 /* category */,
 				5C963AC420F4A7F1009DB6A6 /* mainMatchField */,
 			);
@@ -1578,6 +1604,7 @@
 				5C2AC1AF20CFA3F10029F8CA /* menu.mp3 in Resources */,
 				5CE8507B20F5FCB900BB303A /* wrong_answer.wav in Resources */,
 				5CE8507520F5CC8300BB303A /* beep.mp3 in Resources */,
+				5C32D72821C66BF300160BD7 /* level_up.mp3 in Resources */,
 				5C3E9EA7219B05880009EAE6 /* clanRightResaultView.xib in Resources */,
 				5C1EEE4B21BE523000039048 /* matchHelpTVCell.xib in Resources */,
 				5C0CBDDD2184907B007B9C6E /* minMaxView.xib in Resources */,
@@ -1605,6 +1632,7 @@
 				5C1D232E20F4D09D00A6C126 /* quize.mp3 in Resources */,
 				5C0CBDDA21848DD1007B9C6E /* radioButtonView.xib in Resources */,
 				5CDB89E6217F28D200093006 /* clanDetailCell.xib in Resources */,
+				5C32D72A21C66BF300160BD7 /* league_up.mp3 in Resources */,
 				5C84D51220CCFED500A9DC67 /* iPhoneX.storyboard in Resources */,
 				5C6DE9B6219FF7DC00139892 /* profileGroupCell.xib in Resources */,
 				5C523CC92121AF4500642077 /* waitingBall.xib in Resources */,
@@ -1619,9 +1647,11 @@
 				5C6F538220E0A8F10037748F /* menuView.xib in Resources */,
 				5C4B4654217AFDF80054F777 /* clanGroupsCell.xib in Resources */,
 				5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */,
+				5C32D72F21C67ACF00160BD7 /* matchWinLoseShowView.xib in Resources */,
 				5CC5376121858B6E00B15560 /* groupLogoView.xib in Resources */,
 				5C234EFE20FA08FE00926611 /* last_ticking.mp3 in Resources */,
 				5CE74EE12180740600CD3C68 /* actionLargeButton.xib in Resources */,
+				5C32D72921C66BF300160BD7 /* league_down.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1865,11 +1895,13 @@
 				5C730C54212017F600467711 /* todayCell.swift in Sources */,
 				5C43E0C020E3A068003D2157 /* alertType1Cell.swift in Sources */,
 				5CE87193214E466A004D6EE5 /* help.swift in Sources */,
+				5C32D73121C67AE600160BD7 /* matchWinLoseShowView.swift in Sources */,
 				5CF25FD421B6601900D82F39 /* warRewardsScore.swift in Sources */,
 				5C9FFCF620D8F74C007A11C0 /* loginMainInfo.swift in Sources */,
 				5C84D4F420CCFD2500A9DC67 /* AppDelegate.swift in Sources */,
 				5C84D52E20CCFFFF00A9DC67 /* GamesList.swift in Sources */,
 				5C0DFB0121B54CFE00B4BA1F /* warRewards.swift in Sources */,
+				5C32D72D21C67A5700160BD7 /* matchWinLoseShowViewController.swift in Sources */,
 				5C84D50F20CCFED500A9DC67 /* loadingViewController.swift in Sources */,
 				5CC4045220E2074300EC97FF /* gameCharges.swift in Sources */,
 				5CEE3BD221845028006C72E1 /* createClanGroupViewController.swift in Sources */,
