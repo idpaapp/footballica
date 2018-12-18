@@ -1828,6 +1828,7 @@
                         <segue destination="mvf-lk-0kw" kind="presentation" identifier="showTutorial" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="3FJ-vl-BOW"/>
                         <segue destination="ibv-tv-HwV" kind="presentation" identifier="showUpgrade" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="254-gE-KV2"/>
                         <segue destination="ury-st-lZr" kind="presentation" identifier="showAds" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="sBL-bE-4RS"/>
+                        <segue destination="mrO-ce-19g" kind="presentation" identifier="showPublicMassagesNoKeys" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="7wS-8F-jE9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3z-yo-Xeu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3897,7 +3898,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TWG-nx-YKk" customClass="matchWinLoseShowView" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="41.333333333333343" y="210.33333333333326" width="331.33333333333326" height="315.33333333333326"/>
+                                <rect key="frame" x="41.333333333333343" y="230" width="331.33333333333326" height="276"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                         </subviews>
@@ -3905,7 +3906,7 @@
                         <constraints>
                             <constraint firstItem="TWG-nx-YKk" firstAttribute="centerX" secondItem="HvM-2n-rsj" secondAttribute="centerX" id="3c3-0e-IF7"/>
                             <constraint firstItem="TWG-nx-YKk" firstAttribute="centerY" secondItem="HvM-2n-rsj" secondAttribute="centerY" id="4l4-Po-AR9"/>
-                            <constraint firstItem="TWG-nx-YKk" firstAttribute="height" secondItem="HvM-2n-rsj" secondAttribute="height" multiplier="3:7" id="U1p-Mm-QIo"/>
+                            <constraint firstItem="TWG-nx-YKk" firstAttribute="height" secondItem="HvM-2n-rsj" secondAttribute="height" multiplier="3:8" id="U1p-Mm-QIo"/>
                             <constraint firstItem="TWG-nx-YKk" firstAttribute="width" secondItem="HvM-2n-rsj" secondAttribute="width" multiplier="8:10" id="s4N-rJ-Dgh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Lmo-hX-5rU"/>
@@ -8138,6 +8139,40 @@
             </objects>
             <point key="canvasLocation" x="4573.913043478261" y="-104.34782608695653"/>
         </scene>
+        <!--Public Massage No Keys View Controller-->
+        <scene sceneID="Jwj-Ko-9d7">
+            <objects>
+                <viewController storyboardIdentifier="publicMassageNoKeysViewController" id="mrO-ce-19g" customClass="publicMassageNoKeysViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Met-jR-xS2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" restorationIdentifier="publicMassageNoKeysView" translatesAutoresizingMaskIntoConstraints="NO" id="gsz-Bn-OP5" customClass="publicMassageNoKeysView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="41.333333333333343" y="294.33333333333331" width="331.33333333333326" height="147.33333333333331"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="331.32999999999998" id="bnu-eQ-bU5"/>
+                                    <constraint firstAttribute="height" constant="147.33000000000001" id="eGh-2F-ns2"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="gsz-Bn-OP5" firstAttribute="centerX" secondItem="Met-jR-xS2" secondAttribute="centerX" id="cyo-VH-9of"/>
+                            <constraint firstItem="gsz-Bn-OP5" firstAttribute="centerY" secondItem="Met-jR-xS2" secondAttribute="centerY" id="euk-bm-bCz"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="QDh-Rq-VdW"/>
+                    </view>
+                    <connections>
+                        <outlet property="publicMassageHeight" destination="eGh-2F-ns2" id="saB-Zo-EXa"/>
+                        <outlet property="publicMassageView" destination="gsz-Bn-OP5" id="BwQ-d8-ikW"/>
+                        <outlet property="publicMassageWidth" destination="bnu-eQ-bU5" id="Igo-uO-jYu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yUP-gi-0nt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5442" y="-220"/>
+        </scene>
         <!--Tutorial View Controller-->
         <scene sceneID="mxY-uk-OMk">
             <objects>
@@ -10494,12 +10529,12 @@
         <segue reference="qfX-oJ-sWu"/>
         <segue reference="SKf-IP-Y8U"/>
         <segue reference="uc8-hl-oU7"/>
-        <segue reference="8KG-l0-WU3"/>
-        <segue reference="pkX-UX-t3e"/>
-        <segue reference="gga-GI-CGB"/>
+        <segue reference="uy9-ug-KDx"/>
+        <segue reference="8Zf-Y3-3ch"/>
+        <segue reference="wU6-MG-i6J"/>
         <segue reference="254-gE-KV2"/>
         <segue reference="Ke5-Nx-c39"/>
-        <segue reference="Pz1-qE-64n"/>
-        <segue reference="8Br-Iq-R9b"/>
+        <segue reference="LfF-cD-YKj"/>
+        <segue reference="N21-7O-RH3"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -518,7 +518,7 @@
                 cell.alertTitle.text = (self.alertsRes?.response?[indexPath.row].subject!)!
                 cell.alertBody.text = (self.alertsRes?.response?[indexPath.row].contents!)!
                 cell.alertDate.text = (self.alertsRes?.response?[indexPath.row].p_message_date!)!
-                let url = "http://volcan.ir/adelica/images/news/\((self.alertsRes?.response?[indexPath.row].image_path!)!)"
+                let url = "\(urls().news)\((self.alertsRes?.response?[indexPath.row].image_path!)!)"
                 
                 let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
                 if realmID.count != 0 {

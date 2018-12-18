@@ -1,32 +1,28 @@
 //
-//  matchWinLoseShowView.swift
+//  publicMassageNoKeysView.swift
 //  footbalika
 //
-//  Created by Saeed Rahmatolahi on 9/25/1397 AP.
+//  Created by Saeed Rahmatolahi on 9/27/1397 AP.
 //  Copyright © 1397 AP Saeed Rahmatolahi. All rights reserved.
 //
 
 import UIKit
 
-class matchWinLoseShowView: UIView {
+class publicMassageNoKeysView: UIView {
+
 
     @IBOutlet var contentView: UIView!
     
-    @IBOutlet weak var mainWindow: windows!
+    @IBOutlet weak var massageImage: UIImageView!
     
-    @IBOutlet weak var winLoseTable: matchRewardTableView!
+    @IBOutlet weak var massageCloseButton: RoundButton!
     
-    @IBOutlet weak var okButton: actionLargeButton!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    
-    }
-    
+    @IBOutlet weak var massageOkButton: actionLargeButton!
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
         
+        commonInit()
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -37,10 +33,10 @@ class matchWinLoseShowView: UIView {
     
     
     private func commonInit() {
-        Bundle.main.loadNibNamed("matchWinLoseShowView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("publicMassageNoKeysView", owner: self, options: nil)
         addSubview(contentView)
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleHeight , .flexibleWidth]
+        
     }
-
 }

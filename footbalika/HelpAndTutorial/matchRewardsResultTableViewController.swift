@@ -28,28 +28,28 @@ class matchRewardsResultTableViewController: UIViewController , UITableViewDeleg
         let cell = tableView.dequeueReusableCell(withIdentifier: "matchHelpTVCell", for: indexPath) as! matchHelpTVCell        
         
         //coin Reward
-        cell.viewCoin.helpImage.image = publicImages().coin
-        cell.viewCoin.helpTitle.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].coin!)!)"
-        setTextColor(number: Int((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].coin!)!)!, label: cell.viewCoin.helpTitle)
+        cell.mRT.viewCoin.helpImage.image = publicImages().coin
+        cell.mRT.viewCoin.helpTitle.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].coin!)!)"
+        setTextColor(number: Int((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].coin!)!)!, label: cell.mRT.viewCoin.helpTitle)
         //cup Reward
-        cell.viewCup.helpImage.image = publicImages().cup
-        cell.viewCup.helpTitle.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].cup!)!)"
-        setTextColor(number: Int((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].cup!)!)!, label: cell.viewCup.helpTitle)
+        cell.mRT.viewCup.helpImage.image = publicImages().cup
+        cell.mRT.viewCup.helpTitle.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].cup!)!)"
+        setTextColor(number: Int((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].cup!)!)!, label: cell.mRT.viewCup.helpTitle)
 
         //money Reward
-        cell.viewMoney.helpImage.image = publicImages().money
-        cell.viewMoney.helpTitle.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].money!)!)"
-        setTextColor(number: Int((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].money!)!)!, label: cell.viewMoney.helpTitle)
+        cell.mRT.viewMoney.helpImage.image = publicImages().money
+        cell.mRT.viewMoney.helpTitle.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].money!)!)"
+        setTextColor(number: Int((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].money!)!)!, label: cell.mRT.viewMoney.helpTitle)
 
         // level Reward
-        cell.viewLevel.helpImage.image = publicImages().badge
-        cell.viewLevel.helpTitle.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].xp!)!)"
-         setTextColor(number: Int((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].xp!)!)!, label: cell.viewLevel.helpTitle)
+        cell.mRT.viewLevel.helpImage.image = publicImages().badge
+        cell.mRT.viewLevel.helpTitle.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].xp!)!)"
+         setTextColor(number: Int((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].xp!)!)!, label: cell.mRT.viewLevel.helpTitle)
         
         //main Title
-       cell.matchTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].title!)!)", strokeWidth: 8.0)
-        cell.matchTitleForeGround.font = fonts().iPhonefonts
-        cell.matchTitleForeGround.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].title!)!)"
+       cell.mRT.matchTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].title!)!)", strokeWidth: 8.0)
+        cell.mRT.matchTitleForeGround.font = fonts().iPhonefonts
+        cell.mRT.matchTitleForeGround.text = "\((loadingViewController.loadGameData?.response?.gameRewards[indexPath.row].title!)!)"
         
         return cell
     }

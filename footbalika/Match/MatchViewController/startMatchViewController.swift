@@ -134,13 +134,10 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var urlClass = urls()
     var res : matchDetails.Response? = nil;
     var matchID = String()
+    var showWinLoseTable = false
 
     func loadMatchData(id : String) {
         self.playGameOutlet.isUserInteractionEnabled = false
-        var lastState = String()
-        if self.res != nil {
-             lastState = (((self.res?.response?.matchData?.status)!)!)
-        }
 
         PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(id) , 'userid' : \(loadingViewController.userid)}") { data, error in
             DispatchQueue.main.async {
@@ -211,33 +208,43 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                             if (Int((self.res?.response?.matchData?.status)!)!) >= 2 {
                                 
                                 self.playGameOutlet.setTitle("خروج", for: UIControlState.normal)
+                            
                                 self.playGameOutlet.isUserInteractionEnabled = true
                                 self.surrenderOutlet.isHidden = true
                                 
-                                if lastState !=  (((self.res?.response?.matchData?.status)!)!) {
+                                if self.showWinLoseTable {
                                     
-                                   var p1Score = (Int((self.res?.response?.matchData?.player1_result)!)!)
+                                    let p1Score = (Int((self.res?.response?.matchData?.player1_result)!)!)
                                     
-                                    var p2Score = (Int((self.res?.response?.matchData?.player2_result)!)!)
+                                    let p2Score = (Int((self.res?.response?.matchData?.player2_result)!)!)
                                     
-//                                    switch (p1Score , p2Score) {
-//                                    case _ where p1Score > p2Score :
-//                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
-//                                    case _ where p1Score == p2Score :
-//                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
-//                                    case _ where p1Score < p2Score :
-//                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
-//                                    default :
-//                                        break
-//                                    }
-                                    self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
+                                    switch (p1Score , p2Score) {
+                                    case _ where p1Score > p2Score :
+                                        if (self.res?.response?.matchData?.player1_id!)! == loadingViewController.userid {
+                                            self.winLoseState = "WIN"
+                                        } else {
+                                            self.winLoseState = "LOSE"
+                                        }
+                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
+                                    case _ where p1Score == p2Score :
+                                        self.winLoseState = "DRAW"
+                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
+                                    case _ where p1Score < p2Score :
+                                        if (self.res?.response?.matchData?.player1_id!)! == loadingViewController.userid {
+                                            self.winLoseState = "LOSE"
+                                        } else {
+                                            self.winLoseState = "WIN"
+                                        }
+                                        self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
+                                    default :
+                                        break
+                                    }
                                 }
                             }
                             self.startMatchTV.reloadData()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                                 PubProc.wb.hideWaiting()
                             })
-                            
                         }
                     } catch {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
@@ -624,9 +631,16 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
             vc.matchDelegate = self
         }
         
-        
+        if let vc = segue.destination as? matchWinLoseShowViewController {
+            vc.state = self.winLoseState
+            
+        }
     }
     
+
+        
+    
+    var winLoseState = String()
     var alertTitle = String()
     var alertBody  = String()
     

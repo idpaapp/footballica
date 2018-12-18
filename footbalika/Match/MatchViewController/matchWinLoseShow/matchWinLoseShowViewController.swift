@@ -12,7 +12,8 @@ class matchWinLoseShowViewController: UIViewController {
 
     @IBOutlet weak var mainView: matchWinLoseShowView!
     
-    var state = "WIN"
+    var state = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setOutlets()
@@ -24,38 +25,55 @@ class matchWinLoseShowViewController: UIViewController {
         self.mainView.okButton.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)
         self.mainView.okButton.actionButton.addTarget(self, action: #selector(dismissing), for: UIControl.Event.touchUpInside)
         self.mainView.mainWindow.closePage.addTarget(self, action: #selector(dismissing), for: UIControl.Event.touchUpInside)
-        
-//        self.mainView.winLoseTable.viewCoin.helpImage.image = publicImages().coin
-//        self.mainView.winLoseTable.viewCup.helpImage.image = publicImages().cup
-//        self.mainView.winLoseTable.viewMoney.helpImage.image = publicImages().money
-//        self.mainView.winLoseTable.viewLevel.helpImage.image = publicImages().badge
-        
+        self.mainView.winLoseTable.viewCoin.helpImage.image = publicImages().coin
+        self.mainView.winLoseTable.viewCup.helpImage.image = publicImages().cup
+        self.mainView.winLoseTable.viewMoney.helpImage.image = publicImages().money
+        self.mainView.winLoseTable.viewLevel.helpImage.image = publicImages().badge
+        self.mainView.winLoseTable.matchTitle.textAlignment = .center
+        self.mainView.winLoseTable.matchTitleForeGround.textAlignment = .center
     }
     
     @objc func detectWinLose() {
         switch self.state {
         case "WIN" :
-            print("\((loadingViewController.loadGameData?.response?.gameRewards[2].id!)!)")
-            print("\((loadingViewController.loadGameData?.response?.gameRewards[2].title!)!)")
-//            self.setTableNumbers(coin: <#T##String#>, money: <#T##String#>, level: <#T##String#>, cup: <#T##String#>)
+            soundPlay().playSpecialSound(name : "league_up")
+           stateOfGame(number: 1)
         case "DRAW" :
-            print("\((loadingViewController.loadGameData?.response?.gameRewards[3].id!)!)")
-            print("\((loadingViewController.loadGameData?.response?.gameRewards[3].title!)!)")
-//            self.setTableNumbers(coin: <#T##String#>, money: <#T##String#>, level: <#T##String#>, cup: <#T##String#>)
+            stateOfGame(number: 2)
         case "LOSE" :
-            print("\((loadingViewController.loadGameData?.response?.gameRewards[4].id!)!)")
-            print("\((loadingViewController.loadGameData?.response?.gameRewards[4].title!)!)")
-//            self.setTableNumbers(coin: <#T##String#>, money: <#T##String#>, level: <#T##String#>, cup: <#T##String#>)
+            soundPlay().playSpecialSound(name : "league_down")
+            stateOfGame(number: 3)
         default :
             break
         }
     }
     
-    @objc func setTableNumbers(coin : String , money : String , level : String , cup : String) {
+    
+    @objc func stateOfGame(number : Int) {
+        self.setTableNumbers(coin: "\((loadingViewController.loadGameData?.response?.gameRewards[number].coin!)!)", money: "\((loadingViewController.loadGameData?.response?.gameRewards[number].money!)!)", level: "\((loadingViewController.loadGameData?.response?.gameRewards[number].xp!)!)", cup: "\((loadingViewController.loadGameData?.response?.gameRewards[number].cup!)!)", TopTitle: "\((loadingViewController.loadGameData?.response?.gameRewards[number].title!)!)ی")
+    }
+    
+    @objc func setTableNumbers(coin : String , money : String , level : String , cup : String , TopTitle : String) {
         self.mainView.winLoseTable.viewCoin.helpTitle.text = coin
         self.mainView.winLoseTable.viewCup.helpTitle.text = cup
         self.mainView.winLoseTable.viewLevel.helpTitle.text = level
         self.mainView.winLoseTable.viewMoney.helpTitle.text = money
+        var topT = String()
+        switch self.state {
+        case "WIN":
+            self.mainView.winLoseTable.matchTitleForeGround.textColor = publicColors().winColor
+            topT = TopTitle
+        case "DRAW":
+            topT = String(TopTitle.dropLast(1))
+        case "LOSE":
+            self.mainView.winLoseTable.matchTitleForeGround.textColor = publicColors().lostColor
+            topT = TopTitle
+        default:
+            topT = TopTitle
+        }
+        self.mainView.winLoseTable.matchTitle.AttributesOutLine(font: fonts().iPhonefonts, title: topT, strokeWidth: 8.0)
+        self.mainView.winLoseTable.matchTitleForeGround.font = fonts().iPhonefonts
+        self.mainView.winLoseTable.matchTitleForeGround.text = topT
     }
     
     @objc func dismissing() {

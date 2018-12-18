@@ -10,17 +10,8 @@ import UIKit
 
 class matchHelpTVCell: UITableViewCell {
     
-    @IBOutlet weak var matchTitle: UILabel!
-    
-    @IBOutlet weak var matchTitleForeGround: UILabel!
-    
-    @IBOutlet weak var viewCoin: matchHelpView!
-    
-    @IBOutlet weak var viewMoney: matchHelpView!
-    
-    @IBOutlet weak var viewCup: matchHelpView!
-    
-    @IBOutlet weak var viewLevel: matchHelpView!
+
+    @IBOutlet weak var mRT: matchRewardTableView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

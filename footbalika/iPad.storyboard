@@ -95,7 +95,7 @@
             <objects>
                 <viewController modalTransitionStyle="crossDissolve" id="YT8-mk-GpV" customClass="menuAlertViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IyV-gm-aDV">
-                        <rect key="frame" x="0.0" y="0.0" width="900" height="1162"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="ADh-b0-NTl"/>
@@ -110,7 +110,7 @@
             <objects>
                 <viewController modalTransitionStyle="crossDissolve" id="ri0-yT-7zF" customClass="menuAlert2ButtonsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ndg-88-n1B">
-                        <rect key="frame" x="0.0" y="0.0" width="900" height="1162"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vYF-Tx-2dV"/>
@@ -903,6 +903,7 @@
                         <segue destination="3Ag-WB-aDZ" kind="presentation" identifier="tutorialHelp" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="pds-Sm-HJu"/>
                         <segue destination="hhN-9I-DZm" kind="presentation" identifier="showTutorial" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="B6f-ga-d1l"/>
                         <segue destination="tMy-5i-Aeb" kind="presentation" identifier="showUpgrade" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="nWO-WE-uSh"/>
+                        <segue destination="MKB-xD-mam" kind="presentation" identifier="showPublicMassagesNoKeys" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="2Iz-Sc-cRn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hYg-45-yot" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3875,6 +3876,7 @@
                         <segue destination="ri0-yT-7zF" kind="presentation" identifier="surrender" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="39T-kv-1hi"/>
                         <segue destination="3Ag-WB-aDZ" kind="presentation" identifier="matchHelping" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="QD9-er-EaV"/>
                         <segue destination="s8X-M0-oY9" kind="presentation" identifier="matchRewardResults" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="tb6-Pn-hUN"/>
+                        <segue destination="XL4-2S-qug" kind="presentation" identifier="matchWinLoseShow" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="Cdo-ns-Vhr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XeY-ee-8Vy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -10186,6 +10188,72 @@
             </objects>
             <point key="canvasLocation" x="4646" y="1288"/>
         </scene>
+        <!--Match Win Lose Show View Controller-->
+        <scene sceneID="gt9-ut-9yz">
+            <objects>
+                <viewController storyboardIdentifier="matchWinLoseShowViewController" id="XL4-2S-qug" customClass="matchWinLoseShowViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="m1D-Fy-xkJ">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rok-Rx-Rk9" customClass="matchWinLoseShowView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="312" y="548" width="400" height="270"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="400" id="Zuw-un-qw9"/>
+                                    <constraint firstAttribute="height" constant="270" id="p73-hN-jBN"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="0.40180864729999999" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Rok-Rx-Rk9" firstAttribute="centerX" secondItem="m1D-Fy-xkJ" secondAttribute="centerX" id="Mdm-zi-G8e"/>
+                            <constraint firstItem="Rok-Rx-Rk9" firstAttribute="centerY" secondItem="m1D-Fy-xkJ" secondAttribute="centerY" id="Y8k-BF-SZ7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="HgZ-4J-ulU"/>
+                    </view>
+                    <connections>
+                        <outlet property="mainView" destination="Rok-Rx-Rk9" id="zIa-FH-iVp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pnI-KD-6s7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4521" y="549"/>
+        </scene>
+        <!--Public Massage No Keys View Controller-->
+        <scene sceneID="UQr-Ar-1P2">
+            <objects>
+                <viewController storyboardIdentifier="publicMassageNoKeysViewController" id="MKB-xD-mam" customClass="publicMassageNoKeysViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gfL-a1-ebt">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" restorationIdentifier="publicMassageNoKeysView" translatesAutoresizingMaskIntoConstraints="NO" id="p9W-Je-VjR" customClass="publicMassageNoKeysView" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="262" y="609.5" width="500" height="147"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="147.33000000000001" id="0UK-rF-hji"/>
+                                    <constraint firstAttribute="width" constant="500" id="d80-vH-E5a"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="p9W-Je-VjR" firstAttribute="centerY" secondItem="gfL-a1-ebt" secondAttribute="centerY" id="YKd-Lv-Fh8"/>
+                            <constraint firstItem="p9W-Je-VjR" firstAttribute="centerX" secondItem="gfL-a1-ebt" secondAttribute="centerX" id="jAe-F3-gSH"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="qrr-ze-OXl"/>
+                    </view>
+                    <connections>
+                        <outlet property="publicMassageHeight" destination="0UK-rF-hji" id="VSu-yt-75F"/>
+                        <outlet property="publicMassageView" destination="p9W-Je-VjR" id="Tjx-Gl-PdH"/>
+                        <outlet property="publicMassageWidth" destination="d80-vH-E5a" id="x11-LG-jW0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xav-CG-hfV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5479" y="549"/>
+        </scene>
     </scenes>
     <resources>
         <image name="accept_btn" width="193" height="78"/>
@@ -10263,13 +10331,13 @@
     <inferredMetricsTieBreakers>
         <segue reference="ERy-NJ-y8V"/>
         <segue reference="Fw5-d7-HhX"/>
-        <segue reference="YSK-AM-3AB"/>
+        <segue reference="pds-Sm-HJu"/>
         <segue reference="kzb-go-QHk"/>
         <segue reference="nWO-WE-uSh"/>
         <segue reference="lLu-d4-pmh"/>
         <segue reference="j04-CM-umL"/>
-        <segue reference="Rnt-nO-7hp"/>
-        <segue reference="Miz-qa-Llf"/>
-        <segue reference="ZZL-tJ-rfY"/>
+        <segue reference="c6x-BE-tcg"/>
+        <segue reference="RMd-Ju-Bfo"/>
+        <segue reference="2s5-tN-LOO"/>
     </inferredMetricsTieBreakers>
 </document>

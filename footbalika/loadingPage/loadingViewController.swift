@@ -22,7 +22,7 @@ class loadingViewController: UIViewController {
     var ballTimer : Timer!
     var currentProgress = Float()
     var AppVersion = String()
-    
+    static var showPublicMassages = true
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -183,6 +183,7 @@ class loadingViewController: UIViewController {
 //             self.gameLeft = String()
               self.gameData()
         } else {
+            loadingViewController.showPublicMassages = false
             self.gameData()
             let userid = "\(loadingViewController.userid)"
             defaults.set(userid, forKey: "userid")

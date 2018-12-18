@@ -261,9 +261,103 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         }
     }
     
+    var publicMassagesResponse : showPublicMassages.Response? = nil
+    func showPulicMassages() {
+            PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'READ_PUBLIC_MESSAGE_BY_USER' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+                
+                if data != nil {
+                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                    }
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        self.publicMassagesResponse = try JSONDecoder().decode(showPublicMassages.Response.self, from: data!)
+                        
+                        let noKeysIndex = self.publicMassagesResponse?.response?.index(where : {$0.option_field == "PUBLIC_MESSAGE_FULL_NO_KEYS"})
+                        if noKeysIndex != nil {
+                             self.massageImage = (self.publicMassagesResponse?.response?[noKeysIndex!].image_path!)!
+                            self.publicMassageAspectRatio = (self.publicMassagesResponse?.response?[noKeysIndex!].option_field_2!)!
+                            DispatchQueue.main.async {
+                                self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
+                            }
+                        } else {
+                            let publicMassageFullIndex = self.publicMassagesResponse?.response?.index(where : {$0.option_field == "PUBLIC_MESSAGE_FULL"})
+                            if publicMassageFullIndex != nil {
+                                
+                            }
+                            
+
+                        }
+                        if self.publicMassagesResponse?.response?.count != 0 {
+                            for i in 0...(self.publicMassagesResponse?.response?.count)! - 1 {
+                                if (self.publicMassagesResponse?.response?[i].option_field!)!.contains("PUBLIC_MESSAGE_FULL_NO_KEYS") {
+                                    
+                                } else {
+                                    
+                                     if (self.publicMassagesResponse?.response?[i].option_field!)!.contains("PUBLIC_MESSAGE_FULL") {
+                                        
+                                        
+                                        
+                                     } else {
+                                        
+                                    }
+                                }
+                                
+//                                if (messageItem.option_field.contains("SHOP")) {
+//                                    pmd_btn_ok.setText(getContext().getString(R.string.lblShop));
+//                                } else if (messageItem.option_field.contains("CLAN")) {
+//                                    pmd_btn_ok.setText(getContext().getString(R.string.lblClans));
+//                                } else if (messageItem.option_field.contains("PREDICTION")) {
+//                                    pmd_btn_ok.setText(getContext().getString(R.string.lblPrediction));
+//                                } else if (messageItem.option_field.contains("INSTAGRAM")) {
+//                                    pmd_btn_ok.setText(getContext().getString(R.string.lblView));
+//                                }
+                            }
+                        }
+                        
+                    } catch {
+                        print(error)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                    }
+                    PubProc.countRetry = 0
+                } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                            self.showPulicMassages()
+                        })
+                    }
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+                }.resume()
+    }
+    
+    
+    @objc func checkOtherPublicMassages() {
+        
+    }
+    
+   var massageImage = String()
+   var publicMassageAspectRatio = String()
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
+        if loadingViewController.showPublicMassages  {
+        loadingViewController.showPublicMassages = false
+            showPulicMassages()
+        }
         UserDefaults.standard.set(true, forKey: "launchedBefore")
         let pageIndexDict:[String: Int] = ["button": 2]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
@@ -380,6 +474,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         
         if let Vc = segue.destination as? startMatchViewController {
             Vc.matchID = self.matchID
+            Vc.showWinLoseTable = true
         }
         
         if let vc = segue.destination as? helpViewController {
@@ -394,6 +489,10 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             vc.TitleItem = self.upgradeTitle
             vc.ImageItem = self.upgradeImage
             vc.upgradeText = self.upgradeText
+        }
+        if let vc = segue.destination as? publicMassageNoKeysViewController {
+            vc.massageImage = self.massageImage
+            vc.massageAspectRatio = self.publicMassageAspectRatio
         }
     }
     

@@ -333,11 +333,17 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? startMatchViewController {
             vc.matchID = (self.res?.response[self.selectedMatch].id)!
+            if self.gameListState == "currentGames" {
+                 vc.showWinLoseTable = true
+            } else {
+                vc.showWinLoseTable = false
+            }
         }
         if let vC = segue.destination as? menuViewController {
             vC.menuState = "profile"
             vC.profileResponse = self.userStructure
         }
+        
     }
     
     @objc func player1Select(_ sender : UIButton!) {

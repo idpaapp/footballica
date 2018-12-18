@@ -166,6 +166,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             scrollToPage().menuButtonChanged(index: 2)
             self.defaults.set(false , forKey: "tutorial")
             matchViewController.isTutorial = false
+            loadingViewController.showPublicMassages = true
             self.view.isUserInteractionEnabled = true
         }
     }
