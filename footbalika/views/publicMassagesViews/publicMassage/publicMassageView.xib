@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="publicMassageView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="TYy-d3-dIh"/>
+                <outlet property="descriptions" destination="Q6N-UV-B7n" id="dg4-j4-6eI"/>
+                <outlet property="mainView" destination="6X7-rY-IIi" id="bbZ-Re-fCW"/>
+                <outlet property="okButton" destination="b8w-5u-Qyb" id="ZWD-H6-LRn"/>
+                <outlet property="topTitle" destination="Zzu-p3-Cnn" id="Ann-ln-K4w"/>
+                <outlet property="topTitleForeGround" destination="KhU-bL-aoy" id="La9-1o-iVM"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="394" height="187"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6X7-rY-IIi" customClass="windows" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="394" height="187"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zzu-p3-Cnn">
+                    <rect key="frame" x="58" y="10" width="278" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="5tk-Mk-ehE"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="uco-ZY-boY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KhU-bL-aoy">
+                    <rect key="frame" x="58" y="10" width="278" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="oYd-ZX-fN0"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q6N-UV-B7n">
+                    <rect key="frame" x="10" y="78" width="374" height="49"/>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b8w-5u-Qyb" customClass="actionLargeButton" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="65.5" y="137" width="263" height="40"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="83s-ty-hOa"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="b8w-5u-Qyb" firstAttribute="width" secondItem="6X7-rY-IIi" secondAttribute="width" multiplier="2:3" id="0AG-Yf-FnV"/>
+                <constraint firstItem="b8w-5u-Qyb" firstAttribute="centerX" secondItem="6X7-rY-IIi" secondAttribute="centerX" id="0Il-oD-Vos"/>
+                <constraint firstItem="Zzu-p3-Cnn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="58" id="5J4-kM-2gj"/>
+                <constraint firstItem="KhU-bL-aoy" firstAttribute="height" secondItem="Zzu-p3-Cnn" secondAttribute="height" id="60I-ZA-C0P"/>
+                <constraint firstItem="KhU-bL-aoy" firstAttribute="width" secondItem="Zzu-p3-Cnn" secondAttribute="width" id="9TI-Vb-TBc"/>
+                <constraint firstItem="Zzu-p3-Cnn" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="Edc-gH-PTi"/>
+                <constraint firstItem="Q6N-UV-B7n" firstAttribute="top" secondItem="Zzu-p3-Cnn" secondAttribute="bottom" constant="20" id="EwB-iy-pQA"/>
+                <constraint firstItem="KhU-bL-aoy" firstAttribute="centerY" secondItem="Zzu-p3-Cnn" secondAttribute="centerY" id="HpC-mF-Dj7"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Zzu-p3-Cnn" secondAttribute="trailing" constant="58" id="JVc-Z0-pvs"/>
+                <constraint firstItem="6X7-rY-IIi" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="Wgy-8D-aRh"/>
+                <constraint firstItem="6X7-rY-IIi" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="WwS-dK-u6u"/>
+                <constraint firstItem="6X7-rY-IIi" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="cl1-Zr-LE4"/>
+                <constraint firstItem="KhU-bL-aoy" firstAttribute="centerX" secondItem="Zzu-p3-Cnn" secondAttribute="centerX" id="eaO-X7-vCV"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="b8w-5u-Qyb" secondAttribute="bottom" constant="10" id="ecm-sD-dAC"/>
+                <constraint firstItem="b8w-5u-Qyb" firstAttribute="top" secondItem="Q6N-UV-B7n" secondAttribute="bottom" constant="10" id="f9Y-TP-NG3"/>
+                <constraint firstItem="6X7-rY-IIi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="nCm-up-ZmB"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Q6N-UV-B7n" secondAttribute="trailing" constant="10" id="r5M-a5-dje"/>
+                <constraint firstItem="Q6N-UV-B7n" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="10" id="zFw-kR-EZm"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-28.800000000000001" y="-147.97601199400302"/>
+        </view>
+    </objects>
+</document>

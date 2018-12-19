@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import SafariServices
 
 protocol GameChargeDelegate : class {
     func openGameChargePage()
@@ -17,7 +18,11 @@ protocol TutorialDelegate {
     func tutorialPage()
 }
 
-class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate {
+protocol publicMassageNoKeysViewControllerDelegate : NSObjectProtocol {
+    func checkRestPublicMassages()
+}
+
+class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , SFSafariViewControllerDelegate {
     
     let ts = testTapsellViewController()
     
@@ -63,8 +68,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     @IBAction func addMoney(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
-        scrollToPage().scrollPageViewController(index: 4)
-        scrollToPage().menuButtonChanged(index: 4)
+        goToShop()
         let pageIndexDict:[String: String] = ["title": "پول"]
         NotificationCenter.default.post(name: Notification.Name("openCoinsOrMoney"), object: nil, userInfo: pageIndexDict)
         self.view.isUserInteractionEnabled = true
@@ -72,11 +76,20 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     @IBAction func addCoin(_ sender: UIButton) {
         self.view.isUserInteractionEnabled = false
-        scrollToPage().scrollPageViewController(index: 4)
-        scrollToPage().menuButtonChanged(index: 4)
+        goToShop()
         let pageIndexDict:[String: String] = ["title": "سکه"]
         NotificationCenter.default.post(name: Notification.Name("openCoinsOrMoney"), object: nil, userInfo: pageIndexDict)
         self.view.isUserInteractionEnabled = true
+    }
+    
+    @objc func goToShop() {
+        scrollToPage().scrollPageViewController(index: 4)
+        scrollToPage().menuButtonChanged(index: 4)
+    }
+    
+    @objc func goToGroups() {
+        scrollToPage().scrollPageViewController(index: 3)
+        scrollToPage().menuButtonChanged(index: 3)
     }
     
     //    @objc func menuButtonChanged(index : Int) {
@@ -108,7 +121,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             cup.text = (login.res?.response?.mainInfo?.cups)!
             self.xpProgress.progress = 0.0
             if ((login.res?.response?.mainInfo?.avatar)!) != "user_empty.png" {
-            let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
+                let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
                 self.avatar.setImageWithKingFisher(url: urlAvatar)
             } else {
                 self.avatar.image = publicImages().emptyAvatar
@@ -263,100 +276,172 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     var publicMassagesResponse : showPublicMassages.Response? = nil
     func showPulicMassages() {
-            PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'READ_PUBLIC_MESSAGE_BY_USER' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'READ_PUBLIC_MESSAGE_BY_USER' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+            
+            if data != nil {
                 
-                if data != nil {
-                    
-                    DispatchQueue.main.async {
-                        PubProc.cV.hideWarning()
-                    }
-                    
-                    //                print(data ?? "")
-                    
-                    do {
-                        
-                        self.publicMassagesResponse = try JSONDecoder().decode(showPublicMassages.Response.self, from: data!)
-                        
-                        let noKeysIndex = self.publicMassagesResponse?.response?.index(where : {$0.option_field == "PUBLIC_MESSAGE_FULL_NO_KEYS"})
-                        if noKeysIndex != nil {
-                             self.massageImage = (self.publicMassagesResponse?.response?[noKeysIndex!].image_path!)!
-                            self.publicMassageAspectRatio = (self.publicMassagesResponse?.response?[noKeysIndex!].option_field_2!)!
-                            DispatchQueue.main.async {
-                                self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
-                            }
-                        } else {
-                            let publicMassageFullIndex = self.publicMassagesResponse?.response?.index(where : {$0.option_field == "PUBLIC_MESSAGE_FULL"})
-                            if publicMassageFullIndex != nil {
-                                
-                            }
-                            
-
-                        }
-                        if self.publicMassagesResponse?.response?.count != 0 {
-                            for i in 0...(self.publicMassagesResponse?.response?.count)! - 1 {
-                                if (self.publicMassagesResponse?.response?[i].option_field!)!.contains("PUBLIC_MESSAGE_FULL_NO_KEYS") {
-                                    
-                                } else {
-                                    
-                                     if (self.publicMassagesResponse?.response?[i].option_field!)!.contains("PUBLIC_MESSAGE_FULL") {
-                                        
-                                        
-                                        
-                                     } else {
-                                        
-                                    }
-                                }
-                                
-//                                if (messageItem.option_field.contains("SHOP")) {
-//                                    pmd_btn_ok.setText(getContext().getString(R.string.lblShop));
-//                                } else if (messageItem.option_field.contains("CLAN")) {
-//                                    pmd_btn_ok.setText(getContext().getString(R.string.lblClans));
-//                                } else if (messageItem.option_field.contains("PREDICTION")) {
-//                                    pmd_btn_ok.setText(getContext().getString(R.string.lblPrediction));
-//                                } else if (messageItem.option_field.contains("INSTAGRAM")) {
-//                                    pmd_btn_ok.setText(getContext().getString(R.string.lblView));
-//                                }
-                            }
-                        }
-                        
-                    } catch {
-                        print(error)
-                    }
-                    
-                    DispatchQueue.main.async {
-                        PubProc.wb.hideWaiting()
-                    }
-                    PubProc.countRetry = 0
-                } else {
-                    PubProc.countRetry = PubProc.countRetry + 1
-                    if PubProc.countRetry == 10 {
-                        
-                    } else {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                            self.showPulicMassages()
-                        })
-                    }
-                    print("Error Connection")
-                    print(error as Any)
-                    // handle error
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
                 }
-                }.resume()
+                
+                //                print(data ?? "")
+                
+                do {
+                    
+                    self.publicMassagesResponse = try JSONDecoder().decode(showPublicMassages.Response.self, from: data!)
+                    
+                    self.checkNoKeysMassages()
+                } catch {
+                    print(error)
+                }
+                
+                DispatchQueue.main.async {
+                    PubProc.wb.hideWaiting()
+                }
+                PubProc.countRetry = 0
+            } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                        self.showPulicMassages()
+                    })
+                }
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
     }
     
     
-    @objc func checkOtherPublicMassages() {
+    func checkRestPublicMassages() {
+        switch (self.publicMassagesResponse?.response?[self.publicMassageIndex].option_field!)! {
+        case let str where str.contains("SHOP") :
+            goToShop()
+        case let str where str.contains("CLAN") :
+            goToGroups()
+        case let str where str.contains("PREDICTION") :
+            goToPredictPage()
+        case let str where str.contains("INSTAGRAM") :
+            showInstagramPage()
+        default:
+            checkNoKeysMassages()
+        }
+    }
+    
+    @objc func showInstagramPage() {
+        let appURL = NSURL(string: "instagram://user?username=footballica.ir")!
+        if UIApplication.shared.canOpenURL(appURL as URL) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(appURL as URL)
+            }
+        } else {
+            //redirect to safari because the user doesn't have Instagram
+            if let url = URL(string: "http://instagram.com/footballica.ir") {
+                let svc = SFSafariViewController(url: url)
+                self.present(svc, animated: true, completion: nil)
+                svc.delegate = self
+            }
+        }
+    }
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        print("ok")
+    }
+    
+    var publicMassageIndex = Int()
+    
+    @objc func checkNoKeysMassages() {
+        var publicIDS : [String] = UserDefaults.standard.array(forKey: "publicMassagesIDS") as! [String]
         
+         for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
+            if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE_FULL_NO_KEYS"))! {
+                if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
+                    if i == (self.publicMassagesResponse?.response!.count)! - 1 {
+                        self.checkPublicMassagesFull()
+                    }
+                } else {
+                    publicIDS.append((self.publicMassagesResponse?.response?[i].id!)!)
+                    UserDefaults.standard.set(publicIDS, forKey: "publicMassagesIDS")
+                    self.publicMassageIndex = i
+                    self.massageImage = (self.publicMassagesResponse?.response?[i].image_path!)!
+                    self.publicMassageAspectRatio = (self.publicMassagesResponse?.response?[i].option_field_2!)!
+                    DispatchQueue.main.async {
+                        self.publicMassageState = "PUBLIC_MESSAGE_FULL_NO_KEYS"
+                        self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
+                    }
+                    break
+                }
+            }
+        }
     }
     
-   var massageImage = String()
-   var publicMassageAspectRatio = String()
+    @objc func checkPublicMassagesFull() {
+        var publicIDS : [String] = UserDefaults.standard.array(forKey: "publicMassagesIDS") as! [String]
+        for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
+            if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE_FULL"))! {
+                if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
+                    if i == (self.publicMassagesResponse?.response!.count)! - 1 {
+                        checkPublicMassage()
+                    }
+                } else {
+                    publicIDS.append((self.publicMassagesResponse?.response?[i].id!)!)
+                    UserDefaults.standard.set(publicIDS, forKey: "publicMassagesIDS")
+                    self.massageImage = (self.publicMassagesResponse?.response?[i].image_path!)!
+                   self.publicMassageSubject = (self.publicMassagesResponse?.response?[i].subject!)!
+                   self.publicMassageContent = (self.publicMassagesResponse?.response?[i].contents!)!
+                    self.publicMassageIndex = i
+                    DispatchQueue.main.async {
+                    self.publicMassageState = "PUBLIC_MESSAGE_FULL"
+                    self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
+                    }
+                    break
+                }
+            }
+        }
+    }
     
+    @objc func checkPublicMassage() {
+        
+        var publicIDS : [String] = UserDefaults.standard.array(forKey: "publicMassagesIDS") as! [String]
+        for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
+            if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE"))! {
+                if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
+                    
+                } else {
+                    publicIDS.append((self.publicMassagesResponse?.response?[i].id!)!)
+                    UserDefaults.standard.set(publicIDS, forKey: "publicMassagesIDS")
+                    self.publicMassageSubject = (self.publicMassagesResponse?.response?[i].subject!)!
+                    self.publicMassageContent = (self.publicMassagesResponse?.response?[i].contents!)!
+                    self.publicMassageIndex = i
+                    DispatchQueue.main.async {
+                        self.publicMassageState = "PUBLIC_MESSAGE"
+                        self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
+                    }
+                    break
+                }
+            }
+        }
+    }
+    
+    var massageImage = String()
+    var publicMassageAspectRatio = String()
+    var publicMassageState = String()
+    var publicMassageSubject = String()
+    var publicMassageContent = String()
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
-        if loadingViewController.showPublicMassages  {
-        loadingViewController.showPublicMassages = false
-            showPulicMassages()
+        if !matchViewController.isTutorial {
+            if loadingViewController.showPublicMassages  {
+                showPulicMassages()
+                loadingViewController.showPublicMassages = false
+            } else {
+                checkNoKeysMassages()
+            }
         }
         UserDefaults.standard.set(true, forKey: "launchedBefore")
         let pageIndexDict:[String: Int] = ["button": 2]
@@ -390,9 +475,11 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     
     @IBAction func eliminateCupAction(_ sender: RoundButton) {
+        goToPredictPage()
+    }
+    
+    @objc func goToPredictPage() {
         self.performSegue(withIdentifier : "predictMatch" , sender : self)
-        //        scrollPageViewController(index: 1)
-        //        menuButtonChanged(index: 1)
     }
     
     @IBAction func StartAMatch(_ sender: RoundButton) {
@@ -434,7 +521,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.requestNewMatch()
+                            self.requestNewMatch()
                         })
                     }
                     print("Error Connection")
@@ -493,6 +580,10 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         if let vc = segue.destination as? publicMassageNoKeysViewController {
             vc.massageImage = self.massageImage
             vc.massageAspectRatio = self.publicMassageAspectRatio
+            vc.delegate = self
+            vc.publicMassageState = self.publicMassageState
+           vc.massageSubject = self.publicMassageSubject
+           vc.massageContent = self.publicMassageContent
         }
     }
     
@@ -572,7 +663,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.getProfile()
+                            self.getProfile()
                         })
                     }
                     print("Error Connection")
@@ -619,7 +710,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.firendlyMatch()
+                            self.firendlyMatch()
                         })
                     }
                     print("Error Connection")

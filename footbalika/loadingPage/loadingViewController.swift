@@ -169,7 +169,6 @@ class loadingViewController: UIViewController {
         
         realm = try! Realm()
         
-        
         launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         
         
@@ -183,7 +182,6 @@ class loadingViewController: UIViewController {
 //             self.gameLeft = String()
               self.gameData()
         } else {
-            loadingViewController.showPublicMassages = false
             self.gameData()
             let userid = "\(loadingViewController.userid)"
             defaults.set(userid, forKey: "userid")
@@ -193,7 +191,7 @@ class loadingViewController: UIViewController {
             defaults.set("", forKey: "lastMatchId")
             defaults.set("", forKey: "gameLeft")
             defaults.set(true , forKey: "tutorial")
-            
+            defaults.set(["0"], forKey: "publicMassagesIDS")
         }
         
         if UIScreen.main.bounds.height < 568 {

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="matchRewardTableView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="1Tr-yR-NQr"/>
+                <outlet property="matchTitle" destination="YFy-vZ-UCZ" id="r5Q-oG-Qdr"/>
+                <outlet property="matchTitleForeGround" destination="5hZ-Dg-NHL" id="fJR-a5-MwE"/>
+                <outlet property="viewCoin" destination="JSa-d2-Mfw" id="0WM-Fu-X5W"/>
+                <outlet property="viewCup" destination="Pwm-d1-8bY" id="DjN-XL-qRk"/>
+                <outlet property="viewLevel" destination="9eM-3D-W61" id="Fab-0u-dmM"/>
+                <outlet property="viewMoney" destination="pAu-3y-2rI" id="DIc-md-A30"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="397" height="162"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iXh-cJ-rdu" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="3" y="3" width="391" height="156"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YFy-vZ-UCZ">
+                            <rect key="frame" x="8" y="8" width="375" height="39"/>
+                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hZ-Dg-NHL">
+                            <rect key="frame" x="8" y="8" width="375" height="39"/>
+                            <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="C8v-Ef-n1d">
+                            <rect key="frame" x="5" y="52" width="381" height="99"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9eM-3D-W61" customClass="matchHelpView" customModule="footbalika" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="91.5" height="99"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pwm-d1-8bY" customClass="matchHelpView" customModule="footbalika" customModuleProvider="target">
+                                    <rect key="frame" x="96.5" y="0.0" width="91.5" height="99"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pAu-3y-2rI" customClass="matchHelpView" customModule="footbalika" customModuleProvider="target">
+                                    <rect key="frame" x="193" y="0.0" width="91.5" height="99"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JSa-d2-Mfw" customClass="matchHelpView" customModule="footbalika" customModuleProvider="target">
+                                    <rect key="frame" x="289.5" y="0.0" width="91.5" height="99"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.95670229200000001" green="0.96114844079999995" blue="0.94437903170000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="C8v-Ef-n1d" secondAttribute="trailing" constant="5" id="6Q8-Tn-oW3"/>
+                        <constraint firstItem="5hZ-Dg-NHL" firstAttribute="height" secondItem="YFy-vZ-UCZ" secondAttribute="height" id="714-ry-jRr"/>
+                        <constraint firstItem="5hZ-Dg-NHL" firstAttribute="centerY" secondItem="YFy-vZ-UCZ" secondAttribute="centerY" id="JtV-j8-6tp"/>
+                        <constraint firstItem="C8v-Ef-n1d" firstAttribute="leading" secondItem="iXh-cJ-rdu" secondAttribute="leading" constant="5" id="KAe-fl-nez"/>
+                        <constraint firstItem="C8v-Ef-n1d" firstAttribute="top" secondItem="YFy-vZ-UCZ" secondAttribute="bottom" constant="5" id="PHC-GK-yIz"/>
+                        <constraint firstItem="YFy-vZ-UCZ" firstAttribute="leading" secondItem="iXh-cJ-rdu" secondAttribute="leading" constant="8" id="Weu-88-fjj"/>
+                        <constraint firstItem="5hZ-Dg-NHL" firstAttribute="width" secondItem="YFy-vZ-UCZ" secondAttribute="width" id="a9P-Gc-QKL"/>
+                        <constraint firstAttribute="bottom" secondItem="C8v-Ef-n1d" secondAttribute="bottom" constant="5" id="h1v-eE-fJ5"/>
+                        <constraint firstItem="5hZ-Dg-NHL" firstAttribute="centerX" secondItem="YFy-vZ-UCZ" secondAttribute="centerX" id="h4R-AB-YvS"/>
+                        <constraint firstItem="YFy-vZ-UCZ" firstAttribute="height" secondItem="iXh-cJ-rdu" secondAttribute="height" multiplier="1:4" id="jyi-da-cfO"/>
+                        <constraint firstItem="YFy-vZ-UCZ" firstAttribute="top" secondItem="iXh-cJ-rdu" secondAttribute="top" constant="8" id="moA-fB-rqe"/>
+                        <constraint firstAttribute="trailing" secondItem="YFy-vZ-UCZ" secondAttribute="trailing" constant="8" id="sms-pG-iAx"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                            <color key="value" red="0.38717862959999999" green="0.4144531488" blue="0.48505103589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="2"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                            <color key="value" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                            <size key="value" width="1" height="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                            <real key="value" value="0.5"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="iXh-cJ-rdu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="3" id="7gF-4s-rwC"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="iXh-cJ-rdu" secondAttribute="bottom" constant="3" id="Eww-cY-hC1"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="iXh-cJ-rdu" secondAttribute="trailing" constant="3" id="Wyk-Yz-glj"/>
+                <constraint firstItem="iXh-cJ-rdu" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="3" id="g9f-Em-mwY"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="103.2" y="118.74062968515743"/>
+        </view>
+    </objects>
+</document>

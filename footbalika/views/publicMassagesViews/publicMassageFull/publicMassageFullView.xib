@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="BTrafcBd.ttf">
+            <string>DPA_Game-DPA_Game</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="publicMassageFullView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="Gmd-jQ-FWY"/>
+                <outlet property="mainView" destination="7NK-LQ-trh" id="ZHw-yx-o6n"/>
+                <outlet property="massageImage" destination="oCA-Bf-Kl3" id="zmw-9H-iP7"/>
+                <outlet property="massageOkButton" destination="8JG-Mu-CXh" id="DJh-Rw-c0p"/>
+                <outlet property="massageTexts" destination="n8F-pg-xIz" id="THt-Ti-n2O"/>
+                <outlet property="massageTitle" destination="YXa-P1-nUy" id="2ul-cI-Wcd"/>
+                <outlet property="massageTitleForeGround" destination="Vec-GB-ale" id="EfW-pz-4FY"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="296" height="382"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7NK-LQ-trh" customClass="windows" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="296" height="382"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oCA-Bf-Kl3">
+                    <rect key="frame" x="60" y="68" width="176" height="176"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="oCA-Bf-Kl3" secondAttribute="height" multiplier="1:1" id="SVV-4I-Mhb"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8JG-Mu-CXh" customClass="actionLargeButton" customModule="footbalika" customModuleProvider="target">
+                    <rect key="frame" x="60" y="322" width="176" height="40"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="o3v-fW-ZcF"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YXa-P1-nUy">
+                    <rect key="frame" x="58" y="10" width="180" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="uSa-tO-zQB"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vec-GB-ale">
+                    <rect key="frame" x="58" y="10" width="180" height="48"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="48" id="nfm-sc-CQT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n8F-pg-xIz">
+                    <rect key="frame" x="8" y="252" width="280" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Fog-Wz-4L4"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
+                    <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="n8F-pg-xIz" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="08x-Mk-NYh"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="8JG-Mu-CXh" secondAttribute="bottom" constant="20" id="18K-X7-Lqx"/>
+                <constraint firstItem="oCA-Bf-Kl3" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="6Da-3T-NqB"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="n8F-pg-xIz" secondAttribute="trailing" constant="8" id="7kn-sQ-hEB"/>
+                <constraint firstItem="8JG-Mu-CXh" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="I2O-No-EWd"/>
+                <constraint firstItem="7NK-LQ-trh" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="Itt-lK-CHP"/>
+                <constraint firstItem="YXa-P1-nUy" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="JuO-3g-toJ"/>
+                <constraint firstItem="n8F-pg-xIz" firstAttribute="top" secondItem="oCA-Bf-Kl3" secondAttribute="bottom" constant="8" id="Moz-8k-WiG"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="YXa-P1-nUy" secondAttribute="trailing" constant="58" id="Rjo-Fq-d3R"/>
+                <constraint firstItem="Vec-GB-ale" firstAttribute="height" secondItem="YXa-P1-nUy" secondAttribute="height" id="SSM-0n-MSz"/>
+                <constraint firstItem="oCA-Bf-Kl3" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="68" id="VLr-KG-CmW"/>
+                <constraint firstItem="7NK-LQ-trh" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="Vkp-Ez-QMn"/>
+                <constraint firstItem="Vec-GB-ale" firstAttribute="centerY" secondItem="YXa-P1-nUy" secondAttribute="centerY" id="dmE-dI-3oM"/>
+                <constraint firstItem="8JG-Mu-CXh" firstAttribute="top" secondItem="n8F-pg-xIz" secondAttribute="bottom" constant="20" id="ek9-H6-5Gd"/>
+                <constraint firstItem="YXa-P1-nUy" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="58" id="fAa-KN-bbP"/>
+                <constraint firstItem="8JG-Mu-CXh" firstAttribute="width" secondItem="oCA-Bf-Kl3" secondAttribute="width" id="fRL-YV-2sx"/>
+                <constraint firstItem="Vec-GB-ale" firstAttribute="centerX" secondItem="YXa-P1-nUy" secondAttribute="centerX" id="fnR-Nh-YvB"/>
+                <constraint firstItem="7NK-LQ-trh" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kXb-XW-JNg"/>
+                <constraint firstItem="7NK-LQ-trh" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="mzE-oh-Col"/>
+                <constraint firstItem="Vec-GB-ale" firstAttribute="width" secondItem="YXa-P1-nUy" secondAttribute="width" id="rYm-ev-YXM"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="99.200000000000003" y="201.49925037481262"/>
+        </view>
+    </objects>
+</document>

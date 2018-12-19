@@ -45,11 +45,11 @@
                     <rect key="frame" x="0.0" y="10" width="375" height="657"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ik-Yc-LKj" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                            <rect key="frame" x="335" y="8" width="32" height="32"/>
+                            <rect key="frame" x="327" y="0.0" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="8ik-Yc-LKj" secondAttribute="height" multiplier="1:1" id="mtC-FP-ECi"/>
-                                <constraint firstAttribute="height" constant="32" id="yxt-PH-Qsq"/>
                             </constraints>
+                            <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                             <state key="normal" image="ic_close"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -82,10 +82,10 @@
                     </subviews>
                     <color key="backgroundColor" red="0.38717862959999999" green="0.4144531488" blue="0.48505103589999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="8ik-Yc-LKj" secondAttribute="trailing" constant="8" id="8Z2-cf-Gcr"/>
+                        <constraint firstAttribute="trailing" secondItem="8ik-Yc-LKj" secondAttribute="trailing" id="8Z2-cf-Gcr"/>
                         <constraint firstItem="xaP-cM-ArG" firstAttribute="leading" secondItem="IS1-SV-8dY" secondAttribute="leading" id="AuF-3d-cHu"/>
-                        <constraint firstItem="xaP-cM-ArG" firstAttribute="top" secondItem="8ik-Yc-LKj" secondAttribute="bottom" constant="8" id="BDu-6h-qJA"/>
-                        <constraint firstItem="8ik-Yc-LKj" firstAttribute="top" secondItem="IS1-SV-8dY" secondAttribute="top" constant="8" id="RGE-E0-vu1"/>
+                        <constraint firstItem="xaP-cM-ArG" firstAttribute="top" secondItem="8ik-Yc-LKj" secondAttribute="bottom" id="BDu-6h-qJA"/>
+                        <constraint firstItem="8ik-Yc-LKj" firstAttribute="top" secondItem="IS1-SV-8dY" secondAttribute="top" id="RGE-E0-vu1"/>
                         <constraint firstAttribute="bottom" secondItem="xaP-cM-ArG" secondAttribute="bottom" id="UgX-cd-J2e"/>
                         <constraint firstAttribute="trailing" secondItem="xaP-cM-ArG" secondAttribute="trailing" id="d0p-jV-mSd"/>
                     </constraints>
