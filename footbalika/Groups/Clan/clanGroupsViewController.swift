@@ -40,7 +40,9 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     }
     
     @IBAction func selectGroup(_ sender: RoundButton) {
+        if login.res?.response?.calnData?.clanid != nil {
         self.delegate?.showGroupInfo(id : "\(self.clanID)")
+        }
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -106,6 +108,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.chatViewHeight.constant = 60
         self.chatView.isHidden = false
         self.topClanView.isHidden = false
+        if login.res?.response?.calnData?.clanid != nil {
         self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
         if getChats {
             DispatchQueue.main.async {
@@ -117,8 +120,8 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)")
         self.clanTitle.text = "\((login.res?.response?.calnData?.clan_title!)!)"
         self.clanCup.text = "\((login.res?.response?.calnData?.clan_point!)!)"
+        }
     }
-    
     
     var urlClass = urls()
     func ChangeclanState() {
@@ -435,11 +438,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     var res : clanGrouops.Response? = nil
     @objc func searchingAction() {
         
-        if self.searchTitle.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-            self.searchTitle = ""
-            self.res = nil
-            self.clansTV.reloadData()
-        } else {
+//        if self.searchTitle.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+//            self.searchTitle = ""
+//            self.res = nil
+//            self.clansTV.reloadData()
+//        } else {
             PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'SEARCH_CLAN' , 'clan_ref' : '\(self.searchTitle.replacedArabicDigitsWithEnglish)' , 'require_trophy' : '\(self.minCupCount)' , 'clan_type' : '\(self.groupType)' , 'min_member_count' : '\(self.minMemberCount)' , 'max_member_count' : '\(self.maxMemberCount)' }") { data, error in
                 
                 if data != nil {
@@ -485,7 +488,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     // handle error
                 }
                 }.resume()
-        }
+//        }
     }
     
     @objc func clearTextFields() {

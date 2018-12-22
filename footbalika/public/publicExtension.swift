@@ -663,3 +663,14 @@ extension UIImage {
         return processedImage
     }
 }
+
+extension matchDetails.QuantumValue: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .string(string):
+            return string
+        case let .int(number):
+            return "\(number)"
+        }
+    }
+}

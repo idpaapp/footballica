@@ -13,6 +13,8 @@ class publicMassageNoKeysViewController: UIViewController {
     @IBOutlet weak var publicMassageView: publicMassageNoKeysView!
     @IBOutlet weak var publicMassageFullView: publicMassageFullView!
     @IBOutlet weak var publicMassage: publicMassageView!
+    
+    
     @IBOutlet weak var publicMassageHeight: NSLayoutConstraint!
     @IBOutlet weak var publicMassageWidth: NSLayoutConstraint!
     
@@ -87,6 +89,7 @@ class publicMassageNoKeysViewController: UIViewController {
         publicMassageView.massageCloseButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
         publicMassageView.massageOkButton.actionButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
         self.publicMassageView.massageImage.setImageWithKingFisher(url: "\(urls().news)\(massageImage)")
+        self.publicMassageView.massageImage.layer.cornerRadius = 10
     }
     
     

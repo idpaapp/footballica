@@ -350,24 +350,24 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
         
         if self.res?.response?.detailData?[indexPath.row].player1_result_sheet != nil {
-        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_1)! == "0" {
+        if "\((self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_1!)!)" == "0" {
            cell.bl1.image = publicImages().redBall
         } else {
             cell.bl1.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_2)! == "0" {
+        if "\((self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_2!)!)" == "0" {
             cell.bl2.image = publicImages().redBall
         } else {
             cell.bl2.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_3)! == "0" {
+        if "\((self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_3!)!)" == "0" {
             cell.bl3.image = publicImages().redBall
         } else {
             cell.bl3.image = publicImages().greenBall
         }
-        if (self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_4)! == "0" {
+        if "\((self.res?.response?.detailData?[indexPath.row].player1_result_sheet?.ans_4!)!)" == "0" {
             cell.bl4.image = publicImages().redBall
         } else {
             cell.bl4.image = publicImages().greenBall
@@ -380,25 +380,25 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
         }
 
         if self.res?.response?.detailData?[indexPath.row].player2_result_sheet != nil {
-        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_1)! == "0" {
+        if "\((self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_1!)!)" == "0" {
             cell.br4.image = publicImages().redBall
         } else {
             cell.br4.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_2)! == "0" {
+        if "\((self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_2!)!)" == "0" {
             cell.br3.image = publicImages().redBall
         } else {
             cell.br3.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_3)! == "0" {
+        if "\((self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_3!)!)" == "0" {
             cell.br2.image = publicImages().redBall
         } else {
             cell.br2.image = publicImages().greenBall
         }
         
-        if (self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_4)! == "0" {
+        if "\((self.res?.response?.detailData?[indexPath.row].player2_result_sheet?.ans_4!)!)" == "0" {
             cell.br1.image = publicImages().redBall
         } else {
             cell.br1.image = publicImages().greenBall

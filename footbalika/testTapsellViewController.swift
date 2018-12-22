@@ -12,7 +12,7 @@ public class testTapsellViewController: UIViewController {
     
     weak var tapsellAd : TapsellAd?
     
-    func tapsellInitialize(){
+    func tapsellInitialize() {
         
         let config = TSConfiguration()
         config.setDebugMode(true)
@@ -38,13 +38,12 @@ public class testTapsellViewController: UIViewController {
     @objc func methodOfReceivedNotification(notification: Notification) {
         self.gettingAds()
     }
-
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
-//            self.gettingAds()
-//        })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
+            self.gettingAds()
+        })
     }
     
     @objc func gettingAds() {

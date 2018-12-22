@@ -26,15 +26,11 @@ class gamesCell: UITableViewCell {
     
     @IBOutlet weak var player1Level: UILabel!
     
-    @IBOutlet weak var player1Avatar: UIImageView!
-    
     @IBOutlet weak var player1Name: UILabel!
     
     @IBOutlet weak var player1Cup: UILabel!
     
     @IBOutlet weak var player2Level: UILabel!
-    
-    @IBOutlet weak var player2Avatar: UIImageView!
     
     @IBOutlet weak var player2Name: UILabel!
     
@@ -65,8 +61,6 @@ class gamesCell: UITableViewCell {
         self.player2Name.minimumScaleFactor = 0.5
         self.turnLabel.adjustsFontSizeToFitWidth = true
         self.turnLabel.minimumScaleFactor = 0.5
-//        player1Level.font = fonts().iPhonefonts
-//        player2Level.font = fonts().iPhonefonts
         turnLabel.font = fonts().iPhonefonts
         timeLabel.font = fonts().iPhonefonts
         

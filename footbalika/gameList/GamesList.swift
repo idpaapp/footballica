@@ -241,9 +241,9 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
         if realmID.count != 0 {
             let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-            cell.player1Avatar.image = UIImage(data: dataDecoded as Data)
+            cell.player1Select.setImage(UIImage(data: dataDecoded as Data), for: .normal)
         } else {
-            cell.player1Avatar.setImageWithKingFisher(url: url)
+            cell.player1Select.setImageWithKingFisher(url: url)
         }
         
             cell.player2Level.text = (self.res?.response[indexPath.row].player2_level)!
@@ -254,9 +254,9 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
         if realmID2.count != 0 {
             let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-            cell.player2Avatar.image = UIImage(data: dataDecoded as Data)
+            cell.player2Select.setImage(UIImage(data: dataDecoded as Data), for: .normal)
         } else {
-            cell.player2Avatar.setImageWithKingFisher(url: url2)
+            cell.player2Select.setImageWithKingFisher(url: url2)
         }
         
         
@@ -343,7 +343,6 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
             vC.menuState = "profile"
             vC.profileResponse = self.userStructure
         }
-        
     }
     
     @objc func player1Select(_ sender : UIButton!) {

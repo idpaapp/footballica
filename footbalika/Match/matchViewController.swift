@@ -22,7 +22,7 @@ protocol publicMassageNoKeysViewControllerDelegate : NSObjectProtocol {
     func checkRestPublicMassages()
 }
 
-class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , SFSafariViewControllerDelegate {
+class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate {
     
     let ts = testTapsellViewController()
     
@@ -42,7 +42,8 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     func tutorialPage() {
         self.performSegue(withIdentifier: "showTutorial", sender: self)
     }
-    
+
+    @IBOutlet weak var profileOutlet: RoundButton!
     @IBOutlet weak var wholeMainPageButtons: NSLayoutConstraint!
     @IBOutlet weak var startLabelForeGround: UILabel!
     @IBOutlet weak var startLabel: UILabel!
@@ -52,7 +53,6 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     @IBOutlet weak var eliminateCupLabel: UILabel!
     @IBOutlet weak var eliminateCupLabelForeGround: UILabel!
     @IBOutlet weak var mainCupImage: UIImageView!
-    @IBOutlet weak var avatar: UIImageView!
     @IBOutlet weak var cup: UILabel!
     @IBOutlet weak var level: UILabel!
     @IBOutlet weak var xp: UILabel!
@@ -122,9 +122,9 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             self.xpProgress.progress = 0.0
             if ((login.res?.response?.mainInfo?.avatar)!) != "user_empty.png" {
                 let urlAvatar = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar)!)"
-                self.avatar.setImageWithKingFisher(url: urlAvatar)
+                self.profileOutlet.setImageWithKingFisher(url: urlAvatar)
             } else {
-                self.avatar.image = publicImages().emptyAvatar
+                self.profileOutlet.setImage(publicImages().emptyAvatar, for: .normal)
             }
             mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
@@ -332,7 +332,9 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     @objc func showInstagramPage() {
-        let appURL = NSURL(string: "instagram://user?username=footballica.ir")!
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5
+            , execute: {
+        let appURL = NSURL(string: "instagram://user?screen_name=footballica.ir")!
         if UIApplication.shared.canOpenURL(appURL as URL) {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
@@ -341,16 +343,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
         } else {
             //redirect to safari because the user doesn't have Instagram
-            if let url = URL(string: "http://instagram.com/footballica.ir") {
+            if let url = URL(string: "https://instagram.com/footballica.ir") {
                 let svc = SFSafariViewController(url: url)
                 self.present(svc, animated: true, completion: nil)
-                svc.delegate = self
             }
         }
-    }
-    
-    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
-        print("ok")
+        })
     }
     
     var publicMassageIndex = Int()
@@ -443,6 +441,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 checkNoKeysMassages()
             }
         }
+
         UserDefaults.standard.set(true, forKey: "launchedBefore")
         let pageIndexDict:[String: Int] = ["button": 2]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)

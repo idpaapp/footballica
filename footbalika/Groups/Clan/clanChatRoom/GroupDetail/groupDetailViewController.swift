@@ -394,8 +394,6 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     }
     
     @objc func setGroupButtons() {
-
-        print((login.res?.response?.calnData?.member_roll!)!)
         if ((login.res?.response?.calnData?.clanid)) != nil {
         if ((login.res?.response?.calnData?.member_roll!)!) != "1" {
             self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: true, hideAction2: !isJoined, hideAction3: !isJoined )
@@ -428,16 +426,17 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         })
                     } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
                         self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
-                        self.alertBody = "شما کاپ مورد نیاز گروه را ندارید"
-                        self.performSegue(withIdentifier: "clanAlert", sender: self)
+//                        self.alertBody = "شما کاپ مورد نیاز گروه را ندارید"
+//                        self.performSegue(withIdentifier: "clanAlert", sender: self)
                     } else if ((Res)!).contains("USER_HAS_CLAN") {
-                        //                        self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
-                        self.alertBody = "شما قبلاً عضو یک گروه هستید!"
-                        self.performSegue(withIdentifier: "clanAlert", sender: self)
+                        
+                        self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+//                        self.alertBody = "شما قبلاً عضو یک گروه هستید!"
+//                        self.performSegue(withIdentifier: "clanAlert", sender: self)
                     } else {
                         self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
-                        self.alertBody = "شما امکان انجام این کار را ندارید!"
-                        self.performSegue(withIdentifier: "clanAlert", sender: self)
+//                        self.alertBody = "شما امکان انجام این کار را ندارید!"
+//                        self.performSegue(withIdentifier: "clanAlert", sender: self)
                         
                     }
                     

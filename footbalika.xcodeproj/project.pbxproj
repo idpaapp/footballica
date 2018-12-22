@@ -135,6 +135,8 @@
 		5C6ED3D620CFF5A8005DF73F /* settingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6ED3D520CFF5A8005DF73F /* settingsCell.swift */; };
 		5C6F538020E0A8D90037748F /* menuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C6F537F20E0A8D90037748F /* menuView.swift */; };
 		5C6F538220E0A8F10037748F /* menuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C6F538120E0A8F10037748F /* menuView.xib */; };
+		5C709F6E21CE1CC400DF6C24 /* NoFriendInListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C709F6C21CE1CC400DF6C24 /* NoFriendInListCell.swift */; };
+		5C709F6F21CE1CC400DF6C24 /* NoFriendInListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C709F6D21CE1CC400DF6C24 /* NoFriendInListCell.xib */; };
 		5C7160FC210F248A003E7D30 /* showItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7160FB210F248A003E7D30 /* showItemViewController.swift */; };
 		5C730C522120127300467711 /* predictMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C730C512120127300467711 /* predictMatchViewController.swift */; };
 		5C730C54212017F600467711 /* todayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C730C53212017F600467711 /* todayCell.swift */; };
@@ -413,6 +415,8 @@
 		5C6ED3D520CFF5A8005DF73F /* settingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsCell.swift; sourceTree = "<group>"; };
 		5C6F537F20E0A8D90037748F /* menuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = menuView.swift; sourceTree = "<group>"; };
 		5C6F538120E0A8F10037748F /* menuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = menuView.xib; sourceTree = "<group>"; };
+		5C709F6C21CE1CC400DF6C24 /* NoFriendInListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoFriendInListCell.swift; sourceTree = "<group>"; };
+		5C709F6D21CE1CC400DF6C24 /* NoFriendInListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoFriendInListCell.xib; sourceTree = "<group>"; };
 		5C7160FB210F248A003E7D30 /* showItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = showItemViewController.swift; sourceTree = "<group>"; };
 		5C730C512120127300467711 /* predictMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = predictMatchViewController.swift; sourceTree = "<group>"; };
 		5C730C53212017F600467711 /* todayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = todayCell.swift; sourceTree = "<group>"; };
@@ -746,6 +750,7 @@
 			children = (
 				5C34C91620CFD6CF0095B968 /* achievementsViewController.swift */,
 				5C23EE9E21A03CB7000FE0CF /* achievementsReceive.swift */,
+				5C709F6B21CE1C8B00DF6C24 /* NoFriend */,
 				5C4F8B1221A1341D00132621 /* PromoteDemoteClanMember */,
 				5C6DE9AC219FF59200139892 /* groupCell */,
 				5C84D52720CCFFEE00A9DC67 /* achievementsCell.swift */,
@@ -1088,6 +1093,15 @@
 				5C4C940C21C90F7500B5B894 /* publicMassagesViews */,
 			);
 			path = views;
+			sourceTree = "<group>";
+		};
+		5C709F6B21CE1C8B00DF6C24 /* NoFriend */ = {
+			isa = PBXGroup;
+			children = (
+				5C709F6C21CE1CC400DF6C24 /* NoFriendInListCell.swift */,
+				5C709F6D21CE1CC400DF6C24 /* NoFriendInListCell.xib */,
+			);
+			path = NoFriend;
 			sourceTree = "<group>";
 		};
 		5C730C502120125400467711 /* predictMatch */ = {
@@ -1681,6 +1695,7 @@
 				5C84D50620CCFD7700A9DC67 /* BTrafcBd.ttf in Resources */,
 				5C0FB796211AC85700A7DA3A /* buy_item.mp3 in Resources */,
 				5CDB89E0217F21B700093006 /* groupMemberCell.xib in Resources */,
+				5C709F6F21CE1CC400DF6C24 /* NoFriendInListCell.xib in Resources */,
 				5CF25FD721B66C8900D82F39 /* clanRewardsView.xib in Resources */,
 				5C84D4FE20CCFD2700A9DC67 /* LaunchScreen.storyboard in Resources */,
 				5C0B4B9D21B7E68400CE42AB /* clanRewardsCell.xib in Resources */,
@@ -1956,6 +1971,7 @@
 				5CAEEFF220D646BC00514842 /* gameRewards.swift in Sources */,
 				5C2377DC2116E7640040DC93 /* ItemViewController.swift in Sources */,
 				5C67B1272127F133000D5ADD /* prediction.swift in Sources */,
+				5C709F6E21CE1CC400DF6C24 /* NoFriendInListCell.swift in Sources */,
 				5C4B4659217B25F60054F777 /* chatNewsCell.swift in Sources */,
 				5C9FFCF420D8F6FA007A11C0 /* loginStructure.swift in Sources */,
 				5C3B279A2104663500150FB2 /* gamesList.swift in Sources */,

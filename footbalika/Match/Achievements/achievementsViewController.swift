@@ -275,6 +275,9 @@
         
         self.achievementsTV.register(UINib(nibName: "profileGroupCell", bundle: nil), forCellReuseIdentifier: "profileGroupCell")
         
+        if self.pageState == "friendsList" {
+        self.achievementsTV.register(UINib(nibName: "NoFriendInListCell", bundle: nil), forCellReuseIdentifier: "NoFriendInListCell")
+        }
         if pageState == "LeaderBoard" {
             leaderBoardJson()
             self.leaderBoardState = "MAIN_LEADERBORAD"
@@ -335,7 +338,15 @@
         if pageState == "Achievements" {
             return (loadingAchievements.res?.response?.count)!
         } else {
+            if self.pageState == "friendsList" {
+                if achievementCount == 0 {
+                    return 1
+                } else {
+                    return achievementCount
+                }
+            } else {
             return achievementCount
+            }
         }
     }
     
@@ -462,6 +473,16 @@
             
         case "friendsList" :
             
+            if achievementCount == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "NoFriendInListCell", for: indexPath) as! NoFriendInListCell
+
+                cell.noFriendTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "کسی در لیست دوستان شما وجود ندارد" , strokeWidth: 5.0)
+                cell.noFriendTitleForeGround.font = fonts().iPhonefonts18
+                cell.noFriendTitleForeGround.text = "کسی در لیست دوستان شما وجود ندارد"
+                
+                return cell
+            } else {
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! friendCell
             
             cell.friendName.text = "\((self.friensRes?.response?[indexPath.row].username!)!)"
@@ -508,6 +529,7 @@
             cell.friendCup.text = "\((self.friensRes?.response?[indexPath.row].cups!)!)"
             
             return cell
+            }
             
         case "alerts":
             
@@ -567,13 +589,15 @@
                 if realmID.count != 0 {
                     let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                     cell.profileAvatar.image = UIImage(data: dataDecoded as Data)
+                    if realmID.first?.img_base64 == "" {
+                        cell.profileAvatar.setImageWithKingFisher(url: url)
+                    }else {}
                 } else {
                     cell.profileAvatar.setImageWithKingFisher(url: url)
                 }
                 
                 let url2 = "\(urlClass.badge)\((self.profileResponse?.response?.mainInfo?.badge_name!)!)"
                 
-                print(url2)
                 if url2 == "http://volcan.ir/adelica/images/badge/" {
                     cell.profileLogo.image = UIImage()
                 } else {
@@ -581,6 +605,9 @@
                     if realmID2.count != 0 {
                         let dataDecoded:NSData = NSData(base64Encoded: (realmID2.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
                         cell.profileLogo.image = UIImage(data: dataDecoded as Data)
+                        if realmID2.first?.img_base64 == "" {
+                            cell.profileLogo.setImageWithKingFisher(url: url2)
+                        }else {}
                     } else {
                         cell.profileLogo.setImageWithKingFisher(url: url2)
                     }
@@ -588,13 +615,13 @@
                 
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: 8.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: 8.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: 8.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: 4.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: 4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPhonefonts
                 } else {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: 8.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: 8.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: 8.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: 4.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPadfonts25, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: 4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPadfonts
                 }
                 cell.profileCup.text = "\((self.profileResponse?.response?.mainInfo?.cups!)!)"
@@ -773,7 +800,7 @@
                     cell.stadiumImage.image = UIImage(data: dataDecoded as Data)
                     if realmID.first?.img_base64 == "" {
                         cell.stadiumImage.setImageWithKingFisher(url: url)
-                    }
+                    } else {}
                 } else {
                     cell.stadiumImage.setImageWithKingFisher(url: url)
                 }
