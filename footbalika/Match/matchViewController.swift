@@ -27,7 +27,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     let ts = testTapsellViewController()
     
     @IBAction func tapsellAction(_ sender: Any) {
-        NotificationCenter.default.post(name: Notification.Name("showADS"), object: nil)
+//        NotificationCenter.default.post(name: Notification.Name("showADS"), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.performSegue(withIdentifier: "showAds", sender: self)
         }

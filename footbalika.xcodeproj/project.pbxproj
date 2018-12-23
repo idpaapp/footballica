@@ -27,6 +27,8 @@
 		5C0FB796211AC85700A7DA3A /* buy_item.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C0FB795211AC85600A7DA3A /* buy_item.mp3 */; };
 		5C12536020F0C4A6005A64E8 /* chargeTypesDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C12535F20F0C4A6005A64E8 /* chargeTypesDownload.swift */; };
 		5C12536220F0C4FE005A64E8 /* stadiumDataDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C12536120F0C4FE005A64E8 /* stadiumDataDownload.swift */; };
+		5C13478921CFA9A600988848 /* NoGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C13478721CFA9A600988848 /* NoGameCell.swift */; };
+		5C13478A21CFA9A600988848 /* NoGameCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C13478821CFA9A600988848 /* NoGameCell.xib */; };
 		5C137BD821A4219A00237EC5 /* clanMatchFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C137BD721A4219A00237EC5 /* clanMatchFieldViewController.swift */; };
 		5C14B9FC2196F9AC00B7A750 /* startWar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C14B9FB2196F9AC00B7A750 /* startWar.swift */; };
 		5C14B9FF219709CD00B7A750 /* clanMembersListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C14B9FE219709CD00B7A750 /* clanMembersListView.xib */; };
@@ -308,6 +310,8 @@
 		5C0FB795211AC85600A7DA3A /* buy_item.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = buy_item.mp3; sourceTree = "<group>"; };
 		5C12535F20F0C4A6005A64E8 /* chargeTypesDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chargeTypesDownload.swift; sourceTree = "<group>"; };
 		5C12536120F0C4FE005A64E8 /* stadiumDataDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stadiumDataDownload.swift; sourceTree = "<group>"; };
+		5C13478721CFA9A600988848 /* NoGameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoGameCell.swift; sourceTree = "<group>"; };
+		5C13478821CFA9A600988848 /* NoGameCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoGameCell.xib; sourceTree = "<group>"; };
 		5C137BD721A4219A00237EC5 /* clanMatchFieldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clanMatchFieldViewController.swift; sourceTree = "<group>"; };
 		5C14B9FB2196F9AC00B7A750 /* startWar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = startWar.swift; sourceTree = "<group>"; };
 		5C14B9FE219709CD00B7A750 /* clanMembersListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = clanMembersListView.xib; sourceTree = "<group>"; };
@@ -651,6 +655,15 @@
 			path = clanRewards;
 			sourceTree = "<group>";
 		};
+		5C13478621CFA98300988848 /* NoGameCell */ = {
+			isa = PBXGroup;
+			children = (
+				5C13478721CFA9A600988848 /* NoGameCell.swift */,
+				5C13478821CFA9A600988848 /* NoGameCell.xib */,
+			);
+			path = NoGameCell;
+			sourceTree = "<group>";
+		};
 		5C137BD621A4215E00237EC5 /* clanMatchField */ = {
 			isa = PBXGroup;
 			children = (
@@ -832,6 +845,7 @@
 			children = (
 				5C84D52C20CCFFFF00A9DC67 /* GamesList.swift */,
 				5C84D52B20CCFFFF00A9DC67 /* gamesCell.swift */,
+				5C13478621CFA98300988848 /* NoGameCell */,
 			);
 			path = gameList;
 			sourceTree = "<group>";
@@ -1732,6 +1746,7 @@
 				5C15C89E20EA130C0024E66C /* connectionView.xib in Resources */,
 				5C30A41B21A9777A00B41032 /* scoreBallCell.xib in Resources */,
 				5C6F538220E0A8F10037748F /* menuView.xib in Resources */,
+				5C13478A21CFA9A600988848 /* NoGameCell.xib in Resources */,
 				5C4B4654217AFDF80054F777 /* clanGroupsCell.xib in Resources */,
 				5CE8507A20F5FCB900BB303A /* correctAnswer.mp3 in Resources */,
 				5C8A690421C8BDA800845620 /* matchRewardTableView.xib in Resources */,
@@ -1887,6 +1902,7 @@
 				5C08478D217B4DC600E61572 /* currentUserCell.swift in Sources */,
 				5CB61ED021A28B210072607B /* getProfileCheckFriend.swift in Sources */,
 				5C3E9E9F219AF2A60009EAE6 /* groupMatchResaultViewController.swift in Sources */,
+				5C13478921CFA9A600988848 /* NoGameCell.swift in Sources */,
 				5CF25FDE21B66DE200D82F39 /* clanScoreView.swift in Sources */,
 				5C42381C21BB95F5007C483C /* itemReawrdView.swift in Sources */,
 				5C1EEE4421BE4D0800039048 /* matchRewardsResultTableViewController.swift in Sources */,

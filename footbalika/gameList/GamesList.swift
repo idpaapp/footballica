@@ -41,18 +41,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     }
     
     var res :  gamesList.Response? = nil;
-    var res0 : gamesList.Response? = nil;
-    var res1 : gamesList.Response? = nil;
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-//        if self.gameListState == "currentGames"{
-//            gameLists(mode: "UNFINISHED_GAMES", isSplash: true)
-//        } else {
-//            gameLists(mode: "FINISHED_GAMES", isSplash: true)
-//        }
-    }
     
     @objc func gameLists(mode : String , isSplash : Bool) {
         if isSplash {
@@ -76,19 +65,13 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
                         self.res = try JSONDecoder().decode(gamesList.Response.self , from : data!)
                         
                         PubProc.isSplash = false
-//                        guard let res = self.res else {
-//                            print("res not found")
-//                            return
-//                        }
-//
-//                        let playerStatuses = res.response.filter { $0.status != nil }
-//                        let playersWithStatus1 = playerStatuses.filter({ $0.status == "1" })
-//                        let playersWithStatus0 = playerStatuses.filter({ $0.status != "1" })
-//
-//                        self.res0 = gamesList.Response(status: "1", response: playersWithStatus1)
-//                        self.res1 = gamesList.Response(status: "0", response: playersWithStatus0)
                         
                         DispatchQueue.main.async {
+//                            if self.res?.response.count != 0 {
+//                                self.gameListTV.isScrollEnabled = true
+//                            } else {
+//                                self.gameListTV.isScrollEnabled = false
+//                            }
                             self.gameListTV.reloadData()
                             PubProc.wb.hideWaiting()
                             self.refreshControl.endRefreshing()
@@ -123,16 +106,9 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.gameListTV.register(UINib(nibName: "NoGameCell", bundle: nil), forCellReuseIdentifier: "NoGameCell")
+
         realm = try? Realm()
-        
-        let path = UIBezierPath(roundedRect:self.currentGames.bounds,
-                                byRoundingCorners: [.topLeft, .topRight] ,
-                                cornerRadii: CGSize(width: 10, height: 10))
-        
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = path.cgPath
-        self.currentGames.layer.mask = maskLayer
-        
         currentGamesListColor()
         NotificationCenter.default.addObserver(self, selector: #selector(refreshingGameList), name: NSNotification.Name(rawValue: "reloadGameData"), object: nil)
 
@@ -145,6 +121,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
         }
         
         refreshControl.addTarget(self, action: #selector(refreshWeatherData(_:)), for: .valueChanged)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -168,20 +145,11 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.res != nil {
+            if self.res?.response.count != 0 {
             return (self.res?.response.count)!
-//             if self.gameListState == "currentGames" {
-//                if self.res0?.response.count != nil {
-//                    return ((self.res0?.response.count)!)
-//                } else {
-//                    return 0
-//                }
-//             } else {
-//                 if self.res1?.response.count != nil {
-//                    return ((self.res1?.response.count)!)
-//                 } else {
-//                return 0
-//                }
-//            }
+            } else {
+                return 1
+            }
         } else {
             return 0
         }
@@ -189,43 +157,10 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     var urlClass = urls()
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "gamesCell", for: indexPath) as! gamesCell
         
-//        if self.gameListState == "currentGames" {
-//            cell.result.text = "\((self.res0?.response[indexPath.row].player1_result)!) _ \((self.res0?.response[indexPath.row].player2_result)!)"
-//
-//            if self.res0?.response[indexPath.row].p_game_start != nil {
-//            cell.timeLabel.text = (self.res0?.response[indexPath.row].p_game_start)!
-//            } else {
-//              cell.timeLabel.text = "چندی قبل"
-//            }
-//
-//            cell.player1Level.text = (self.res0?.response[indexPath.row].player1_level)!
-//            cell.player1Cup.text = (self.res0?.response[indexPath.row].player1_cup)!
-//            cell.player1Name.text = (self.res0?.response[indexPath.row].player1_username)!
-//            let url = "\(urlClass.avatar)\((self.res0?.response[indexPath.row].player1_avatar)!)"
-//            let urls = URL(string : url)
-//            cell.player1Avatar.kf.setImage(with: urls ,options:[.transition(ImageTransition.fade(0.5))])
-//
-//            cell.player2Level.text = (self.res0?.response[indexPath.row].player2_level)!
-//            cell.player2Cup.text = (self.res0?.response[indexPath.row].player2_cup)!
-//            cell.player2Name.text = (self.res0?.response[indexPath.row].player2_username)!
-//            let url2 = "\(urlClass.avatar)\((self.res0?.response[indexPath.row].player2_avatar)!)"
-//            let urls2 = URL(string : url2)
-//            cell.player2Avatar.kf.setImage(with: urls2 ,options:[.transition(ImageTransition.fade(0.5))])
-//            if (self.res0?.response[indexPath.row].status_result)! == "MY_TURN" {
-//                cell.turnLabel.text = "نوبت شما"
-//                cell.turnLabel.textColor = UIColor.init(red: 184/255, green: 219/255, blue: 31/255, alpha: 1.0)
-//            } else if (self.res0?.response[indexPath.row].status_result)! == "OTHER_TURN" {
-//                cell.turnLabel.text = "نوبت حریف"
-//                 cell.turnLabel.textColor = UIColor.white
-//            }
-//            cell.player1Select.tag = indexPath.row
-//            cell.player1Select.addTarget(self, action: #selector(player1Select), for: UIControlEvents.touchUpInside)
-//            cell.player2Select.tag = indexPath.row
-//            cell.player2Select.addTarget(self, action: #selector(player2Select), for: UIControlEvents.touchUpInside)
-//
-//        } else {
+        if self.res?.response.count != 0 {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "gamesCell", for: indexPath) as! gamesCell
         
             cell.result.text = "\((self.res?.response[indexPath.row].player1_result)!) _ \((self.res?.response[indexPath.row].player2_result)!)"
         if self.res?.response[indexPath.row].p_game_start != nil {
@@ -291,14 +226,39 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
 //        }
         
         return cell
+            
+        } else {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NoGameCell", for: indexPath) as! NoGameCell
+        
+        var font = UIFont()
+        if UIDevice().userInterfaceIdiom == .phone {
+            font = fonts().iPhonefonts
+        } else {
+            font = fonts().iPadfonts
+        }
+        let noGameTitle = "لیست بازی های شما خالی است"
+        cell.noGameTitle.AttributesOutLine(font: font, title: noGameTitle, strokeWidth: 5.0)
+        cell.noGameTitleForeGround.font = font
+        cell.noGameTitleForeGround.text = noGameTitle
+        return cell
+    
+    }
+    
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if self.res?.response.count == 0 {
+            return 100
+        } else {
+        
         if UIDevice().userInterfaceIdiom == .phone {
             return 160
         } else {
 //            return  UIScreen.main.bounds.height / 7
             return 180
+        }
         }
     }
     

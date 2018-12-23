@@ -29,8 +29,8 @@ class challengesViewController: UIViewController {
         self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: 8.0)
          } else {
         self.gradeTitleForeGround.font = iPadfonts
-        self.gradeNumber.AttributesOutLine(font: iPadfonts, title: "20", strokeWidth: 3.0)
-        self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: -5.0)
+        self.gradeNumber.AttributesOutLine(font: iPadfonts, title: "20", strokeWidth: -5.0)
+        self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: 8.0)
         }
         self.gradeTitleForeGround.minimumScaleFactor = 0.1
         self.gradeTitleForeGround.adjustsFontSizeToFitWidth = true

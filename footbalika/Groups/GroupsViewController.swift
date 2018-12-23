@@ -654,7 +654,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             vc.alertAcceptLabel = "تأیید"
         }
         
-        if let vc = segue.identifier as? groupMatchViewController {
+        if let vc = segue.destination as? groupMatchViewController {
             vc.delegate = self
             if segue.identifier == "groupsMatch" {
                 self.gMatchs = segue.destination as? groupMatchViewController

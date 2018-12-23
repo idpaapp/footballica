@@ -138,11 +138,11 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
 //            svc.delegate = self
 //        }
         
-        StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)' ,  'item_type' : 'COIN'}"
+        StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)' ,  'item_type' : 'COIN'}"
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             
-            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[1].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)','userid':'\(loadingViewController.userid)'}") as NSString
+            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)','userid':'\(loadingViewController.userid)'}") as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
             let searchURL : NSURL = NSURL(string: urlStr as String)!
             print(searchURL)

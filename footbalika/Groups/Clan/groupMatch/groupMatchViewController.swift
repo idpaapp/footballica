@@ -260,6 +260,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         super.viewDidLoad()
 
         setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
+        self.startGameButton.setButtons(hideAction: true, hideAction1: true, hideAction2: true, hideAction3: true)
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
             clanRewards()
         }
@@ -325,6 +326,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     }
     
     func setPageOutlets(hidRonaldoAndMessi : Bool , hideMagnifier : Bool , hideClanTimer : Bool , hideStartGameButton : Bool , hideClanResults : Bool , clanMembers : Bool , hidetimerContainerView : Bool , hideClanReward : Bool) {
+        DispatchQueue.main.async {
         self.ronaldoAndMessi.isHidden = hidRonaldoAndMessi
         self.magnifier.isHidden = hideMagnifier
         self.clanTimer.isHidden = hideClanTimer
@@ -335,12 +337,16 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         self.ghesarSentencesLabel.isHidden = hideMagnifier
         self.ghesarBackGround.isHidden = hideMagnifier
         self.clanReward.isHidden = hideClanReward
+        }
     }
     
     @objc func setStartGroupGameButton() {
+        DispatchQueue.main.async {
         self.startGameButton.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)
         self.startGameButton.setTitles(actionTitle: "شروع بازی گروهی", action1Title: "", action2Title: "", action3Title: "")
-        self.startGameButton.actionButton.addTarget(self, action: #selector(startGameAction), for: UIControlEvents.touchUpInside)
+             self.startGameButton.actionButton.addTarget(self, action: #selector(self.startGameAction), for: UIControlEvents.touchUpInside)
+        }
+       
     }
     
     var startWarRes : startWar.Response? = nil

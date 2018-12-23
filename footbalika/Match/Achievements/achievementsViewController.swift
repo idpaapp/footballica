@@ -888,11 +888,20 @@
     }
     
     @objc func demote() {
+        
+        if ((self.profileResponse?.response?.calnData?.member_roll!)!) == "3" {
+            demoteMember().kickMember(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!, completionHandler: {String in
+                print(String)
+                self.delegate?.dismissing()
+                self.delegate?.updateClanData()
+            })
+        } else {
         demoteMember().demoteMember(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!, completionHandler: {String in
             print(String)
             self.delegate?.dismissing()
             self.delegate?.updateClanData()
         })
+        }
     }
     
     var reciverInvitationGroupId = String()

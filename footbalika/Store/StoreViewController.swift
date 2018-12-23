@@ -57,12 +57,14 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     }
     var packageIndex = Int()
     var mainShopIndex = Int()
-    
+    var noPackage = true
     @objc func rData() {
         let index = loadShop.res?.response?.index(where: { $0.type == 2})
         self.mainShopIndex = index!
-        let index2 = loadShop.res?.response?.index(where: { $0.type == 3})
-        self.packageIndex = index2!
+        if let index2 = loadShop.res?.response?.index(where: { $0.type == 3}) {
+        self.packageIndex = index2
+        self.noPackage = false
+        }
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
@@ -148,6 +150,29 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //        print(indexPath.item)
+        if self.noPackage {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
+            cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item].image!)!))")
+            
+            if UIDevice().userInterfaceIdiom == .phone {
+                cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item].title!)!))", strokeWidth: 8.0)
+                cell.storeLabelForeGround.font = iPhonefonts
+            } else {
+                cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item].title!)!))", strokeWidth: 8.0)
+                cell.storeLabelForeGround.font = iPadfonts
+            }
+            
+            cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item].title!)!))"
+            cell.storeSelect.tag = indexPath.item
+            cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
+            if matchViewController.isTutorial {
+                cell.storeSelect.isUserInteractionEnabled = false
+            } else {
+                cell.storeSelect.isUserInteractionEnabled = true
+            }
+            return cell
+        } else {
+        
         if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)! {
             //        if indexPath.item > 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
@@ -187,6 +212,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             cell.packageButton.layer.cornerRadius = 10
             cell.index = 0
             return cell
+        }
         }
     }
     
@@ -340,6 +366,21 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     var packageImage = String()
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        if self.noPackage {
+            if UIDevice().userInterfaceIdiom == .phone  {
+                if UIScreen.main.nativeBounds.height == 2436 {
+                    //iPhone X
+                    return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
+                } else {
+                    //Normal iPhone
+                    return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
+                }
+            } else {
+                //iPad
+                return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3  + 3, height: 230)
+            }
+        } else {
+        
         var packageScreenSize = CGSize()
         if UIDevice().userInterfaceIdiom == .phone  {
             if UIScreen.main.nativeBounds.height == 2436 {
@@ -369,6 +410,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             }
         } else {
             return packageScreenSize
+        }
         }
     }
     

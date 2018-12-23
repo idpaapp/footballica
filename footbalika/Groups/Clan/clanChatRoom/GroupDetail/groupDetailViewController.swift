@@ -156,8 +156,8 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "clanDetailCell", for: indexPath) as! clanDetailCell
         
-        cell.clanDetailTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(clanDetailTitles[indexPath.item])", strokeWidth: 8.0)
-        cell.clanDetailTitleForeGround.font = fonts().iPhonefonts
+        cell.clanDetailTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "\(clanDetailTitles[indexPath.item])", strokeWidth: 8.0)
+        cell.clanDetailTitleForeGround.font = fonts().iPhonefonts18
         cell.clanDetailTitleForeGround.text = clanDetailTitles[indexPath.item]
         cell.clanDetailImage.image = UIImage(named: "\(clanDetailImages[indexPath.item])")
         
@@ -398,7 +398,12 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         if ((login.res?.response?.calnData?.member_roll!)!) != "1" {
             self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: true, hideAction2: !isJoined, hideAction3: !isJoined )
         } else {
-            self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: !isCharge, hideAction2: !isJoined, hideAction3: true )
+            if self.res?.response?.clanMembers?.count != 1 {
+                self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: !isCharge, hideAction2: !isJoined, hideAction3: true )
+            } else {
+                self.actionLargeButton.setButtons(hideAction: isJoined, hideAction1: !isCharge, hideAction2: !isJoined, hideAction3: false )
+            }
+            
         }
         } else {
              self.actionLargeButton.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)
@@ -485,6 +490,8 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         
                     } else if ((Res)!).contains("USER_NOT_PERMITTED")  {
                         print("USER_NOT_PERMITTED")
+                        self.alertBody = "شما امکان انجام این کار را ندارید"
+                        self.performSegue(withIdentifier: "clanAlert", sender: self)
                     } else {
                         self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
                     }
@@ -526,8 +533,13 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         if let vc = segue.destination as? menuViewController {
             vc.menuState = self.menuState
             if isComeFromProfile {
+                if self.menuState == "friendsList" {
+                    vc.isClanInvite = true
+                    vc.friensRes = self.friendsRes
+                } else {
                 vc.profileResponse = getProfileCheckFriend.profileResponse
-            } else {
+                }
+                } else {
                 if self.menuState == "friendsList" {
                     vc.isClanInvite = true
                     vc.friensRes = self.friendsRes

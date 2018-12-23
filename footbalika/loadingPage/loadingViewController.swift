@@ -21,7 +21,7 @@ class loadingViewController: UIViewController {
     var timer : Timer!
     var ballTimer : Timer!
     var currentProgress = Float()
-    var AppVersion = String()
+    var AppVersion = Int()
     static var showPublicMassages = true
     override var prefersStatusBarHidden: Bool {
         return true
@@ -59,7 +59,7 @@ class loadingViewController: UIViewController {
     func versionCheck() {
         if let version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             print("version : \(version)")
-            AppVersion = version
+            self.AppVersion = Int(version)!
         }
     }
     
@@ -87,6 +87,12 @@ class loadingViewController: UIViewController {
                         
                          print("***************************\(loadingViewController.OnlineTime)")
                         onlineTime().OnlineTimer()
+                        
+                        if self.AppVersion < (loadingViewController.loadGameData?.response?.androidForceUpdateVersionSibApp)! {
+
+                            self.performSegue(withIdentifier: "forceUpdate", sender: self)
+                            
+                        } else {
                         DispatchQueue.main.async {
                             PubProc.cV.hideWarning()
                             for i in 0...(loadingViewController.loadGameData?.response?.gameTypes.count)! - 1 {
@@ -128,6 +134,8 @@ class loadingViewController: UIViewController {
                                 self.performSegue(withIdentifier: "loginUser", sender: self)
                             }
                         }
+                        }
+                        
                     } catch {
                         self.gameData()
                         print(error)
@@ -261,6 +269,14 @@ class loadingViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? menuAlertViewController {
+            vc.alertState = "forceUpdate"
+            vc.alertBody = "فوتبالیکا برای اجرا نیاز به به روز رسانی دارد"
+            vc.alertTitle = "فوتبالیکا"
+        }
     }
     
     public static var OnlineTime = Int64()

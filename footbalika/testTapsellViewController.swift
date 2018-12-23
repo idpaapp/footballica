@@ -13,16 +13,17 @@ public class testTapsellViewController: UIViewController {
     weak var tapsellAd : TapsellAd?
     
     func tapsellInitialize() {
-        
-        let config = TSConfiguration()
-        config.setDebugMode(true)
-        
-        Tapsell.initialize(withAppKey: "ngtsdfapnnfjcmpespmjmiffspaogjdolrspgmnpttkmisjaipbtgjmcbnanaammhlkamm", andConfig: config);
-        
-        Tapsell.setAdShowFinishedCallback { (ad, completed) in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+            let config = TSConfiguration()
+            config.setDebugMode(true)
             
-            print(completed);
-        }
+            Tapsell.initialize(withAppKey: "ngtsdfapnnfjcmpespmjmiffspaogjdolrspgmnpttkmisjaipbtgjmcbnanaammhlkamm", andConfig: config);
+            
+            Tapsell.setAdShowFinishedCallback { (ad, completed) in
+                
+                print(completed);
+            }
+        })
     }
     
     override public var prefersStatusBarHidden: Bool {
@@ -48,46 +49,45 @@ public class testTapsellViewController: UIViewController {
     
     @objc func gettingAds() {
         DispatchQueue.main.async {
-        let requestOptions = TSAdRequestOptions()
-        requestOptions.setCacheType(CacheTypeCached)
-        
-        Tapsell.requestAd(forZone: "5c0668e9b9fe410001f46d66", andOptions: requestOptions, onAdAvailable:{ (tapsellAd) in
+            let requestOptions = TSAdRequestOptions()
+            requestOptions.setCacheType(CacheTypeCached)
             
-            NSLog("Ad Available")
-            self.tapsellAd = tapsellAd
-            
-            self.showingAds()
-            
-        }, onNoAdAvailable: {
-            NSLog("No Ad Available")
-            self.dismissing()
-            
-        }, onError: { (error) in
-            NSLog("onError:"+error!)
-            self.dismissing()
-            
-        }, onExpiring: { (ad) in
-            NSLog("Expiring")
-            self.dismissing()
-        })
+            Tapsell.requestAd(forZone: "5c0668e9b9fe410001f46d66", andOptions: requestOptions, onAdAvailable:{ (tapsellAd) in
+                
+                NSLog("Ad Available")
+                self.tapsellAd = tapsellAd
+                
+                self.showingAds()
+                
+            }, onNoAdAvailable: {
+                NSLog("No Ad Available")
+                self.dismissing()
+                
+            }, onError: { (error) in
+                NSLog("onError:"+error!)
+                self.dismissing()
+                
+            }, onExpiring: { (ad) in
+                NSLog("Expiring")
+                self.dismissing()
+            })
         }
     }
     
     @objc func showingAds() {
         DispatchQueue.main.async {
-        if(self.tapsellAd != nil)
-        {
-            let showOptions = TSAdShowOptions()
-            showOptions.setOrientation(OrientationUnlocked)
-            showOptions.setBackDisabled(false)
-            showOptions.setShowDialoge(true)
-            self.tapsellAd?.show(with: showOptions, andOpenedCallback: { (tapsellAd) in
-                print("Open Shod");
-            }, andClosedCallback: { (tapsellAd) in
-                print("Close Shod");
-            })
-        
-        }
+            if(self.tapsellAd != nil)
+            {
+                let showOptions = TSAdShowOptions()
+                showOptions.setOrientation(OrientationUnlocked)
+                showOptions.setBackDisabled(true)
+                showOptions.setShowDialoge(true)
+                self.tapsellAd?.show(with: showOptions, andOpenedCallback: { (tapsellAd) in
+                    print("Open Shod");
+                }, andClosedCallback: { (tapsellAd) in
+                    print("Close Shod");
+                })
+            }
         }
     }
     

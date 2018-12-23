@@ -32,9 +32,9 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         }
         if (login.res?.response?.mainInfo?.status!)! == "2" {
             if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
-            self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight - 80
+                self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight - 80
             } else {
-             self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight - 160
+                self.giftMenu.menuHeight.constant = self.giftMenu.giftHeight - 160
             }
         } else {
             if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
@@ -44,11 +44,11 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             }
         }
         
-    
+        
         if UIDevice().userInterfaceIdiom == .phone {
-        self.giftMenu.menuWidth.constant = self.giftMenu.giftWidth
+            self.giftMenu.menuWidth.constant = self.giftMenu.giftWidth
         } else {
-        self.giftMenu.menuWidth.constant = 500
+            self.giftMenu.menuWidth.constant = 500
         }
         
         
@@ -67,9 +67,9 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         self.gameChargeMenu.awakeFromNib()
         self.gameChargeMenu.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         if UIDevice().userInterfaceIdiom == .phone {
-        self.gameChargeMenu.menuWidth.constant = self.gameChargeMenu.gameChargesWidth
+            self.gameChargeMenu.menuWidth.constant = self.gameChargeMenu.gameChargesWidth
         } else {
-        self.gameChargeMenu.menuWidth.constant = 500
+            self.gameChargeMenu.menuWidth.constant = 500
         }
         self.gameChargeMenu.menuHeight.constant = self.gameChargeMenu.gameChargesHeight
         self.gameChargeMenu.center = centerScreen().centerScreens
@@ -84,16 +84,16 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     }
     
     @objc func dismissing() {
-    self.giftMenu.removeFromSuperview()
-    self.gameChargeMenu.removeFromSuperview()
+        self.giftMenu.removeFromSuperview()
+        self.gameChargeMenu.removeFromSuperview()
         dismiss(animated: true, completion: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
-         if pageState == "gifts" {
-        addGiftMenu()
-         } else {
-        addGameChargeMenu()
+        if pageState == "gifts" {
+            addGiftMenu()
+        } else {
+            addGameChargeMenu()
         }
     }
     
@@ -150,7 +150,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.GoogleSigningIn(email : email)
+                            self.GoogleSigningIn(email : email)
                         })
                     }
                     print("Error Connection")
@@ -174,42 +174,42 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         gameChargeMenu.menuTableView.delegate = self
         
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if pageState == "gifts" {
-        return self.giftMenu.giftsImages.count
+            return self.giftMenu.giftsImages.count
         } else {
-        return gameChargeCount
+            return gameChargeCount
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if pageState == "gifts" {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell") as!  menuCell
-        
-        
-        cell.menuImage.image = UIImage(named: "\(self.giftMenu.giftsImages[indexPath.row])")
-        cell.menuLeftImage.image = UIImage(named: "ic_coin")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "menuCell") as!  menuCell
             
-        switch indexPath.row {
-        case 0:
-            cell.menuLeftView.isHidden = true
-        default:
-            cell.menuLeftView.isHidden = false
-        }
             
-//            if self.giftMenu.giftsImages[indexPath.row] == "google_plus" {
-//                cell.googleSignIn.isHidden = false
-//            } else {
-//                cell.googleSignIn.isHidden = true
-//            }
+            cell.menuImage.image = UIImage(named: "\(self.giftMenu.giftsImages[indexPath.row])")
+            cell.menuLeftImage.image = UIImage(named: "ic_coin")
             
-        cell.menuLeftLabel.text = self.giftMenu.giftsNumbers[indexPath.row]
-        cell.menuLabel.text = self.giftMenu.giftsTitles[indexPath.row]
-        cell.selectMenu.tag = indexPath.row
-        cell.selectMenu.addTarget(self, action: #selector(selectedMenu), for: UIControlEvents.touchUpInside)
-        return cell
+            switch indexPath.row {
+            case 0:
+                cell.menuLeftView.isHidden = true
+            default:
+                cell.menuLeftView.isHidden = false
+            }
+            
+            //            if self.giftMenu.giftsImages[indexPath.row] == "google_plus" {
+            //                cell.googleSignIn.isHidden = false
+            //            } else {
+            //                cell.googleSignIn.isHidden = true
+            //            }
+            
+            cell.menuLeftLabel.text = self.giftMenu.giftsNumbers[indexPath.row]
+            cell.menuLabel.text = self.giftMenu.giftsTitles[indexPath.row]
+            cell.selectMenu.tag = indexPath.row
+            cell.selectMenu.addTarget(self, action: #selector(selectedMenu), for: UIControlEvents.touchUpInside)
+            return cell
             
         } else {
             
@@ -224,8 +224,8 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             default :
                 cell.menuLeftImage.image = UIImage(named: "money")
             }
-        
-//            cell.googleSignIn.isHidden = true
+            
+            //            cell.googleSignIn.isHidden = true
             cell.menuLeftLabel.text = self.gameChargeMenu.gameChargesNumbers[indexPath.row]
             cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
             cell.selectMenu.tag = indexPath.row
@@ -248,7 +248,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                     
                     //                print(data ?? "")
                     
-                        self.chargeRes = String(data: data!, encoding: String.Encoding.utf8) as String?
+                    self.chargeRes = String(data: data!, encoding: String.Encoding.utf8) as String?
                     
                     if ((self.chargeRes)!).contains("TRANSACTION_COMPELETE") {
                         self.alertTitle = "فوتبالیکا"
@@ -267,10 +267,10 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         self.alertAcceptLabel = "تأیید"
                         self.performSegue(withIdentifier: "giftAlert", sender: self)
                     }
-                        DispatchQueue.main.async {
-                            PubProc.wb.hideWaiting()
-                            PubProc.cV.hideWarning()
-                        }
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                        PubProc.cV.hideWarning()
+                    }
                     PubProc.countRetry = 0
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
@@ -278,17 +278,17 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.chargeGame(id : id)
+                            self.chargeGame(id : id)
                         })
                     }
-//                    print("Error Connection")
+                    //                    print("Error Connection")
                     print(error as Any)
                     // handle error
                 }
             }
             }.resume()
     }
-
+    
     
     @objc func selectedMenu(_ sender : UIButton!) {
         soundPlay().playClick()
@@ -318,8 +318,8 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                 print("other")
             }
         } else {
-        let id = Int((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
-        self.chargeGame(id : id!)
+            let id = Int((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
+            self.chargeGame(id : id!)
         }
     }
     
@@ -341,11 +341,24 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     
     
     @objc func invitingFriends() {
+        let shareText = "دوست خوبم،\n با لینک زیر فوتبالیکا رو نصب کن و موقع ثبت نام کد معرف رو وارد کن تا \((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!) تا سکه رایگان بگیری. \n مایکت \n https://myket.ir/app/com.dpa_me.adelica \n بازار \n https://cafebazaar.ir/app/com.dpa_me.adelica/?l=fa \n سیب اپ \n https://new.sibapp.com/applications/footbalika \n کد معرف: \((login.res?.response?.mainInfo?.ref_id!)!.replacingOccurrences(of: "#", with: ""))"
         
-         let shareText = "دوست خوبم،\n با لینک زیر فوتبالیکا رو نصب کن و موقع ثبت نام کد معرف رو وارد کن تا \((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!) تا سکه رایگان بگیری. \n مایکت \n https://myket.ir/app/com.dpa_me.adelica \n بازار \n https://cafebazaar.ir/app/com.dpa_me.adelica/?l=fa \n سیب اپ \n https://new.sibapp.com/applications/footbalika \n کد معرف: \((login.res?.response?.mainInfo?.ref_id!)!.replacingOccurrences(of: "#", with: ""))"
+        let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
         
-        let vc = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
-        present(vc, animated: true)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            
+            if activityViewController.responds(to: #selector(getter: UIViewController.popoverPresentationController)) {
+                activityViewController.popoverPresentationController?.sourceView = self.view
+            }
+        }
+        
+        self.present(activityViewController, animated: true, completion: nil)
+        
+        
+        
+//            let shareText = "دوست خوبم،\n با لینک زیر فوتبالیکا رو نصب کن و موقع ثبت نام کد معرف رو وارد کن تا \((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!) تا سکه رایگان بگیری. \n مایکت \n https://myket.ir/app/com.dpa_me.adelica \n بازار \n https://cafebazaar.ir/app/com.dpa_me.adelica/?l=fa \n سیب اپ \n https://new.sibapp.com/applications/footbalika \n کد معرف: \((login.res?.response?.mainInfo?.ref_id!)!.replacingOccurrences(of: "#", with: ""))"
+//            let vc = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
+//            self.present(vc, animated: true)
     }
     
     @objc func googleSignIn() {
@@ -356,7 +369,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             self.performSegue(withIdentifier: "giftAlert", sender: self)
         } else {
             //signIn
-           GIDSignIn.sharedInstance().signIn()
+            GIDSignIn.sharedInstance().signIn()
         }
     }
     
@@ -365,7 +378,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         self.isGift = false
         self.performSegue(withIdentifier: "massage", sender: self)
     }
-
+    
     @objc func suggestions() {
         self.reportTitle = " انتقاد و پیشنهاد"
         self.isGift = false
@@ -439,10 +452,10 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.supportingUs()
+                            self.supportingUs()
                         })
                     }
-//                    print("Error Connection")
+                    //                    print("Error Connection")
                     print(error as Any)
                     // handle error
                 }
@@ -453,9 +466,9 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if pageState == "gifts" {
-        return 80
+            return 80
         } else {
-        return 100
+            return 100
         }
     }
     
@@ -494,6 +507,6 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
+    
+    
 }
