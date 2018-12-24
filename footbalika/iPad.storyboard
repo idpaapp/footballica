@@ -110,7 +110,7 @@
             <objects>
                 <viewController modalTransitionStyle="crossDissolve" id="ri0-yT-7zF" customClass="menuAlert2ButtonsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ndg-88-n1B">
-                        <rect key="frame" x="0.0" y="0.0" width="900" height="1162"/>
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="vYF-Tx-2dV"/>
@@ -366,6 +366,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qoO-4a-O2F" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                         <state key="normal" image="ic_charge" backgroundImage="dark_btn_large"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerEdges">
@@ -722,7 +723,7 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZnX-JG-FXo">
                                 <rect key="frame" x="75" y="610.5" width="30" height="29"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qHe-en-4T5">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qHe-en-4T5">
                                         <rect key="frame" x="0.0" y="0.0" width="30" height="29"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -736,6 +737,14 @@
                                     <constraint firstItem="qHe-en-4T5" firstAttribute="width" secondItem="ZnX-JG-FXo" secondAttribute="width" id="NPX-Th-KGV"/>
                                     <constraint firstItem="qHe-en-4T5" firstAttribute="centerX" secondItem="ZnX-JG-FXo" secondAttribute="centerX" id="P6c-Ch-Df7"/>
                                     <constraint firstItem="qHe-en-4T5" firstAttribute="centerY" secondItem="ZnX-JG-FXo" secondAttribute="centerY" id="eFM-Il-qxE"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dYS-8r-md3" customClass="gameChargeTimerBox" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="100" y="324" width="250" height="150"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="Hgm-UV-z61"/>
+                                    <constraint firstAttribute="height" constant="150" id="NWM-gB-WIA"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -781,12 +790,14 @@
                             <constraint firstItem="dND-Qh-etn" firstAttribute="height" secondItem="EIX-DD-DGr" secondAttribute="height" id="NRS-Xg-R8t"/>
                             <constraint firstItem="yMC-kt-P9r" firstAttribute="top" secondItem="NlD-ch-7M9" secondAttribute="top" id="NWf-aZ-WTb"/>
                             <constraint firstItem="Vao-6l-VS5" firstAttribute="top" secondItem="jBx-uB-3Bd" secondAttribute="bottom" constant="10" id="NhV-N8-pqt"/>
+                            <constraint firstItem="dYS-8r-md3" firstAttribute="leading" secondItem="qoO-4a-O2F" secondAttribute="trailing" id="NpM-Ek-tqR"/>
                             <constraint firstItem="MdV-kg-2MY" firstAttribute="bottom" secondItem="PJH-qg-mLr" secondAttribute="bottom" id="O8Z-w9-zI3"/>
                             <constraint firstItem="Ofm-o7-bSN" firstAttribute="bottom" secondItem="1SS-A8-a7B" secondAttribute="bottom" id="PDA-UD-UYl"/>
                             <constraint firstItem="jBx-uB-3Bd" firstAttribute="height" secondItem="6ha-Vp-rze" secondAttribute="height" id="PDX-pU-JuL"/>
                             <constraint firstItem="cAZ-xD-wk1" firstAttribute="top" secondItem="9vT-uc-Na1" secondAttribute="top" constant="3" id="Pn0-qW-ojE"/>
                             <constraint firstItem="jBx-uB-3Bd" firstAttribute="centerX" secondItem="6ha-Vp-rze" secondAttribute="centerX" id="PnL-6t-kE0"/>
                             <constraint firstItem="EIX-DD-DGr" firstAttribute="centerX" secondItem="sDd-Yu-lwD" secondAttribute="centerX" id="QAT-7E-TK2"/>
+                            <constraint firstItem="dYS-8r-md3" firstAttribute="firstBaseline" secondItem="qoO-4a-O2F" secondAttribute="firstBaseline" id="QTu-22-W41"/>
                             <constraint firstItem="9vT-uc-Na1" firstAttribute="width" secondItem="MdV-kg-2MY" secondAttribute="width" multiplier="7:30" id="SCi-3t-fC3"/>
                             <constraint firstItem="UB5-bn-5bF" firstAttribute="width" secondItem="MdV-kg-2MY" secondAttribute="width" multiplier="7:30" id="SI1-yb-R2x"/>
                             <constraint firstItem="UET-nt-hvx" firstAttribute="width" secondItem="adm-2v-Jtr" secondAttribute="width" id="Ssa-EC-yNm"/>
@@ -876,6 +887,8 @@
                         <outlet property="eliminateCupLabelForeGround" destination="xtt-il-1UM" id="5cK-UX-Svj"/>
                         <outlet property="friendlyLabel" destination="adm-2v-Jtr" id="0KW-Zt-d12"/>
                         <outlet property="friendlyLabelForeGround" destination="UET-nt-hvx" id="k2Z-DI-eVF"/>
+                        <outlet property="gameChargeOutlet" destination="qoO-4a-O2F" id="d19-Cp-zTL"/>
+                        <outlet property="gameChargeTimerBox" destination="dYS-8r-md3" id="Svr-Nb-8qH"/>
                         <outlet property="giftOutlet" destination="GVg-yi-df2" id="eZW-EY-Lo1"/>
                         <outlet property="level" destination="ME0-Xc-n7p" id="IGn-eC-9xC"/>
                         <outlet property="mainCupImage" destination="6ha-Vp-rze" id="czh-ao-tfb"/>
@@ -8756,12 +8769,12 @@
         <scene sceneID="GwP-Jn-oep">
             <objects>
                 <viewController restorationIdentifier="sendChatViewController" storyboardIdentifier="sendChatViewController" id="8TS-Vu-UUd" customClass="sendChatViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="B7U-ND-zEE">
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="B7U-ND-zEE">
                         <rect key="frame" x="0.0" y="0.0" width="683" height="60"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l6h-bg-yBA" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="603" y="30" width="60" height="20"/>
+                                <rect key="frame" x="603" y="30" width="60" height="114"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="IDx-EV-9cg"/>
                                     <constraint firstAttribute="width" constant="60" id="bgJ-R9-UeE"/>
@@ -8782,18 +8795,18 @@
                                 </userDefinedRuntimeAttributes>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZFK-Qp-UEc">
-                                <rect key="frame" x="606.5" y="30" width="53" height="20"/>
+                                <rect key="frame" x="606.5" y="30" width="53" height="114"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UVu-q9-vM0">
-                                <rect key="frame" x="606.5" y="30" width="53" height="20"/>
+                                <rect key="frame" x="606.5" y="30" width="53" height="114"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="cTr-jO-dly">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="cTr-jO-dly">
                                 <rect key="frame" x="16" y="30" width="577" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
@@ -10296,7 +10309,7 @@
         <image name="ic_arrow" width="192" height="192"/>
         <image name="ic_avatar_large" width="88" height="114"/>
         <image name="ic_cancel" width="45" height="45"/>
-        <image name="ic_charge" width="100" height="100"/>
+        <image name="ic_charge" width="73" height="70"/>
         <image name="ic_close" width="48" height="48"/>
         <image name="ic_coin" width="512" height="512"/>
         <image name="ic_cup" width="132" height="128"/>
@@ -10337,9 +10350,9 @@
         <segue reference="kzb-go-QHk"/>
         <segue reference="nWO-WE-uSh"/>
         <segue reference="lLu-d4-pmh"/>
-        <segue reference="GQ7-oi-Qy2"/>
-        <segue reference="1kP-qk-huc"/>
-        <segue reference="Miz-qa-Llf"/>
+        <segue reference="j04-CM-umL"/>
+        <segue reference="c6x-BE-tcg"/>
+        <segue reference="RMd-Ju-Bfo"/>
         <segue reference="2s5-tN-LOO"/>
     </inferredMetricsTieBreakers>
 </document>

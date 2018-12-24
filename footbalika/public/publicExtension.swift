@@ -474,6 +474,14 @@ public extension String {
         map.forEach { str = str.replacingOccurrences(of: $0, with: $1) }
         return str
     }
+    
+    func convertDate() -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
+        let date = dateFormatter.date(from: self)
+        return date!
+    }
 }
 
 
@@ -672,5 +680,19 @@ extension matchDetails.QuantumValue: CustomStringConvertible {
         case let .int(number):
             return "\(number)"
         }
+    }
+}
+
+extension Int64 {
+    func convertTime() -> Date {
+        let dateFormatter = DateFormatter()
+        let onlineTime = Double(self/1000)
+        let onlineDate = Date(timeIntervalSince1970: onlineTime)
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+3:30")
+        let dateString = dateFormatter.string(from: onlineDate)
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
+        let date = dateFormatter.date(from: dateString)
+        return date!
     }
 }

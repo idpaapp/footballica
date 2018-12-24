@@ -27,7 +27,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     let ts = testTapsellViewController()
     
     @IBAction func tapsellAction(_ sender: Any) {
-//        NotificationCenter.default.post(name: Notification.Name("showADS"), object: nil)
+        //        NotificationCenter.default.post(name: Notification.Name("showADS"), object: nil)
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.performSegue(withIdentifier: "showAds", sender: self)
         }
@@ -42,7 +42,11 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     func tutorialPage() {
         self.performSegue(withIdentifier: "showTutorial", sender: self)
     }
-
+    
+    
+    
+    @IBOutlet weak var gameChargeTimerBox: gameChargeTimerBox!
+    @IBOutlet weak var gameChargeOutlet: RoundButton!
     @IBOutlet weak var profileOutlet: RoundButton!
     @IBOutlet weak var wholeMainPageButtons: NSLayoutConstraint!
     @IBOutlet weak var startLabelForeGround: UILabel!
@@ -128,7 +132,63 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
             mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
+        
+        gameChargeSet()
     }
+    
+    
+    @objc func updateGameChargeBox() {
+        let currentDate = Calendar.current.date(byAdding: .second, value: -1, to: gameChargeTime)
+        updateGameChargeBoxOutlet(date: currentDate!)
+    }
+    
+    func updateGameChargeBoxOutlet(date : Date) {
+        self.gameChargeTimerBox.timerTime.text = "\(date)"
+    }
+    
+    
+    
+    var gameChargeTime = Date()
+    var gameChargeTimer : Timer!
+    var canShowGameChargeBox = false
+    @objc func gameChargeSet() {
+        let finishTime = (login.res?.response?.mainInfo?.finish_extra_time!)!.convertDate()
+        let onlineTime = loadingViewController.OnlineTime.convertTime()
+        let components = Set<Calendar.Component>([.second, .minute, .hour, .day, .month, .year])
+        let difference = Calendar.current.dateComponents(components, from: onlineTime , to: finishTime)
+        self.gameChargeTime = finishTime
+        if difference.second! < 0 {
+            self.gameChargeOutlet.setImage(UIImage(named: "ic_charge"), for: UIControlState.normal)
+            self.canShowGameChargeBox = false
+        } else {
+            switch (login.res?.response?.mainInfo?.extra_type!)! {
+            case "0":
+                self.gameChargeOutlet.setImage(UIImage(named: "ic_charge"), for: UIControlState.normal)
+                self.canShowGameChargeBox = false
+            case "1":
+                self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[0].image_path)!)")
+                self.canShowGameChargeBox = true
+                updateGameChargeBoxOutlet(date: self.gameChargeTime)
+                gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
+            case "2":
+                self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[1].image_path)!)")
+                self.canShowGameChargeBox = true
+                updateGameChargeBoxOutlet(date: self.gameChargeTime)
+                gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
+            case "3":
+                self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[2].image_path)!)")
+                self.canShowGameChargeBox = false
+            case "4":
+                self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[3].image_path)!)")
+                self.canShowGameChargeBox = false
+            default:
+                self.gameChargeOutlet.setImage(UIImage(named: "ic_charge"), for: UIControlState.normal)
+                self.canShowGameChargeBox = false
+            }
+        }
+    }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -205,7 +265,8 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.addSubview(self.gameChargeTimerBox)
+        self.gameChargeTimerBox.isHidden = true
         notificationsView()
         if wholeMainPageButtons != nil {
             if UIScreen.main.bounds.height < 568 {
@@ -334,20 +395,20 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     @objc func showInstagramPage() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5
             , execute: {
-        let appURL = NSURL(string: "instagram://user?screen_name=footballica.ir")!
-        if UIApplication.shared.canOpenURL(appURL as URL) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(appURL as URL)
-            }
-        } else {
-            //redirect to safari because the user doesn't have Instagram
-            if let url = URL(string: "https://instagram.com/footballica.ir") {
-                let svc = SFSafariViewController(url: url)
-                self.present(svc, animated: true, completion: nil)
-            }
-        }
+                let appURL = NSURL(string: "instagram://user?screen_name=footballica.ir")!
+                if UIApplication.shared.canOpenURL(appURL as URL) {
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
+                    } else {
+                        UIApplication.shared.openURL(appURL as URL)
+                    }
+                } else {
+                    //redirect to safari because the user doesn't have Instagram
+                    if let url = URL(string: "https://instagram.com/footballica.ir") {
+                        let svc = SFSafariViewController(url: url)
+                        self.present(svc, animated: true, completion: nil)
+                    }
+                }
         })
     }
     
@@ -356,7 +417,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     @objc func checkNoKeysMassages() {
         var publicIDS : [String] = UserDefaults.standard.array(forKey: "publicMassagesIDS") as! [String]
         
-         for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
+        for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
             if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE_FULL_NO_KEYS"))! {
                 if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
                     if i == (self.publicMassagesResponse?.response!.count)! - 1 {
@@ -390,12 +451,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                     publicIDS.append((self.publicMassagesResponse?.response?[i].id!)!)
                     UserDefaults.standard.set(publicIDS, forKey: "publicMassagesIDS")
                     self.massageImage = (self.publicMassagesResponse?.response?[i].image_path!)!
-                   self.publicMassageSubject = (self.publicMassagesResponse?.response?[i].subject!)!
-                   self.publicMassageContent = (self.publicMassagesResponse?.response?[i].contents!)!
+                    self.publicMassageSubject = (self.publicMassagesResponse?.response?[i].subject!)!
+                    self.publicMassageContent = (self.publicMassagesResponse?.response?[i].contents!)!
                     self.publicMassageIndex = i
                     DispatchQueue.main.async {
-                    self.publicMassageState = "PUBLIC_MESSAGE_FULL"
-                    self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
+                        self.publicMassageState = "PUBLIC_MESSAGE_FULL"
+                        self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
                     }
                     break
                 }
@@ -441,7 +502,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 checkNoKeysMassages()
             }
         }
-
+        
         UserDefaults.standard.set(true, forKey: "launchedBefore")
         let pageIndexDict:[String: Int] = ["button": 2]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
@@ -581,8 +642,8 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             vc.massageAspectRatio = self.publicMassageAspectRatio
             vc.delegate = self
             vc.publicMassageState = self.publicMassageState
-           vc.massageSubject = self.publicMassageSubject
-           vc.massageContent = self.publicMassageContent
+            vc.massageSubject = self.publicMassageSubject
+            vc.massageContent = self.publicMassageContent
         }
     }
     
@@ -605,8 +666,16 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     @objc func openGameChargingPage() {
+        if self.canShowGameChargeBox {
+            if self.gameChargeTimerBox.isHidden {
+                self.gameChargeTimerBox.isHidden = false
+            } else {
+                self.gameChargeTimerBox.isHidden = true
+            }
+        } else {
         self.menuState = "gameCharge"
         self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
+        }
     }
     
     @IBAction func gameCharge(_ sender: RoundButton) {

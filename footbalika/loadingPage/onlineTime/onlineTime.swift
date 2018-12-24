@@ -17,5 +17,3 @@ public class onlineTime {
         loadingViewController.OnlineTime = loadingViewController.OnlineTime + 1000
     }
 }
-
-

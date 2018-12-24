@@ -1240,6 +1240,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gg-JI-3Ln" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="61.333333333333336" height="61.333333333333336"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                         <state key="normal" image="ic_charge" backgroundImage="dark_btn_large"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1668,6 +1669,10 @@
                                     <constraint firstItem="z9I-UZ-BDA" firstAttribute="height" secondItem="fM7-iO-FiK" secondAttribute="height" id="wyT-aN-T8a"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ksw-wc-m9s" customClass="gameChargeTimerBox" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="86.333333333333329" y="209.66666666666666" width="165.66666666666669" height="91.999999999999972"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -1687,6 +1692,7 @@
                             <constraint firstItem="g8j-37-1id" firstAttribute="centerX" secondItem="d2j-DC-0Sr" secondAttribute="centerX" id="6XD-vd-0M0"/>
                             <constraint firstItem="L6X-UB-hEx" firstAttribute="centerY" secondItem="sQY-fj-odT" secondAttribute="centerY" id="6Xj-Aa-POh"/>
                             <constraint firstItem="nhj-ve-4a4" firstAttribute="height" secondItem="RxP-t9-rxe" secondAttribute="height" id="6dv-A9-vCI"/>
+                            <constraint firstItem="ksw-wc-m9s" firstAttribute="leading" secondItem="3gg-JI-3Ln" secondAttribute="trailing" id="7Aq-jz-b3Z"/>
                             <constraint firstItem="OVV-8p-GBN" firstAttribute="width" secondItem="Fu8-kf-eBT" secondAttribute="width" id="7tS-Hq-uHJ"/>
                             <constraint firstItem="wqd-fd-ZXO" firstAttribute="bottom" secondItem="5yS-n9-sfk" secondAttribute="bottom" id="7vm-mz-Plh"/>
                             <constraint firstItem="DQD-Bq-Ieq" firstAttribute="centerX" secondItem="3wd-u6-Trg" secondAttribute="centerX" id="8mF-W3-WCH"/>
@@ -1704,6 +1710,7 @@
                             <constraint firstItem="FRO-wm-snH" firstAttribute="leading" secondItem="cuv-fl-yCt" secondAttribute="leading" constant="-6" id="ByE-hP-V7p"/>
                             <constraint firstItem="Krr-GL-7ph" firstAttribute="height" secondItem="f7D-d7-n0k" secondAttribute="height" multiplier="5:6" id="C79-CS-Cfx"/>
                             <constraint firstItem="kJS-e7-M3V" firstAttribute="width" secondItem="kJS-e7-M3V" secondAttribute="height" multiplier="1:1" id="ChK-9K-yjc"/>
+                            <constraint firstItem="ksw-wc-m9s" firstAttribute="height" secondItem="3gg-JI-3Ln" secondAttribute="height" multiplier="3:2" id="Dbl-gY-2hL"/>
                             <constraint firstItem="3wd-u6-Trg" firstAttribute="trailing" secondItem="d2j-DC-0Sr" secondAttribute="trailing" id="DvZ-mm-GQ0"/>
                             <constraint firstItem="sQY-fj-odT" firstAttribute="bottom" secondItem="LSO-Sq-AWm" secondAttribute="bottom" id="EXR-hR-LMG"/>
                             <constraint firstItem="sQY-fj-odT" firstAttribute="trailing" secondItem="LSO-Sq-AWm" secondAttribute="trailing" id="Eat-9C-ajC"/>
@@ -1737,8 +1744,10 @@
                             <constraint firstItem="fM7-iO-FiK" firstAttribute="trailing" secondItem="bJe-Fz-2Sw" secondAttribute="trailing" constant="5" id="Qxj-81-ZQl"/>
                             <constraint firstItem="P63-hz-w4S" firstAttribute="height" secondItem="Krr-GL-7ph" secondAttribute="height" id="Rhy-pp-nnU"/>
                             <constraint firstItem="reT-DJ-OrW" firstAttribute="height" secondItem="3gg-JI-3Ln" secondAttribute="height" id="SCF-tR-Gsu"/>
+                            <constraint firstItem="ksw-wc-m9s" firstAttribute="width" secondItem="4vp-va-hBy" secondAttribute="width" multiplier="2:5" id="TL8-TP-SG7"/>
                             <constraint firstItem="cbc-cy-7ik" firstAttribute="leading" secondItem="FRO-wm-snH" secondAttribute="trailing" constant="3" id="Ttd-nP-JGg"/>
                             <constraint firstItem="2cP-wP-1Wb" firstAttribute="trailing" secondItem="Bqp-Jt-8fp" secondAttribute="trailing" constant="12.5" id="Vci-sx-baw"/>
+                            <constraint firstItem="ksw-wc-m9s" firstAttribute="firstBaseline" secondItem="3gg-JI-3Ln" secondAttribute="firstBaseline" id="XiL-h7-iQt"/>
                             <constraint firstItem="Krr-GL-7ph" firstAttribute="centerX" secondItem="4vp-va-hBy" secondAttribute="centerX" id="ZfI-Gb-Alb"/>
                             <constraint firstItem="3gg-JI-3Ln" firstAttribute="height" secondItem="RxP-t9-rxe" secondAttribute="height" multiplier="5:6" id="aEA-7P-To4"/>
                             <constraint firstItem="0i4-VB-e1K" firstAttribute="top" secondItem="nhj-ve-4a4" secondAttribute="top" constant="10" id="aIC-aY-S9v"/>
@@ -1800,6 +1809,8 @@
                         <outlet property="eliminateCupLabelForeGround" destination="L6X-UB-hEx" id="SfQ-76-QLc"/>
                         <outlet property="friendlyLabel" destination="Fu8-kf-eBT" id="fhh-Cg-8ax"/>
                         <outlet property="friendlyLabelForeGround" destination="OVV-8p-GBN" id="qKv-i9-v8U"/>
+                        <outlet property="gameChargeOutlet" destination="3gg-JI-3Ln" id="Z7y-Vg-3BZ"/>
+                        <outlet property="gameChargeTimerBox" destination="ksw-wc-m9s" id="ZoP-a9-O5F"/>
                         <outlet property="giftOutlet" destination="bxK-pS-4Vb" id="MSw-ev-MVi"/>
                         <outlet property="level" destination="ISb-v6-mb4" id="glo-gL-vo3"/>
                         <outlet property="mainCupImage" destination="Krr-GL-7ph" id="qXx-iI-eaY"/>
@@ -1828,7 +1839,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3z-yo-Xeu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2838" y="461"/>
+            <point key="canvasLocation" x="2837.68115942029" y="460.59782608695656"/>
         </scene>
         <!--Start Match View Controller-->
         <scene sceneID="ER3-fZ-aNz">
@@ -10491,7 +10502,7 @@
         <image name="ic_arrow" width="192" height="192"/>
         <image name="ic_avatar_large" width="88" height="114"/>
         <image name="ic_cancel" width="45" height="45"/>
-        <image name="ic_charge" width="100" height="100"/>
+        <image name="ic_charge" width="73" height="70"/>
         <image name="ic_close" width="48" height="48"/>
         <image name="ic_coin" width="512" height="512"/>
         <image name="ic_cup" width="132" height="128"/>
@@ -10535,7 +10546,7 @@
         <segue reference="wU6-MG-i6J"/>
         <segue reference="254-gE-KV2"/>
         <segue reference="Ke5-Nx-c39"/>
-        <segue reference="wQ3-Xg-ofI"/>
+        <segue reference="LfF-cD-YKj"/>
         <segue reference="N21-7O-RH3"/>
     </inferredMetricsTieBreakers>
 </document>

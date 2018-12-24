@@ -346,7 +346,6 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         self.startGameButton.setTitles(actionTitle: "شروع بازی گروهی", action1Title: "", action2Title: "", action3Title: "")
              self.startGameButton.actionButton.addTarget(self, action: #selector(self.startGameAction), for: UIControlEvents.touchUpInside)
         }
-       
     }
     
     var startWarRes : startWar.Response? = nil
