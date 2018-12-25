@@ -9,7 +9,11 @@
 import UIKit
 import RealmSwift
 
-class massageViewController: UIViewController , UITextViewDelegate , UITextFieldDelegate {
+protocol menuAlertViewControllerDelegate2 : NSObjectProtocol {
+    func dismissing()
+}
+
+class massageViewController: UIViewController , UITextViewDelegate , UITextFieldDelegate , menuAlertViewControllerDelegate2 {
 
     //massage Outlets
     @IBOutlet weak var totalView: UIView!
@@ -34,13 +38,17 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
     @IBOutlet weak var sendGiftCodeTitleForeGround: UILabel!
     
     
-    
     var massagePageTitle = String()
     var titleForSend = String()
     var massageForSend = String()
     var isGift = Bool()
     var realm : Realm!
     
+    func dismissing() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     @objc func giftShow(gifts : Bool , Massages : Bool) {
         self.giftCodeTitle.isHidden = gifts
@@ -345,6 +353,7 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
             vc.alertBody = self.alertBody
             vc.alertAcceptLabel = "تأیید"
             vc.alertState = "report"
+            vc.delegate2 = self
         }
         
         if let vc = segue.destination as? ItemViewController {

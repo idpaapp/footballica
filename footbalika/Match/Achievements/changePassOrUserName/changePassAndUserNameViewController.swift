@@ -62,7 +62,7 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
     
     
     @objc func changingUserPassNotification() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: {
             PubProc.wb.hideWaiting()
             self.dismiss(animated: false, completion: nil)
         })

@@ -76,8 +76,8 @@ class publicMassageNoKeysViewController: UIViewController {
              publicMassageHeight.constant = 500 * (CGFloat((massageAspectRatio as NSString).floatValue))
         } else {
             if UIScreen.main.nativeBounds.height == 2436 {
-                self.publicMassageHeight.constant = UIScreen.main.bounds.height * 3/5
-                publicMassageWidth.constant = (UIScreen.main.bounds.height * 3/5) / (CGFloat((massageAspectRatio as NSString).floatValue))
+                self.publicMassageWidth.constant = UIScreen.main.bounds.width * 4/5
+                publicMassageHeight.constant = (UIScreen.main.bounds.width * 4/5) * (CGFloat((massageAspectRatio as NSString).floatValue))
                 
             } else {
                 

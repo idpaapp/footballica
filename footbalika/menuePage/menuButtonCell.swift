@@ -41,6 +41,7 @@ class menuButtonCell: UICollectionViewCell {
     
     override var isSelected: Bool{
         didSet {
+            if !matchViewController.isTutorial {
             if self.isSelected
             {
                 UIView.animate(withDuration: 0.5, animations: {
@@ -71,6 +72,7 @@ class menuButtonCell: UICollectionViewCell {
                     //iphone
                 })
             }
+        }
         }
     }
 }

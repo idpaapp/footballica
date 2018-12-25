@@ -66,7 +66,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
         cell.team1Title.text = "\((self.todayRes?.response?[indexPath.row].home_name!)!)"
         cell.team2Title.text = "\((self.todayRes?.response?[indexPath.row].away_name!)!)"
         cell.team1Resault.text = "\((self.todayRes?.response?[indexPath.row].home_result!)!)"
-        cell.team2Resault.text = "\((self.todayRes?.response?[indexPath.row].home_result!)!)"
+        cell.team2Resault.text = "\((self.todayRes?.response?[indexPath.row].away_result!)!)"
             
         cell.team1Logo.setImageWithKingFisher(url: "\((self.todayRes?.response?[indexPath.row].home_image!)!)")
             
@@ -110,7 +110,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             cell.team1Title.text = "\((self.pastRes?.response?[indexPath.row].home_name!)!)"
             cell.team2Title.text = "\((self.pastRes?.response?[indexPath.row].away_name!)!)"
             cell.team1Resault.text = "\((self.pastRes?.response?[indexPath.row].home_result!)!)"
-            cell.team2Resault.text = "\((self.pastRes?.response?[indexPath.row].home_result!)!)"
+            cell.team2Resault.text = "\((self.pastRes?.response?[indexPath.row].away_result!)!)"
             
             cell.team1Logo.setImageWithKingFisher(url: "\((self.pastRes?.response?[indexPath.row].home_image!)!)")
             

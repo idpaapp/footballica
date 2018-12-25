@@ -658,6 +658,10 @@ extension UILabel {
     func setLabelBackGroundImage(image : UIImage) {
         self.backgroundColor = UIColor(patternImage: image)
     }
+    func setAdjustToFit() {
+        self.adjustsFontSizeToFitWidth = true
+        self.minimumScaleFactor = 0.5
+    }
 }
 
 extension UIImage {
@@ -694,5 +698,26 @@ extension Int64 {
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
         let date = dateFormatter.date(from: dateString)
         return date!
+    }
+}
+
+extension UIPageViewController {
+    var isPagingEnabled: Bool {
+        get {
+            var isEnabled: Bool = true
+            for view in view.subviews {
+                if let subView = view as? UIScrollView {
+                    isEnabled = subView.isScrollEnabled
+                }
+            }
+            return isEnabled
+        }
+        set {
+            for view in view.subviews {
+                if let subView = view as? UIScrollView {
+                    subView.isScrollEnabled = newValue
+                }
+            }
+        }
     }
 }

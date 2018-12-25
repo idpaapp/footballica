@@ -66,6 +66,7 @@ class showItemViewController: UIViewController {
         }
         
         if myVitrin {
+            if priceType != "1" {
             itemPriceIcon.image = UIImage()
             if UIDevice().userInterfaceIdiom == .phone {
                 itemPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "استفاده", strokeWidth: 8.0)
@@ -75,27 +76,58 @@ class showItemViewController: UIViewController {
                 itemPriceTitleForeGround.font = fonts().iPadfonts
             }
             itemPriceTitleForeGround.text = "استفاده"
-        } else {
-            itemPriceIcon.image = UIImage()
-            if UIDevice().userInterfaceIdiom == .phone {
-                itemPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(price)", strokeWidth: 8.0)
-                itemPriceTitleForeGround.font = fonts().iPhonefonts
             } else {
-                itemPriceTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: 8.0)
-                itemPriceTitleForeGround.font = fonts().iPadfonts
+              checkPrice()
             }
-            itemPriceTitleForeGround.text = "\(price)"
-            switch priceType {
-            case "1":
-                itemPriceIcon.image = publicImages().emptyImage
-            case "2":
-                itemPriceIcon.image = UIImage(named: "ic_coin")
-            case "3":
-                itemPriceIcon.image = UIImage(named: "money")
-            default :
-                itemPriceIcon.image = UIImage()
+        } else {
+           checkPrice()
+        }
+    }
+    
+    
+    func checkPrice() {
+        itemPriceIcon.image = UIImage()
+        var priceItem = String()
+        
+        switch priceType {
+        case "1":
+            itemPriceIcon.image = publicImages().emptyImage
+            if price.contains("مجانی") {
+                priceItem = "مجانی"
+            } else {
+                if price.contains("تومان") {
+                    priceItem = price
+                } else {
+                    priceItem = "\(price) تومان"
+                }
+            }
+        case "2":
+            itemPriceIcon.image = UIImage(named: "ic_coin")
+            priceItem = price
+        case "3":
+            itemPriceIcon.image = UIImage(named: "money")
+            priceItem = price
+        default :
+            itemPriceIcon.image = UIImage()
+            if price.contains("مجانی") {
+                priceItem = "مجانی"
+            } else {
+                if price.contains("تومان") {
+                    priceItem = price
+                } else {
+                    priceItem = "\(price) تومان"
+                }
             }
         }
+        
+        if UIDevice().userInterfaceIdiom == .phone {
+            itemPriceTitle.AttributesOutLine(font: fonts().iPhonefonts, title: priceItem, strokeWidth: 8.0)
+            itemPriceTitleForeGround.font = fonts().iPhonefonts
+        } else {
+            itemPriceTitle.AttributesOutLine(font: fonts().iPadfonts, title: priceItem, strokeWidth: 8.0)
+            itemPriceTitleForeGround.font = fonts().iPadfonts
+        }
+        itemPriceTitleForeGround.text = priceItem
     }
     
     override func didReceiveMemoryWarning() {
@@ -118,7 +150,6 @@ class showItemViewController: UIViewController {
                     dismissing()
                     NotificationCenter.default.post(name: Notification.Name("openBuyWebsite"), object: nil, userInfo: nil)
                     //                print("openSafari")
-                    
                 }
             }
         } else {

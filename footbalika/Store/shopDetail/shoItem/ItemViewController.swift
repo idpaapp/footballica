@@ -68,26 +68,7 @@ class ItemViewController: UIViewController {
         }
         
         acceptButtonLabelForeGround.text = "تأیید"
-        headerTitleForeGround.text = TitleItem
-        
-        //       mainView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        //       headerImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        //       headerTitle.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        //       headerTitleForeGround.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        //       shinyImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        //       itemImage.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        //       doneOutlet.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
-        //
-        //        UIView.animate(withDuration: 1.0, animations: {
-        //                self.mainView.transform = CGAffineTransform.identity
-        //                self.headerImage.transform = CGAffineTransform.identity
-        //                self.headerTitle.transform = CGAffineTransform.identity
-        //                self.headerTitleForeGround.transform = CGAffineTransform.identity
-        //                self.shinyImage.transform = CGAffineTransform.identity
-        //                self.itemImage.transform = CGAffineTransform.identity
-        //                self.doneOutlet.transform = CGAffineTransform.identity
-        //        })
-        
+        headerTitleForeGround.text = TitleItem        
     }
     
     override func viewDidAppear(_ animated: Bool) {

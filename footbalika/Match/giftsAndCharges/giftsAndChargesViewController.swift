@@ -17,6 +17,8 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         return true
     }
     
+
+    weak var delegate : giftsAndChargesViewControllerDelegate!
     let giftMenu = gift()
     var pageState = String()
     let gameChargeMenu = gameCharges()
@@ -240,7 +242,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     var alertBody = String()
     var alertAcceptLabel = String()
     
-    @objc func chargeGame(id : Int) {
+    @objc func chargeGame(id : Int , selectedCharge : Int) {
         PubProc.HandleDataBase.readJson(wsName: "ws_setExtraGames", JSONStr: "{'charge_id' : '\(id)' , 'userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
@@ -251,11 +253,15 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                     self.chargeRes = String(data: data!, encoding: String.Encoding.utf8) as String?
                     
                     if ((self.chargeRes)!).contains("TRANSACTION_COMPELETE") {
-                        self.alertTitle = "فوتبالیکا"
-                        self.alertBody = "تراکنش با موفقیت انجام شد!"
-                        self.alertAcceptLabel = "تأیید"
-                        self.performSegue(withIdentifier: "giftAlert", sender: self)
+//                        self.alertTitle = "فوتبالیکا"
+//                        self.alertBody = "تراکنش با موفقیت انجام شد!"
+//                        self.alertAcceptLabel = "تأیید"
+//                        self.performSegue(withIdentifier: "giftAlert", sender: self)
                         
+                        login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                            self.dismissing()
+                            self.delegate?.showCharge(image : self.gameChargeMenu.gameChargesImages[selectedCharge] , title : self.gameChargeMenu.gameChargesTitles[selectedCharge])
+                        })
                     } else if ((self.chargeRes)!).contains("NOT_ENOUGH_RESOURCE") {
                         self.alertTitle = "اخطار"
                         self.alertBody = "شما منابع لازم برای انجام این کار را ندارید!"
@@ -278,7 +284,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                            self.chargeGame(id : id)
+                            self.chargeGame(id : id, selectedCharge: selectedCharge)
                         })
                     }
                     //                    print("Error Connection")
@@ -319,7 +325,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
             }
         } else {
             let id = Int((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
-            self.chargeGame(id : id!)
+            self.chargeGame(id : id!, selectedCharge: sender.tag)
         }
     }
     

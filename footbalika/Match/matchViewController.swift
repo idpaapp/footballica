@@ -22,7 +22,11 @@ protocol publicMassageNoKeysViewControllerDelegate : NSObjectProtocol {
     func checkRestPublicMassages()
 }
 
-class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate {
+protocol giftsAndChargesViewControllerDelegate : NSObjectProtocol {
+    func showCharge(image : String , title : String)
+}
+
+class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , giftsAndChargesViewControllerDelegate {
     
     let ts = testTapsellViewController()
     
@@ -96,15 +100,13 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         scrollToPage().menuButtonChanged(index: 3)
     }
     
-    //    @objc func menuButtonChanged(index : Int) {
-    //        let pageIndexDict:[String: Int] = ["button": index]
-    //        NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
-    //    }
-    //
-    //    @objc func scrollPageViewController(index : Int) {
-    //        let pageIndexDict:[String: Int] = ["pageIndex": index]
-    //        NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-    //    }
+    func showCharge(image : String , title : String) {
+        
+        self.upgradeImage = image
+        self.alertTitle = title
+        self.performSegue(withIdentifier: "showUpgrade", sender: self)
+        
+    }
     
     var urlClass = urls()
     var menuState = String()
@@ -132,21 +134,45 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
             mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
-        
         gameChargeSet()
     }
     
-    
     @objc func updateGameChargeBox() {
-        let currentDate = Calendar.current.date(byAdding: .second, value: -1, to: gameChargeTime)
-        updateGameChargeBoxOutlet(date: currentDate!)
+        let components = Set<Calendar.Component>([.second, .minute, .hour, .day, .month, .year])
+        let onlineTime = loadingViewController.OnlineTime.convertTime()
+        let differenceOfDate = Calendar.current.dateComponents(components, from: self.gameChargeTime , to: onlineTime)
+        updateGameChargeBoxOutlet(second : abs(differenceOfDate.second!) , minutes : abs(differenceOfDate.minute!) , hour : abs(differenceOfDate.hour!))
     }
     
-    func updateGameChargeBoxOutlet(date : Date) {
-        self.gameChargeTimerBox.timerTime.text = "\(date)"
+    func updateGameChargeBoxOutlet(second : Int , minutes : Int , hour : Int) {
+        var hourString = String()
+        var minutesString = String()
+        var secondString = String()
+
+        if hour.description.count == 1 {
+            hourString = "0\(hour)"
+        } else {
+            hourString = "\(hour)"
+        }
+        
+        if minutes.description.count == 1 {
+            minutesString = "0\(minutes)"
+        } else {
+            minutesString = "\(minutes)"
+        }
+        
+        if second.description.count == 1 {
+            secondString = "0\(second)"
+        } else {
+            secondString = "\(second)"
+        }
+        
+        if second == 0 && minutes == 0 && hour == 0 {
+            self.gameChargeTimerBox.isHidden = true
+            normalGameChargeUI()
+        }
+        self.gameChargeTimerBox.timerTime.text = "\(hourString) : \(minutesString) : \(secondString)"
     }
-    
-    
     
     var gameChargeTime = Date()
     var gameChargeTimer : Timer!
@@ -158,37 +184,36 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         let difference = Calendar.current.dateComponents(components, from: onlineTime , to: finishTime)
         self.gameChargeTime = finishTime
         if difference.second! < 0 {
-            self.gameChargeOutlet.setImage(UIImage(named: "ic_charge"), for: UIControlState.normal)
-            self.canShowGameChargeBox = false
+             normalGameChargeUI()
         } else {
             switch (login.res?.response?.mainInfo?.extra_type!)! {
             case "0":
-                self.gameChargeOutlet.setImage(UIImage(named: "ic_charge"), for: UIControlState.normal)
-                self.canShowGameChargeBox = false
+                 normalGameChargeUI()
             case "1":
-                self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[0].image_path)!)")
-                self.canShowGameChargeBox = true
-                updateGameChargeBoxOutlet(date: self.gameChargeTime)
+                setGameChargeUI(imageNumber: 0, canShowChargeBox: true)
                 gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
             case "2":
-                self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[1].image_path)!)")
-                self.canShowGameChargeBox = true
-                updateGameChargeBoxOutlet(date: self.gameChargeTime)
+                setGameChargeUI(imageNumber: 1, canShowChargeBox: true)
                 gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
             case "3":
-                self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[2].image_path)!)")
-                self.canShowGameChargeBox = false
+                setGameChargeUI(imageNumber: 2, canShowChargeBox: false)
             case "4":
-                self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[3].image_path)!)")
-                self.canShowGameChargeBox = false
+                setGameChargeUI(imageNumber: 3, canShowChargeBox: false)
             default:
-                self.gameChargeOutlet.setImage(UIImage(named: "ic_charge"), for: UIControlState.normal)
-                self.canShowGameChargeBox = false
+               normalGameChargeUI()
             }
         }
     }
     
+    @objc func normalGameChargeUI() {
+        self.gameChargeOutlet.setImage(UIImage(named: "ic_charge"), for: UIControlState.normal)
+        self.canShowGameChargeBox = false
+    }
     
+    @objc func setGameChargeUI(imageNumber : Int , canShowChargeBox : Bool) {
+        self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[imageNumber].image_path)!)")
+        self.canShowGameChargeBox = canShowChargeBox
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -303,18 +328,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.startNewMatch(_:)), name: NSNotification.Name(rawValue: "startNewMatch"), object: nil)
         
-        self.startLabelForeGround.minimumScaleFactor = 0.5
-        self.startLabel.minimumScaleFactor = 0.5
-        self.friendlyLabel.minimumScaleFactor = 0.5
-        self.eliminateCupLabel.minimumScaleFactor = 0.5
-        self.eliminateCupLabelForeGround.minimumScaleFactor = 0.5
-        self.friendlyLabelForeGround.minimumScaleFactor = 0.5
-        self.startLabel.adjustsFontSizeToFitWidth = true
-        self.startLabelForeGround.adjustsFontSizeToFitWidth = true
-        self.friendlyLabel.adjustsFontSizeToFitWidth = true
-        self.eliminateCupLabel.adjustsFontSizeToFitWidth = true
-        self.eliminateCupLabelForeGround.adjustsFontSizeToFitWidth = true
-        self.friendlyLabelForeGround.adjustsFontSizeToFitWidth = true
+        self.startLabelForeGround.setAdjustToFit()
+        self.startLabel.setAdjustToFit()
+        self.friendlyLabel.setAdjustToFit()
+        self.eliminateCupLabel.setAdjustToFit()
+        self.eliminateCupLabelForeGround.setAdjustToFit()
+        self.friendlyLabelForeGround.setAdjustToFit()
         fillData()
     }
     
@@ -603,6 +622,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         
         if let vc = segue.destination as? giftsAndChargesViewController {
             vc.pageState = self.menuState
+            vc.delegate = self
         }
         
         if let VC = segue.destination as? menuAlertViewController {
@@ -632,8 +652,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         }
         
         if let vc = segue.destination as? ItemViewController {
-            vc.isHomeUpgrade = true
-            vc.TitleItem = self.upgradeTitle
+            if self.upgradeImage == "ic_grade_badge" {
+                vc.isHomeUpgrade = true
+                vc.TitleItem = self.upgradeTitle
+            } else {
+                vc.isHomeUpgrade = false
+                vc.isPackage = true
+                vc.TitleItem = self.alertTitle
+            }
             vc.ImageItem = self.upgradeImage
             vc.upgradeText = self.upgradeText
         }
@@ -669,6 +695,9 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         if self.canShowGameChargeBox {
             if self.gameChargeTimerBox.isHidden {
                 self.gameChargeTimerBox.isHidden = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    self.hideGameChargeBox()
+                }
             } else {
                 self.gameChargeTimerBox.isHidden = true
             }
@@ -676,6 +705,15 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         self.menuState = "gameCharge"
         self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
         }
+    }
+    
+    @objc func hideGameChargeBox() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.gameChargeTimerBox.alpha = 0
+        }, completion: { (finish) in
+            self.gameChargeTimerBox.isHidden = true
+            self.gameChargeTimerBox.alpha = 1
+            })
     }
     
     @IBAction func gameCharge(_ sender: RoundButton) {

@@ -212,7 +212,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             cell.packageButton.layer.cornerRadius = 10
             cell.index = 0
             return cell
-        }
+          }
         }
     }
     
@@ -252,6 +252,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                                     self.view.isUserInteractionEnabled = true
                                     //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                                         loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                            
+                                           self.storeCV.reloadData()
                                             NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
                                             //                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
                                             self.rData()

@@ -17,7 +17,7 @@ class menuAlertViewController: UIViewController {
     var alertBody = String()
     var alertAcceptLabel = "تأیید"
     var alertState = String()
-    
+    weak var delegate2 : menuAlertViewControllerDelegate2!
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -105,16 +105,15 @@ class menuAlertViewController: UIViewController {
                             let passData : [String:Bool] = ["isPass" : false]
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
-                            
                         } else if self.alertState == "clanMatch" {
-                            
                             self.clanDelegate?.dismissing()
-                            
                         } else if self.alertState == "signUpError" {
                             self.delegate?.dismissingMA2()
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                                 //                  self.delegate?.dismissingMA2()
                             })
+                        } else if self.alertState == "report" {
+                            self.delegate2?.dismissing()
                         } else if self.alertState == "requestFriendShip" {
                             self.delegate?.dismissingMA2()
                         } else if self.alertState == "friendlyMatch" {

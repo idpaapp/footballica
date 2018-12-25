@@ -40,9 +40,9 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
     var indexOfCurrentPage = 2
     @objc func scrollFunction(notification: Notification) {
         if !matchViewController.isTutorial {
-            self.delegate = self
+           self.isPagingEnabled = true
         } else {
-            self.delegate = nil
+            self.isPagingEnabled = false
         }
         if let index = notification.userInfo?["pageIndex"] as? Int {
             if indexOfCurrentPage < index {
