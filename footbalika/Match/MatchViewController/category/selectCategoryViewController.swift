@@ -14,7 +14,6 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     @IBOutlet weak var topMainCategoryView: DesignableView!
     @IBOutlet weak var mainCategoryView: DesignableView!
     @IBOutlet weak var mainTitle: UILabel!
-    
     @IBOutlet weak var mainTitleForeGround: UILabel!
     @IBOutlet weak var selectCategoryTV: UITableView!
     
@@ -165,9 +164,20 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! mainMatchFieldViewController
-        vc.level = "11"
+        vc.level = "\((login.res?.response?.mainInfo?.level!)!)"
         vc.category = String(selectedcategoryId)
-        vc.last_questions = ""
+        if self.matchData?.response?.detailData?.count == 0 {
+            vc.last_questions = ""
+//            print("**********NUll")
+        } else {
+            if self.matchData?.response?.detailData?.last?.player1_result_sheet != nil && self.matchData?.response?.detailData?.last?.player2_result_sheet != nil {
+//                print("**********NUll2")
+                vc.last_questions = ""
+            } else {
+                vc.last_questions = (self.matchData?.response?.detailData?.last?.last_questions!)!
+//                print("Questions*****************")
+            }
+        }  
         vc.userid = "\(loadingViewController.userid)"
         vc.lastVC = self
         vc.matchData = self.matchData

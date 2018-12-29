@@ -438,6 +438,10 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
 //                        self.alertBody = "شما قبلاً عضو یک گروه هستید!"
 //                        self.performSegue(withIdentifier: "clanAlert", sender: self)
+                        
+                    }  else if ((Res)!).contains("CLAN_IS_FULL") {
+                        self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+                        
                     } else {
                         self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
 //                        self.alertBody = "شما امکان انجام این کار را ندارید!"

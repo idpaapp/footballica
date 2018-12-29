@@ -23,6 +23,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     var score = Int()
     func dismissing() {
         setDefaultsClanMatch(time: self.time)
+        self.gameTimer.invalidate()
         DispatchQueue.main.async {
             PubProc.wb.showWaiting()
         }
@@ -153,23 +154,28 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         if Int(((login.res?.response?.mainInfo?.bomb)!)!)! > 0 {
         } else {
             disabledBomb()
-            self.bomb.isUserInteractionEnabled = false
+//            self.bomb.isUserInteractionEnabled = false
         }
         if Int(((login.res?.response?.mainInfo?.freeze)!)!)! > 0 {
         } else {
             disabledFreezeTimer()
-            self.freezTimer.isUserInteractionEnabled = false
+//            self.freezTimer.isUserInteractionEnabled = false
         }
     }
     
     
     @objc func disabledBomb() {
+        DispatchQueue.main.async {
         self.bomb.setImage(publicImages().bomb!.noir(), for: UIControlState.normal)
+        self.bomb.isUserInteractionEnabled = false
+        }
     }
     
     @objc func disabledFreezeTimer() {
-        self.freezTimer.setImage(publicImages().freezeTimer!.noir(), for: UIControlState.normal)
-        
+        DispatchQueue.main.async {
+            self.freezTimer.setImage(publicImages().freezeTimer!.noir(), for: UIControlState.normal)
+            self.freezTimer.isUserInteractionEnabled = false
+        }
     }
     
     @objc func setButtonsActions() {
@@ -202,6 +208,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
             self.answer4Outlet.setBackgroundImage(publicImages().wrongAnswerImage, for: .normal)
         }
         
+        PubProc.isSplash = true
                      PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
         
                         if data != nil {
@@ -212,6 +219,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         
                             //                print(data ?? "")
         
+                            PubProc.isSplash = false
         
                             DispatchQueue.main.async {
                                 PubProc.wb.hideWaiting()
@@ -230,20 +238,26 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     var isFreez = Bool()
     var freezeUsed = false
     @objc func freezAction() {
-        self.freezTimer.isUserInteractionEnabled = false
+        DispatchQueue.main.async {
+            self.freezTimer.isUserInteractionEnabled = false
+        }
         disabledFreezeTimer()
         self.isFreez = true
         self.gameTimer.invalidate()
         nukeAllAnimations()
         self.freezeUsed = true
+        PubProc.isSplash = true
+        
                     PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
 
+                        
                         if data != nil {
 
                             DispatchQueue.main.async {
                                 PubProc.cV.hideWarning()
                             }
 
+                            PubProc.isSplash = false
                             //                print(data ?? "")
 
                             DispatchQueue.main.async {
@@ -476,11 +490,11 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.imageQuestion.image = UIImage(data: dataDecoded as Data)
         UIView.animate(withDuration: 0.8) {
             if !self.isBombUsed {
-                self.bomb.isUserInteractionEnabled = true
+                self.checkBombandFreeze()
                 self.bomb.isEnabled = true
             }
             if !self.isFreez {
-                self.freezTimer.isUserInteractionEnabled = true
+                self.checkBombandFreeze()
             }
             if UIDevice().userInterfaceIdiom == .phone {
                 if UIScreen.main.nativeBounds.height == 2436 {
@@ -518,10 +532,10 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
             
         }
         if !self.isBombUsed {
-            self.bomb.isUserInteractionEnabled = true
+            self.checkBombandFreeze()
         }
         if !self.isFreez {
-            self.freezTimer.isUserInteractionEnabled = true
+            self.checkBombandFreeze()
         }
     }
     

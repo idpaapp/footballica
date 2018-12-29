@@ -662,6 +662,11 @@ extension UILabel {
         self.adjustsFontSizeToFitWidth = true
         self.minimumScaleFactor = 0.5
     }
+    func setDifferentColor(string: String, location: Int, length: Int , color : UIColor){
+        let attText = NSMutableAttributedString(string: string)
+        attText.addAttribute(NSAttributedStringKey.foregroundColor, value: color, range: NSRange(location:location,length:length))
+        attributedText = attText
+    }
 }
 
 extension UIImage {

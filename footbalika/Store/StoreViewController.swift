@@ -62,14 +62,19 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         let index = loadShop.res?.response?.index(where: { $0.type == 2})
         self.mainShopIndex = index!
         if let index2 = loadShop.res?.response?.index(where: { $0.type == 3}) {
-        self.packageIndex = index2
-        self.noPackage = false
+            self.packageIndex = index2
+            self.noPackage = false
+        } else {
+            self.noPackage = true
         }
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
         coins.text = (login.res?.response?.mainInfo?.coins)!
         xpProgress.progress = Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!
+        DispatchQueue.main.async {
+            self.storeCV.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,47 +177,47 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             }
             return cell
         } else {
-        
-        if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)! {
-            //        if indexPath.item > 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
-            cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].image!)!))")
             
-            if UIDevice().userInterfaceIdiom == .phone {
-                cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: 8.0)
-                cell.storeLabelForeGround.font = iPhonefonts
+            if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)! {
+                //        if indexPath.item > 0 {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "storeCell", for: indexPath) as! storeCell
+                cell.storeImage.setImageWithKingFisher(url: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].image!)!))")
+                
+                if UIDevice().userInterfaceIdiom == .phone {
+                    cell.storeLabel.AttributesOutLine(font: iPhonefonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: 8.0)
+                    cell.storeLabelForeGround.font = iPhonefonts
+                } else {
+                    cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: 8.0)
+                    cell.storeLabelForeGround.font = iPadfonts
+                }
+                
+                cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))"
+                cell.storeSelect.tag = indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!
+                cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
+                if matchViewController.isTutorial {
+                    cell.storeSelect.isUserInteractionEnabled = false
+                } else {
+                    cell.storeSelect.isUserInteractionEnabled = true
+                }
+                return cell
+                
             } else {
-                cell.storeLabel.AttributesOutLine(font: iPadfonts, title: "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))", strokeWidth: 8.0)
-                cell.storeLabelForeGround.font = iPadfonts
+                
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell
+                //            print(indexPath.item)
+                let url = "\(((loadShop.res?.response?[self.packageIndex].items?[indexPath.item].banner_image!)!))"
+                let urls = URL(string: url)
+                let resource = ImageResource(downloadURL: urls!, cacheKey: url)
+                let processor = RoundCornerImageProcessor(cornerRadius: 10)
+                cell.packageButton.kf.setBackgroundImage(with: resource , for: UIControlState.normal, options : [.transition(ImageTransition.fade(0.5)) , .processor(processor)])
+                
+                cell.packageButton.tag = indexPath.item
+                cell.packageButton.addTarget(self, action: #selector(packageSelected), for: UIControlEvents.touchUpInside)
+                cell.packageButton.clipsToBounds = true
+                cell.packageButton.layer.cornerRadius = 10
+                cell.index = 0
+                return cell
             }
-            
-            cell.storeLabelForeGround.text = "\(((loadShop.res?.response?[self.mainShopIndex].items?[indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!].title!)!))"
-            cell.storeSelect.tag = indexPath.item - (loadShop.res?.response?[self.packageIndex].items?.count)!
-            cell.storeSelect.addTarget(self, action: #selector(selectingStore), for: UIControlEvents.touchUpInside)
-            if matchViewController.isTutorial {
-                cell.storeSelect.isUserInteractionEnabled = false
-            } else {
-                cell.storeSelect.isUserInteractionEnabled = true
-            }
-            return cell
-            
-        } else {
-            
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "packageCell", for: indexPath) as! packageCell
-            //            print(indexPath.item)
-            let url = "\(((loadShop.res?.response?[self.packageIndex].items?[indexPath.item].banner_image!)!))"
-            let urls = URL(string: url)
-            let resource = ImageResource(downloadURL: urls!, cacheKey: url)
-            let processor = RoundCornerImageProcessor(cornerRadius: 10)
-            cell.packageButton.kf.setBackgroundImage(with: resource , for: UIControlState.normal, options : [.transition(ImageTransition.fade(0.5)) , .processor(processor)])
-            
-            cell.packageButton.tag = indexPath.item
-            cell.packageButton.addTarget(self, action: #selector(packageSelected), for: UIControlEvents.touchUpInside)
-            cell.packageButton.clipsToBounds = true
-            cell.packageButton.layer.cornerRadius = 10
-            cell.index = 0
-            return cell
-          }
         }
     }
     
@@ -251,17 +256,17 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                                     self.performSegue(withIdentifier: "showItem", sender: self)
                                     self.view.isUserInteractionEnabled = true
                                     //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                        loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
-                                            
-                                           self.storeCV.reloadData()
-                                            NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
-                                            //                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
-                                            self.rData()
-                                            if  ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!) != "سکه" || ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!) != "پول"  {
-                                                self.storeCV.reloadData()
-                                                PubProc.wb.hideWaiting()
-                                            }
-                                        })
+                                    loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                        
+                                        self.storeCV.reloadData()
+                                        NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
+                                        //                                            print(((loadShop.res?.response?[self.selectedPackage].items?[0].title!)!))
+                                        self.rData()
+                                        if  ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!) != "سکه" || ((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!) != "پول"  {
+                                            self.storeCV.reloadData()
+                                            PubProc.wb.hideWaiting()
+                                        }
+                                    })
                                     //                                })
                                 })
                             }
@@ -382,37 +387,37 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                 return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3  + 3, height: 230)
             }
         } else {
-        
-        var packageScreenSize = CGSize()
-        if UIDevice().userInterfaceIdiom == .phone  {
-            if UIScreen.main.nativeBounds.height == 2436 {
-                //iphone X
-                packageScreenSize = CGSize(width: UIScreen.main.bounds.width - 30 , height: 0.57 * (UIScreen.main.bounds.width - 30))
-            } else {
-                //Normal iPhone
-                packageScreenSize = CGSize(width: UIScreen.main.bounds.width - 30 , height: 0.57 * (UIScreen.main.bounds.width - 30))
-            }
-        } else {
-            //iPad
-            packageScreenSize = CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) , height: 0.57 * (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)))
-        }
-        
-        if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)!  {
+            
+            var packageScreenSize = CGSize()
             if UIDevice().userInterfaceIdiom == .phone  {
                 if UIScreen.main.nativeBounds.height == 2436 {
-                    //iPhone X
-                    return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
+                    //iphone X
+                    packageScreenSize = CGSize(width: UIScreen.main.bounds.width - 30 , height: 0.57 * (UIScreen.main.bounds.width - 30))
                 } else {
                     //Normal iPhone
-                    return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
+                    packageScreenSize = CGSize(width: UIScreen.main.bounds.width - 30 , height: 0.57 * (UIScreen.main.bounds.width - 30))
                 }
             } else {
                 //iPad
-                return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3  + 3, height: 230)
+                packageScreenSize = CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) , height: 0.57 * (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)))
             }
-        } else {
-            return packageScreenSize
-        }
+            
+            if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)!  {
+                if UIDevice().userInterfaceIdiom == .phone  {
+                    if UIScreen.main.nativeBounds.height == 2436 {
+                        //iPhone X
+                        return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
+                    } else {
+                        //Normal iPhone
+                        return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
+                    }
+                } else {
+                    //iPad
+                    return CGSize(width: (UIScreen.main.bounds.width  - ((UIScreen.main.bounds.width / 5) + 40)) / 3  + 3, height: 230)
+                }
+            } else {
+                return packageScreenSize
+            }
         }
     }
     
@@ -472,6 +477,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                         self.packageImage = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
                         login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
                             loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                self.rData()
                                 StoreViewController.packageShowAfterWeb = ""
                                 self.performSegue(withIdentifier: "showItem", sender: self)
                             })
@@ -487,7 +493,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.showBoughtItem()
+                            self.showBoughtItem()
                         })
                     }
                     print("Error Connection")

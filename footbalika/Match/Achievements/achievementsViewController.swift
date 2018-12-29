@@ -704,15 +704,7 @@
                         cell.groupName.text = "\((self.profileResponse?.response?.calnData?.clan_title!)!)"
                         cell.groupImage.setImageWithKingFisher(url: "\(urls().clan)\((self.profileResponse?.response?.calnData?.caln_logo!)!)")
                         cell.cupCountShow.cupCountLabel.text = "\((self.profileResponse?.response?.calnData?.clan_point!)!)"
-                        
-                        switch (self.profileResponse?.response?.calnData?.member_roll!)! {
-                        case publicConstants().teamCaptain:
-                            cell.memberRoll.text = "کاپیتان"
-                        case publicConstants().teamPlayer:
-                            cell.memberRoll.text = "بازیکن"
-                        default :
-                            cell.memberRoll.text = "بازیکن کلیدی"
-                        }
+                        cell.memberRoll.text = (self.profileResponse?.response?.calnData?.clan_roll!)!
                         //User Profile
                         if ((self.profileResponse?.response?.calnData?.clanMembers?.lastIndex(where: {$0.id == loadingViewController.userid})) != nil) {
                             cell.promoteDemoteView.isHidden = true

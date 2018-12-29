@@ -209,11 +209,14 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
                     print(Res ?? "")
                     
                     if ((Res)!).contains("NOT_ENOUGH_RESOURCE") {
-                        self.alertBody = "شما امکان انجام این کار را ندارید!"
+                        self.alertBody = "شما به اندازه ی کافی پول یا سکه ندارید!"
                         self.performSegue(withIdentifier: "createGroupAlert", sender: self)
                     } else if ((Res)!).contains("CLAN_CREATED") {
                         self.delegate?.enterCreatedGroup()
                         self.closingPage()
+                    } else if ((Res)!).contains("CLAN_NAME_EXISTS") {
+                        self.alertBody = "گروهی با این نام وجود دارد!"
+                        self.performSegue(withIdentifier: "createGroupAlert", sender: self)
                     }
                     
                     PubProc.wb.hideWaiting()
@@ -255,7 +258,7 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     func setGroupPage() {
         if state == "createGroup" {
             self.createView.buyButton.setPriceTitle(title: "\((loadingViewController.loadGameData?.response?.clan_create_price!)!)", font: fonts().iPhonefonts)
-            switch String((loadingViewController.loadGameData?.response?.clan_create_price_type!)!) {
+            switch  String((loadingViewController.loadGameData?.response?.clan_create_price_type!)!) {
             case publicConstants().coinCase :
                 self.createView.buyButton.handleTitle(isFree: false)
                 self.createView.buyButton.setPriceImage(priceImage: publicImages().coin!)

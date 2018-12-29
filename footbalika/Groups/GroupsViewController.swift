@@ -67,7 +67,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     self.matchResaultres = try JSONDecoder().decode(getActiveWar.Response.self, from: data!)
                    
                     DispatchQueue.main.async {
+                        if self.matchResaultres?.response?.opp_clan_id != nil {
                         self.performSegue(withIdentifier: "showGroupMatchResault", sender: self)
+                        }
                     }
                     
                 } catch {
@@ -103,6 +105,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
         case "USER_HAS_CLAN" :
             self.alertBody = "شما قبلاً عضو یک گروه هستید!"
+            self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
+        case "CLAN_IS_FULL" :
+            self.alertBody = "ظرفیت گروه تکمیل است!"
             self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
         case "leave" :
             DispatchQueue.main.async {
@@ -191,7 +196,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     var searchCount = 1
     
     @objc func getFriendsList(isSplash : Bool) {
-        if state == "friendsList" {
+        if self.state == "friendsList" {
         if isSplash {
         PubProc.isSplash = true
         } else {
@@ -220,8 +225,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                             }
                         DispatchQueue.main.async {
                             self.friendsTableView.reloadData()
+                            if GroupsViewController.friendsRes?.response?.count != 0 {
                             let firstIndex = IndexPath(row: 0, section: 0)
                             self.friendsTableView.scrollToRow(at: firstIndex, at: .top, animated: false)
+                            }
                         }
                         
                         if isSplash {
@@ -250,7 +257,6 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             }
             }.resume()
         }
-        
     }
     
     static var friendsRes : friendList.Response? = nil
@@ -259,9 +265,10 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         super.viewWillAppear(true)
         if matchViewController.isTutorial {
             searchingState()
-        }
+        } else {
         checkIsClanSelected()
         updateIsSelectedClan()
+        }
 //        getFriendsList(isSplash: true)
     }
     
@@ -282,8 +289,14 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         getFriendsList(isSplash: false)
     }
     
-     @objc func showTutorial(notification : Notification) {
-        self.performSegue(withIdentifier: "lastTutorialPage", sender: self)
+//     @objc func showTutorial(notification : Notification) {
+//       showGroupsHelp()
+//    }
+    
+    @objc func showGroupsHelp() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+            self.performSegue(withIdentifier: "lastTutorialPage", sender: self)
+        })
     }
     
     override func viewDidLoad() {
@@ -300,9 +313,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         friendsTableView.keyboardDismissMode = .onDrag
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshUserData(notification:)), name: NSNotification.Name(rawValue: "refreshUsersAfterCancelling"), object: nil)
 
-        if matchViewController.isTutorial {
-            NotificationCenter.default.addObserver(self, selector: #selector(self.showTutorial(notification:)), name: Notification.Name("showShopTutorial"), object: nil)
-        }
+//        if matchViewController.isTutorial {
+//            NotificationCenter.default.addObserver(self, selector: #selector(self.showTutorial(notification:)), name: Notification.Name("showShopTutorial"), object: nil)
+//        }
         
     
         self.groupOutlet.addTarget(self, action: #selector(groupAction), for: UIControlEvents.touchUpInside)
@@ -326,12 +339,16 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         let pageIndexDict:[String: Int] = ["button": 3]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)
-        if state == "friendsList" {
+        if self.state == "friendsList" {
             getFriendsList(isSplash: true)
-        } else if state == "group"{
+        } else if self.state == "group"{
             self.cGroups?.updatePage()
         } else {
             
+        }
+        
+        if matchViewController.isTutorial {
+        showGroupsHelp()
         }
     }
     
@@ -391,7 +408,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if state == "searchList" {
+        if self.state == "searchList" {
             return searchCount
         } else {
         if GroupsViewController.friendsRes != nil {
@@ -409,7 +426,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     var urlClass = urls()
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if state == "searchList" {
+        if self.state == "searchList" {
             if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "searchFriendsCell", for: indexPath) as! searchFriendsCell
             
@@ -524,7 +541,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if state == "friendsList" {
+        if self.state == "friendsList" {
         if GroupsViewController.friendsRes?.response?.count != 0 {
         if UIDevice().userInterfaceIdiom == .phone {
             return 80
@@ -632,6 +649,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             vc.groupsDelegate = self
             vc.state = "lastTutorialPage"
         }
+        
         if let vc = segue.destination as? clanGroupsViewController {
             DispatchQueue.main.async {
             vc.delegate = self
@@ -671,7 +689,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     var alertBody = String()
-    var isSelectedClan = Bool()
+    var isSelectedClan = false
     
     @objc func updateIsSelectedClan() {
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
@@ -681,25 +699,29 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         }
     }
     
-    
     func friendsActionColor() {
         self.handlePageTitleColor(friendsOutletColor : UIColor.white ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : colors().selectedTab )
     }
     
     
     @IBAction func friendsAction(_ sender: RoundButton) {
+        self.state = "friendsList"
+        getFriendsList(isSplash: true)
         friendsActionColor()
-        state = "friendsList"
         self.handlePageShow(friendsTableViewShow: false, groupsGamePageShow: true, groupsMatchPageShow: true)
         self.friendsTableView.reloadData()
+        self.gMatchs.isClanMatchFieldData(isDisable : true)
+        if GroupsViewController.friendsRes != nil {
         let firstIndex = IndexPath(row: 0, section: 0)
         self.friendsTableView.scrollToRow(at: firstIndex, at: .top, animated: false)
+        }
     }
     
     @objc func searchingState() {
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : UIColor.white , groupOutletColor : colors().selectedTab , groupGameOutletColor : colors().selectedTab )
-        state = "searchList"
+        self.state = "searchList"
         self.friendsTableView.reloadData()
+        self.gMatchs.isClanMatchFieldData(isDisable : true)
     }
     
     @IBAction func searchAction(_ sender: RoundButton) {
@@ -708,21 +730,23 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     @objc func groupAction() {
-        state = "group"
+        self.state = "group"
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : UIColor.white , groupGameOutletColor : colors().selectedTab )
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: false, groupsMatchPageShow: true)
+        self.gMatchs.isClanMatchFieldData(isDisable : true)
     }
     
     @objc func groupGameAction() {
         self.state = "game"
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : UIColor.white )
-
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: true, groupsMatchPageShow: false)
-
         if login.res?.response?.calnData != nil {
             if login.res?.response?.calnData?.member_roll != nil {
-                let vc = childViewControllers.last as! groupMatchViewController
-                vc.updateclanGamePage()
+                DispatchQueue.main.async {
+                    self.gMatchs.isClanMatchFieldData(isDisable : false)
+                    self.gMatchs.updateclanGamePage()
+                }
+               
 //                if ((login.res?.response?.calnData?.member_roll!)!) != "3" {
 //                    let vc = childViewControllers.last as! groupMatchViewController
 //                    vc.updateGroupMatch(state : state, isCharge : true)

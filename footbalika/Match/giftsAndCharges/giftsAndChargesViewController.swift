@@ -201,12 +201,6 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                 cell.menuLeftView.isHidden = false
             }
             
-            //            if self.giftMenu.giftsImages[indexPath.row] == "google_plus" {
-            //                cell.googleSignIn.isHidden = false
-            //            } else {
-            //                cell.googleSignIn.isHidden = true
-            //            }
-            
             cell.menuLeftLabel.text = self.giftMenu.giftsNumbers[indexPath.row]
             cell.menuLabel.text = self.giftMenu.giftsTitles[indexPath.row]
             cell.selectMenu.tag = indexPath.row
@@ -227,9 +221,32 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                 cell.menuLeftImage.image = UIImage(named: "money")
             }
             
-            //            cell.googleSignIn.isHidden = true
             cell.menuLeftLabel.text = self.gameChargeMenu.gameChargesNumbers[indexPath.row]
-            cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
+            
+            switch (login.res?.response?.mainInfo?.extra_type!)! {
+            case "0":
+                cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
+            case "1":
+                cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
+            case "2":
+                cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
+            case "3":
+                if indexPath.row == 2 {
+                    cell.menuLabel.setDifferentColor(string: "\(self.gameChargeMenu.gameChargesTitles[indexPath.row]) \n\((login.res?.response?.mainInfo?.extra_games!)!) دست بازی اضافه مانده ", location: self.gameChargeMenu.gameChargesTitles[indexPath.row].count, length: (login.res?.response?.mainInfo?.extra_games!)!.count + 24, color: UIColor.gray)
+                } else {
+                    cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
+                }
+            case "4":
+                if indexPath.row == 3 {
+                    cell.menuLabel.setDifferentColor(string: "\(self.gameChargeMenu.gameChargesTitles[indexPath.row]) \n\((login.res?.response?.mainInfo?.extra_games!)!) دست بازی اضافه مانده ", location: self.gameChargeMenu.gameChargesTitles[indexPath.row].count, length: (login.res?.response?.mainInfo?.extra_games!)!.count + 24, color: UIColor.gray)
+                    
+                } else {
+                    cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
+                }
+            default:
+                cell.menuLabel.text = self.gameChargeMenu.gameChargesTitles[indexPath.row]
+            }
+            
             cell.selectMenu.tag = indexPath.row
             cell.selectMenu.addTarget(self, action: #selector(selectedMenu), for: UIControlEvents.touchUpInside)
             return cell
@@ -259,6 +276,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
 //                        self.performSegue(withIdentifier: "giftAlert", sender: self)
                         
                         login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                            self.delegate?.fillData()
                             self.dismissing()
                             self.delegate?.showCharge(image : self.gameChargeMenu.gameChargesImages[selectedCharge] , title : self.gameChargeMenu.gameChargesTitles[selectedCharge])
                         })
@@ -359,12 +377,6 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         }
         
         self.present(activityViewController, animated: true, completion: nil)
-        
-        
-        
-//            let shareText = "دوست خوبم،\n با لینک زیر فوتبالیکا رو نصب کن و موقع ثبت نام کد معرف رو وارد کن تا \((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!) تا سکه رایگان بگیری. \n مایکت \n https://myket.ir/app/com.dpa_me.adelica \n بازار \n https://cafebazaar.ir/app/com.dpa_me.adelica/?l=fa \n سیب اپ \n https://new.sibapp.com/applications/footbalika \n کد معرف: \((login.res?.response?.mainInfo?.ref_id!)!.replacingOccurrences(of: "#", with: ""))"
-//            let vc = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
-//            self.present(vc, animated: true)
     }
     
     @objc func googleSignIn() {

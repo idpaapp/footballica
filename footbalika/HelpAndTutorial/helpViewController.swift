@@ -170,7 +170,7 @@ class helpViewController: UIViewController {
             case "goToGroups" :
                 self.dismissing()
                 self.shopDelegate?.goToGroupsPage()
-                NotificationCenter.default.post(name: Notification.Name("showShopTutorial"), object: nil, userInfo: nil)
+//                NotificationCenter.default.post(name: Notification.Name("showShopTutorial"), object: nil, userInfo: nil)
             case "lastTutorialPage" :
                 self.dismissing()
                 self.groupsDelegate?.finishTutorial()

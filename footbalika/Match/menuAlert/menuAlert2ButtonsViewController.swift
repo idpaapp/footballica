@@ -386,12 +386,15 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                     
                     if data != nil {
                         
+                        print(String(data: data!, encoding: String.Encoding.utf8)!)
+                        
                         do {
                             
-                            login.res? = try JSONDecoder().decode(loginStructure.Response.self, from: data!)
+                            login.res = try JSONDecoder().decode(loginStructure.Response.self, from: data!)
                             
                             DispatchQueue.main.async {
                                 PubProc.cV.hideWarning()
+                                PubProc.wb.hideWaiting()
                             }
                             //                print(data ?? "")
                             
@@ -417,9 +420,8 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
                                 self.performSegue(withIdentifier: "notMore", sender: self)
                             }
                             
-                            PubProc.wb.hideWaiting()
                         } catch {
-                            print(error)
+                            print(error) 
                         }
                         PubProc.countRetry = 0
                     } else {

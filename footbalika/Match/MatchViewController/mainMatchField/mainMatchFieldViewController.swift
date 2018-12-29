@@ -381,9 +381,7 @@ class mainMatchFieldViewController: UIViewController  {
         //        backGroundStadium.transform = CGAffineTransform.identity.scaledBy(x: 0.8, y: 0.8)
         
         //        print(url)
-        
-        self.questionTitle.adjustsFontSizeToFitWidth = true
-        self.questionTitle.minimumScaleFactor = 0.5
+        self.questionTitle.setAdjustToFit()
         
         self.imageQuestionTitle.text = ""
         lastVC.dismiss(animated: true, completion: nil)
@@ -462,7 +460,8 @@ class mainMatchFieldViewController: UIViewController  {
     
     func readMatchData() {
         //match Data Json
-        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'\(level)','category':'\(category)','last_questions':'','userid':'\(loadingViewController.userid)'}") { data, error in
+        print(self.last_questions)
+        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'\(level)','category':'\(category)','last_questions':'\(self.last_questions)','userid':'\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

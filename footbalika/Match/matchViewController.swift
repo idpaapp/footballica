@@ -24,6 +24,7 @@ protocol publicMassageNoKeysViewControllerDelegate : NSObjectProtocol {
 
 protocol giftsAndChargesViewControllerDelegate : NSObjectProtocol {
     func showCharge(image : String , title : String)
+    func fillData()
 }
 
 class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , giftsAndChargesViewControllerDelegate {

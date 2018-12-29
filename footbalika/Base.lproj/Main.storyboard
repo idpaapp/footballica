@@ -1240,7 +1240,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3gg-JI-3Ln" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="61.333333333333336" height="61.333333333333336"/>
-                                        <inset key="imageEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                        <inset key="imageEdgeInsets" minX="10" minY="10" maxX="10" maxY="10"/>
                                         <state key="normal" image="ic_charge" backgroundImage="dark_btn_large"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -1250,6 +1250,10 @@
                                                 <real key="value" value="0.0"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomRight" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="bottomLeft" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topRight" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="topLeft" value="NO"/>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="gameCharge:" destination="eVy-0W-4xt" eventType="touchUpInside" id="r0a-47-gF7"/>
@@ -1705,6 +1709,7 @@
                             <constraint firstItem="kJS-e7-M3V" firstAttribute="centerY" secondItem="cuv-fl-yCt" secondAttribute="centerY" id="AGD-ZU-8BE"/>
                             <constraint firstItem="ISb-v6-mb4" firstAttribute="centerY" secondItem="WxY-da-LF8" secondAttribute="centerY" id="B1g-NQ-siM"/>
                             <constraint firstItem="sQY-fj-odT" firstAttribute="top" secondItem="LSO-Sq-AWm" secondAttribute="top" id="B2X-LI-ydf"/>
+                            <constraint firstItem="ksw-wc-m9s" firstAttribute="top" secondItem="3gg-JI-3Ln" secondAttribute="top" id="BH8-Pd-XNV"/>
                             <constraint firstItem="DQD-Bq-Ieq" firstAttribute="height" secondItem="3wd-u6-Trg" secondAttribute="height" id="BTF-Aq-U5V"/>
                             <constraint firstItem="XaI-nb-b4a" firstAttribute="leading" secondItem="LC9-xI-cxD" secondAttribute="leading" constant="25" id="BdU-la-D9a"/>
                             <constraint firstItem="FRO-wm-snH" firstAttribute="leading" secondItem="cuv-fl-yCt" secondAttribute="leading" constant="-6" id="ByE-hP-V7p"/>
@@ -1747,7 +1752,6 @@
                             <constraint firstItem="ksw-wc-m9s" firstAttribute="width" secondItem="4vp-va-hBy" secondAttribute="width" multiplier="2:5" id="TL8-TP-SG7"/>
                             <constraint firstItem="cbc-cy-7ik" firstAttribute="leading" secondItem="FRO-wm-snH" secondAttribute="trailing" constant="3" id="Ttd-nP-JGg"/>
                             <constraint firstItem="2cP-wP-1Wb" firstAttribute="trailing" secondItem="Bqp-Jt-8fp" secondAttribute="trailing" constant="12.5" id="Vci-sx-baw"/>
-                            <constraint firstItem="ksw-wc-m9s" firstAttribute="firstBaseline" secondItem="3gg-JI-3Ln" secondAttribute="firstBaseline" id="XiL-h7-iQt"/>
                             <constraint firstItem="Krr-GL-7ph" firstAttribute="centerX" secondItem="4vp-va-hBy" secondAttribute="centerX" id="ZfI-Gb-Alb"/>
                             <constraint firstItem="3gg-JI-3Ln" firstAttribute="height" secondItem="RxP-t9-rxe" secondAttribute="height" multiplier="5:6" id="aEA-7P-To4"/>
                             <constraint firstItem="0i4-VB-e1K" firstAttribute="top" secondItem="nhj-ve-4a4" secondAttribute="top" constant="10" id="aIC-aY-S9v"/>
@@ -2840,7 +2844,7 @@
             <objects>
                 <viewController id="fuF-wP-gKN" customClass="menuAlertViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1St-8u-xsT">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="323" height="541"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="6mo-N4-xIX"/>
@@ -5596,7 +5600,7 @@
             <objects>
                 <viewController restorationIdentifier="menuAlert2ButtonsViewController" storyboardIdentifier="menuAlert2ButtonsViewController" modalTransitionStyle="crossDissolve" id="33x-am-hmp" customClass="menuAlert2ButtonsViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bII-9b-rpf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="323" height="541"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="pE3-Oc-VkC"/>
@@ -9210,11 +9214,11 @@
             <objects>
                 <viewController restorationIdentifier="createClanGroupViewController" storyboardIdentifier="createClanGroupViewController" modalTransitionStyle="crossDissolve" id="KTn-s7-6yF" customClass="createClanGroupViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="S6A-yt-Gln">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="561"/>
+                        <rect key="frame" x="0.0" y="0.0" width="323" height="541"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" restorationIdentifier="createClanGroupView" translatesAutoresizingMaskIntoConstraints="NO" id="kiw-0m-V3X" customClass="createClanGroupView" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="57" y="55.666666666666686" width="300" height="450"/>
+                                <rect key="frame" x="11.666666666666657" y="45.666666666666686" width="300" height="450"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="450" id="6Kt-Fj-kY2"/>
@@ -9630,11 +9634,11 @@
             <objects>
                 <viewController restorationIdentifier="logoViewController" storyboardIdentifier="logoViewController" id="jdX-j0-21C" customClass="logoViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gBL-nV-NtS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="561"/>
+                        <rect key="frame" x="0.0" y="0.0" width="323" height="541"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QVJ-K5-0Xp" customClass="groupLogoView" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="57" y="130.66666666666663" width="300" height="300"/>
+                                <rect key="frame" x="11.666666666666657" y="120.66666666666669" width="300" height="300"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="QZV-pU-X5d"/>
@@ -10539,14 +10543,14 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="qfX-oJ-sWu"/>
-        <segue reference="SKf-IP-Y8U"/>
+        <segue reference="g8B-Ay-vU8"/>
         <segue reference="uc8-hl-oU7"/>
-        <segue reference="uy9-ug-KDx"/>
+        <segue reference="L4x-qM-2EV"/>
         <segue reference="8Zf-Y3-3ch"/>
-        <segue reference="wU6-MG-i6J"/>
+        <segue reference="jtX-Xy-SHQ"/>
         <segue reference="254-gE-KV2"/>
         <segue reference="Ke5-Nx-c39"/>
-        <segue reference="LfF-cD-YKj"/>
+        <segue reference="kK6-Vh-GUj"/>
         <segue reference="N21-7O-RH3"/>
     </inferredMetricsTieBreakers>
 </document>

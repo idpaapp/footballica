@@ -315,7 +315,7 @@ class GamesList: UIViewController , UITableViewDataSource , UITableViewDelegate 
     
     var userStructure : loginStructure.Response? = nil
     @objc func getUserData(id : String) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false'}") { data, error in
+            PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

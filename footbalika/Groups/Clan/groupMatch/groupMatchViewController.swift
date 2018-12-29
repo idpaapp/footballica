@@ -46,17 +46,18 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
-        self.isClanMatchField = true
+        magnifierState()
     }
     
     var warQuestions :  warQuestions.Response? = nil
-    var isClanMatchField = Bool()
+    var isClanMatchField = false
     
     func startAnswerWar(questions : warQuestions.Response) {
         self.warQuestions = questions
         DispatchQueue.main.async {
             PubProc.wb.hideWaiting()
             self.isClanMatchField = true
+            self.startGameButton.actionButton.isUserInteractionEnabled = false
             self.performSegue(withIdentifier: "clanMatchField", sender: self)
         }
     }
@@ -137,20 +138,26 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     var warID = String()
     
     @objc func updateclanGamePage() {
-        if self.warReward?.unclaimed_reward?.reward != nil {
-            if (self.warReward?.unclaimed_reward?.is_claimed!)! != "0" {
-                clanData()
-            } else {
-                clanData()
-            }
-        } else {
-            clanData()
-        }
+//        if self.warReward?.unclaimed_reward?.reward != nil {
+//            if (self.warReward?.unclaimed_reward?.is_claimed!)! != "0" {
+//                clanData()
+//            } else {
+//                clanData()
+//            }
+//        } else {
+//            clanData()
+//        }
+        clanData()
+    }
+    
+    func isClanMatchFieldData(isDisable : Bool) {
+    self.isClanMatchField = isDisable
     }
     
     @objc func clanData() {
-        if !isClanMatchField {
+        if !self.isClanMatchField {
             PubProc.isSplash = true
+            if login.res?.response?.calnData?.clanid != nil {
             DispatchQueue.main.async {
                 self.bombCount.text = "\(((login.res?.response?.mainInfo?.bomb)!)!)"
                 self.freezeCount.text = "\(((login.res?.response?.mainInfo?.freeze)!)!)"
@@ -176,6 +183,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                         var startButtonState = Bool()
                         if ((login.res?.response?.calnData?.member_roll!)!) == "1" {
                             startButtonState = false
+                            self.setStartGroupGameButton()
                         } else {
                             startButtonState = true
                         }
@@ -203,7 +211,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                                     self.warID = (self.activeWarRes?.response?.id!)!
                                     self.setPageOutlets(hidRonaldoAndMessi: true, hideMagnifier: false, hideClanTimer: false, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
                                     self.state = "Searching"
-                                    self.setGhesarSentences()
+//                                    self.setGhesarSentences()
                                     self.setupClanTime()
                                     if !self.updateSearch {
                                         self.magnifierState()
@@ -253,12 +261,12 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                     // handle error
                 }
                 }.resume()
+            }
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setPageOutlets(hidRonaldoAndMessi: false, hideMagnifier: true, hideClanTimer: true, hideStartGameButton: true, hideClanResults: true, clanMembers: true, hidetimerContainerView: true, hideClanReward: true)
         self.startGameButton.setButtons(hideAction: true, hideAction1: true, hideAction2: true, hideAction3: true)
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
@@ -342,6 +350,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     @objc func setStartGroupGameButton() {
         DispatchQueue.main.async {
+        self.startGameButton.actionButton.isUserInteractionEnabled = true
         self.startGameButton.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)
         self.startGameButton.setTitles(actionTitle: "شروع بازی گروهی", action1Title: "", action2Title: "", action3Title: "")
              self.startGameButton.actionButton.addTarget(self, action: #selector(self.startGameAction), for: UIControlEvents.touchUpInside)
@@ -405,7 +414,6 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         gameTimer = Timer.scheduledTimer(timeInterval: 10.0 , target: self, selector: #selector(updateclanGamePage), userInfo: nil, repeats: true)
     }
     
-    
     func setupClanTime() {
         self.clanTimer.clanImage.setImageWithKingFisher(url: "\(urls().clan)\((login.res?.response?.calnData?.caln_logo!)!)")
         self.clanTimer.clanName.text =  "\((login.res?.response?.calnData?.clan_title!)!)"
@@ -415,7 +423,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     @objc func setGhesarSentences() {
         self.ghesarCount = self.ghesarCount + 1
-        if self.ghesarCount == 30 {
+        if self.ghesarCount >= 30 {
             self.ghesarCount = 0
         } else  {
             if self.ghesarCount == 1 {
@@ -424,15 +432,10 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                     randomGhesar = arc4random_uniform(UInt32((loadingViewController.loadGameData?.response?.ghesarSentences.count)!))
                 }
                 self.currentGhesar = Int(randomGhesar)
-                
                 self.ghesarSentencesLabel.text = (loadingViewController.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
-                
             } else {
-                
                 self.ghesarSentencesLabel.text = (loadingViewController.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
-                
             }
-            
         }
     }
     
@@ -493,6 +496,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
             timesHours = differenceOfDate.hour!
         }
         
+       
         if self.currentTime.hour != nil {
             if min(self.currentTime.second!, differenceOfDate.second!) == differenceOfDate.second! {
                 self.clanTimer.clanTimerCounter.text = "\(timesHours):\(minutes):\(seconds)"
@@ -508,6 +512,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     var currentGhesar = Int()
     
     @objc func countDownTimer() {
+         setGhesarSentences()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         dateFormatter.timeZone = TimeZone(abbreviation: "GMT+3:30") 
@@ -599,7 +604,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                     heightOfButtomMenu = 135
                 }
                 DispatchQueue.main.async {
-                    self.magnifier.animatingImageView(Radius : 50, circleCenter: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2 - heightOfButtomMenu))
+                    self.magnifier.animatingImageView(Radius : 25, circleCenter: CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2 - heightOfButtomMenu))
                     self.view.layoutIfNeeded()
                 }
             }
@@ -610,6 +615,10 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     //        super.viewDidLayoutSubviews()
     //        magnifierState()
     //    }
+    
+
+    
+    
     
     
     override func didReceiveMemoryWarning() {

@@ -17,20 +17,18 @@ class groupMatchResaultViewController: UIViewController , UITableViewDataSource 
     @IBOutlet weak var clanLeftView: clanLeftResaultView!
     
     @IBOutlet weak var clanMembers: clanMembersListView!
-  
+    
     var matchResaultRes : getActiveWar.Response? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.menuWindow.closePage.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
-        
-        self.setClansResaults()
-        self.addViews(view: self.clanRightView)
-        self.addViews(view: self.clanLeftView)
-        self.addViews(view: self.clanMembers)
-        self.setMembersView()
-        self.clanMembersData()
+            self.setClansResaults()
+            self.addViews(view: self.clanRightView)
+            self.addViews(view: self.clanLeftView)
+            self.addViews(view: self.clanMembers)
+            self.setMembersView()
+            self.clanMembersData()
     }
     
     @objc func clanMembersData() {
@@ -48,7 +46,6 @@ class groupMatchResaultViewController: UIViewController , UITableViewDataSource 
         self.clanRightView.clanImage.setImageWithKingFisher(url: "\(urls().clan)\((self.matchResaultRes?.response?.opp_clan_logo!)!)")
         self.clanRightView.clanName.text = "\((self.matchResaultRes?.response?.opp_clan_title!)!)"
         self.clanRightView.clanResault.text = "\((self.matchResaultRes?.response?.opp_war_point!)!)"
-        
         self.clanLeftView.clanImage.setImageWithKingFisher(url: "\(urls().clan)\((login.res?.response?.calnData?.caln_logo!)!)")
         self.clanLeftView.clanName.text = "\((login.res?.response?.calnData?.clan_title!)!)"
         self.clanLeftView.clanResault.text = "\((self.matchResaultRes?.response?.war_point!)!)"
@@ -68,7 +65,6 @@ class groupMatchResaultViewController: UIViewController , UITableViewDataSource 
         self.clanMembers.noPriceTitleForeGround.text = "خب"
         self.clanMembers.useButton.addTarget(self, action: #selector(dismissing), for: UIControlEvents.touchUpInside)
         self.clanMembers.useButton.setBackgroundImage(publicImages().action_back_large_btn, for: UIControlState.normal)
-        
         setLabels()
     }
     
@@ -123,7 +119,7 @@ class groupMatchResaultViewController: UIViewController , UITableViewDataSource 
         
         return cell
     }
-
+    
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60

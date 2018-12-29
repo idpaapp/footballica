@@ -23,6 +23,7 @@ class packageCell: UICollectionViewCell {
     }
     
     @objc func bouncingAction() {
+         if matchViewController.isTutorial {
         UIView.animate(withDuration: 0.7, delay: 0, options: .allowUserInteraction, animations: {
             self.packageButton.transform = .init(scaleX: 0.9, y: 0.9)
         }, completion: { (finish) in
@@ -32,6 +33,7 @@ class packageCell: UICollectionViewCell {
                 
             })
         })
+        }
     }
         
     override func layoutSubviews() {
