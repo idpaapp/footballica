@@ -8,12 +8,24 @@
 
 import UIKit
 
-class changePassAndUserNameViewController: UIViewController , UITextFieldDelegate {
+protocol menuAlert2ButtonsViewControllerDelegate2 : NSObjectProtocol {
+    func getGift()
+}
+
+class changePassAndUserNameViewController: UIViewController , UITextFieldDelegate , menuAlert2ButtonsViewControllerDelegate2 {
 
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
+    
+    func getGift() {
+        self.changeUserPassDelegate?.getGift()
+        self.dismiss(animated: false, completion: nil)
+    }
+    
+    
+    weak var changeUserPassDelegate : changePassAndUserNameViewControllerDelegate!
     var isSignUp = Bool()
     var isPasswordChange = Bool()
     
@@ -63,7 +75,6 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
     
     @objc func changingUserPassNotification() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: {
-            PubProc.wb.hideWaiting()
             self.dismiss(animated: false, completion: nil)
         })
     }
@@ -282,7 +293,8 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
                 self.performSeguePage(identifier: "passAlert")
                 
             } else {
-            
+                self.signUpUserNameTextField.endEditing(true)
+                self.passSignUpTextField.endEditing(true)
                 self.alertBody = "آیا برای ثبت نام اطمینان دارید؟"
                 self.alertState = "signUp"
             self.jsonStr = "{'mode':'SignUp' , 'UserName' : '\(texts!)' , 'Password':'\(texts2!)' , 'RefCode':'\(texts3!)', 'userid':'\(loadingViewController.userid)'}"
@@ -317,6 +329,7 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
             vc.alertBody = self.alertBody
             vc.state = self.alertState
             vc.jsonStr = self.jsonStr
+            vc.giftDelegate = self
         }
     }
     

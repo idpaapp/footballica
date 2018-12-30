@@ -16,9 +16,7 @@ public class login {
             DispatchQueue.main.async {
 
             if data != nil {
-                DispatchQueue.main.async {
                     PubProc.cV.hideWarning()
-                }
                 //                print(data ?? "")
                 
             

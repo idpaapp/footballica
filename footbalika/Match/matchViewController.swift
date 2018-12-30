@@ -25,6 +25,7 @@ protocol publicMassageNoKeysViewControllerDelegate : NSObjectProtocol {
 protocol giftsAndChargesViewControllerDelegate : NSObjectProtocol {
     func showCharge(image : String , title : String)
     func fillData()
+    func showGift(image : String , title : String)
 }
 
 class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , giftsAndChargesViewControllerDelegate {
@@ -33,7 +34,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     @IBAction func tapsellAction(_ sender: Any) {
         //        NotificationCenter.default.post(name: Notification.Name("showADS"), object: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.async{
             self.performSegue(withIdentifier: "showAds", sender: self)
         }
     }
@@ -48,6 +49,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         self.performSegue(withIdentifier: "showTutorial", sender: self)
     }
     
+    func showGift(image : String , title : String) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6.5, execute: {
+            self.upgradeImage = image
+            self.alertTitle = title
+            self.isGift = true
+            self.performSegue(withIdentifier: "showUpgrade", sender: self)
+        })
+    }
     
     
     @IBOutlet weak var gameChargeTimerBox: gameChargeTimerBox!
@@ -102,11 +111,9 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     func showCharge(image : String , title : String) {
-        
         self.upgradeImage = image
         self.alertTitle = title
         self.performSegue(withIdentifier: "showUpgrade", sender: self)
-        
     }
     
     var urlClass = urls()
@@ -149,7 +156,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         var hourString = String()
         var minutesString = String()
         var secondString = String()
-
+        
         if hour.description.count == 1 {
             hourString = "0\(hour)"
         } else {
@@ -185,11 +192,11 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         let difference = Calendar.current.dateComponents(components, from: onlineTime , to: finishTime)
         self.gameChargeTime = finishTime
         if difference.second! < 0 {
-             normalGameChargeUI()
+            normalGameChargeUI()
         } else {
             switch (login.res?.response?.mainInfo?.extra_type!)! {
             case "0":
-                 normalGameChargeUI()
+                normalGameChargeUI()
             case "1":
                 setGameChargeUI(imageNumber: 0, canShowChargeBox: true)
                 gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
@@ -201,7 +208,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             case "4":
                 setGameChargeUI(imageNumber: 3, canShowChargeBox: false)
             default:
-               normalGameChargeUI()
+                normalGameChargeUI()
             }
         }
     }
@@ -254,6 +261,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 self.upgradeImage = "ic_grade_badge"
                 self.upgradeTitle = "ارتقاء سطح به \(lastLevel+1)"
                 self.upgradeText = "\(lastLevel+1)"
+                self.isGift = false
                 self.performSegue(withIdentifier: "showUpgrade", sender: self)
             } else {}
             self.fillData()
@@ -437,23 +445,25 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     @objc func checkNoKeysMassages() {
         var publicIDS : [String] = UserDefaults.standard.array(forKey: "publicMassagesIDS") as! [String]
         
-        for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
-            if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE_FULL_NO_KEYS"))! {
-                if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
-                    if i == (self.publicMassagesResponse?.response!.count)! - 1 {
-                        self.checkPublicMassagesFull()
+        if self.publicMassagesResponse != nil {
+            for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
+                if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE_FULL_NO_KEYS"))! {
+                    if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
+                        if i == (self.publicMassagesResponse?.response!.count)! - 1 {
+                            self.checkPublicMassagesFull()
+                        }
+                    } else {
+                        publicIDS.append((self.publicMassagesResponse?.response?[i].id!)!)
+                        UserDefaults.standard.set(publicIDS, forKey: "publicMassagesIDS")
+                        self.publicMassageIndex = i
+                        self.massageImage = (self.publicMassagesResponse?.response?[i].image_path!)!
+                        self.publicMassageAspectRatio = (self.publicMassagesResponse?.response?[i].option_field_2!)!
+                        DispatchQueue.main.async {
+                            self.publicMassageState = "PUBLIC_MESSAGE_FULL_NO_KEYS"
+                            self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
+                        }
+                        break
                     }
-                } else {
-                    publicIDS.append((self.publicMassagesResponse?.response?[i].id!)!)
-                    UserDefaults.standard.set(publicIDS, forKey: "publicMassagesIDS")
-                    self.publicMassageIndex = i
-                    self.massageImage = (self.publicMassagesResponse?.response?[i].image_path!)!
-                    self.publicMassageAspectRatio = (self.publicMassagesResponse?.response?[i].option_field_2!)!
-                    DispatchQueue.main.async {
-                        self.publicMassageState = "PUBLIC_MESSAGE_FULL_NO_KEYS"
-                        self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
-                    }
-                    break
                 }
             }
         }
@@ -663,6 +673,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
             vc.ImageItem = self.upgradeImage
             vc.upgradeText = self.upgradeText
+            vc.isGift = self.isGift
         }
         if let vc = segue.destination as? publicMassageNoKeysViewController {
             vc.massageImage = self.massageImage
@@ -677,7 +688,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var upgradeImage = String()
     var upgradeTitle = String()
     var upgradeText = String()
-    
+    var isGift = Bool()
     @IBAction func showLeagus(_ sender: UIButton) {
         self.performSegue(withIdentifier: "leagueShow", sender: self)
     }
@@ -703,8 +714,8 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 self.gameChargeTimerBox.isHidden = true
             }
         } else {
-        self.menuState = "gameCharge"
-        self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
+            self.menuState = "gameCharge"
+            self.performSegue(withIdentifier: "giftsAndCharges", sender: self)
         }
     }
     
@@ -714,7 +725,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         }, completion: { (finish) in
             self.gameChargeTimerBox.isHidden = true
             self.gameChargeTimerBox.alpha = 1
-            })
+        })
     }
     
     @IBAction func gameCharge(_ sender: RoundButton) {

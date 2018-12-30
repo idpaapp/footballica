@@ -19,17 +19,17 @@ class challengesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let gradeTexts = "باید حداقل به سطح 20 برسی تا بتونی وارد جام بشی"
+        let gradeTexts = "بخش چالش به زودی راه اندازی خواهد شد!"
         self.gradeTitleForeGround.text = gradeTexts
         let fonts = UIFont(name: "DPA_Game", size: 60)!
         let iPadfonts = UIFont(name: "DPA_Game", size: 80)!
          if UIDevice().userInterfaceIdiom == .phone  {
         self.gradeTitleForeGround.font = fonts
-        self.gradeNumber.AttributesOutLine(font: fonts, title: "20", strokeWidth: -5.0)
+        self.gradeNumber.AttributesOutLine(font: fonts, title: "", strokeWidth: -5.0)
         self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: 8.0)
          } else {
         self.gradeTitleForeGround.font = iPadfonts
-        self.gradeNumber.AttributesOutLine(font: iPadfonts, title: "20", strokeWidth: -5.0)
+        self.gradeNumber.AttributesOutLine(font: iPadfonts, title: "", strokeWidth: -5.0)
         self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: 8.0)
         }
         self.gradeTitleForeGround.minimumScaleFactor = 0.1

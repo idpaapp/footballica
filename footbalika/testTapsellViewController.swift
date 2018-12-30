@@ -13,7 +13,7 @@ public class testTapsellViewController: UIViewController {
     weak var tapsellAd : TapsellAd?
     
     func tapsellInitialize() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             let config = TSConfiguration()
             config.setDebugMode(true)
             
@@ -32,7 +32,8 @@ public class testTapsellViewController: UIViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        tapsellInitialize()
+//        tapsellInitialize()
+//        definesPresentationContext = true
         NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("showADS"), object: nil)
     }
     
@@ -42,9 +43,13 @@ public class testTapsellViewController: UIViewController {
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0, execute: {
+        DispatchQueue.main.async {
+        self.tapsellInitialize()
+        self.definesPresentationContext = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
             self.gettingAds()
         })
+        }
     }
     
     @objc func gettingAds() {
@@ -56,7 +61,6 @@ public class testTapsellViewController: UIViewController {
                 
                 NSLog("Ad Available")
                 self.tapsellAd = tapsellAd
-                
                 self.showingAds()
                 
             }, onNoAdAvailable: {

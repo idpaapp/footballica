@@ -12,8 +12,11 @@ protocol DA2Delegate{
     func dismissingMA2()
 }
 
-class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
-    
+protocol menuAlertViewControllerDelegate3 : NSObjectProtocol {
+    func dismissAfterGift()
+}
+
+class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAlertViewControllerDelegate3 {
     
     let showAlert = menuAlert2Buttons()
     var alertTitle = String()
@@ -26,9 +29,18 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
     var delegate: DismissDelegate?
     var userid = String()
     weak var gameChargeDelegate : GameChargeDelegate?
+    weak var giftDelegate : menuAlert2ButtonsViewControllerDelegate2!
+    
     
     @objc func dismissingMA2() {
          self.dismissing()
+    }
+    
+    func dismissAfterGift() {
+        self.dismiss(animated: false, completion: {
+            self.giftDelegate?.getGift()            
+        })
+        
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -506,6 +518,7 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate {
         
         let vc = segue.destination as! menuAlertViewController
         vc.delegate = self
+        vc.delegate3 = self
         if state == "friendlyMatch" {
             vc.alertState = self.alertState
             vc.alertBody = self.alertBody

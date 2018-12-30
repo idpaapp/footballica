@@ -11,13 +11,28 @@ import SafariServices
 import GoogleSignIn
 
 
-class giftsAndChargesViewController: UIViewController , UITableViewDataSource , UITableViewDelegate , SFSafariViewControllerDelegate , GIDSignInUIDelegate , GIDSignInDelegate {
+protocol changePassAndUserNameViewControllerDelegate : NSObjectProtocol {
+    func getGift()
+}
+
+class giftsAndChargesViewController: UIViewController , UITableViewDataSource , UITableViewDelegate , SFSafariViewControllerDelegate , GIDSignInUIDelegate , GIDSignInDelegate , changePassAndUserNameViewControllerDelegate{
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
 
+    func getGift() {
+        DispatchQueue.main.async {
+            PubProc.wb.hideWaiting()
+        }
+        
+        self.dismiss(animated: false, completion: {
+            self.delegate?.fillData()
+            self.delegate?.showGift(image: "ic_coin" , title : "")
+        })
+    }
+    
     weak var delegate : giftsAndChargesViewControllerDelegate!
     let giftMenu = gift()
     var pageState = String()
@@ -164,6 +179,12 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         
     }
     
+    @objc func changingUserPassNotification() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8, execute: {
+            PubProc.wb.hideWaiting()
+            self.dismiss(animated: false, completion: nil)
+        })
+    }
     
     var gameChargeCount = Int()
     override func viewDidLoad() {
@@ -174,7 +195,8 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         giftMenu.menuTableView.delegate = self
         gameChargeMenu.menuTableView.dataSource = self
         gameChargeMenu.menuTableView.delegate = self
-        
+        let nc = NotificationCenter.default
+        nc.addObserver(self, selector: #selector(changingUserPassNotification), name: Notification.Name("changingUserPassNotification"), object: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -506,6 +528,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         if let vc = segue.destination as? changePassAndUserNameViewController {
             vc.isSignUp = self.isSignUp
             vc.isPasswordChange = self.isPasswordChange
+            vc.changeUserPassDelegate = self
         }
         
         if let vc = segue.destination as? massageViewController {

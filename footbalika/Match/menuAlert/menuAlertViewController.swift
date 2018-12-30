@@ -11,6 +11,7 @@ import UIKit
 
 class menuAlertViewController: UIViewController {
     
+    weak var delegate3 : menuAlertViewControllerDelegate3!
     var delegate: DA2Delegate?
     let showAlert = menuAlert()
     var alertTitle = String()
@@ -102,9 +103,14 @@ class menuAlertViewController: UIViewController {
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
                         } else if self.alertState == "signUp" {
-                            let passData : [String:Bool] = ["isPass" : false]
-                            let nc = NotificationCenter.default
-                            nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
+//                            let passData : [String:Bool] = ["isPass" : false]
+//                            let nc = NotificationCenter.default
+//                            nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
+                            login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                                self.delegate3?.dismissAfterGift()
+                            })
+                            
+//                            self.navigationController?.popToRootViewController(animated: true)
                         } else if self.alertState == "clanMatch" {
                             self.clanDelegate?.dismissing()
                         } else if self.alertState == "signUpError" {

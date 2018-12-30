@@ -589,9 +589,13 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     }
     
     @objc func updatePage() {
-        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+        if login.res?.response?.calnData?.clanid != nil {
             DispatchQueue.main.async {
                 self.getChatroomData(isChatSend: false, completionHandler: {})
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.clansTV.reloadData()
             }
         }
     }

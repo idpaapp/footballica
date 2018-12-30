@@ -32,10 +32,12 @@ class ItemViewController: UIViewController {
     var isPackage = Bool()
     var isHomeUpgrade = Bool()
     var upgradeText = String()
+    var isGift = Bool()
     var delegate : ItemViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if !isGift {
         if !isHomeUpgrade {
             soundPlay().playBuyItem()
             if !isPackage {
@@ -50,7 +52,11 @@ class ItemViewController: UIViewController {
             }
         } else {
             soundPlay().playSpecialSound(name : "level_up")
-            upgradeTitle.AttributesOutLine(font: fonts().large200, title: "\(self.upgradeText)", strokeWidth: 8.0)
+            upgradeTitle.AttributesOutLine(font: fonts().large200, title: "\(self.upgradeText)", strokeWidth: 5.0)
+            itemImage.image = UIImage(named: "\(ImageItem)")
+        }
+        } else {
+            soundPlay().playBuyItem()
             itemImage.image = UIImage(named: "\(ImageItem)")
         }
         
