@@ -82,7 +82,6 @@ class menuAlertViewController: UIViewController {
         self.view.isUserInteractionEnabled = true
     }
     @objc func dismissing() {
-        
         if self.alertState != "forceUpdate" {
             UIView.animate(withDuration: 0.2, animations: {
                 self.showAlert.wholeView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
@@ -106,10 +105,9 @@ class menuAlertViewController: UIViewController {
 //                            let passData : [String:Bool] = ["isPass" : false]
 //                            let nc = NotificationCenter.default
 //                            nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : passData)
-                            login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
-                                self.delegate3?.dismissAfterGift()
-                            })
                             
+                            self.showAlert.removeFromSuperview()
+                            self.delegate3?.dismissAfterGift()
 //                            self.navigationController?.popToRootViewController(animated: true)
                         } else if self.alertState == "clanMatch" {
                             self.clanDelegate?.dismissing()
@@ -141,7 +139,7 @@ class menuAlertViewController: UIViewController {
                 UIApplication.shared.openURL(requestUrl as URL)
             }
         }
-    }
+}
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)

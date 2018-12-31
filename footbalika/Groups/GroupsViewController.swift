@@ -116,6 +116,12 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 self.checkIsClanSelected()
                 self.cGroups?.ChangeclanState()
             }
+        case "REQUEST_SENT" :
+            self.alertBody = "درخواست عضویت در گروه ارسال شد!"
+            self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
+        case "REQUEST_SENT_BEFORE" :
+            self.alertBody = "درخواست عضویت در گروه قبلاً ارسال شده است!"
+            self.performSegue(withIdentifier: "groupDetailAlert", sender: self)
         case "USER_JOINED" :
             DispatchQueue.main.async {
                 self.isSelectedClan = true
@@ -705,6 +711,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     
     @IBAction func friendsAction(_ sender: RoundButton) {
+        self.cGroups.dontUpdate()
         self.state = "friendsList"
         getFriendsList(isSplash: true)
         friendsActionColor()
@@ -722,6 +729,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.state = "searchList"
         self.friendsTableView.reloadData()
         self.gMatchs.isClanMatchFieldData(isDisable : true)
+        self.cGroups.dontUpdate()
     }
     
     @IBAction func searchAction(_ sender: RoundButton) {
@@ -734,9 +742,11 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : UIColor.white , groupGameOutletColor : colors().selectedTab )
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: false, groupsMatchPageShow: true)
         self.gMatchs.isClanMatchFieldData(isDisable : true)
+        self.cGroups.updatePage()
     }
     
     @objc func groupGameAction() {
+        self.cGroups.dontUpdate()
         self.state = "game"
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : UIColor.white )
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: true, groupsMatchPageShow: false)

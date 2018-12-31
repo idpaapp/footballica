@@ -26,11 +26,9 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         DispatchQueue.main.async {
             PubProc.wb.hideWaiting()
         }
-        
-        self.dismiss(animated: false, completion: {
-            self.delegate?.fillData()
-            self.delegate?.showGift(image: "ic_coin" , title : "")
-        })
+        self.giftMenu.removeFromSuperview()
+        self.delegate?.fillData()
+        self.delegate?.showGift(image: "ic_coin" , title : " جایزه ی ثبت نام \((loadingViewController.loadGameData?.response?.giftRewards?.sign_up!)!) سکه ")
     }
     
     weak var delegate : giftsAndChargesViewControllerDelegate!
@@ -152,6 +150,8 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                             let userid = "\(loadingViewController.userid)"
                             UserDefaults.standard.set(userid, forKey: "userid")
                             PubProc.wb.hideWaiting()
+                            self.delegate?.showGoogleGift(image: "ic_coin" , title : " جایزه ی اتصال به گوگل  \((loadingViewController.loadGameData?.response?.giftRewards?.google_sign_in!)!) سکه ")
+                            self.delegate?.fillData()
                         } else {
                             self.GoogleSigningIn(email : email)
                         }

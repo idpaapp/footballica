@@ -21,11 +21,13 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
     
     func getGift() {
         self.changeUserPassDelegate?.getGift()
-        self.dismiss(animated: false, completion: nil)
+        self.changeUserPassDelegate2?.getGift()
     }
     
     
     weak var changeUserPassDelegate : changePassAndUserNameViewControllerDelegate!
+    weak var changeUserPassDelegate2 : changePassAndUserNameViewControllerDelegate2!
+
     var isSignUp = Bool()
     var isPasswordChange = Bool()
     

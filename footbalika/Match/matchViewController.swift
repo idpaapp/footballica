@@ -26,15 +26,21 @@ protocol giftsAndChargesViewControllerDelegate : NSObjectProtocol {
     func showCharge(image : String , title : String)
     func fillData()
     func showGift(image : String , title : String)
+    func showGoogleGift(image : String , title : String)
 }
 
-class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , giftsAndChargesViewControllerDelegate {
+protocol menuViewControllerDelegate2 : NSObjectProtocol {
+    func fillData()
+    func showGift(image : String , title : String)
+}
+
+class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , giftsAndChargesViewControllerDelegate , menuViewControllerDelegate2 {
     
     let ts = testTapsellViewController()
     
     @IBAction func tapsellAction(_ sender: Any) {
         //        NotificationCenter.default.post(name: Notification.Name("showADS"), object: nil)
-        DispatchQueue.main.async{
+        DispatchQueue.main.async {
             self.performSegue(withIdentifier: "showAds", sender: self)
         }
     }
@@ -50,12 +56,19 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     func showGift(image : String , title : String) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6.5, execute: {
-            self.upgradeImage = image
-            self.alertTitle = title
-            self.isGift = true
-            self.performSegue(withIdentifier: "showUpgrade", sender: self)
-        })
+        self.dismiss(animated: true) { [weak self] in
+                self?.upgradeImage = image
+                self?.alertTitle = title
+                self?.isGift = true
+                self?.performSegue(withIdentifier: "showUpgrade", sender: self)
+        }
+    }
+    
+    func showGoogleGift(image : String , title : String) {
+        self.upgradeImage = image
+        self.alertTitle = title
+        self.isGift = true
+        self.performSegue(withIdentifier: "showUpgrade", sender: self)
     }
     
     
@@ -629,6 +642,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             vC.menuState = self.menuState
             vC.friensRes = self.friendsRes
             vC.profileResponse = login.res
+            vC.delegate2 = self
         }
         
         if let vc = segue.destination as? giftsAndChargesViewController {

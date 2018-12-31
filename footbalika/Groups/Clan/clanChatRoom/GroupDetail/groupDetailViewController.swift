@@ -411,6 +411,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     }
     
     @objc func joinGroup() {
+        if (self.res?.response?.clan_type!)! == "1" {
         PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_CLAN' , 'user_id' : '\(loadingViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
             
             if data != nil {
@@ -431,22 +432,17 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         })
                     } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
                         self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
-//                        self.alertBody = "شما کاپ مورد نیاز گروه را ندارید"
-//                        self.performSegue(withIdentifier: "clanAlert", sender: self)
+
                     } else if ((Res)!).contains("USER_HAS_CLAN") {
                         
                         self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
-//                        self.alertBody = "شما قبلاً عضو یک گروه هستید!"
-//                        self.performSegue(withIdentifier: "clanAlert", sender: self)
-                        
+   
                     }  else if ((Res)!).contains("CLAN_IS_FULL") {
                         self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
                         
                     } else {
                         self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
-//                        self.alertBody = "شما امکان انجام این کار را ندارید!"
-//                        self.performSegue(withIdentifier: "clanAlert", sender: self)
-                        
+
                     }
                     
                     PubProc.wb.hideWaiting()
@@ -466,7 +462,73 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                 // handle error
             }
             }.resume()
-        
+            
+            
+        } else {
+            
+            if (self.res?.response?.clanMembers?.count)! == 11 {
+                self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+            } else {
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_REQUEST_CLAN' , 'user_id' : '\(loadingViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
+                
+                if data != nil {
+                    
+                    DispatchQueue.main.async {
+                        PubProc.cV.hideWarning()
+                        
+                        //                print(data ?? "")
+                        
+                        let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
+                        
+                        if ((Res)!).contains("USER_JOINED") {
+                            self.isJoined = true
+                            login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                                PubProc.wb.hideWaiting()
+                                self.checkIsJoinIsCharge()
+                                self.getClanData(id: self.id, completionHandler: {})
+                                self.delegate?.joinOrLeaveGroup(state : "join" , clan_id : self.id)
+                            })
+                        } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
+                            self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
+
+                        } else if ((Res)!).contains("USER_HAS_CLAN") {
+                            
+                            self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+
+                            
+                        }  else if ((Res)!).contains("CLAN_IS_FULL") {
+                            self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+                            
+                        } else if ((Res)!).contains("REQUEST_SENT") {
+                                self.delegate?.joinOrLeaveGroup(state : "REQUEST_SENT" , clan_id : self.id)
+                            
+                        } else if ((Res)!).contains("REQUEST_SENT_BEFORE") {
+                            self.delegate?.joinOrLeaveGroup(state : "REQUEST_SENT_BEFORE" , clan_id : self.id)
+                            
+                        } else {
+                            self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
+
+                        }
+                        
+                        PubProc.wb.hideWaiting()
+                    }
+                    PubProc.countRetry = 0
+                } else {
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                            self.joinGroup()
+                        })
+                    }
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
+                }
+                }.resume()
+            }
+        }
     }
     
     

@@ -11,7 +11,22 @@
  import GoogleSignIn
  import Foundation
  
- class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource , GIDSignInUIDelegate , GIDSignInDelegate{
+ protocol menuAlert2ButtonsViewControllerDemoteDelegate : NSObjectProtocol {
+    func demoteUser()
+    func forceKick()
+    func promoteUser()
+ }
+ 
+ protocol changePassAndUserNameViewControllerDelegate2 : NSObjectProtocol {
+    func getGift()
+ }
+ 
+ 
+ class achievementsViewController : UIViewController , UITableViewDelegate , UITableViewDataSource , GIDSignInUIDelegate , GIDSignInDelegate , menuAlert2ButtonsViewControllerDemoteDelegate , changePassAndUserNameViewControllerDelegate2 {
+    
+    func getGift() {
+        self.delegate?.getSignUpGift()
+    }
     
     @IBOutlet weak var leagues: RoundButton!
     @IBOutlet weak var tournament: RoundButton!
@@ -19,7 +34,7 @@
     @IBOutlet weak var achievementsTV: UITableView!
     @IBOutlet weak var achievementLeaderBoardTopConstraint: NSLayoutConstraint!
     
-    var delegate : achievementsViewControllerDelegate!
+    weak var delegate : achievementsViewControllerDelegate!
     var pageState = String()
     var realm : Realm!
     var isClanInvite = false
@@ -239,7 +254,10 @@
                 if !isPassword {
                     pageState = "profile"
                     self.profileName = (self.profileResponse?.response?.mainInfo?.badge_name!)!
-                    self.achievementsTV.reloadData()
+                    DispatchQueue.main.async {
+                        self.achievementsTV.reloadData()
+                        PubProc.wb.hideWaiting()
+                    }
                 }
             }
         }
@@ -250,7 +268,6 @@
         if let userid = notification.userInfo?["userID"] as? String {
             getUserInfo(id: (Int(userid)!), isResfresh: true)
         }
-        
     }
     
     override func viewDidLoad() {
@@ -871,28 +888,58 @@
     }
     
     @objc func promote() {
+        self.stateOfFriendAlert = "PromoteUser"
+        self.performSegue(withIdentifier: "askForFriendlyMatch", sender: self)
+    }
+    
+    func promoteUser() {
         promoteMember().promote(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!,
-                                completionHandler: {String in
-                                    print(String)
-                                    self.delegate?.dismissing()
-                                    self.delegate?.updateClanData()
+            completionHandler: {String in
+                print(String)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                self.delegate?.dismissing()
+                self.delegate?.updateClanData()
+                })
         })
     }
     
     @objc func demote() {
-        
-        if ((self.profileResponse?.response?.calnData?.member_roll!)!) == "3" {
-            demoteMember().kickMember(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!, completionHandler: {String in
-                print(String)
+        self.stateOfFriendAlert = "DemoteUser"
+        self.performSegue(withIdentifier: "askForFriendlyMatch", sender: self)
+    }
+    
+    func forceKick() {
+        demoteMember().forceKickMember(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!, completionHandler: {String in
+            print(String)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                 self.delegate?.dismissing()
                 self.delegate?.updateClanData()
             })
+    })
+    }
+    
+    func demoteUser() {
+        if ((self.profileResponse?.response?.calnData?.member_roll!)!) == "3" {
+            demoteMember().kickMember(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!, completionHandler: {String in
+                print(String)
+                if String == "USER_IN_AN_ACTIVE_WAR" {
+                    self.stateOfFriendAlert = "ForceDemoteUser"
+                    self.performSegue(withIdentifier: "askForFriendlyMatch", sender: self)
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    self.delegate?.dismissing()
+                    self.delegate?.updateClanData()
+                    })
+                }
+            })
         } else {
-        demoteMember().demoteMember(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!, completionHandler: {String in
-            print(String)
-            self.delegate?.dismissing()
-            self.delegate?.updateClanData()
-        })
+            demoteMember().demoteMember(dest_user_id: (self.profileResponse?.response?.mainInfo?.id!)!, completionHandler: {String in
+                print(String)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                self.delegate?.dismissing()
+                self.delegate?.updateClanData()
+                })
+            })
         }
     }
     
@@ -1476,6 +1523,26 @@
                 vc.alertBody = "آیا برای ارسال دعوتنامه اطمینان دارید؟"
                 vc.alertTitle = "فوتبالیکا"
                 vc.state = "clanInviteFriend"
+            } else if self.stateOfFriendAlert == "DemoteUser" {
+                vc.alertAcceptLabel = "بلی"
+                vc.alertBody = "آیا برای کاهش سطح کاربر اطمینان دارید؟"
+                vc.alertTitle = "فوتبالیکا"
+                vc.state = "DemoteUser"
+                vc.demoteKickDelegate = self
+                
+            } else if self.stateOfFriendAlert == "ForceDemoteUser" {
+                vc.alertAcceptLabel = "بلی"
+                vc.alertBody = "گاربر در بازی گروهی است آیا برای کاهش سطح اطمینان دارید؟"
+                vc.alertTitle = "فوتبالیکا"
+                vc.state = "ForceDemoteUser"
+                vc.demoteKickDelegate = self
+                
+            } else if self.stateOfFriendAlert == "PromoteUser" {
+                vc.alertAcceptLabel = "بلی"
+                vc.alertBody = "آیا برای ارتقاء سطح کاربر اطمینان دارید؟"
+                vc.alertTitle = "فوتبالیکا"
+                vc.state = "PromoteUser"
+                vc.demoteKickDelegate = self                
             } else {
                 //no need this will execute in the first line
                 //                vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((login.res?.response?.mainInfo?.id!)!)'}"
@@ -1489,6 +1556,7 @@
         if let vc = segue.destination as? changePassAndUserNameViewController {
             vc.isSignUp = self.isSignUp
             vc.isPasswordChange = self.isPass
+            vc.changeUserPassDelegate2 = self
         }
         
         if let vc = segue.destination as? groupDetailViewController {

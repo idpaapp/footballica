@@ -20,7 +20,7 @@ class sendChatViewController: UIViewController , UITextViewDelegate {
     
     @IBOutlet weak var clearChatTextView: RoundButton!
     
-    var delegate : sendChatViewControllerDelegate!
+    weak var delegate : sendChatViewControllerDelegate!
     
     var textForSend = String()
     

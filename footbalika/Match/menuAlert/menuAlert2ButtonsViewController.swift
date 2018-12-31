@@ -30,17 +30,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
     var userid = String()
     weak var gameChargeDelegate : GameChargeDelegate?
     weak var giftDelegate : menuAlert2ButtonsViewControllerDelegate2!
-    
-    
+    weak var demoteKickDelegate : menuAlert2ButtonsViewControllerDemoteDelegate!
     @objc func dismissingMA2() {
          self.dismissing()
     }
     
     func dismissAfterGift() {
-        self.dismiss(animated: false, completion: {
-            self.giftDelegate?.getGift()            
-        })
-        
+        self.showAlert.removeFromSuperview()
+        self.giftDelegate?.getGift()
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -413,11 +410,13 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                             
                             print((login.res?.status!)!)
                             if (login.res?.status?.contains("OK"))! {
+                                login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
                                 self.alertState = "userPassChange"
                                 self.alertBody = "ثبت نام با موفقیت انجام شد!"
                                 self.alertTitle = "فوتبالیکا"
                                 self.alertAcceptLabel = "تأیید"
                                 self.performSegue(withIdentifier: "notMore", sender: self)
+                                })
                             } else if (login.res?.status?.contains("USERNAME_NOT_VALID"))! {
                                 self.state = "signUpError"
                                 self.alertBody = "نام کاربری تکراری است!"
@@ -505,6 +504,16 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                     }
                 }
                 }.resume()
+            
+        case "DemoteUser" :
+            self.dismissing()
+            self.demoteKickDelegate?.demoteUser()
+        case "ForceDemoteUser" :
+            self.dismissing()
+            self.demoteKickDelegate?.forceKick()
+        case "PromoteUser" :
+            self.dismissing()
+            self.demoteKickDelegate?.promoteUser()
         default:
             print("otherStates")
             self.dismissing()

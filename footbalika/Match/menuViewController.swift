@@ -8,18 +8,26 @@
 
 import UIKit
 
-protocol achievementsViewControllerDelegate {
+protocol achievementsViewControllerDelegate : NSObjectProtocol {
     func updateClanData()
     func dismissing()
+    func getSignUpGift()
 }
 
-class menuViewController: UIViewController  , achievementsViewControllerDelegate {
+class menuViewController: UIViewController , achievementsViewControllerDelegate {
     
     
     func updateClanData() {
         self.delegate?.updatingClan()
     }
     
+    func getSignUpGift() {
+        DispatchQueue.main.async {
+            PubProc.wb.hideWaiting()
+        }
+        self.delegate2?.fillData()
+        self.delegate2?.showGift(image: "ic_coin" , title : " جایزه ی ثبت نام \((loadingViewController.loadGameData?.response?.giftRewards?.sign_up!)!) سکه ")
+    }
     
     
     @IBOutlet weak var menuHeight: NSLayoutConstraint!
@@ -41,8 +49,8 @@ class menuViewController: UIViewController  , achievementsViewControllerDelegate
     }
     
     var delegate : menuViewControllerDelegate!
-    var iPhonefonts = UIFont(name: "DPA_Game", size: 20)!
-    var iPadfonts = UIFont(name: "DPA_Game", size: 30)!
+    
+    weak var delegate2 : menuViewControllerDelegate2!
     
     var friensRes : friendList.Response? = nil
     var menuState = String()
@@ -61,45 +69,45 @@ class menuViewController: UIViewController  , achievementsViewControllerDelegate
             if UIDevice().userInterfaceIdiom == .phone {
                 self.menuHeight.constant = ((8 * UIScreen.main.bounds.height) / 9)
                 self.menuWidth.constant = UIScreen.main.bounds.width - 20
-                maintitle.AttributesOutLine(font: iPhonefonts, title: "دستاوردها", strokeWidth: 8.0)
-                self.mainTitleForeGround.font = iPhonefonts
+                maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "دستاوردها", strokeWidth: 8.0)
+                self.mainTitleForeGround.font = fonts().iPhonefonts
             } else {
                 self.menuHeight.constant = ((8 * UIScreen.main.bounds.height) / 9)
                 self.menuWidth.constant = 600
-                maintitle.AttributesOutLine(font: iPadfonts, title: "دستاوردها", strokeWidth: 8.0)
-                self.mainTitleForeGround.font = iPadfonts
+                maintitle.AttributesOutLine(font: fonts().iPadfonts, title: "دستاوردها", strokeWidth: 8.0)
+                self.mainTitleForeGround.font = fonts().iPadfonts
             }
         } else if menuState == "LeaderBoard" {
             self.mainTitleForeGround.text = "رتبه بندی"
             if UIDevice().userInterfaceIdiom == .phone {
-                self.mainTitleForeGround.font = iPhonefonts
+                self.mainTitleForeGround.font = fonts().iPhonefonts
                 if UIScreen.main.nativeBounds.height == 2436 {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 90
                 self.menuWidth.constant = UIScreen.main.bounds.width - 10
-                maintitle.AttributesOutLine(font: iPhonefonts, title: "رتبه بندی", strokeWidth: 8.0)
+                maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "رتبه بندی", strokeWidth: 8.0)
                 } else {
                     self.menuHeight.constant = UIScreen.main.bounds.height - 30
                     self.menuWidth.constant = UIScreen.main.bounds.width - 10
-                    maintitle.AttributesOutLine(font: iPhonefonts, title: "رتبه بندی", strokeWidth: 8.0)
+                    maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "رتبه بندی", strokeWidth: 8.0)
                 }
             } else {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
                 self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
-                maintitle.AttributesOutLine(font: iPadfonts, title: "رتبه بندی", strokeWidth: 8.0)
-                self.mainTitleForeGround.font = iPadfonts
+                maintitle.AttributesOutLine(font: fonts().iPadfonts, title: "رتبه بندی", strokeWidth: 8.0)
+                self.mainTitleForeGround.font = fonts().iPadfonts
             }
         } else if self.menuState == "alerts" {
             self.mainTitleForeGround.text = "اخبار و اعلان ها"
             if UIDevice().userInterfaceIdiom == .phone {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
                 self.menuWidth.constant = UIScreen.main.bounds.width - 40
-                maintitle.AttributesOutLine(font: iPhonefonts, title: "اخبار و اعلان ها", strokeWidth: 8.0)
-                self.mainTitleForeGround.font = iPhonefonts
+                maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "اخبار و اعلان ها", strokeWidth: 8.0)
+                self.mainTitleForeGround.font = fonts().iPhonefonts
             } else {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
                 self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
-                maintitle.AttributesOutLine(font: iPadfonts, title: "اخبار و اعلان ها", strokeWidth: 8.0)
-                self.mainTitleForeGround.font = iPadfonts
+                maintitle.AttributesOutLine(font: fonts().iPadfonts, title: "اخبار و اعلان ها", strokeWidth: 8.0)
+                self.mainTitleForeGround.font = fonts().iPadfonts
             }
             
           } else if self.menuState == "profile" {
@@ -122,8 +130,8 @@ class menuViewController: UIViewController  , achievementsViewControllerDelegate
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
                 }
                 self.menuWidth.constant = UIScreen.main.bounds.width - 40
-                maintitle.AttributesOutLine(font: iPhonefonts, title: "پروفایل", strokeWidth: 8.0)
-                self.mainTitleForeGround.font = iPhonefonts
+                maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "پروفایل", strokeWidth: 8.0)
+                self.mainTitleForeGround.font = fonts().iPhonefonts
             } else {
                 if loadingViewController.userid ==  (profileResponse?.response?.mainInfo?.id)! {
                     let stadium = (profileResponse?.response?.mainInfo?.stadium)!
@@ -147,29 +155,29 @@ class menuViewController: UIViewController  , achievementsViewControllerDelegate
                 }
                 
                 self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
-                maintitle.AttributesOutLine(font: iPadfonts, title: "پروفایل", strokeWidth: 8.0)
-                self.mainTitleForeGround.font = iPadfonts
+                maintitle.AttributesOutLine(font: fonts().iPadfonts, title: "پروفایل", strokeWidth: 8.0)
+                self.mainTitleForeGround.font = fonts().iPadfonts
             }
             
             
         } else if self.menuState == "friendsList" {
             self.mainTitleForeGround.text = "دوستان"
             if UIDevice().userInterfaceIdiom == .phone {
-                self.mainTitleForeGround.font = iPhonefonts
+                self.mainTitleForeGround.font = fonts().iPhonefonts
                 if UIScreen.main.nativeBounds.height == 2436 {
                     self.menuHeight.constant = UIScreen.main.bounds.height - 90
                     self.menuWidth.constant = UIScreen.main.bounds.width - 10
-                    maintitle.AttributesOutLine(font: iPhonefonts, title: "دوستان", strokeWidth: 8.0)
+                    maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "دوستان", strokeWidth: 8.0)
                 } else {
                     self.menuHeight.constant = UIScreen.main.bounds.height - 30
                     self.menuWidth.constant = UIScreen.main.bounds.width - 10
-                    maintitle.AttributesOutLine(font: iPhonefonts, title: "دوستان", strokeWidth: 8.0)
+                    maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "دوستان", strokeWidth: 8.0)
                 }
             } else {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 100
                 self.menuWidth.constant = 3 * (UIScreen.main.bounds.width / 4)
-                maintitle.AttributesOutLine(font: iPadfonts, title: "دوستان", strokeWidth: 8.0)
-                self.mainTitleForeGround.font = iPadfonts
+                maintitle.AttributesOutLine(font: fonts().iPadfonts, title: "دوستان", strokeWidth: 8.0)
+                self.mainTitleForeGround.font = fonts().iPadfonts
             }
         } else {
              self.mainTitleForeGround.text = "تنظیمات"
@@ -188,8 +196,8 @@ class menuViewController: UIViewController  , achievementsViewControllerDelegate
                     }
                 }
                 self.menuWidth.constant = 280
-            maintitle.AttributesOutLine(font: iPhonefonts, title: "تنظیمات", strokeWidth: 8.0)
-            self.mainTitleForeGround.font = iPhonefonts
+            maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "تنظیمات", strokeWidth: 8.0)
+            self.mainTitleForeGround.font = fonts().iPhonefonts
             } else {
                 if (login.res?.response?.mainInfo?.status!)! != "2" {
                     if (login.res?.response?.mainInfo?.email_connected!)! != "1" {
@@ -205,8 +213,8 @@ class menuViewController: UIViewController  , achievementsViewControllerDelegate
                     }
                 }
              self.menuWidth.constant = 500
-            maintitle.AttributesOutLine(font: iPadfonts, title: "تنظیمات", strokeWidth: 8.0)
-            self.mainTitleForeGround.font = iPadfonts
+            maintitle.AttributesOutLine(font: fonts().iPadfonts, title: "تنظیمات", strokeWidth: 8.0)
+            self.mainTitleForeGround.font = fonts().iPadfonts
             }
         }
     }

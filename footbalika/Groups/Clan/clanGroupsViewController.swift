@@ -14,7 +14,7 @@ protocol clanDetailsViewControllerDelegate {
     func newInformation(minMember : Int , maxMember : Int , minCup : Int , groupType : Int)
 }
 
-protocol sendChatViewControllerDelegate {
+protocol sendChatViewControllerDelegate : NSObjectProtocol {
     func sendChat(chatString : String)
     func updateChatView(constraint : CGFloat)
 }
@@ -25,7 +25,6 @@ protocol createClanGroupViewControllerDelegate {
 }
 
 class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDetailsViewControllerDelegate , UITableViewDelegate , UITableViewDataSource , sendChatViewControllerDelegate , createClanGroupViewControllerDelegate {
-    
     
     var realm : Realm!
     
@@ -41,7 +40,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     @IBAction func selectGroup(_ sender: RoundButton) {
         if login.res?.response?.calnData?.clanid != nil {
-        self.delegate?.showGroupInfo(id : "\(self.clanID)")
+            self.delegate?.showGroupInfo(id : "\(self.clanID)")
         }
     }
     
@@ -50,12 +49,15 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     }
     
     var delegate : clanGroupsViewControllerDelegate!
+    var isSendingChat = false
     func sendChat(chatString : String) {
+        self.isSendingChat = true
         let vc = self.childViewControllers.last as! sendChatViewController
         vc.chatTextView.endEditing(true)
         if chatString.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
             PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'INSERT_CHATS' , 'user_id' : '\(loadingViewController.userid)', 'clan_id' : '\(self.clanID)' , 'chat_text' : '\(chatString.trimmingCharacters(in: .whitespacesAndNewlines))' , 'item_type' : '1' }") { data, error in
                 
+                self.isSendingChat = false
                 if data != nil {
                     
                     DispatchQueue.main.async {
@@ -68,6 +70,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     let res = String(data: data!, encoding: String.Encoding.utf8) ?? ""
                     if res.contains("OK") {
                         DispatchQueue.main.async {
+                           
                             self.getChatroomData(isChatSend: true, completionHandler: {})
                         }
                     }
@@ -83,7 +86,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.sendChat(chatString: chatString)
+                            self.sendChat(chatString: chatString)
                         })
                     }
                     print("Error Connection")
@@ -109,17 +112,17 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         self.chatView.isHidden = false
         self.topClanView.isHidden = false
         if login.res?.response?.calnData?.clanid != nil {
-        self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
-        if getChats {
-            DispatchQueue.main.async {
-                self.getChatroomData(isChatSend: false, completionHandler: {})
-                self.delegate?.clanJoinded()
-                self.clansTV.reloadData()
+            self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
+            if getChats {
+                DispatchQueue.main.async {
+                    self.getChatroomData(isChatSend: false, completionHandler: {})
+                    self.delegate?.clanJoinded()
+                    self.clansTV.reloadData()
+                }
             }
-        }
-        self.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)")
-        self.clanTitle.text = "\((login.res?.response?.calnData?.clan_title!)!)"
-        self.clanCup.text = "\((login.res?.response?.calnData?.clan_point!)!)"
+            self.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)")
+            self.clanTitle.text = "\((login.res?.response?.calnData?.clan_title!)!)"
+            self.clanCup.text = "\((login.res?.response?.calnData?.clan_point!)!)"
         }
     }
     
@@ -438,57 +441,57 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     var res : clanGrouops.Response? = nil
     @objc func searchingAction() {
         
-//        if self.searchTitle.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-//            self.searchTitle = ""
-//            self.res = nil
-//            self.clansTV.reloadData()
-//        } else {
-            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'SEARCH_CLAN' , 'clan_ref' : '\(self.searchTitle.replacedArabicDigitsWithEnglish)' , 'require_trophy' : '\(self.minCupCount)' , 'clan_type' : '\(self.groupType)' , 'min_member_count' : '\(self.minMemberCount)' , 'max_member_count' : '\(self.maxMemberCount)' }") { data, error in
+        //        if self.searchTitle.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
+        //            self.searchTitle = ""
+        //            self.res = nil
+        //            self.clansTV.reloadData()
+        //        } else {
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'SEARCH_CLAN' , 'clan_ref' : '\(self.searchTitle.replacedArabicDigitsWithEnglish)' , 'require_trophy' : '\(self.minCupCount)' , 'clan_type' : '\(self.groupType)' , 'min_member_count' : '\(self.minMemberCount)' , 'max_member_count' : '\(self.maxMemberCount)' }") { data, error in
+            
+            if data != nil {
                 
-                if data != nil {
-                    
-                    DispatchQueue.main.async {
-                        PubProc.cV.hideWarning()
-                    }
-                    
-                    //                print(data ?? "")
-                    
-                    do {
-                        
-                        self.res = try JSONDecoder().decode(clanGrouops.Response.self , from : data!)
-                        
-                        if (self.res?.response?.count)! != 0 {
-                            self.isShowDetails = false
-                            self.hideDetails()
-                        }
-                        
-                        //                        print((self.resUser?.response?.count)!)
-                        DispatchQueue.main.async {
-                            self.clansTV.reloadData()
-                            self.searchTextField.endEditing(true)
-                            PubProc.wb.hideWaiting()
-                        }
-                        
-                    } catch {
-                        self.searchingAction()
-                        print(error)
-                    }
-                    PubProc.countRetry = 0
-                } else {
-                    PubProc.countRetry = PubProc.countRetry + 1
-                    if PubProc.countRetry == 10 {
-                        
-                    } else {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                    self.searchingAction()
-                        })
-                    }
-                    print("Error Connection")
-                    print(error as Any)
-                    // handle error
+                DispatchQueue.main.async {
+                    PubProc.cV.hideWarning()
                 }
-                }.resume()
-//        }
+                
+                //                print(data ?? "")
+                
+                do {
+                    
+                    self.res = try JSONDecoder().decode(clanGrouops.Response.self , from : data!)
+                    
+                    if (self.res?.response?.count)! != 0 {
+                        self.isShowDetails = false
+                        self.hideDetails()
+                    }
+                    
+                    //                        print((self.resUser?.response?.count)!)
+                    DispatchQueue.main.async {
+                        self.clansTV.reloadData()
+                        self.searchTextField.endEditing(true)
+                        PubProc.wb.hideWaiting()
+                    }
+                    
+                } catch {
+                    self.searchingAction()
+                    print(error)
+                }
+                PubProc.countRetry = 0
+            } else {
+                PubProc.countRetry = PubProc.countRetry + 1
+                if PubProc.countRetry == 10 {
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                        self.searchingAction()
+                    })
+                }
+                print("Error Connection")
+                print(error as Any)
+                // handle error
+            }
+            }.resume()
+        //        }
     }
     
     @objc func clearTextFields() {
@@ -602,6 +605,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     var chatRes : clanChatRoom.Response? = nil
     @objc func getChatroomData(isChatSend : Bool , completionHandler : @escaping () -> Void) {
+        if !self.isSendingChat {
         PubProc.isSplash = true
         PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'READ_CLAN_CHATS' , 'clan_id' : '\(self.clanID)'}") { data, error in
             
@@ -619,10 +623,20 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     
                     DispatchQueue.main.async {
                         completionHandler()
-                        self.clansTV.reloadData()
+                        UIView.performWithoutAnimation {
+                            self.clansTV.reloadData()
+                        }
+                        self.refreshControl.endRefreshing()
                         if self.chatRes?.response?.count != 0 {                           let indexPath = IndexPath(row: (self.chatRes?.response?.count)! - 1, section: 0)
+                            if !self.shouldGetChats {
                             self.clansTV.scrollToRow(at: indexPath, at: .bottom, animated: false)
+                            }
                             self.selectedClan(getChats: false)
+                            if self.shouldGetChats {
+                            } else {
+                                self.chatTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(self.chatUpdate), userInfo: nil, repeats: true)
+                                self.shouldGetChats = true
+                            }
                         }
                         if isChatSend {
                             let vc = self.childViewControllers.last as! sendChatViewController
@@ -642,7 +656,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                self.getChatroomData(isChatSend: isChatSend, completionHandler: {})
+                        self.getChatroomData(isChatSend: isChatSend, completionHandler: {})
                     })
                 }
                 print("Error Connection")
@@ -650,6 +664,19 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                 // handle error
             }
             }.resume()
+        } else {
+            self.refreshControl.endRefreshing()
+        }
+    }
+    
+    @objc func chatUpdate() {
+        if self.shouldGetChats {
+            getChatroomData(isChatSend: false, completionHandler: {})
+        }
+    }
+    
+    func dontUpdate() {
+        self.shouldGetChats = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -666,6 +693,17 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     }
                 }
             }
+        }
+    }
+    
+    
+    var chatTimer: Timer!
+    var shouldGetChats = false
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+            if self.shouldGetChats {
+                chatTimer.invalidate()
+                self.shouldGetChats = false
         }
     }
     
