@@ -36,24 +36,35 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     
     
     var rotateTimer : Timer!
-    
     let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
-    let playingMusic = musicPlay()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
     
-        if playMenuMusic == true {
-            playingMusic.playMenuMusic()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        downloadStadiums.init().getIDs()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        if playMenuMusic {
+            musicPlay().playMenuMusic()
         } else {
             
         }
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollFunction(notification:)), name: Notification.Name("selectButtonPage"), object: nil)
         
         self.menuButtonsCV.selectItem(at: IndexPath(item: 2, section: 0), animated: true, scrollPosition: UICollectionViewScrollPosition.centeredVertically)
         // Do any additional setup after loading the view.
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5

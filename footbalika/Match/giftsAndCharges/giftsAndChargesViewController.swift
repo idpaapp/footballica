@@ -28,7 +28,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
         }
         self.giftMenu.removeFromSuperview()
         self.delegate?.fillData()
-        self.delegate?.showGift(image: "ic_coin" , title : " جایزه ی ثبت نام \((loadingViewController.loadGameData?.response?.giftRewards?.sign_up!)!) سکه ")
+        self.delegate?.showGift(image: "ic_coin" , title : " جایزه ی ثبت نام \((gameDataModel.loadGameData?.response?.giftRewards?.sign_up!)!) سکه ")
     }
     
     weak var delegate : giftsAndChargesViewControllerDelegate!
@@ -146,11 +146,11 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         if (login.res?.status?.contains("NEW_USER"))! || (login.res?.status?.contains("OK"))! {
                             
                             self.dismissing()
-                            loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
-                            let userid = "\(loadingViewController.userid)"
+                            matchViewController.userid = (login.res?.response?.mainInfo?.id!)!
+                            let userid = "\(matchViewController.userid)"
                             UserDefaults.standard.set(userid, forKey: "userid")
                             PubProc.wb.hideWaiting()
-                            self.delegate?.showGoogleGift(image: "ic_coin" , title : " جایزه ی اتصال به گوگل  \((loadingViewController.loadGameData?.response?.giftRewards?.google_sign_in!)!) سکه ")
+                            self.delegate?.showGoogleGift(image: "ic_coin" , title : " جایزه ی اتصال به گوگل  \((gameDataModel.loadGameData?.response?.giftRewards?.google_sign_in!)!) سکه ")
                             self.delegate?.fillData()
                         } else {
                             self.GoogleSigningIn(email : email)
@@ -282,7 +282,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     var alertAcceptLabel = String()
     
     @objc func chargeGame(id : Int , selectedCharge : Int) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_setExtraGames", JSONStr: "{'charge_id' : '\(id)' , 'userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_setExtraGames", JSONStr: "{'charge_id' : '\(id)' , 'userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -297,7 +297,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
 //                        self.alertAcceptLabel = "تأیید"
 //                        self.performSegue(withIdentifier: "giftAlert", sender: self)
                         
-                        login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                        login().loging(userid: matchViewController.userid, rest: false, completionHandler: {
                             self.delegate?.fillData()
                             self.dismissing()
                             self.delegate?.showCharge(image : self.gameChargeMenu.gameChargesImages[selectedCharge] , title : self.gameChargeMenu.gameChargesTitles[selectedCharge])
@@ -364,7 +364,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                 print("other")
             }
         } else {
-            let id = Int((loadingViewController.loadGameData?.response?.gameCharge[sender.tag].id!)!)
+            let id = Int((gameDataModel.loadGameData?.response?.gameCharge[sender.tag].id!)!)
             self.chargeGame(id : id!, selectedCharge: sender.tag)
         }
     }
@@ -387,7 +387,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     
     
     @objc func invitingFriends() {
-        let shareText = "دوست خوبم،\n با لینک زیر فوتبالیکا رو نصب کن و موقع ثبت نام کد معرف رو وارد کن تا \((loadingViewController.loadGameData?.response?.giftRewards?.invite_friend!)!) تا سکه رایگان بگیری. \n مایکت \n https://myket.ir/app/com.dpa_me.adelica \n بازار \n https://cafebazaar.ir/app/com.dpa_me.adelica/?l=fa \n سیب اپ \n https://new.sibapp.com/applications/footbalika \n کد معرف: \((login.res?.response?.mainInfo?.ref_id!)!.replacingOccurrences(of: "#", with: ""))"
+        let shareText = "دوست خوبم،\n با لینک زیر فوتبالیکا رو نصب کن و موقع ثبت نام کد معرف رو وارد کن تا \((gameDataModel.loadGameData?.response?.giftRewards?.invite_friend!)!) تا سکه رایگان بگیری. \n مایکت \n https://myket.ir/app/com.dpa_me.adelica \n بازار \n https://cafebazaar.ir/app/com.dpa_me.adelica/?l=fa \n سیب اپ \n https://new.sibapp.com/applications/footbalika \n کد معرف: \((login.res?.response?.mainInfo?.ref_id!)!.replacingOccurrences(of: "#", with: ""))"
         
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [])
         
@@ -433,7 +433,7 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
     
     @objc func supportingUs() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "{'mode':'USER_SUPPORTS' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "{'mode':'USER_SUPPORTS' , 'userid' : '\(matchViewController.userid)'}") { data, error in
             
             DispatchQueue.main.async {
                 

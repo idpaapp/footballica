@@ -123,13 +123,12 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "predictLeaderBoardCell", for: indexPath) as! predictLeaderBoardCell
             
-            DispatchQueue.main.async {
 //                cell.userAvatar.setImageWithKingFisher(url: "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)")
 
                 cell.aVURL = "\(urls().avatar)\((self.predictLeaderBoardRes?.response?[indexPath.row].avatar!)!)"
                 cell.updateImage()
                 
-                if "\((self.predictLeaderBoardRes?.response?[indexPath.row].id!)!)" == loadingViewController.userid {
+                if "\((self.predictLeaderBoardRes?.response?[indexPath.row].id!)!)" == matchViewController.userid {
                     cell.userBackGroud.backgroundColor = publicColors().currentUser
                 } else {
                     cell.userBackGroud.backgroundColor = publicColors().otherUsers
@@ -138,7 +137,6 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
             cell.userName.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].username!)!)"
             cell.number.text = "\(indexPath.row + 1)"
             cell.userScore.text = "\((self.predictLeaderBoardRes?.response?[indexPath.row].cups!)!)"
-            }
             cell.selectLeaderBoardUser.tag = indexPath.row
             cell.selectLeaderBoardUser.addTarget(self, action: #selector(getUserInfo), for: UIControlEvents.touchUpInside)
             return cell
@@ -200,7 +198,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     }
     
     @objc func getProfile(userid : String) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -296,7 +294,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     
     @objc func scrollToMyRow() {
         if self.state == "leaderBoard" {
-        let index = self.predictLeaderBoardRes?.response?.index(where : {$0.id == loadingViewController.userid})
+        let index = self.predictLeaderBoardRes?.response?.index(where : {$0.id == matchViewController.userid})
             if index != nil {
         self.predictMatchTV.scrollToRow(at: IndexPath(row: index!, section: 0), at: .top, animated: true)
             }
@@ -337,7 +335,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     }
     
     @objc func pastJson() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'GET_PREV_GAMES' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'GET_PREV_GAMES' , 'userid' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -387,7 +385,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     }
     
     @objc func todayJson() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'GET_TODAY_GAMES' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'GET_TODAY_GAMES' , 'userid' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -445,7 +443,7 @@ class predictMatchViewController: UIViewController , UITableViewDelegate , UITab
     }
     
     @objc func leaderBoardJson() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'LEADERBOARD' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handlePredictions", JSONStr: "{'mode':'LEADERBOARD' , 'userid' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

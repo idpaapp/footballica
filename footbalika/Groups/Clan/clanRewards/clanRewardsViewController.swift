@@ -36,7 +36,7 @@ class clanRewardsViewController: UIViewController {
     
     var rewards : warRewardsScore.Response? = nil
     @objc func getClanRwards() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR_RESULT' , 'war_id' : '\(self.warId)', 'user_id' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR_RESULT' , 'war_id' : '\(self.warId)', 'user_id' : '\(matchViewController.userid)'}") { data, error in
 
                 if data != nil {
 

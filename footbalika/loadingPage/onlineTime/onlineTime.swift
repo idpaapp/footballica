@@ -14,6 +14,6 @@ public class onlineTime {
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(loopTime), userInfo: nil, repeats: true)
     }
     @objc func loopTime() {
-        loadingViewController.OnlineTime = loadingViewController.OnlineTime + 1000
+        matchViewController.OnlineTime = matchViewController.OnlineTime + 1000
     }
 }

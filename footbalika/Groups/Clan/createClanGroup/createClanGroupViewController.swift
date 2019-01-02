@@ -114,7 +114,7 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     }
     
     @objc func editClan() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'EDIT_CLAN' , 'clan_logo' : '\(self.groupImageUrl.dropFirst(urls().clan.count))' , 'status' : '\(self.createView.groupTextView.text!)' , 'clan_type' : '\(self.clanType)' , 'require_trophy' : '\(self.minCup)' , 'user_id' : '\(loadingViewController.userid)' }") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'EDIT_CLAN' , 'clan_logo' : '\(self.groupImageUrl.dropFirst(urls().clan.count))' , 'status' : '\(self.createView.groupTextView.text!)' , 'clan_type' : '\(self.clanType)' , 'require_trophy' : '\(self.minCup)' , 'user_id' : '\(matchViewController.userid)' }") { data, error in
             
             if data != nil {
                 
@@ -131,7 +131,7 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
                         self.alertBody = "شما امکان انجام این کار را ندارید!"
                         self.performSegue(withIdentifier: "createGroupAlert", sender: self)
                     } else if ((Res)!).contains("DATA_CHENGED") {
-                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
                         self.delegate2?.updateClanData()
                         self.closingPage()
                         })
@@ -195,7 +195,7 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     }
     
     @objc func creatingGroup() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'CREATE_CLAN' , 'title' : '\(self.groupName)', 'clan_logo' : '\(self.groupImageUrl.dropFirst(urls().clan.count))' , 'status' : '\(self.desc)' , 'clan_type' : '\(self.clanType)' , 'require_trophy' : '\(self.minCup)' , 'user_id' : '\(loadingViewController.userid)' }") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'CREATE_CLAN' , 'title' : '\(self.groupName)', 'clan_logo' : '\(self.groupImageUrl.dropFirst(urls().clan.count))' , 'status' : '\(self.desc)' , 'clan_type' : '\(self.clanType)' , 'require_trophy' : '\(self.minCup)' , 'user_id' : '\(matchViewController.userid)' }") { data, error in
             
             if data != nil {
                 
@@ -257,8 +257,8 @@ class createClanGroupViewController: UIViewController , logoViewControllerDelega
     
     func setGroupPage() {
         if state == "createGroup" {
-            self.createView.buyButton.setPriceTitle(title: "\((loadingViewController.loadGameData?.response?.clan_create_price!)!)", font: fonts().iPhonefonts)
-            switch  String((loadingViewController.loadGameData?.response?.clan_create_price_type!)!) {
+            self.createView.buyButton.setPriceTitle(title: "\((gameDataModel.loadGameData?.response?.clan_create_price!)!)", font: fonts().iPhonefonts)
+            switch  String((gameDataModel.loadGameData?.response?.clan_create_price_type!)!) {
             case publicConstants().coinCase :
                 self.createView.buyButton.handleTitle(isFree: false)
                 self.createView.buyButton.setPriceImage(priceImage: publicImages().coin!)

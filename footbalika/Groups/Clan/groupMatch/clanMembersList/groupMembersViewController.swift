@@ -78,7 +78,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
     @objc func startClanWar() {
         if self.isActiveStartButton {
             print("startWar")
-                PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR_QUESTIONS' , 'user_id' : '\(loadingViewController.userid)'}") { data, error in
+                PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR_QUESTIONS' , 'user_id' : '\(matchViewController.userid)'}") { data, error in
                     
                     if data != nil {
                         
@@ -150,10 +150,10 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
             self.clanMembersList.noPriceTitle.isHidden = true
             self.clanMembersList.noPriceTitleForeGround.isHidden = true
         self.clanMembersList.useButtonPriceTitle.text = "پیوستن به بازی گروهی"
-        self.clanMembersList.useButtonPrice.AttributesOutLine(font: fonts().iPhonefonts, title: "\((loadingViewController.loadGameData?.response?.join_war_price!)!)", strokeWidth: 8.0)
+        self.clanMembersList.useButtonPrice.AttributesOutLine(font: fonts().iPhonefonts, title: "\((gameDataModel.loadGameData?.response?.join_war_price!)!)", strokeWidth: 8.0)
         self.clanMembersList.useButtonPriceForeGround.font = fonts().iPhonefonts
-        self.clanMembersList.useButtonPriceForeGround.text = "\((loadingViewController.loadGameData?.response?.join_war_price!)!)"
-        switch String((loadingViewController.loadGameData?.response?.join_war_price_type!)!) {
+        self.clanMembersList.useButtonPriceForeGround.text = "\((gameDataModel.loadGameData?.response?.join_war_price!)!)"
+        switch String((gameDataModel.loadGameData?.response?.join_war_price_type!)!) {
         case publicConstants().coinCase :
             self.clanMembersList.useButtonPriceIcon.image = publicImages().coin
         case publicConstants().moneyCase :
@@ -169,7 +169,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         self.clanMembersList.topTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "تعداد بازیکنان : \(self.membersCount)", strokeWidth: 8.0)
         if self.activeWarRes != nil {
             if self.activeWarRes?.response?.members != nil {
-                if ((self.activeWarRes?.response?.members?.index(where : {$0.user_id == loadingViewController.userid})) != nil) {
+                if ((self.activeWarRes?.response?.members?.index(where : {$0.user_id == matchViewController.userid})) != nil) {
                     self.clanMembersList.useButton.setBackgroundImage(publicImages().inactiveLargeButton, for: UIControlState.normal)
                     self.isJoinActive = false
                 } else {
@@ -179,7 +179,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
             }
         } else {
             if self.startWarRes?.response?.members != nil {
-                if ((self.startWarRes?.response?.members?.index(where : {$0.user_id == loadingViewController.userid})) != nil) {
+                if ((self.startWarRes?.response?.members?.index(where : {$0.user_id == matchViewController.userid})) != nil) {
                     self.clanMembersList.useButton.setBackgroundImage(publicImages().inactiveLargeButton, for: UIControlState.normal)
                     self.isJoinActive = false
                 } else {
@@ -212,7 +212,7 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
         self.clanMembersList.useButtonPriceIcon.image = UIImage()
         self.clanMembersList.noPriceTitleForeGround.text = "شروع بازی"
         if self.activeWarRes != nil {
-            let index = self.activeWarRes?.response?.members?.index(where: { $0.user_id == loadingViewController.userid})
+            let index = self.activeWarRes?.response?.members?.index(where: { $0.user_id == matchViewController.userid})
 
             switch (self.activeWarRes?.response?.members?[index!].status!)! {
 

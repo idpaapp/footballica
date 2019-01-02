@@ -18,6 +18,10 @@ class publicMassageNoKeysView: UIView {
     
     @IBOutlet weak var massageOkButton: actionLargeButton!
 
+    @IBOutlet weak var massageOkButtonHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var massageOkButtonWidth: NSLayoutConstraint!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -60,6 +60,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     var noPackage = true
     @objc func rData() {
         let index = loadShop.res?.response?.index(where: { $0.type == 2})
+        if index != nil {
         self.mainShopIndex = index!
         if let index2 = loadShop.res?.response?.index(where: { $0.type == 3}) {
             self.packageIndex = index2
@@ -67,11 +68,13 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         } else {
             self.noPackage = true
         }
+        }
+        
         level.text = (login.res?.response?.mainInfo?.level)!
         money.text = (login.res?.response?.mainInfo?.cashs)!
-        xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
+        xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((gameDataModel.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
         coins.text = (login.res?.response?.mainInfo?.coins)!
-        xpProgress.progress = Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!
+        xpProgress.progress = Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((gameDataModel.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!
         DispatchQueue.main.async {
             self.storeCV.reloadData()
         }
@@ -79,15 +82,16 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        if login.res != nil {
         self.rData()
         PubProc.isSplash = true
-        loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
-            login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+        loadShop().loadingShop(userid: "\(matchViewController.userid)" , rest: false, completionHandler: {
+            login().loging(userid: matchViewController.userid, rest: false, completionHandler: {
                 PubProc.wb.hideWaiting()
                 self.xpProgress.progress = 0.0
                 DispatchQueue.main.async {
                     UIView.animate(withDuration: 0.3, animations: { () -> Void in
-                        self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
+                        self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((gameDataModel.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
                         self.rData()
                         PubProc.wb.hideWaiting()
                         PubProc.isSplash = false
@@ -95,6 +99,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                 }
             })
         })
+        }
     }
     
     @objc func refreshData(notification : Notification) {
@@ -232,7 +237,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
     @objc func choosePackage() {
         
         if (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "0" || (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "2" || (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].price_type!)! == "3" {
-            PubProc.HandleDataBase.readJson(wsName: "ws_handlePackages", JSONStr: "{'package_id' : '\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
+            PubProc.HandleDataBase.readJson(wsName: "ws_handlePackages", JSONStr: "{'package_id' : '\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)' , 'userid' : '\(matchViewController.userid)' , 'trans_id' : '0'}") { data, error in
                 DispatchQueue.main.async {
                     
                     if data != nil {
@@ -251,12 +256,12 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                                 
                                 self.packageTitle = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!
                                 self.packageImage = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
-                                login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                                login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
                                     
                                     self.performSegue(withIdentifier: "showItem", sender: self)
                                     self.view.isUserInteractionEnabled = true
                                     //                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                                    loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                    loadShop().loadingShop(userid: "\(matchViewController.userid)" , rest: false, completionHandler: {
                                         
                                         self.storeCV.reloadData()
                                         NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
@@ -302,8 +307,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             
         } else {
             
-            StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)' , 'item_type' : 'PACKAGE'}"
-            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'package_id':'\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)','userid':'\(loadingViewController.userid)'}") as NSString
+            StoreViewController.packageShowAfterWeb = "{'userid' : '\(matchViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)' , 'item_type' : 'PACKAGE'}"
+            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'package_id':'\((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].id!)!)','userid':'\(matchViewController.userid)'}") as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
             let searchURL : NSURL = NSURL(string: urlStr as String)!
             print(searchURL)
@@ -475,8 +480,8 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
                         print((loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!)
                         self.packageTitle = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].title!)!
                         self.packageImage = (loadShop.res?.response?[self.packageIndex].items?[self.selectedPackage].image!)!
-                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
-                            loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
+                            loadShop().loadingShop(userid: "\(matchViewController.userid)" , rest: false, completionHandler: {
                                 self.rData()
                                 StoreViewController.packageShowAfterWeb = ""
                                 self.performSegue(withIdentifier: "showItem", sender: self)

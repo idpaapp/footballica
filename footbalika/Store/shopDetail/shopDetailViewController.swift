@@ -29,7 +29,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     
     @objc func chooseItem() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleCoins", JSONStr: "{'item_id' : '\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].id)!)' , 'userid' : '\(loadingViewController.userid)' , 'trans_id' : '0'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleCoins", JSONStr: "{'item_id' : '\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].id)!)' , 'userid' : '\(matchViewController.userid)' , 'trans_id' : '0'}") { data, error in
             DispatchQueue.main.async {
                 
                 
@@ -44,7 +44,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     
                     if ((self.chooseRes)!).contains("TRANSACTION_COMPELETE") {
                         DispatchQueue.main.async {
-                            login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                            login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
                                 
                                 self.performSegue(withIdentifier: "showItem", sender: self)
                                 self.view.isUserInteractionEnabled = true
@@ -53,7 +53,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                                         PubProc.wb.hideWaiting()
                                     } else {
                                         DispatchQueue.main.async{
-                                            loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                                            loadShop().loadingShop(userid: "\(matchViewController.userid)" , rest: false, completionHandler: {
                                                 NotificationCenter.default.post(name: Notification.Name("refreshUserData"), object: nil, userInfo: nil)
                                                 print(((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].title!)!))
                                                 if  ((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].title!)!) != "سکه" || ((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].title!)!) != "پول"  {
@@ -138,11 +138,11 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
 //            svc.delegate = self
 //        }
         
-        StoreViewController.packageShowAfterWeb = "{'userid' : '\(loadingViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)' ,  'item_type' : 'COIN'}"
+        StoreViewController.packageShowAfterWeb = "{'userid' : '\(matchViewController.userid)' , 'item_id' : '\((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)' ,  'item_type' : 'COIN'}"
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             
-            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)','userid':'\(loadingViewController.userid)'}") as NSString
+            let url : NSString = PubProc.HandleString.ReplaceQoutedToDbQouted(str: "http://volcan.ir/adelica/api.v2/zarrin/request.php?json={'itemid':'\((loadShop.res?.response?[self.mainShopIndex].items?[self.shopIndex].package_awards?[self.selectedItem].id)!)','userid':'\(matchViewController.userid)'}") as NSString
             let urlStr : NSString = url.addingPercentEscapes(using: String.Encoding.utf8.rawValue)! as NSString
             let searchURL : NSURL = NSURL(string: urlStr as String)!
             print(searchURL)
@@ -235,8 +235,8 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                     }
                     StoreViewController.packageShowAfterWeb = ""
                     if ((trans)!).contains("TRANSACTION_OK") {
-                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
-                            loadShop().loadingShop(userid: "\(loadingViewController.userid)" , rest: false, completionHandler: {
+                        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
+                            loadShop().loadingShop(userid: "\(matchViewController.userid)" , rest: false, completionHandler: {
                                 self.performSegue(withIdentifier: "showItem", sender: self)
                             })
                         })

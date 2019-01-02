@@ -410,7 +410,7 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                             
                             print((login.res?.status!)!)
                             if (login.res?.status?.contains("OK"))! {
-                                login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                                login().loging(userid: matchViewController.userid, rest: false, completionHandler: {
                                 self.alertState = "userPassChange"
                                 self.alertBody = "ثبت نام با موفقیت انجام شد!"
                                 self.alertTitle = "فوتبالیکا"

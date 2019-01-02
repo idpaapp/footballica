@@ -21,7 +21,7 @@ public class login {
                 
             
                 
-                if loadingViewController.userid == userid {
+                if matchViewController.userid == userid {
                     do {
                         
                         login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)

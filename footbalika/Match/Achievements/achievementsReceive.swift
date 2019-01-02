@@ -12,7 +12,7 @@ public class achievementsReceive {
     var collectingItemAchievement : String? = nil;
     
     public func achievementReceive(id : Int , completionHandler : @escaping() -> Void) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_updateAchievements", JSONStr: "{'achievement_id' : '\(id)' ,'userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_updateAchievements", JSONStr: "{'achievement_id' : '\(id)' ,'userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -26,7 +26,7 @@ public class achievementsReceive {
                     
                     print(((self.collectingItemAchievement)!))
                     if ((self.collectingItemAchievement)!).contains("OK") {
-                        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
+                        loadingAchievements.init().loadAchievements(userid: matchViewController.userid, rest: false, completionHandler: {
                             DispatchQueue.main.async {
                                 completionHandler()
                                 PubProc.wb.hideWaiting()

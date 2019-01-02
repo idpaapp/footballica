@@ -11,32 +11,24 @@ import CoreFoundation
 
 class challengesViewController: UIViewController {
     
-    
-    
     @IBOutlet weak var gradeTitleForeGround: UILabel!
     @IBOutlet weak var gradeTitle: UILabel!
-    @IBOutlet weak var gradeNumber: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let gradeTexts = "بخش چالش به زودی راه اندازی خواهد شد!"
         self.gradeTitleForeGround.text = gradeTexts
-        let fonts = UIFont(name: "DPA_Game", size: 60)!
-        let iPadfonts = UIFont(name: "DPA_Game", size: 80)!
          if UIDevice().userInterfaceIdiom == .phone  {
-        self.gradeTitleForeGround.font = fonts
-        self.gradeNumber.AttributesOutLine(font: fonts, title: "", strokeWidth: -5.0)
-        self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: 8.0)
+        self.gradeTitleForeGround.font = fonts().iPadfonts25
+        self.gradeTitle.AttributesOutLine(font: fonts().iPadfonts25, title: gradeTexts, strokeWidth: 8.0)
          } else {
-        self.gradeTitleForeGround.font = iPadfonts
-        self.gradeNumber.AttributesOutLine(font: iPadfonts, title: "", strokeWidth: -5.0)
-        self.gradeTitle.AttributesOutLine(font: fonts, title: gradeTexts, strokeWidth: 8.0)
+        self.gradeTitleForeGround.font = fonts().large35
+        self.gradeTitle.AttributesOutLine(font: fonts().large35, title: gradeTexts, strokeWidth: 8.0)
         }
-        self.gradeTitleForeGround.minimumScaleFactor = 0.1
-        self.gradeTitleForeGround.adjustsFontSizeToFitWidth = true
-        self.gradeTitle.minimumScaleFactor = 0.1
-        self.gradeTitle.adjustsFontSizeToFitWidth = true
-        // Do any additional setup after loading the view.
+        
+        self.gradeTitleForeGround.setAdjustToFit()
+        self.gradeTitle.setAdjustToFit()
     }
 
     override func didReceiveMemoryWarning() {

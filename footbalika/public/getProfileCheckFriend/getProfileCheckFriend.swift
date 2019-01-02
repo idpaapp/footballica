@@ -11,7 +11,7 @@ import Foundation
 public class getProfileCheckFriend {
     static var profileResponse : loginStructure.Response? = nil
     public func getProfile(otherUserid : String , completionHandler : @escaping() -> Void) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(otherUserid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(otherUserid)' , 'load_stadium' : 'false' , 'my_userid' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

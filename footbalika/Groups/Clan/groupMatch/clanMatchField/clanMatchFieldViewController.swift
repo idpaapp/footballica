@@ -141,13 +141,13 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
     var matchJsonStr = String()
     
     func setDefaultsClanMatch(time : Float) {
-         self.matchJsonStr = "{'mode' : 'UPDT_WAR_RESULT' , 'score' : '\(self.score)' , 'time' : '\(Int(time))' , 'userid' : '\(loadingViewController.userid)' , 'war_id' : '\(self.warID)'}" 
+         self.matchJsonStr = "{'mode' : 'UPDT_WAR_RESULT' , 'score' : '\(self.score)' , 'time' : '\(Int(time))' , 'userid' : '\(matchViewController.userid)' , 'war_id' : '\(self.warID)'}" 
     }
     
     var time = Float()
     
     func countingTime() {
-        self.time = Float((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!)
+        self.time = Float((self.warQuestions?.response.count)! * (gameDataModel.loadGameData?.response?.warQuestionTime!)!)
     }
     
     @objc func checkBombandFreeze() {
@@ -209,7 +209,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         }
         
         PubProc.isSplash = true
-                     PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
+                     PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_BOMB','userid':'\(matchViewController.userid)'}") { data, error in
         
                         if data != nil {
         
@@ -248,7 +248,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.freezeUsed = true
         PubProc.isSplash = true
         
-                    PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
+                    PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'WAR_FREEZE','userid':'\(matchViewController.userid)'}") { data, error in
 
                         
                         if data != nil {
@@ -416,7 +416,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         
         timerHand()
         self.progressBar.progress = 1
-        updateProgressBar(currentTime: Float((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!))
+        updateProgressBar(currentTime: Float((self.warQuestions?.response.count)! * (gameDataModel.loadGameData?.response?.warQuestionTime!)!))
     }
     
     @objc func updateProgressBar(currentTime : Float) {
@@ -430,7 +430,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         self.isStopedAnimations = true
         self.progressBar.subviews.forEach({$0.layer.removeAllAnimations()})
         
-        self.progressBar.progress = self.time / Float((self.warQuestions?.response.count)! * (loadingViewController.loadGameData?.response?.warQuestionTime!)!)
+        self.progressBar.progress = self.time / Float((self.warQuestions?.response.count)! * (gameDataModel.loadGameData?.response?.warQuestionTime!)!)
     }
     
     var gameTimer : Timer!

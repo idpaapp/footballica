@@ -23,14 +23,14 @@ public class gameCharges : menuView {
         
         self.isOpaque = false
         
-        for i in  0...(loadingViewController.loadGameData?.response?.gameCharge.count)! - 1 {
-            gameChargesImages.append((loadingViewController.loadGameData?.response?.gameCharge[i].image_path)!)
+        for i in  0...(gameDataModel.loadGameData?.response?.gameCharge.count)! - 1 {
+            gameChargesImages.append((gameDataModel.loadGameData?.response?.gameCharge[i].image_path)!)
             
-            gameChargesTitles.append((loadingViewController.loadGameData?.response?.gameCharge[i].title)!)
+            gameChargesTitles.append((gameDataModel.loadGameData?.response?.gameCharge[i].title)!)
             
-            gameChargesNumbers.append((loadingViewController.loadGameData?.response?.gameCharge[i].price)!)
+            gameChargesNumbers.append((gameDataModel.loadGameData?.response?.gameCharge[i].price)!)
             
-            gameChargesPriceType.append((loadingViewController.loadGameData?.response?.gameCharge[i].price_type)!)
+            gameChargesPriceType.append((gameDataModel.loadGameData?.response?.gameCharge[i].price_type)!)
             
         }
         

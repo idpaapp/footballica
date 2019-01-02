@@ -22,7 +22,7 @@ class leaguesViewController: UIViewController, UITableViewDataSource , UITableVi
         UIView.animate(withDuration: 0.5) {
             self.leageTV.alpha = 1.0
         }
-        let leagueRow = (loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - Int((login.res?.response?.mainInfo?.league_id)!)!
+        let leagueRow = (gameDataModel.loadGameData?.response?.gameLeagues.count)! - 1 - Int((login.res?.response?.mainInfo?.league_id)!)!
         let index = IndexPath(row: leagueRow, section: 0)
         self.leageTV.scrollToRow(at: index, at: UITableViewScrollPosition.middle, animated: false)
     
@@ -34,18 +34,18 @@ class leaguesViewController: UIViewController, UITableViewDataSource , UITableVi
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (loadingViewController.loadGameData?.response?.gameLeagues.count)!
+        return (gameDataModel.loadGameData?.response?.gameLeagues.count)!
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "leagueCell", for: indexPath) as! leagueCell
         
-        cell.leagueImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].img_logo!)!)")
+        cell.leagueImage.setImageWithKingFisher(url: "\((gameDataModel.loadGameData?.response?.gameLeagues[(gameDataModel.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].img_logo!)!)")
         
         if UIDevice().userInterfaceIdiom == .phone {
-        cell.leagueTitle.AttributesOutLine(font: fonts.init().iPhonefonts, title: "\(((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: -5.0)
+        cell.leagueTitle.AttributesOutLine(font: fonts.init().iPhonefonts, title: "\(((gameDataModel.loadGameData?.response?.gameLeagues[(gameDataModel.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: -5.0)
         } else {
-        cell.leagueTitle.AttributesOutLine(font: fonts.init().iPadfonts, title: "\(((loadingViewController.loadGameData?.response?.gameLeagues[(loadingViewController.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: -5.0)
+        cell.leagueTitle.AttributesOutLine(font: fonts.init().iPadfonts, title: "\(((gameDataModel.loadGameData?.response?.gameLeagues[(gameDataModel.loadGameData?.response?.gameLeagues.count)! - 1 - indexPath.row].min_cup!)!)) +", strokeWidth: -5.0)
         }
         return cell
     }

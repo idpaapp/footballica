@@ -8,47 +8,46 @@
 import UIKit
 import TapsellSDKv3
 
-public class testTapsellViewController: UIViewController {
+class testTapsellViewController: UIViewController {
     
     weak var tapsellAd : TapsellAd?
-    
     func tapsellInitialize() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-            let config = TSConfiguration()
-            config.setDebugMode(true)
+        let config = TSConfiguration()
+        config.setDebugMode(true)
+        
+        Tapsell.initialize(withAppKey: "ngtsdfapnnfjcmpespmjmiffspaogjdolrspgmnpttkmisjaipbtgjmcbnanaammhlkamm", andConfig: config);
+        
+        Tapsell.setAdShowFinishedCallback { (ad, completed) in
             
-            Tapsell.initialize(withAppKey: "ngtsdfapnnfjcmpespmjmiffspaogjdolrspgmnpttkmisjaipbtgjmcbnanaammhlkamm", andConfig: config);
-            
-            Tapsell.setAdShowFinishedCallback { (ad, completed) in
-                
-                print(completed);
-            }
-        })
+            print(completed);
+            matchViewController.allowShowAds = false
+            //            if !self.isAdShowed {
+            //            self.gettingAds()
+            //            }
+        }
     }
     
-    override public var prefersStatusBarHidden: Bool {
+    override var prefersStatusBarHidden: Bool {
         return true
     }
     
-    override public func viewDidLoad() {
+    var isAdShowed = false
+    override func viewDidLoad() {
         super.viewDidLoad()
-//        tapsellInitialize()
-//        definesPresentationContext = true
-        NotificationCenter.default.addObserver(self, selector: #selector(self.methodOfReceivedNotification(notification:)), name: Notification.Name("showADS"), object: nil)
-    }
-    
-    @objc func methodOfReceivedNotification(notification: Notification) {
-        self.gettingAds()
-    }
-    
-    override public func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-        DispatchQueue.main.async {
         self.tapsellInitialize()
-        self.definesPresentationContext = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if matchViewController.allowShowAds {
+            self.view.backgroundColor = .white
             self.gettingAds()
-        })
+        } else {
+            self.view.backgroundColor = .clear
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.changeRootVC()
+                self.dismissing()
+            }
         }
     }
     
@@ -79,23 +78,36 @@ public class testTapsellViewController: UIViewController {
     }
     
     @objc func showingAds() {
-        DispatchQueue.main.async {
-            if(self.tapsellAd != nil)
-            {
-                let showOptions = TSAdShowOptions()
-                showOptions.setOrientation(OrientationUnlocked)
-                showOptions.setBackDisabled(true)
-                showOptions.setShowDialoge(true)
-                self.tapsellAd?.show(with: showOptions, andOpenedCallback: { (tapsellAd) in
-                    print("Open Shod");
-                }, andClosedCallback: { (tapsellAd) in
-                    print("Close Shod");
-                })
-            }
+        if(self.tapsellAd != nil)
+        {
+            let showOptions = TSAdShowOptions()
+            showOptions.setOrientation(OrientationUnlocked)
+            showOptions.setBackDisabled(true)
+            showOptions.setShowDialoge(true)
+            self.tapsellAd?.show(with: showOptions, andOpenedCallback: { (tapsellAd) in
+                print("Open Shod");
+                matchViewController.allowShowAds = false
+            }, andClosedCallback: { (tapsellAd) in
+                print("Close Shod");
+                self.dismissing()
+            })
         }
     }
     
     @objc func dismissing() {
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(false)
+        self.changeRootVC()
+    }
+    
+    func changeRootVC() {
+        matchViewController.allowShowAds = false
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainPageViewController") as! mainPageViewController
+        UIApplication.shared.keyWindow?.rootViewController = viewController
+    }
+    
 }

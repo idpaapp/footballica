@@ -354,7 +354,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
     func readMatchData() {
         //match Data Json
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'1','category':'\(Int(arc4random_uniform(6) + 1))','last_questions':'','userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'1','category':'\(Int(arc4random_uniform(6) + 1))','last_questions':'','userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

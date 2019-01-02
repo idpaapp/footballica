@@ -178,7 +178,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
 //                print("Questions*****************")
             }
         }  
-        vc.userid = "\(loadingViewController.userid)"
+        vc.userid = "\(matchViewController.userid)"
         vc.lastVC = self
         vc.matchData = self.matchData
         vc.isHome = self.isHome

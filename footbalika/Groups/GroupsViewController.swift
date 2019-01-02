@@ -177,7 +177,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
             scrollToPage().menuButtonChanged(index: 2)
             self.defaults.set(false , forKey: "tutorial")
             matchViewController.isTutorial = false
-            loadingViewController.showPublicMassages = true
+            matchViewController.showingPublicMassages = true
             self.view.isUserInteractionEnabled = true
         }
     }
@@ -208,7 +208,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         } else {
         PubProc.isSplash = false
         }
-        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -361,7 +361,7 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     var resUser : usersSearchLists.Response? = nil
     
     @objc func searchFunction() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode' : 'GetByRefID' , 'ref_id' : '\(self.searchText)' , 'userid' : '\(loadingViewController.userid)' }") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode' : 'GetByRefID' , 'ref_id' : '\(self.searchText)' , 'userid' : '\(matchViewController.userid)' }") { data, error in
             
                 if data != nil {
                     
@@ -583,14 +583,14 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     var otherProfile = Bool()
     @objc func getProfile(userid : String , isGroupDetail : Bool , completionHandler : @escaping () -> Void) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(userid)' , 'load_stadium' : 'false' , 'my_userid' : '\(matchViewController.userid)'}") { data, error in
                 
                 if data != nil {
                     
                         PubProc.cV.hideWarning()
                     
                     //                print(data ?? "")
-                    if userid == loadingViewController.userid {
+                    if userid == matchViewController.userid {
                         self.otherProfile = false
                     do {
                         
@@ -726,10 +726,15 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     
     @objc func searchingState() {
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : UIColor.white , groupOutletColor : colors().selectedTab , groupGameOutletColor : colors().selectedTab )
-        self.state = "searchList"
-        self.friendsTableView.reloadData()
-        self.gMatchs.isClanMatchFieldData(isDisable : true)
-        self.cGroups.dontUpdate()
+        DispatchQueue.main.async {
+            self.state = "searchList"
+            self.friendsTableView.reloadData()
+            self.gMatchs.isClanMatchFieldData(isDisable : true)
+            if login.res?.response?.calnData?.clanid != nil {
+            self.cGroups.dontUpdate()
+            }
+        }
+        
     }
     
     @IBAction func searchAction(_ sender: RoundButton) {
@@ -750,11 +755,12 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
         self.state = "game"
         self.handlePageTitleColor(friendsOutletColor : colors().selectedTab ,searchOutletColor : colors().selectedTab , groupOutletColor : colors().selectedTab , groupGameOutletColor : UIColor.white )
         self.handlePageShow(friendsTableViewShow: true, groupsGamePageShow: true, groupsMatchPageShow: false)
-        if login.res?.response?.calnData != nil {
+        if login.res?.response?.calnData?.clanid != nil {
             if login.res?.response?.calnData?.member_roll != nil {
                 DispatchQueue.main.async {
                     self.gMatchs.isClanMatchFieldData(isDisable : false)
-                    self.gMatchs.updateclanGamePage()
+//                    self.gMatchs.updateclanGamePage()
+                    self.gMatchs.clanRewards()
                 }
                
 //                if ((login.res?.response?.calnData?.member_roll!)!) != "3" {
@@ -767,13 +773,17 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
 //                }
             }
         }
-        
     }
     
     @objc func handlePageShow(friendsTableViewShow : Bool ,groupsGamePageShow : Bool , groupsMatchPageShow : Bool ) {
         self.friendsTableView.isHidden = friendsTableViewShow
+        if matchViewController.isTutorial {
+            self.groupsGamePage.isHidden = true
+            self.groupsMatchPage.isHidden = true
+        } else {
         self.groupsGamePage.isHidden = groupsGamePageShow
         self.groupsMatchPage.isHidden = groupsMatchPageShow
+        }
     }
     
     @objc func handlePageTitleColor(friendsOutletColor : UIColor ,searchOutletColor : UIColor , groupOutletColor : UIColor , groupGameOutletColor : UIColor ) {

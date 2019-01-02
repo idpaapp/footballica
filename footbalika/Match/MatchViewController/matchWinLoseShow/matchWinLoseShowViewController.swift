@@ -50,7 +50,7 @@ class matchWinLoseShowViewController: UIViewController {
     
     
     @objc func stateOfGame(number : Int) {
-        self.setTableNumbers(coin: "\((loadingViewController.loadGameData?.response?.gameRewards[number].coin!)!)", money: "\((loadingViewController.loadGameData?.response?.gameRewards[number].money!)!)", level: "\((loadingViewController.loadGameData?.response?.gameRewards[number].xp!)!)", cup: "\((loadingViewController.loadGameData?.response?.gameRewards[number].cup!)!)", TopTitle: "\((loadingViewController.loadGameData?.response?.gameRewards[number].title!)!)ی")
+        self.setTableNumbers(coin: "\((gameDataModel.loadGameData?.response?.gameRewards[number].coin!)!)", money: "\((gameDataModel.loadGameData?.response?.gameRewards[number].money!)!)", level: "\((gameDataModel.loadGameData?.response?.gameRewards[number].xp!)!)", cup: "\((gameDataModel.loadGameData?.response?.gameRewards[number].cup!)!)", TopTitle: "\((gameDataModel.loadGameData?.response?.gameRewards[number].title!)!)ی")
     }
     
     @objc func setTableNumbers(coin : String , money : String , level : String , cup : String , TopTitle : String) {

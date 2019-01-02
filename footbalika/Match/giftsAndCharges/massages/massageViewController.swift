@@ -128,7 +128,7 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
     @objc func checkGiftCode() {
         
         if self.titleForSend.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-            PubProc.HandleDataBase.readJson(wsName: "ws_handleRewardCode", JSONStr: "{'strcode' : '\(self.titleForSend.replacedArabicDigitsWithEnglish)' , 'userid':'\(loadingViewController.userid)'}") { data, error in
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleRewardCode", JSONStr: "{'strcode' : '\(self.titleForSend.replacedArabicDigitsWithEnglish)' , 'userid':'\(matchViewController.userid)'}") { data, error in
                 DispatchQueue.main.async {
                     
                     if data != nil {
@@ -214,7 +214,7 @@ class massageViewController: UIViewController , UITextViewDelegate , UITextField
                     additionalTitle = " - comment - iOS"
                 }
                 
-                PubProc.HandleDataBase.readJson(wsName: "ws_handleInbox", JSONStr: "{'title' : '\(self.titleForSend)\(additionalTitle)' , 'message' : '\(self.massageForSend)' , 'userid':'\(loadingViewController.userid)'}") { data, error in
+                PubProc.HandleDataBase.readJson(wsName: "ws_handleInbox", JSONStr: "{'title' : '\(self.titleForSend)\(additionalTitle)' , 'message' : '\(self.massageForSend)' , 'userid':'\(matchViewController.userid)'}") { data, error in
                     DispatchQueue.main.async {
                         
                         if data != nil {

@@ -9,6 +9,7 @@
 import Foundation
 
 public class gameDataModel {
+    static var loadGameData : gameDataModel.Response? = nil;
     public struct Response : Decodable {
         let status : String?
         let response : response?
@@ -45,7 +46,6 @@ public class gameDataModel {
         let join_war_price_type : Int?
     }
     public var res : Response? = nil;
-    
     public struct ghesarSentences : Decodable {
        let id : String?
        let desc_text : String?

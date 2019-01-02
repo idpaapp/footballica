@@ -16,7 +16,6 @@ protocol achievementsViewControllerDelegate : NSObjectProtocol {
 
 class menuViewController: UIViewController , achievementsViewControllerDelegate {
     
-    
     func updateClanData() {
         self.delegate?.updatingClan()
     }
@@ -26,7 +25,7 @@ class menuViewController: UIViewController , achievementsViewControllerDelegate 
             PubProc.wb.hideWaiting()
         }
         self.delegate2?.fillData()
-        self.delegate2?.showGift(image: "ic_coin" , title : " جایزه ی ثبت نام \((loadingViewController.loadGameData?.response?.giftRewards?.sign_up!)!) سکه ")
+        self.delegate2?.showGift(image: "ic_coin" , title : " جایزه ی ثبت نام \((gameDataModel.loadGameData?.response?.giftRewards?.sign_up!)!) سکه ")
     }
     
     
@@ -56,6 +55,7 @@ class menuViewController: UIViewController , achievementsViewControllerDelegate 
     var menuState = String()
     var isClanInvite = false
     var profileResponse : loginStructure.Response? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -133,7 +133,7 @@ class menuViewController: UIViewController , achievementsViewControllerDelegate 
                 maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "پروفایل", strokeWidth: 8.0)
                 self.mainTitleForeGround.font = fonts().iPhonefonts
             } else {
-                if loadingViewController.userid ==  (profileResponse?.response?.mainInfo?.id)! {
+                if matchViewController.userid ==  (profileResponse?.response?.mainInfo?.id)! {
                     let stadium = (profileResponse?.response?.mainInfo?.stadium)!
                     if stadium != "empty_std.jpg" {
                         self.menuHeight.constant = UIScreen.main.bounds.height - 100

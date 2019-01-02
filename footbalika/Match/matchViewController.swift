@@ -37,14 +37,26 @@ protocol menuViewControllerDelegate2 : NSObjectProtocol {
 class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , giftsAndChargesViewControllerDelegate , menuViewControllerDelegate2 {
     
     let ts = testTapsellViewController()
+    static var showingPublicMassages = true
+    public static var OnlineTime = Int64()
+    static var userid = String()
     
     @IBAction func tapsellAction(_ sender: Any) {
-        //        NotificationCenter.default.post(name: Notification.Name("showADS"), object: nil)
-        DispatchQueue.main.async {
-            self.performSegue(withIdentifier: "showAds", sender: self)
-        }
+//        DispatchQueue.main.async {
+            matchViewController.allowShowAds = true
+//            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
+//            UIApplication.shared.keyWindow?.rootViewController = viewController
+       
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
+        UIApplication.shared.keyWindow?.rootViewController?.present(vc, animated: true, completion: nil)
+        self.performSegue(withIdentifier: "showAds", sender: self)
+//            self.performSegue(withIdentifier: "loading", sender: self)
+//        }
     }
-    
+        
+    static var allowShowAds = false
     func openGameChargePage() {
         DispatchQueue.main.async {
             self.openGameChargingPage()
@@ -139,7 +151,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         if (login.res?.response?.mainInfo?.status) != nil {
             level.text = (login.res?.response?.mainInfo?.level)!
             money.text = (login.res?.response?.mainInfo?.cashs)!
-            xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
+            xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((gameDataModel.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
             coin.text = (login.res?.response?.mainInfo?.coins)!
             xp.minimumScaleFactor = 0.5
             xp.adjustsFontSizeToFitWidth = true
@@ -153,14 +165,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             } else {
                 self.profileOutlet.setImage(publicImages().emptyAvatar, for: .normal)
             }
-            mainCupImage.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
+            mainCupImage.setImageWithKingFisher(url: "\((gameDataModel.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
         gameChargeSet()
     }
     
     @objc func updateGameChargeBox() {
         let components = Set<Calendar.Component>([.second, .minute, .hour, .day, .month, .year])
-        let onlineTime = loadingViewController.OnlineTime.convertTime()
+        let onlineTime = matchViewController.OnlineTime.convertTime()
         let differenceOfDate = Calendar.current.dateComponents(components, from: self.gameChargeTime , to: onlineTime)
         updateGameChargeBoxOutlet(second : abs(differenceOfDate.second!) , minutes : abs(differenceOfDate.minute!) , hour : abs(differenceOfDate.hour!))
     }
@@ -199,8 +211,9 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var gameChargeTimer : Timer!
     var canShowGameChargeBox = false
     @objc func gameChargeSet() {
+        if login.res != nil {
         let finishTime = (login.res?.response?.mainInfo?.finish_extra_time!)!.convertDate()
-        let onlineTime = loadingViewController.OnlineTime.convertTime()
+        let onlineTime = matchViewController.OnlineTime.convertTime()
         let components = Set<Calendar.Component>([.second, .minute, .hour, .day, .month, .year])
         let difference = Calendar.current.dateComponents(components, from: onlineTime , to: finishTime)
         self.gameChargeTime = finishTime
@@ -224,6 +237,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 normalGameChargeUI()
             }
         }
+        }
     }
     
     @objc func normalGameChargeUI() {
@@ -232,12 +246,13 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     @objc func setGameChargeUI(imageNumber : Int , canShowChargeBox : Bool) {
-        self.gameChargeOutlet.setImageWithKingFisher(url: "\((loadingViewController.loadGameData?.response?.gameCharge[imageNumber].image_path)!)")
+        self.gameChargeOutlet.setImageWithKingFisher(url: "\((gameDataModel.loadGameData?.response?.gameCharge[imageNumber].image_path)!)")
         self.canShowGameChargeBox = canShowChargeBox
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         
         notificationsView()
         
@@ -268,8 +283,9 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         } else {
             PubProc.isSplash = true
         }
+        if login.res != nil {
         let lastLevel = (Int((login.res?.response?.mainInfo?.level)!)!)
-        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
             if (Int((login.res?.response?.mainInfo?.level)!)!) != lastLevel {
                 self.upgradeImage = "ic_grade_badge"
                 self.upgradeTitle = "ارتقاء سطح به \(lastLevel+1)"
@@ -283,6 +299,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 PubProc.isSplash = false
             }
         })
+        }
     }
     
     @objc func shakeFunstion() {
@@ -308,10 +325,12 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var shakeTimer : Timer!
     var helpDescs = [String]()
     var acceptTitles = [String]()
+
     static var  isTutorial = UserDefaults.standard.bool(forKey: "tutorial")
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.addSubview(self.gameChargeTimerBox)
         self.gameChargeTimerBox.isHidden = true
         notificationsView()
@@ -362,6 +381,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     func notificationsView() {
         self.alertCounterView.makeCircular()
+        if login.res != nil {
         let alertCounts = (login.res?.response?.nots_achv?.not_count!)!
         if alertCounts != "0" {
             self.alertCounterView.isHidden = false
@@ -374,11 +394,13 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             self.alertCounterLabel.text = ""
             self.alertCounterView.isHidden = true
         }
+        }
     }
     
     var publicMassagesResponse : showPublicMassages.Response? = nil
     func showPulicMassages() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'READ_PUBLIC_MESSAGE_BY_USER' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        if login.res != nil {
+        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'READ_PUBLIC_MESSAGE_BY_USER' , 'userid' : '\(matchViewController.userid)'}") { data, error in
             
             if data != nil {
                 
@@ -415,6 +437,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 // handle error
             }
             }.resume()
+        }
     }
     
     
@@ -458,7 +481,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     @objc func checkNoKeysMassages() {
         var publicIDS : [String] = UserDefaults.standard.array(forKey: "publicMassagesIDS") as! [String]
         
-        if self.publicMassagesResponse != nil {
+        if self.publicMassagesResponse?.response != nil {
             for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
                 if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE_FULL_NO_KEYS"))! {
                     if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
@@ -535,12 +558,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var publicMassageState = String()
     var publicMassageSubject = String()
     var publicMassageContent = String()
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
         if !matchViewController.isTutorial {
-            if loadingViewController.showPublicMassages  {
-                showPulicMassages()
-                loadingViewController.showPublicMassages = false
+            if matchViewController.showingPublicMassages  {
+                    self.showPulicMassages()
+                    matchViewController.showingPublicMassages = false
             } else {
                 checkNoKeysMassages()
             }
@@ -555,14 +580,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 
                 if  login.res?.response?.mainInfo?.max_points_gain != nil {
-                    self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((loadingViewController.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
+                    self.xpProgress.setProgress(Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((gameDataModel.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!, animated: true)
                 }
             })
         }
     }
     
     @IBAction func achievements(_ sender: RoundButton) {
-        loadingAchievements.init().loadAchievements(userid: loadingViewController.userid, rest: false, completionHandler: {
+        loadingAchievements.init().loadAchievements(userid: matchViewController.userid, rest: false, completionHandler: {
             DispatchQueue.main.async {
                 PubProc.wb.hideWaiting()
             }
@@ -593,7 +618,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var matchCreateRes : String? = nil;
     @objc func requestNewMatch() {
         PubProc.wb.hideWaiting()
-        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'START_RANDOM_GAME','userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'START_RANDOM_GAME','userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -769,7 +794,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     @objc func getProfile() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(loadingViewController.userid)' , 'load_stadium' : 'false'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(matchViewController.userid)' , 'load_stadium' : 'false'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -813,7 +838,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var friendsRes : friendList.Response? = nil
     
     @objc func firendlyMatch() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

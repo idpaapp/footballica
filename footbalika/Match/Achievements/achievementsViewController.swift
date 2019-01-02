@@ -58,7 +58,7 @@
     
     @objc func leaderBoardJson() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_getLeaderBoard", JSONStr: "{'mode' : '\(self.leaderBoardState)' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getLeaderBoard", JSONStr: "{'mode' : '\(self.leaderBoardState)' , 'userid' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -119,7 +119,7 @@
     var alertsRes : allAlerts.Response? = nil ;
     
     @objc func alertsJson() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode':'READ', 'userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode':'READ', 'userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -172,7 +172,7 @@
     var friendsId = [String]()
     
     @objc func otherProfileJson() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid': \(loadingViewController.userid) }") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid': \(matchViewController.userid) }") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -723,7 +723,7 @@
                         cell.cupCountShow.cupCountLabel.text = "\((self.profileResponse?.response?.calnData?.clan_point!)!)"
                         cell.memberRoll.text = (self.profileResponse?.response?.calnData?.clan_roll!)!
                         //User Profile
-                        if ((self.profileResponse?.response?.calnData?.clanMembers?.lastIndex(where: {$0.id == loadingViewController.userid})) != nil) {
+                        if ((self.profileResponse?.response?.calnData?.clanMembers?.lastIndex(where: {$0.id == matchViewController.userid})) != nil) {
                             cell.promoteDemoteView.isHidden = true
                         } else {
                             //other ClanMember
@@ -978,7 +978,7 @@
     }
     
     @objc func signInOrOut(mode : String , email : String) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "{'mode' : '\(mode)' , 'email' : '\(email)' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_updtUser", JSONStr: "{'mode' : '\(mode)' , 'email' : '\(email)' , 'userid' : '\(matchViewController.userid)'}") { data, error in
             
             if data != nil {
                 
@@ -991,7 +991,7 @@
                 let res = String(data: data!, encoding: String.Encoding.utf8)
                 
                
-                login.init().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+                login.init().loging(userid: matchViewController.userid, rest: false, completionHandler: {
                     DispatchQueue.main.async {
                         
                         if res!.contains("OK") {
@@ -1067,6 +1067,7 @@
                 
                 if data != nil {
                     
+                    print(String(data: data!, encoding: String.Encoding.utf8)!)
                     //                print(data ?? "")
                     
                     self.alertsJson()
@@ -1423,7 +1424,7 @@
     }
     
     @objc func getUserInfo(id : Int , isResfresh : Bool) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false' , 'my_userid' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -1435,7 +1436,7 @@
                     //                print(data ?? "")
                     
                     
-                    if String(id) == loadingViewController.userid {
+                    if String(id) == matchViewController.userid {
                         do {
                             
                             login.res = try JSONDecoder().decode(loginStructure.Response.self , from : data!)
@@ -1497,20 +1498,20 @@
         
         if let vc = segue.destination as? menuAlert2ButtonsViewController {
             if self.stateOfFriendAlert ==  "askFriendlyMatch" {
-                vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((profileResponse?.response?.mainInfo?.id!)!)'}"
+                vc.jsonStr = "{'mode':'BATTEL_REQUEST' , 'sender_id' : '\(matchViewController.userid)' , 'reciver_id' : '\((profileResponse?.response?.mainInfo?.id!)!)'}"
                 vc.alertAcceptLabel = "بلی"
                 vc.alertBody = "آیا از درخواست مسابقه اطمینان دارید؟"
                 vc.alertTitle = "درخواست مسابقه"
                 vc.state = "friendlyMatch"
             } else if self.stateOfFriendAlert == "cancelFriendlyMatch" {
-                vc.jsonStr = "{'mode':'CANCEL_FRIEND' , 'user1_id' : '\(loadingViewController.userid)' , 'user2_id' : '\((profileResponse?.response?.mainInfo?.id!)!)' , 'message_id' : '0'}"
+                vc.jsonStr = "{'mode':'CANCEL_FRIEND' , 'user1_id' : '\(matchViewController.userid)' , 'user2_id' : '\((profileResponse?.response?.mainInfo?.id!)!)' , 'message_id' : '0'}"
                 vc.alertAcceptLabel = "بلی"
                 vc.alertBody = "آیا برای لغو دوستی اطمینان دارید؟"
                 vc.alertTitle = "فوتبالیکا"
                 vc.state = "cancelFrindShip"
                 vc.userid = (login.res?.response?.mainInfo?.id!)!
             } else if self.stateOfFriendAlert == "requestFriendShip" {
-                vc.jsonStr = "{'mode':'FRIEND_REQUEST' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\((profileResponse?.response?.mainInfo?.id!)!)'}"
+                vc.jsonStr = "{'mode':'FRIEND_REQUEST' , 'sender_id' : '\(matchViewController.userid)' , 'reciver_id' : '\((profileResponse?.response?.mainInfo?.id!)!)'}"
                 vc.alertAcceptLabel = "بلی"
                 vc.alertBody = "آیا برای ارسال درخواست دوستی اطمینان دارید؟"
                 vc.alertTitle = "فوتبالیکا"
@@ -1518,7 +1519,7 @@
                 vc.userid = (profileResponse?.response?.mainInfo?.id!)!
                 
             } else if self.stateOfFriendAlert == "inviteClan" {
-                vc.jsonStr = "{'mode':'SEND_INVENTATION' , 'sender_id' : '\(loadingViewController.userid)' , 'reciver_id' : '\(self.reciverInvitationGroupId)' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)'}"
+                vc.jsonStr = "{'mode':'SEND_INVENTATION' , 'sender_id' : '\(matchViewController.userid)' , 'reciver_id' : '\(self.reciverInvitationGroupId)' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)'}"
                 vc.alertAcceptLabel = "بلی"
                 vc.alertBody = "آیا برای ارسال دعوتنامه اطمینان دارید؟"
                 vc.alertTitle = "فوتبالیکا"

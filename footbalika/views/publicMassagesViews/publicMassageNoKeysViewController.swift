@@ -74,15 +74,22 @@ class publicMassageNoKeysViewController: UIViewController {
         if UIDevice().userInterfaceIdiom == .pad {
             self.publicMassageWidth.constant = 500
              publicMassageHeight.constant = 500 * (CGFloat((massageAspectRatio as NSString).floatValue))
+            self.publicMassageView.massageOkButtonHeight.constant = 60
+            self.publicMassageView.massageOkButtonWidth.constant = 150
         } else {
             if UIScreen.main.nativeBounds.height == 2436 {
                 self.publicMassageWidth.constant = UIScreen.main.bounds.width * 4/5
                 publicMassageHeight.constant = (UIScreen.main.bounds.width * 4/5) * (CGFloat((massageAspectRatio as NSString).floatValue))
+                self.publicMassageView.massageOkButtonHeight.constant = 40
+                self.publicMassageView.massageOkButtonWidth.constant = 100
                 
             } else {
                 
             self.publicMassageWidth.constant = UIScreen.main.bounds.width * 4/5
              publicMassageHeight.constant = (UIScreen.main.bounds.width * 4/5) * (CGFloat((massageAspectRatio as NSString).floatValue))
+                self.publicMassageView.massageOkButtonHeight.constant = 40
+                self.publicMassageView.massageOkButtonWidth.constant = 100
+
             }
         }
        

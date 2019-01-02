@@ -21,7 +21,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     func updatingClan() {
         self.getClanData(id: (login.res?.response?.calnData?.clanid!)!, completionHandler: {
-            login().loging(userid: loadingViewController.userid, rest: false, completionHandler: {
+            login().loging(userid: matchViewController.userid, rest: false, completionHandler: {
                 self.id = (login.res?.response?.calnData?.clanid!)!
                 self.setGroupButtons()
                 self.delegate?.updateGroupInfo(id: self.id)
@@ -76,7 +76,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             cell.memberAvatar.setImageWithKingFisher(url: url)
         }
         
-        if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
+        if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == matchViewController.userid {
             cell.mainView.backgroundColor = UIColor.init(red: 162/255, green: 206/255, blue: 182/255, alpha: 1.0)
         } else {
             cell.mainView.backgroundColor = UIColor.init(red: 244/255, green: 244/255, blue: 241/255, alpha: 1.0)
@@ -104,7 +104,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         
         if isComeFromProfile {
             getProfileCheckFriend.init().getProfile(otherUserid: (self.res?.response?.clanMembers?[indexPath.row].user_id!)!, completionHandler: {
-                if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
+                if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == matchViewController.userid {
                     self.otherProfile = false
                 } else {
                     self.otherProfile = true
@@ -116,7 +116,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             })
         } else {
             self.delegate?.showProfile(id: "\((self.res?.response?.clanMembers?[indexPath.row].user_id!)!)", isGroupDetailUser: true, completionHandler: {
-                if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == loadingViewController.userid {
+                if (self.res?.response?.clanMembers?[indexPath.row].user_id!)! == matchViewController.userid {
                     self.otherProfile = false
                 } else {
                     self.otherProfile = true
@@ -328,7 +328,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     var friendsRes : friendList.Response? = nil
     
     @objc func firendlyMatch() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getFriendList", JSONStr: "{'userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -412,7 +412,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     @objc func joinGroup() {
         if (self.res?.response?.clan_type!)! == "1" {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_CLAN' , 'user_id' : '\(loadingViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_CLAN' , 'user_id' : '\(matchViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
             
             if data != nil {
                 
@@ -424,7 +424,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                     let Res = String(data: data!, encoding: String.Encoding.utf8) as String?
                     if ((Res)!).contains("USER_JOINED") {
                         self.isJoined = true
-                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
                             PubProc.wb.hideWaiting()
                             self.checkIsJoinIsCharge()
                             self.getClanData(id: self.id, completionHandler: {})
@@ -469,7 +469,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             if (self.res?.response?.clanMembers?.count)! == 11 {
                 self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
             } else {
-            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_REQUEST_CLAN' , 'user_id' : '\(loadingViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_REQUEST_CLAN' , 'user_id' : '\(matchViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
                 
                 if data != nil {
                     
@@ -482,7 +482,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                         
                         if ((Res)!).contains("USER_JOINED") {
                             self.isJoined = true
-                            login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                            login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
                                 PubProc.wb.hideWaiting()
                                 self.checkIsJoinIsCharge()
                                 self.getClanData(id: self.id, completionHandler: {})
@@ -534,7 +534,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     @objc func leaveGroup() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'LEAVE_CLAN' , 'user_id' : '\(loadingViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'LEAVE_CLAN' , 'user_id' : '\(matchViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
             
             if data != nil {
                 
@@ -547,7 +547,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                     if ((Res)!).contains("USER_LEAVED") {
                         self.isJoined = false
                         self.isCharge = false
-                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
                             PubProc.wb.hideWaiting()
                             self.checkIsJoinIsCharge()
                             self.delegate?.joinOrLeaveGroup(state : "leave" , clan_id : self.id)

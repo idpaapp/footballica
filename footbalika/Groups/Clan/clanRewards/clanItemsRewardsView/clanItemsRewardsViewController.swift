@@ -20,7 +20,7 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
         let cell = tableView.dequeueReusableCell(withIdentifier: "clanRewardsCell", for: indexPath) as! clanRewardsCell
         
         cell.rewardImage.image = list[indexPath.row]
-        cell.rewardTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(amounts[indexPath.row])", strokeWidth: 8.0)
+        cell.rewardTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(amounts[indexPath.row])", strokeWidth: -3.0)
         
         return cell
     }

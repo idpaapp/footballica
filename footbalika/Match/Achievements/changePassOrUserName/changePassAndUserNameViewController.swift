@@ -159,7 +159,7 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
             self.changeUserTextField.attributedPlaceholder = NSAttributedString(string: "نام کاربری" ,attributes: [NSAttributedStringKey.foregroundColor: publicColors().placeHolderColor])
             
             let coin = Int((login.res?.response?.mainInfo?.coins)!)
-            let requireCoin = Int((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)
+            let requireCoin = Int((gameDataModel.loadGameData?.response?.giftRewards?.change_name!)!)
             if coin! < requireCoin {
                 self.changeUserAction.isEnabled = false
             } else {
@@ -172,9 +172,9 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
             userTitleForeGround.font = font
             userTitleForeGround.text = "نام کاربری"
             
-            userRequire.AttributesOutLine(font: font, title: "\((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)", strokeWidth: 8.0)
+            userRequire.AttributesOutLine(font: font, title: "\((gameDataModel.loadGameData?.response?.giftRewards?.change_name!)!)", strokeWidth: 8.0)
             userRequireForeGround.font = font
-            userRequireForeGround.text = "\((loadingViewController.loadGameData?.response?.giftRewards?.change_name!)!)"
+            userRequireForeGround.text = "\((gameDataModel.loadGameData?.response?.giftRewards?.change_name!)!)"
             
             mainPassView.isHidden = true
             if UIDevice().userInterfaceIdiom == .phone {
@@ -227,7 +227,7 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
 
             self.alertBody = "آیا برای تغییر نام کاربری اطمینان دارید؟"
             self.alertState = "changeUserName"
-            self.jsonStr = "{'mode':'ChangeUserName' , 'UserName':'\(texts!)', 'userid':'\(loadingViewController.userid)'}"
+            self.jsonStr = "{'mode':'ChangeUserName' , 'UserName':'\(texts!)', 'userid':'\(matchViewController.userid)'}"
             self.performSeguePage(identifier: "passAccept")
             
         } else {
@@ -262,7 +262,7 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
                 
             self.alertBody = "آیا برای تغییر کلمه عبور اطمینان دارید؟"
             self.alertState = "changePassword"
-            self.jsonStr = "{'mode':'ChangePassword' , 'Password':'\(texts2!)' , 'OldPass':'\(texts!)', 'userid':'\(loadingViewController.userid)'}"
+            self.jsonStr = "{'mode':'ChangePassword' , 'Password':'\(texts2!)' , 'OldPass':'\(texts!)', 'userid':'\(matchViewController.userid)'}"
             self.performSeguePage(identifier: "passAccept")
             }
             
@@ -299,7 +299,7 @@ class changePassAndUserNameViewController: UIViewController , UITextFieldDelegat
                 self.passSignUpTextField.endEditing(true)
                 self.alertBody = "آیا برای ثبت نام اطمینان دارید؟"
                 self.alertState = "signUp"
-            self.jsonStr = "{'mode':'SignUp' , 'UserName' : '\(texts!)' , 'Password':'\(texts2!)' , 'RefCode':'\(texts3!)', 'userid':'\(loadingViewController.userid)'}"
+            self.jsonStr = "{'mode':'SignUp' , 'UserName' : '\(texts!)' , 'Password':'\(texts2!)' , 'RefCode':'\(texts3!)', 'userid':'\(matchViewController.userid)'}"
                 self.performSeguePage(identifier: "passAccept")
             }
             

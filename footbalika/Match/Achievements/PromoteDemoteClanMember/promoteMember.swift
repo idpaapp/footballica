@@ -10,7 +10,7 @@ import Foundation
 
 public class promoteMember {
         public func promote(dest_user_id : String , completionHandler : @escaping(String) -> Void ){
-            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'PROMOTE' , 'user_id' : '\(loadingViewController.userid)' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)' , 'dest_user_id' : '\(dest_user_id)'}") { data, error in
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'PROMOTE' , 'user_id' : '\(matchViewController.userid)' , 'clan_id' : '\((login.res?.response?.calnData?.clanid!)!)' , 'dest_user_id' : '\(dest_user_id)'}") { data, error in
                 
                 if data != nil {
                     

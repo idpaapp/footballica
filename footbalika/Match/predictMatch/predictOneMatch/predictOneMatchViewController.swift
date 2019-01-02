@@ -141,7 +141,7 @@ class predictOneMatchViewController: UIViewController , UITextFieldDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! menuAlert2ButtonsViewController
-        vc.jsonStr = "{'mode':'INS_PREDICtION' , 'userid' : '\(loadingViewController.userid)' , 'prediction_id' : '\(predictionId)' , 'home_prediction' : '\(homeScore)' , 'away_prediction' : '\(awayScore)'}"
+        vc.jsonStr = "{'mode':'INS_PREDICtION' , 'userid' : '\(matchViewController.userid)' , 'prediction_id' : '\(predictionId)' , 'home_prediction' : '\(homeScore)' , 'away_prediction' : '\(awayScore)'}"
         
         vc.state = "prediction"
         vc.alertBody = "پیش بینی شما \(awayScore) : \(homeScore) \n آیا برای ثبت نتیجه اطمینان دارید؟ \n این مقادیر قابل ویرایش نمی باشد."

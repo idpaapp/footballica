@@ -40,7 +40,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     
     var profile : loginStructure.Response? = nil
     @objc func getUserData(id : String) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false' , 'my_userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getUserInfo", JSONStr: "{'mode':'GetByID' , 'userid' : '\(id)' , 'load_stadium' : 'false' , 'my_userid' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -139,7 +139,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     func loadMatchData(id : String) {
         self.playGameOutlet.isUserInteractionEnabled = false
 
-        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(id) , 'userid' : \(loadingViewController.userid)}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getMatchData", JSONStr: "{'matchid': \(id) , 'userid' : \(matchViewController.userid)}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {
@@ -157,7 +157,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                         print("player1ID\((self.res?.response?.matchData?.player1_id!)!)")
                         print("player2ID\((self.res?.response?.matchData?.player2_id!)!)")
                         
-                        if (self.res?.response?.matchData?.player1_id!)! == loadingViewController.userid {
+                        if (self.res?.response?.matchData?.player1_id!)! == matchViewController.userid {
                             self.isHome = true
                         } else {
                             self.isHome = false
@@ -220,7 +220,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                                     
                                     switch (p1Score , p2Score) {
                                     case _ where p1Score > p2Score :
-                                        if (self.res?.response?.matchData?.player1_id!)! == loadingViewController.userid {
+                                        if (self.res?.response?.matchData?.player1_id!)! == matchViewController.userid {
                                             self.winLoseState = "WIN"
                                         } else {
                                             self.winLoseState = "LOSE"
@@ -230,7 +230,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
                                         self.winLoseState = "DRAW"
                                         self.performSegue(withIdentifier: "matchWinLoseShow", sender: self)
                                     case _ where p1Score < p2Score :
-                                        if (self.res?.response?.matchData?.player1_id!)! == loadingViewController.userid {
+                                        if (self.res?.response?.matchData?.player1_id!)! == matchViewController.userid {
                                             self.winLoseState = "LOSE"
                                         } else {
                                             self.winLoseState = "WIN"
@@ -645,7 +645,7 @@ class startMatchViewController: UIViewController , UITableViewDelegate , UITable
     var alertBody  = String()
     
     public func surrenderring(match_id : String) {
-        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'UPDT_GAME_DEFER' , 'match_id' : '\(match_id)' , 'player_id' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_UpdateGameResult", JSONStr: "{'mode':'UPDT_GAME_DEFER' , 'match_id' : '\(match_id)' , 'player_id' : '\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 if data != nil {
                     PubProc.cV.hideWarning()

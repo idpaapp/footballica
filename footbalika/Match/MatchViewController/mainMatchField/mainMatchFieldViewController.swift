@@ -116,7 +116,7 @@ class mainMatchFieldViewController: UIViewController  {
             self.freezTimer.isEnabled = false
             self.freezTimer.isUserInteractionEnabled = false
             PubProc.isSplash = true
-            PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'FREEZE','userid':'\(loadingViewController.userid)'}") { data, error in
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'FREEZE','userid':'\(matchViewController.userid)'}") { data, error in
                 
                 DispatchQueue.main.async {
                     
@@ -129,7 +129,7 @@ class mainMatchFieldViewController: UIViewController  {
                             PubProc.cV.hideWarning()
                         }
                         
-                        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("changingUserPassNotification"), object: nil)
                         })
@@ -194,7 +194,7 @@ class mainMatchFieldViewController: UIViewController  {
         self.bomb.isEnabled = false
         self.bomb.isUserInteractionEnabled = false
         PubProc.isSplash = true
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'BOMB','userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleCheats", JSONStr: "{'cheat_type':'BOMB','userid':'\(matchViewController.userid)'}") { data, error in
             
             DispatchQueue.main.async {
                 
@@ -208,7 +208,7 @@ class mainMatchFieldViewController: UIViewController  {
                         PubProc.cV.hideWarning()
                     }
                     
-                    login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+                    login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
                         let nc = NotificationCenter.default
                         nc.post(name: Notification.Name("changingUserPassNotification"), object: nil)
                     })
@@ -461,7 +461,7 @@ class mainMatchFieldViewController: UIViewController  {
     func readMatchData() {
         //match Data Json
         print(self.last_questions)
-        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'\(level)','category':'\(category)','last_questions':'\(self.last_questions)','userid':'\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_getQuestionData", JSONStr: "{'level':'\(level)','category':'\(category)','last_questions':'\(self.last_questions)','userid':'\(matchViewController.userid)'}") { data, error in
             DispatchQueue.main.async {
                 
                 if data != nil {

@@ -16,6 +16,8 @@
                 <outlet property="massageCloseButton" destination="5bZ-zu-UfD" id="VIj-Tu-QMp"/>
                 <outlet property="massageImage" destination="h3p-6d-qdw" id="kMd-tT-ilr"/>
                 <outlet property="massageOkButton" destination="8y5-yM-dPW" id="PtI-Ob-8IN"/>
+                <outlet property="massageOkButtonHeight" destination="k8G-5b-sqW" id="Eu5-nE-ZGA"/>
+                <outlet property="massageOkButtonWidth" destination="5Pq-aO-8E3" id="Z43-mM-6xf"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -39,6 +41,7 @@
                     <rect key="frame" x="62.5" y="617" width="250" height="40"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstAttribute="width" constant="250" id="5Pq-aO-8E3"/>
                         <constraint firstAttribute="height" constant="40" id="k8G-5b-sqW"/>
                     </constraints>
                 </view>
@@ -50,7 +53,6 @@
                 <constraint firstItem="h3p-6d-qdw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="T7h-kd-N6m"/>
                 <constraint firstItem="8y5-yM-dPW" firstAttribute="centerX" secondItem="h3p-6d-qdw" secondAttribute="centerX" id="h5p-od-4mm"/>
                 <constraint firstItem="h3p-6d-qdw" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="mHd-uB-0KD"/>
-                <constraint firstItem="8y5-yM-dPW" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="2:3" id="t5g-lw-O4z"/>
                 <constraint firstItem="h3p-6d-qdw" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="tha-xg-gsQ"/>
                 <constraint firstItem="5bZ-zu-UfD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="uDr-Q4-oYx"/>
                 <constraint firstItem="h3p-6d-qdw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="yyf-9w-bfm"/>

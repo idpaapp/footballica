@@ -88,8 +88,8 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
                             self.dismissing()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
-                            loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
-                            let userid = "\(loadingViewController.userid)"
+                            matchViewController.userid = (login.res?.response?.mainInfo?.id!)!
+                            let userid = "\(matchViewController.userid)"
                             UserDefaults.standard.set(userid, forKey: "userid")
                             loadShop.init().loadingShop(userid: userid, rest: true, completionHandler: {
                             })
@@ -219,8 +219,8 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
                             self.dismissing()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
-                            loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
-                            let userid = "\(loadingViewController.userid)"
+                            matchViewController.userid = (login.res?.response?.mainInfo?.id!)!
+                            let userid = "\(matchViewController.userid)"
                             UserDefaults.standard.set(userid, forKey: "userid")
                             loadShop.init().loadingShop(userid: userid, rest: true, completionHandler: {
                             })
@@ -281,8 +281,8 @@ class loginPageViewController: UIViewController , GIDSignInUIDelegate , GIDSignI
                             self.dismissing()
                             let nc = NotificationCenter.default
                             nc.post(name: Notification.Name("updateProgress"), object: nil)
-                            loadingViewController.userid = (login.res?.response?.mainInfo?.id!)!
-                            let userid = "\(loadingViewController.userid)"
+                            matchViewController.userid = (login.res?.response?.mainInfo?.id!)!
+                            let userid = "\(matchViewController.userid)"
                             UserDefaults.standard.set(userid, forKey: "userid")
                             loadShop.init().loadingShop(userid: userid, rest: true, completionHandler: {
                             })

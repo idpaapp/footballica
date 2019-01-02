@@ -29,7 +29,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     var realm : Realm!
     
     @objc func enterCreatedGroup() {
-        login().loging(userid : "\(loadingViewController.userid)", rest: false, completionHandler: {
+        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
             DispatchQueue.main.async {
                 self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
                 self.getChatroomData(isChatSend: false, completionHandler: {})
@@ -55,7 +55,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         let vc = self.childViewControllers.last as! sendChatViewController
         vc.chatTextView.endEditing(true)
         if chatString.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'INSERT_CHATS' , 'user_id' : '\(loadingViewController.userid)', 'clan_id' : '\(self.clanID)' , 'chat_text' : '\(chatString.trimmingCharacters(in: .whitespacesAndNewlines))' , 'item_type' : '1' }") { data, error in
+            PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'INSERT_CHATS' , 'user_id' : '\(matchViewController.userid)', 'clan_id' : '\(self.clanID)' , 'chat_text' : '\(chatString.trimmingCharacters(in: .whitespacesAndNewlines))' , 'item_type' : '1' }") { data, error in
                 
                 self.isSendingChat = false
                 if data != nil {
@@ -166,7 +166,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         if login.res?.response?.calnData?.clanMembers?.count != 0 {
             switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
             case publicConstants().CHAT :
-                if ((self.chatRes?.response?[indexPath.row].user_id!)!) == loadingViewController.userid {
+                if ((self.chatRes?.response?[indexPath.row].user_id!)!) == matchViewController.userid {
                     
                     let cell = tableView.dequeueReusableCell(withIdentifier: "currentUserCell", for: indexPath) as! currentUserCell
                     

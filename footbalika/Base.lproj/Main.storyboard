@@ -23,20 +23,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_grade_badge" translatesAutoresizingMaskIntoConstraints="NO" id="kyd-M1-vgn">
-                                <rect key="frame" x="103.66666666666669" y="264.66666666666669" width="207" height="207"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="kyd-M1-vgn" secondAttribute="height" multiplier="1:1" id="XNx-g5-j5Q"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="im0-mM-CFn">
-                                <rect key="frame" x="103.66666666666669" y="264.66666666666669" width="207" height="207"/>
-                                <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="25"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Ar-PP-3rQ">
-                                <rect key="frame" x="5" y="481.66666666666669" width="404" height="30"/>
+                                <rect key="frame" x="5" y="353" width="404" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="E5S-pj-cCy"/>
                                 </constraints>
@@ -45,7 +33,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k7L-DL-jFn">
-                                <rect key="frame" x="5" y="481.66666666666669" width="404" height="30"/>
+                                <rect key="frame" x="5" y="353" width="404" height="30"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -53,25 +41,18 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="im0-mM-CFn" firstAttribute="leading" secondItem="kyd-M1-vgn" secondAttribute="leading" id="255-JQ-3aq"/>
                             <constraint firstItem="4Ar-PP-3rQ" firstAttribute="leading" secondItem="FnP-y2-HfM" secondAttribute="leading" constant="5" id="5Mv-26-7He"/>
                             <constraint firstItem="FnP-y2-HfM" firstAttribute="trailing" secondItem="4Ar-PP-3rQ" secondAttribute="trailing" constant="5" id="Cdm-ys-5yh"/>
-                            <constraint firstItem="im0-mM-CFn" firstAttribute="top" secondItem="kyd-M1-vgn" secondAttribute="top" id="Ddj-KP-jk1"/>
                             <constraint firstItem="k7L-DL-jFn" firstAttribute="width" secondItem="4Ar-PP-3rQ" secondAttribute="width" id="I38-hG-fsu"/>
+                            <constraint firstItem="4Ar-PP-3rQ" firstAttribute="centerY" secondItem="Ivo-CG-HPI" secondAttribute="centerY" id="RKa-ul-4bs"/>
+                            <constraint firstItem="4Ar-PP-3rQ" firstAttribute="centerX" secondItem="Ivo-CG-HPI" secondAttribute="centerX" id="Z95-2W-bPH"/>
                             <constraint firstItem="k7L-DL-jFn" firstAttribute="centerX" secondItem="4Ar-PP-3rQ" secondAttribute="centerX" id="az0-ln-ob1"/>
-                            <constraint firstItem="4Ar-PP-3rQ" firstAttribute="top" secondItem="kyd-M1-vgn" secondAttribute="bottom" constant="10" id="eMH-D9-Y31"/>
-                            <constraint firstItem="im0-mM-CFn" firstAttribute="bottom" secondItem="kyd-M1-vgn" secondAttribute="bottom" id="eMs-dr-PJH"/>
                             <constraint firstItem="k7L-DL-jFn" firstAttribute="height" secondItem="4Ar-PP-3rQ" secondAttribute="height" id="fYU-p0-8gs"/>
-                            <constraint firstItem="kyd-M1-vgn" firstAttribute="centerX" secondItem="Ivo-CG-HPI" secondAttribute="centerX" id="ij2-1E-Kje"/>
-                            <constraint firstItem="kyd-M1-vgn" firstAttribute="centerY" secondItem="Ivo-CG-HPI" secondAttribute="centerY" id="lop-xO-zhR"/>
-                            <constraint firstItem="kyd-M1-vgn" firstAttribute="width" secondItem="Ivo-CG-HPI" secondAttribute="width" multiplier="1:2" id="oht-90-ljG"/>
-                            <constraint firstItem="im0-mM-CFn" firstAttribute="trailing" secondItem="kyd-M1-vgn" secondAttribute="trailing" id="pZ8-rA-8Xi"/>
                             <constraint firstItem="k7L-DL-jFn" firstAttribute="centerY" secondItem="4Ar-PP-3rQ" secondAttribute="centerY" id="xZd-CQ-qDi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="FnP-y2-HfM"/>
                     </view>
                     <connections>
-                        <outlet property="gradeNumber" destination="im0-mM-CFn" id="FNa-lP-Rvb"/>
                         <outlet property="gradeTitle" destination="4Ar-PP-3rQ" id="MsV-40-Yyb"/>
                         <outlet property="gradeTitleForeGround" destination="k7L-DL-jFn" id="lYL-Mf-krC"/>
                     </connections>
@@ -88,13 +69,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_back" translatesAutoresizingMaskIntoConstraints="NO" id="Xyj-EN-dpt">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="violet" translatesAutoresizingMaskIntoConstraints="NO" id="Xyj-EN-dpt">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="jpZ-TJ-Gn4">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ballProgress" translatesAutoresizingMaskIntoConstraints="NO" id="xyU-Iy-TdW">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="jpZ-TJ-Gn4">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RKc-kn-7sH">
@@ -116,7 +94,7 @@
                                             </progressView>
                                         </subviews>
                                     </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="۱۷%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIx-ae-mVF">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UIx-ae-mVF">
                                         <rect key="frame" x="0.0" y="0.0" width="366" height="30"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="20"/>
                                         <color key="textColor" red="0.99989169840000003" green="1" blue="0.99988096950000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -138,22 +116,18 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.096087567508220673" green="0.20390579104423523" blue="0.36994659900665283" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Xyj-EN-dpt" firstAttribute="bottom" secondItem="fj7-G6-eow" secondAttribute="bottom" id="3xq-8s-hRR"/>
                             <constraint firstItem="nbq-Ea-tLm" firstAttribute="leading" secondItem="h9H-ra-JL9" secondAttribute="leading" constant="24" id="5MM-uE-tDN"/>
-                            <constraint firstItem="xyU-Iy-TdW" firstAttribute="top" secondItem="fj7-G6-eow" secondAttribute="top" id="5ZN-XH-uae"/>
-                            <constraint firstItem="xyU-Iy-TdW" firstAttribute="trailing" secondItem="h9H-ra-JL9" secondAttribute="trailing" id="6uu-xI-Cgc"/>
                             <constraint firstItem="h9H-ra-JL9" firstAttribute="bottom" secondItem="RKc-kn-7sH" secondAttribute="bottom" constant="15" id="D8D-p7-8IB"/>
                             <constraint firstItem="jpZ-TJ-Gn4" firstAttribute="bottom" secondItem="fj7-G6-eow" secondAttribute="bottom" id="Dn9-mm-ljH"/>
-                            <constraint firstItem="xyU-Iy-TdW" firstAttribute="leading" secondItem="h9H-ra-JL9" secondAttribute="leading" id="ET4-mQ-i0w"/>
                             <constraint firstItem="h9H-ra-JL9" firstAttribute="trailing" secondItem="nbq-Ea-tLm" secondAttribute="trailing" constant="24" id="Ine-9z-OFL"/>
                             <constraint firstItem="jpZ-TJ-Gn4" firstAttribute="leading" secondItem="h9H-ra-JL9" secondAttribute="leading" id="KNc-mf-PWr"/>
                             <constraint firstItem="h9H-ra-JL9" firstAttribute="trailing" secondItem="RKc-kn-7sH" secondAttribute="trailing" constant="20" id="MAS-fy-Ecj"/>
                             <constraint firstItem="Xyj-EN-dpt" firstAttribute="leading" secondItem="h9H-ra-JL9" secondAttribute="leading" id="PzU-Rg-8BU"/>
                             <constraint firstItem="jpZ-TJ-Gn4" firstAttribute="top" secondItem="fj7-G6-eow" secondAttribute="top" id="Qhl-eF-gf9"/>
                             <constraint firstItem="Xyj-EN-dpt" firstAttribute="top" secondItem="fj7-G6-eow" secondAttribute="top" id="Qrl-la-E31"/>
-                            <constraint firstItem="xyU-Iy-TdW" firstAttribute="bottom" secondItem="fj7-G6-eow" secondAttribute="bottom" id="ScA-8V-zP7"/>
                             <constraint firstItem="h9H-ra-JL9" firstAttribute="bottom" secondItem="nbq-Ea-tLm" secondAttribute="bottom" constant="20" id="VVe-yt-8qu"/>
                             <constraint firstItem="RKc-kn-7sH" firstAttribute="leading" secondItem="h9H-ra-JL9" secondAttribute="leading" constant="20" id="c92-ag-rrE"/>
                             <constraint firstItem="jpZ-TJ-Gn4" firstAttribute="trailing" secondItem="h9H-ra-JL9" secondAttribute="trailing" id="nXV-9V-QHn"/>
@@ -163,7 +137,6 @@
                     </view>
                     <connections>
                         <outlet property="ProgressBackGroundView" destination="nbq-Ea-tLm" id="EJb-0i-BPY"/>
-                        <outlet property="ballProgress" destination="xyU-Iy-TdW" id="HOm-hp-4Cn"/>
                         <outlet property="loadingProgress" destination="d0c-zt-KAf" id="rzd-hn-jkE"/>
                         <outlet property="loadingProgressLabel" destination="UIx-ae-mVF" id="gde-SO-uDV"/>
                         <outlet property="mainProgressBackGround" destination="RKc-kn-7sH" id="H4j-p7-Qcj"/>
@@ -1837,8 +1810,9 @@
                         <segue destination="tgK-rF-cIf" kind="presentation" identifier="tutorialHelp" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="8Zf-Y3-3ch"/>
                         <segue destination="mvf-lk-0kw" kind="presentation" identifier="showTutorial" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="3FJ-vl-BOW"/>
                         <segue destination="ibv-tv-HwV" kind="presentation" identifier="showUpgrade" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="254-gE-KV2"/>
-                        <segue destination="ury-st-lZr" kind="show" identifier="showAds" id="sBL-bE-4RS"/>
+                        <segue destination="ury-st-lZr" kind="presentation" identifier="showAds" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="sBL-bE-4RS"/>
                         <segue destination="mrO-ce-19g" kind="presentation" identifier="showPublicMassagesNoKeys" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="7wS-8F-jE9"/>
+                        <segue destination="yHh-FE-2bU" kind="show" identifier="loading" id="w49-Mn-Ufi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N3z-yo-Xeu" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -10486,7 +10460,6 @@
         <image name="award_back" width="880" height="193"/>
         <image name="back" width="104" height="104"/>
         <image name="ball" width="119" height="119"/>
-        <image name="ballProgress" width="345.60000610351562" height="614.4000244140625"/>
         <image name="bomb" width="100" height="100"/>
         <image name="bomb2" width="64" height="64"/>
         <image name="box" width="700" height="450"/>
@@ -10525,20 +10498,20 @@
         <image name="leader_board" width="120" height="120"/>
         <image name="light_btn_large" width="469" height="109"/>
         <image name="light_btn_rounded_large" width="151" height="151"/>
+        <image name="logo" width="720" height="1280"/>
         <image name="magnifier" width="754" height="754"/>
         <image name="main_Back-1" width="720" height="1280"/>
         <image name="medium_btn_large" width="109" height="109"/>
         <image name="money" width="512" height="512"/>
         <image name="noInternetPage" width="512" height="484"/>
-        <image name="progressImage" width="83" height="199"/>
+        <image name="progressImage" width="50" height="150"/>
         <image name="ronaldo_messi" width="596" height="866"/>
         <image name="search_tools" width="224" height="260"/>
         <image name="shop_item_back" width="201" height="321"/>
         <image name="shop_spec_item_back" width="201" height="251"/>
-        <image name="splash" width="345.60000610351562" height="614.4000244140625"/>
-        <image name="splash_back" width="720" height="1280"/>
         <image name="sunblust_big" width="720" height="720"/>
         <image name="timer_hand" width="162" height="168"/>
+        <image name="violet" width="915" height="1024"/>
         <image name="xpProgress" width="201" height="416"/>
     </resources>
     <inferredMetricsTieBreakers>
@@ -10550,7 +10523,7 @@
         <segue reference="wU6-MG-i6J"/>
         <segue reference="254-gE-KV2"/>
         <segue reference="Ke5-Nx-c39"/>
-        <segue reference="LfF-cD-YKj"/>
+        <segue reference="wQ3-Xg-ofI"/>
         <segue reference="N21-7O-RH3"/>
     </inferredMetricsTieBreakers>
 </document>

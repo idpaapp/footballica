@@ -63,7 +63,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     }
     
     func joinWar() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_WAR' , 'user_id' : '\(loadingViewController.userid)' , 'war_id' : '\((self.activeWarRes?.response?.id!)!)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_WAR' , 'user_id' : '\(matchViewController.userid)' , 'war_id' : '\((self.activeWarRes?.response?.id!)!)'}") { data, error in
             
             if data != nil {
                 
@@ -147,7 +147,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
 //        } else {
 //            clanData()
 //        }
-        clanData()
+                clanData()
     }
     
     func isClanMatchFieldData(isDisable : Bool) {
@@ -276,7 +276,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     
     var warReward : warRewards.Response?
     @objc func clanRewards() {
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR_CLAN_DATA' , 'user_id' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'GET_WAR_CLAN_DATA' , 'user_id' : '\(matchViewController.userid)'}") { data, error in
             
             if data != nil {
                 
@@ -360,7 +360,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
     var startWarRes : startWar.Response? = nil
     @objc func startGameAction() {
         
-        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'START_WAR' , 'userid' : '\(loadingViewController.userid)'}") { data, error in
+        PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'START_WAR' , 'userid' : '\(matchViewController.userid)'}") { data, error in
             
             if data != nil {
                 
@@ -427,14 +427,14 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
             self.ghesarCount = 0
         } else  {
             if self.ghesarCount == 1 {
-                var randomGhesar = arc4random_uniform(UInt32((loadingViewController.loadGameData?.response?.ghesarSentences.count)!))
+                var randomGhesar = arc4random_uniform(UInt32((gameDataModel.loadGameData?.response?.ghesarSentences.count)!))
                 while self.currentGhesar == randomGhesar {
-                    randomGhesar = arc4random_uniform(UInt32((loadingViewController.loadGameData?.response?.ghesarSentences.count)!))
+                    randomGhesar = arc4random_uniform(UInt32((gameDataModel.loadGameData?.response?.ghesarSentences.count)!))
                 }
                 self.currentGhesar = Int(randomGhesar)
-                self.ghesarSentencesLabel.text = (loadingViewController.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
+                self.ghesarSentencesLabel.text = (gameDataModel.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
             } else {
-                self.ghesarSentencesLabel.text = (loadingViewController.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
+                self.ghesarSentencesLabel.text = (gameDataModel.loadGameData?.response?.ghesarSentences[self.currentGhesar].desc_text!)!
             }
         }
     }
@@ -449,7 +449,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
             fatalError()
         }
         
-        let time = loadingViewController.OnlineTime/1000
+        let time = matchViewController.OnlineTime/1000
         let onlineTime = Double(time)
         var previousDate = Date()
         let onlineDate = Date(timeIntervalSince1970: onlineTime)
@@ -519,7 +519,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
         guard let date = dateFormatter.date(from: "\((self.activeWarRes?.response?.start_time!)!)") else {
             fatalError()
         }
-        let time = loadingViewController.OnlineTime/1000
+        let time = matchViewController.OnlineTime/1000
         let onlineTime = Double(time)
         var previousDate = Date()
         let onlineDate = Date(timeIntervalSince1970: onlineTime)
