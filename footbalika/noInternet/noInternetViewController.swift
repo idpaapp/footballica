@@ -9,17 +9,45 @@
 import UIKit
 
 class noInternetViewController: UIViewController {
-
-    @IBOutlet weak var restartApplication: RoundButton!
     
+    @IBOutlet weak var restartApplication: RoundButton!
+    var lv = loadingViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         restartApplication.addTarget(self, action: #selector(restartingApp), for: UIControlEvents.touchDown)
     }
     
-    @objc func restartingApp() {
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(false)
+        UIApplication.shared.keyWindow?.rootViewController?.dismiss(animated: false, completion: nil)
+        DispatchQueue.main.async {
+            PubProc.wb.hideWaiting()
+            PubProc.cV.hideWarning()
+        }
     }
-
+    
+    @objc func restartingApp() {
+        //        self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
+        PubProc.isSplash = true
+        PubProc.countRetry = 0
+        if UIDevice().userInterfaceIdiom == .phone {
+            if UIScreen.main.nativeBounds.height == 2436 {
+                let mainStoryboard: UIStoryboard = UIStoryboard(name: "iPhoneX", bundle: nil)
+                let viewController = mainStoryboard.instantiateViewController(withIdentifier: "loadingViewController")
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.window?.rootViewController = viewController
+            } else {
+                let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let viewController = mainStoryboard.instantiateViewController(withIdentifier: "loadingViewController")
+                let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                appDelegate.window?.rootViewController = viewController
+            }
+        } else {
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "iPad", bundle: nil)
+            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "loadingViewController")
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.window?.rootViewController = viewController     
+        }
+    }
 }

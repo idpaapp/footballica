@@ -114,8 +114,16 @@ class loadingViewController: UIViewController {
                     PubProc.countRetry = 0 
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
-                    if PubProc.countRetry == 10 {
-                        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+                    if PubProc.countRetry >= 10 {
+
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.gameData()
@@ -139,14 +147,7 @@ class loadingViewController: UIViewController {
     var clanGameLeft = String()
     let nc = NotificationCenter.default
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        versionCheck()
-        
-        print(UIDevice().localizedModel.description)
-        nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
-        
-        realm = try! Realm()
+    func checkLaunchBefore() {
         
         launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         
@@ -158,8 +159,8 @@ class loadingViewController: UIViewController {
             alerts = UserDefaults.standard.bool(forKey: "alerts")
             matchViewController.userid = defaults.string(forKey: "userid") ?? String()
             defaults.set(false , forKey: "tutorial")
-//             self.gameLeft = String()
-              self.gameData()
+            //             self.gameLeft = String()
+            self.gameData()
         } else {
             let userid = "0"
             defaults.set(userid, forKey: "userid")
@@ -173,6 +174,23 @@ class loadingViewController: UIViewController {
             matchViewController.userid = defaults.string(forKey: "userid") ?? String()
             self.gameData()
         }
+        
+        
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        versionCheck()
+        
+        print(UIDevice().localizedModel.description)
+        nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
+        
+        realm = try! Realm()
+        
+        
+        checkLaunchBefore()
+        
+       
         
         
         
@@ -251,15 +269,14 @@ class loadingViewController: UIViewController {
     }
 
     override func viewDidDisappear(_ animated: Bool) {
-        nc.removeObserver(self)
+//        nc.removeObserver(self)
 //        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
 //        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
 //        UIApplication.shared.keyWindow?.rootViewController = viewController
     }
     
-    deinit {
-        print("*************deinit*************")
-    }
-    
+//    deinit {
+//        print("*************deinit*************")
+//    }
 }
 

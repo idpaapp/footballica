@@ -31,7 +31,7 @@ public class promoteMember {
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                       
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.promote(dest_user_id: dest_user_id, completionHandler: {String in

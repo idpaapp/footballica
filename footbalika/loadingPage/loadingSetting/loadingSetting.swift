@@ -39,7 +39,7 @@ public class loadingSetting {
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                       
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.loadSetting(userid: userid)

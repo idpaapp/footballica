@@ -140,7 +140,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                             } else {
                                 PubProc.countRetry = PubProc.countRetry + 1
                                 if PubProc.countRetry == 10 {
-                                    
+                                    DispatchQueue.main.async {
+                                        PubProc.wb.hideWaiting()
+                                        PubProc.cV.hideWarning()
+                                    }
+                                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                                    let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                                    appDelegate.window?.rootViewController = viewController
                                 } else {
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                                 self.accepting()
@@ -186,7 +193,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                     } else {
                         PubProc.countRetry = PubProc.countRetry + 1
                         if PubProc.countRetry == 10 {
-                            
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
+                            }
+                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.window?.rootViewController = viewController
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
@@ -230,7 +244,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                     } else {
                         PubProc.countRetry = PubProc.countRetry + 1
                         if PubProc.countRetry == 10 {
-                            
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
+                            }
+                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.window?.rootViewController = viewController
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
@@ -280,7 +301,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                     } else {
                         PubProc.countRetry = PubProc.countRetry + 1
                         if PubProc.countRetry == 10 {
-                            
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
+                            }
+                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.window?.rootViewController = viewController
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
@@ -334,7 +362,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                     } else {
                         PubProc.countRetry = PubProc.countRetry + 1
                         if PubProc.countRetry == 10 {
-                            
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
+                            }
+                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.window?.rootViewController = viewController
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
@@ -376,7 +411,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                     } else {
                         PubProc.countRetry = PubProc.countRetry + 1
                         if PubProc.countRetry == 10 {
-                            
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
+                            }
+                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.window?.rootViewController = viewController
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
@@ -438,7 +480,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                     } else {
                         PubProc.countRetry = PubProc.countRetry + 1
                         if PubProc.countRetry == 10 {
-                            
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
+                            }
+                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.window?.rootViewController = viewController
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()
@@ -492,7 +541,14 @@ class menuAlert2ButtonsViewController: UIViewController , DA2Delegate , menuAler
                     } else {
                         PubProc.countRetry = PubProc.countRetry + 1
                         if PubProc.countRetry == 10 {
-                            
+                            DispatchQueue.main.async {
+                                PubProc.wb.hideWaiting()
+                                PubProc.cV.hideWarning()
+                            }
+                            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                            appDelegate.window?.rootViewController = viewController
                         } else {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.accepting()

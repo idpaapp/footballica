@@ -89,7 +89,14 @@
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.leaderBoardJson()
@@ -154,7 +161,14 @@
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.leaderBoardJson()
@@ -203,7 +217,14 @@
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.otherProfileJson()
@@ -737,6 +758,13 @@
                                     
                                     if profileMemberRoll! / otherProfileMemberRoll! < 1 {
                                         cell.promoteDemoteView.isHidden = false
+                                                                               
+                                        if otherProfileMemberRoll! == 3 {
+                                            
+                                            cell.setTitles(demoteTitle : "اخراج از گروه")
+                                        } else {
+                                            cell.setTitles(demoteTitle : "کاهش سطح")
+                                        }
                                         cell.promoteDemoteView.action1.addTarget(self, action: #selector(promote), for: UIControlEvents.touchUpInside)
                                         
                                         cell.promoteDemoteView.action3.addTarget(self, action: #selector(demote), for: UIControlEvents.touchUpInside)
@@ -1020,7 +1048,14 @@
             } else {
                 PubProc.countRetry = PubProc.countRetry + 1
                 if PubProc.countRetry == 10 {
-                    
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                        PubProc.cV.hideWarning()
+                    }
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.window?.rootViewController = viewController
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.signInOrOut(mode: mode , email : email)
@@ -1045,7 +1080,9 @@
             acceptOrRejectFriendShipRequest(mode: "CONFIRM_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
             
         } else  if ((self.alertsRes?.response?[sender.tag].type!)!) == "5" {
+            if login.res?.response?.calnData?.clanid != nil {
             self.acceptOrRejectClanRequest(mode: "JOIN_ON_REQUEST", user_id: "\(((self.alertsRes?.response?[sender.tag].sender_id!)!))", clan_id: "\(((login.res?.response?.calnData?.clanid!)!))")
+            }
         } else {
             //accept gameRequest
             acceptFriendlyMatch(userid: (self.alertsRes?.response?[sender.tag].reciver_id!)!, friendid: (self.alertsRes?.response?[sender.tag].sender_id!)!, massageId: (self.alertsRes?.response?[sender.tag].id!)!)
@@ -1054,7 +1091,9 @@
     
     @objc func cancelGameOrFriend(_ sender : UIButton!) {
         if ((self.alertsRes?.response?[sender.tag].type!)!) == "5" {
+            if login.res?.response?.calnData?.clanid != nil {
             self.acceptOrRejectClanRequest(mode: "REJECT_JOIN", user_id: "\(((self.alertsRes?.response?[sender.tag].sender_id!)!))", clan_id: "\(((login.res?.response?.calnData?.clanid!)!))")
+            }
         } else {
             //reject friendship Request & reject gameRequest
             acceptOrRejectFriendShipRequest(mode: "REJECT_REQUEST", user1_id: (self.alertsRes?.response?[sender.tag].reciver_id!)!, user2_id: (self.alertsRes?.response?[sender.tag].sender_id!)!, message_id: (self.alertsRes?.response?[sender.tag].id!)!)
@@ -1075,7 +1114,14 @@
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.acceptOrRejectClanRequest(mode: mode, user_id: user_id, clan_id: clan_id)
@@ -1106,7 +1152,14 @@
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.acceptFriendlyMatch(userid: userid, friendid: friendid, massageId: massageId)
@@ -1134,7 +1187,14 @@
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.acceptOrRejectFriendShipRequest(mode: mode, user1_id: user1_id, user2_id: user2_id, message_id: message_id)
@@ -1173,7 +1233,14 @@
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.messageRead(id: id, matchID: matchID)
@@ -1473,7 +1540,14 @@
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.getUserInfo(id : id, isResfresh: isResfresh)

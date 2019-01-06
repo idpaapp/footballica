@@ -83,7 +83,14 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                             self.sendChat(chatString: chatString)
@@ -128,9 +135,11 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     var urlClass = urls()
     func ChangeclanState() {
-        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+        if login.res?.response?.calnData?.clanid != nil {
             self.selectedClan(getChats: true)
         } else {
+            self.res = nil
+            self.chatRes = nil
             self.bottomChatHeight.constant = 0
             self.view.layoutIfNeeded()
             self.view.layoutSubviews()
@@ -145,7 +154,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     @IBOutlet weak var bottomChatHeight: NSLayoutConstraint!
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+        if login.res?.response?.calnData?.clanid != nil {
             if self.chatRes != nil {
                 return (self.chatRes?.response?.count)!
             } else {
@@ -163,7 +172,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if login.res?.response?.calnData?.clanMembers?.count != 0 {
+        if login.res?.response?.calnData?.clanid != nil {
             switch ((self.chatRes?.response?[indexPath.row].item_type!)!) {
             case publicConstants().CHAT :
                 if ((self.chatRes?.response?[indexPath.row].user_id!)!) == matchViewController.userid {
@@ -273,15 +282,27 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "clanGroupsCell", for: indexPath) as! clanGroupsCell
+            if self.res?.response != nil {
+            if let clanImage = self.res?.response?[indexPath.row].caln_logo {
+                cell.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\(clanImage)")
+            }
             
-            cell.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\(((self.res?.response?[indexPath.row].caln_logo!)!))")
-            cell.clanCup.text = ((self.res?.response?[indexPath.row].clan_score!)!)
-            cell.clanName.text = ((self.res?.response?[indexPath.row].title!)!)
-            cell.clanMembers.text = "\(((self.res?.response?[indexPath.row].member_count!)!)) / 11"
+            if let clanCup = self.res?.response?[indexPath.row].clan_score {
+                cell.clanCup.text = clanCup
+            }
             
+            if let clanName = self.res?.response?[indexPath.row].title {
+                cell.clanName.text = clanName
+            }
+            
+            if let clanMemeber = self.res?.response?[indexPath.row].member_count {
+                cell.clanMembers.text = "\(clanMemeber) / 11"
+            }
+            
+            }
             return cell
-            
-        }
+            }
+        
     }
     
     @objc func openUserProfile(_ sender : UIButton!) {
@@ -441,11 +462,6 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     var res : clanGrouops.Response? = nil
     @objc func searchingAction() {
         
-        //        if self.searchTitle.trimmingCharacters(in: .whitespacesAndNewlines) == "" {
-        //            self.searchTitle = ""
-        //            self.res = nil
-        //            self.clansTV.reloadData()
-        //        } else {
         PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'SEARCH_CLAN' , 'clan_ref' : '\(self.searchTitle.replacedArabicDigitsWithEnglish)' , 'require_trophy' : '\(self.minCupCount)' , 'clan_type' : '\(self.groupType)' , 'min_member_count' : '\(self.minMemberCount)' , 'max_member_count' : '\(self.maxMemberCount)' }") { data, error in
             
             if data != nil {
@@ -457,6 +473,8 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                 //                print(data ?? "")
                 
                 do {
+                    
+                    print(String(data: data!, encoding: String.Encoding.utf8)!)
                     
                     self.res = try JSONDecoder().decode(clanGrouops.Response.self , from : data!)
                     
@@ -473,14 +491,25 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     }
                     
                 } catch {
-                    self.searchingAction()
+                    DispatchQueue.main.async {
+                        self.clansTV.reloadData()
+                        self.searchTextField.endEditing(true)
+                        PubProc.wb.hideWaiting()
+                    }
                     print(error)
                 }
                 PubProc.countRetry = 0
             } else {
                 PubProc.countRetry = PubProc.countRetry + 1
                 if PubProc.countRetry == 10 {
-                    
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                        PubProc.cV.hideWarning()
+                    }
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.window?.rootViewController = viewController
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.searchingAction()
@@ -491,7 +520,6 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                 // handle error
             }
             }.resume()
-        //        }
     }
     
     @objc func clearTextFields() {
@@ -653,7 +681,14 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
             } else {
                 PubProc.countRetry = PubProc.countRetry + 1
                 if PubProc.countRetry == 10 {
-                    
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                        PubProc.cV.hideWarning()
+                    }
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.window?.rootViewController = viewController
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.getChatroomData(isChatSend: isChatSend, completionHandler: {})

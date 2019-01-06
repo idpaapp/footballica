@@ -26,6 +26,7 @@ public class connectionView: UIView {
     
     var noWifiTimer: Timer!
     public func showWarning() {
+        if noWifiTimer == nil {
         noWifiTimer = Timer.scheduledTimer(timeInterval: 2, target: self, selector: #selector(showNoWifi), userInfo: nil, repeats: true)
         if PubProc.showWarning == false {
             PubProc.showWarning = true
@@ -36,22 +37,24 @@ public class connectionView: UIView {
                 self.layer.zPosition = 5
                 self.isOpaque = false
             }
+            }
         }
     }
     
     @objc func showNoWifi() {
-        //        UIView.animate(withDuration: 1.0, animations: {
-        //            self.noWifiLogo.alpha = 0.5
-        //        }, completion: { (finish) in
-        //            UIView.animate(withDuration: 1.0, animations: {
-        //                self.noWifiLogo.alpha = 1.0
-        //            })
-        //        })
+        UIView.animate(withDuration: 1.0, animations: {
+            self.noWifiLogo.alpha = 0.5
+        }, completion: { (finish) in
+            UIView.animate(withDuration: 1.0, animations: {
+                self.noWifiLogo.alpha = 1.0
+            })
+        })
     }
     
     public func hideWarning() {
         if noWifiTimer != nil {
             noWifiTimer.invalidate()
+            noWifiTimer = nil
         }
         if PubProc.showWarning == true {
             PubProc.showWarning = false

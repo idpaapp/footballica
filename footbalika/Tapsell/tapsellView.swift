@@ -1,14 +1,20 @@
 //
-//  testTapsellViewController.swift
+//  tapsellView.swift
 //  footbalika
 //
-//  Created by Saeed Rahmatolahi on 9/18/1397 AP.
+//  Created by Saeed Rahmatolahi on 10/16/1397 AP.
 //  Copyright © 1397 AP Saeed Rahmatolahi. All rights reserved.
 //
+
 import UIKit
 import TapsellSDKv3
 
-class testTapsellViewController: UIViewController {
+
+class tapsellView: UIView {
+
+ 
+    @IBOutlet var contentView: UIView!
+    
     
     weak var tapsellAd : TapsellAd?
     func tapsellInitialize() {
@@ -23,30 +29,13 @@ class testTapsellViewController: UIViewController {
         }
     }
     
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func awakeFromNib() {
+        super.awakeFromNib()
         self.tapsellInitialize()
+        self.gettingAds()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        if matchViewController.allowShowAds {
-//            self.view.backgroundColor = .white
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//            self.gettingAds()
-//        }
-//        } else {
-//            self.view.backgroundColor = .clear
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        //                self.changeRootV @objc func dismissing() {
-//                self.dismissing()
-//            }
-//        }
-    }
     
     @objc func gettingAds() {
         DispatchQueue.main.async {
@@ -91,18 +80,28 @@ class testTapsellViewController: UIViewController {
     }
     
     @objc func dismissing() {
-        self.dismiss(animated: false, completion: nil)
+        self.removeFromSuperview()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(false)
-//        self.changeRootVC()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        commonInit()
     }
     
-    func changeRootVC() {
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainPageViewController") as! mainPageViewController
-        UIApplication.shared.keyWindow?.rootViewController = viewController
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        commonInit()
     }
     
+
+    private func commonInit() {
+        Bundle.main.loadNibNamed("tapsellView", owner: self, options: nil)
+        addSubview(contentView)
+        contentView.frame = self.bounds
+        contentView.autoresizingMask = [.flexibleHeight , .flexibleWidth]
+        
+    }
 }

@@ -39,8 +39,11 @@ class profileGroupCell: UITableViewCell {
         self.profileGroupCellTitleForeGround.font = fonts().iPhonefonts
         self.profileGroupCellTitleForeGround.text = "گروه"
         self.promoteDemoteView.setButtons(hideAction: true, hideAction1: false, hideAction2: true, hideAction3: false)
-        self.promoteDemoteView.setTitles(actionTitle: "", action1Title: "ارتقاء سطح", action2Title: "" , action3Title: "کاهش سطح")
     self.promoteDemoteView.action1.setBackgroundImage(publicImages().accept_btn, for: UIControlState.normal)
+    }
+    
+    @objc func setTitles(demoteTitle : String) {
+        self.promoteDemoteView.setTitles(actionTitle: "", action1Title: "ارتقاء سطح", action2Title: "" , action3Title: "\(demoteTitle)")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

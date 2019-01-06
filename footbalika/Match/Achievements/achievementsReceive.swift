@@ -43,7 +43,7 @@ public class achievementsReceive {
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                       
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                     self.achievementReceive(id : id, completionHandler: {})

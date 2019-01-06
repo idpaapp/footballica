@@ -40,23 +40,28 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     static var showingPublicMassages = true
     public static var OnlineTime = Int64()
     static var userid = String()
-    
+    var tapsell = tapsellView()
     @IBAction func tapsellAction(_ sender: Any) {
+
+        tapsell.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        UIApplication.shared.keyWindow!.addSubview(tapsell)
+        UIApplication.shared.keyWindow!.bringSubview(toFront: tapsell)
+        self.view.bringSubview(toFront: self.tapsell)
+        self.tapsell.tapsellInitialize()
+        self.tapsell.gettingAds()
 //        DispatchQueue.main.async {
-            matchViewController.allowShowAds = true
 //            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
 //            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
 //            UIApplication.shared.keyWindow?.rootViewController = viewController
        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
-        UIApplication.shared.keyWindow?.rootViewController?.present(vc, animated: true, completion: nil)
-        self.performSegue(withIdentifier: "showAds", sender: self)
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
+//        UIApplication.shared.keyWindow?.rootViewController?.present(vc, animated: true, completion: nil)
+//        self.performSegue(withIdentifier: "showAds", sender: self)
 //            self.performSegue(withIdentifier: "loading", sender: self)
 //        }
     }
         
-    static var allowShowAds = false
     func openGameChargePage() {
         DispatchQueue.main.async {
             self.openGameChargingPage()
@@ -426,7 +431,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             } else {
                 PubProc.countRetry = PubProc.countRetry + 1
                 if PubProc.countRetry == 10 {
-                    
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                        PubProc.cV.hideWarning()
+                    }
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    appDelegate.window?.rootViewController = viewController
                 } else {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                         self.showPulicMassages()
@@ -646,7 +658,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                             self.requestNewMatch()
@@ -817,7 +836,14 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
-                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                             self.getProfile()
@@ -864,6 +890,15 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
                 } else {
                     PubProc.countRetry = PubProc.countRetry + 1
                     if PubProc.countRetry == 10 {
+                        
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
                         
                     } else {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {

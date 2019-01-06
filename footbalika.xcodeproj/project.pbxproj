@@ -69,6 +69,10 @@
 		5C30A41A21A9777A00B41032 /* scoreBallCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30A41821A9777A00B41032 /* scoreBallCell.swift */; };
 		5C30A41B21A9777A00B41032 /* scoreBallCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C30A41921A9777A00B41032 /* scoreBallCell.xib */; };
 		5C30B2E620E7A8D50008CDAA /* profile1Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30B2E520E7A8D50008CDAA /* profile1Cell.swift */; };
+		5C30F76221E1C9D80081C0A3 /* noInternetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C30F76121E1C9D80081C0A3 /* noInternetView.xib */; };
+		5C30F76421E1C9F80081C0A3 /* noInternetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30F76321E1C9F80081C0A3 /* noInternetView.swift */; };
+		5C30F76721E1CA5A0081C0A3 /* tapsellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C30F76621E1CA5A0081C0A3 /* tapsellView.swift */; };
+		5C30F76921E1CA620081C0A3 /* tapsellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5C30F76821E1CA620081C0A3 /* tapsellView.xib */; };
 		5C32D72821C66BF300160BD7 /* level_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C32D72521C66BF200160BD7 /* level_up.mp3 */; };
 		5C32D72921C66BF300160BD7 /* league_down.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C32D72621C66BF300160BD7 /* league_down.mp3 */; };
 		5C32D72A21C66BF300160BD7 /* league_up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5C32D72721C66BF300160BD7 /* league_up.mp3 */; };
@@ -355,6 +359,10 @@
 		5C30A41821A9777A00B41032 /* scoreBallCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scoreBallCell.swift; sourceTree = "<group>"; };
 		5C30A41921A9777A00B41032 /* scoreBallCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = scoreBallCell.xib; sourceTree = "<group>"; };
 		5C30B2E520E7A8D50008CDAA /* profile1Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile1Cell.swift; sourceTree = "<group>"; };
+		5C30F76121E1C9D80081C0A3 /* noInternetView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = noInternetView.xib; sourceTree = "<group>"; };
+		5C30F76321E1C9F80081C0A3 /* noInternetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noInternetView.swift; sourceTree = "<group>"; };
+		5C30F76621E1CA5A0081C0A3 /* tapsellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tapsellView.swift; sourceTree = "<group>"; };
+		5C30F76821E1CA620081C0A3 /* tapsellView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = tapsellView.xib; sourceTree = "<group>"; };
 		5C32D72521C66BF200160BD7 /* level_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = level_up.mp3; sourceTree = "<group>"; };
 		5C32D72621C66BF300160BD7 /* league_down.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = league_down.mp3; sourceTree = "<group>"; };
 		5C32D72721C66BF300160BD7 /* league_up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = league_up.mp3; sourceTree = "<group>"; };
@@ -900,6 +908,15 @@
 			path = profile;
 			sourceTree = "<group>";
 		};
+		5C30F76521E1CA3E0081C0A3 /* Tapsell */ = {
+			isa = PBXGroup;
+			children = (
+				5C30F76621E1CA5A0081C0A3 /* tapsellView.swift */,
+				5C30F76821E1CA620081C0A3 /* tapsellView.xib */,
+			);
+			path = Tapsell;
+			sourceTree = "<group>";
+		};
 		5C32D72B21C679F000160BD7 /* matchWinLoseShow */ = {
 			isa = PBXGroup;
 			children = (
@@ -952,6 +969,8 @@
 			isa = PBXGroup;
 			children = (
 				5C3F100721BFB53200CE5A65 /* noInternetViewController.swift */,
+				5C30F76121E1C9D80081C0A3 /* noInternetView.xib */,
+				5C30F76321E1C9F80081C0A3 /* noInternetView.swift */,
 			);
 			path = noInternet;
 			sourceTree = "<group>";
@@ -1166,6 +1185,7 @@
 				5C84D4F320CCFD2500A9DC67 /* AppDelegate.swift */,
 				5C84D4F520CCFD2500A9DC67 /* ViewController.swift */,
 				5C372A1C21BCF890002CA711 /* testTapsellViewController.swift */,
+				5C30F76521E1CA3E0081C0A3 /* Tapsell */,
 				5C234EFC20FA078100926611 /* Sounds */,
 				5C202D9120CE5B46008FA1AB /* Font */,
 				5C43CC2520D76F4F00E25F57 /* DataBase */,
@@ -1740,6 +1760,7 @@
 				5C3CFFF0212BF8B700D45411 /* collectItem.mp3 in Resources */,
 				5C89C4E12196B521001E64E8 /* clanTimerView.xib in Resources */,
 				5C84D4FB20CCFD2700A9DC67 /* Assets.xcassets in Resources */,
+				5C30F76221E1C9D80081C0A3 /* noInternetView.xib in Resources */,
 				5CA7A058217DB0C0002BA65E /* topNewsCell.xib in Resources */,
 				5C84D50E20CCFED500A9DC67 /* iPad.storyboard in Resources */,
 				5C2AC1B120CFA76D0029F8CA /* click.mp3 in Resources */,
@@ -1747,6 +1768,7 @@
 				5C0CBDDA21848DD1007B9C6E /* radioButtonView.xib in Resources */,
 				5CDB89E6217F28D200093006 /* clanDetailCell.xib in Resources */,
 				5C32D72A21C66BF300160BD7 /* league_up.mp3 in Resources */,
+				5C30F76921E1CA620081C0A3 /* tapsellView.xib in Resources */,
 				5C84D51220CCFED500A9DC67 /* iPhoneX.storyboard in Resources */,
 				5C6DE9B6219FF7DC00139892 /* profileGroupCell.xib in Resources */,
 				5C523CC92121AF4500642077 /* waitingBall.xib in Resources */,
@@ -1874,6 +1896,7 @@
 				5C9FFCE420D8DC20007A11C0 /* readAndWritetblChargeTypes.swift in Sources */,
 				5C090397217C514A00B65345 /* sendChatViewController.swift in Sources */,
 				5CE74EE32180741E00CD3C68 /* actionLargeButton.swift in Sources */,
+				5C30F76721E1CA5A0081C0A3 /* tapsellView.swift in Sources */,
 				5CA7A053217DA690002BA65E /* hotNewsCell.swift in Sources */,
 				5CC5376A2185927300B15560 /* logoViewController.swift in Sources */,
 				5CC5376721858FA000B15560 /* logoCell.swift in Sources */,
@@ -1967,6 +1990,7 @@
 				5C372A1D21BCF890002CA711 /* testTapsellViewController.swift in Sources */,
 				5C4F8B1621A1345F00132621 /* demoteMember.swift in Sources */,
 				5CF96F28213D3E6400B15CC7 /* massageViewController.swift in Sources */,
+				5C30F76421E1C9F80081C0A3 /* noInternetView.swift in Sources */,
 				5C84D51E20CCFFBE00A9DC67 /* challengesViewController.swift in Sources */,
 				5CDB89E5217F28D200093006 /* clanDetailCell.swift in Sources */,
 				5C9FFCD620D8D1F3007A11C0 /* WritetblMatchTypes.swift in Sources */,

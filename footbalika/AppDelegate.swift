@@ -50,53 +50,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
         
-//        if UIDevice().userInterfaceIdiom == .phone {
-//            if UIScreen.main.nativeBounds.height == 2436 {
-//                self.window = UIWindow(frame: UIScreen.main.bounds)
-//                let storyBoard = UIStoryboard(name: "iPhoneX", bundle: nil)
-//                let viewController = storyBoard.instantiateViewController(withIdentifier: "mainPageViewController") as! mainPageViewController
-//                self.window?.rootViewController = viewController
-//                self.window?.makeKeyAndVisible()
-//                
-//            } else {
-//                self.window = UIWindow(frame: UIScreen.main.bounds)
-//                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//                let viewController = storyBoard.instantiateViewController(withIdentifier: "mainPageViewController") as! mainPageViewController
-//                self.window?.rootViewController = viewController
-//                self.window?.makeKeyAndVisible()
-//            }
-//            
-//        } else {
-//            self.window = UIWindow(frame: UIScreen.main.bounds)
-//            let storyBoard = UIStoryboard(name: "iPad", bundle: nil)
-//            let viewController = storyBoard.instantiateViewController(withIdentifier: "mainPageViewController") as! mainPageViewController
-//            self.window?.rootViewController = viewController
-//            self.window?.makeKeyAndVisible()
-//        }
-        
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height == 2436 {
                 self.window = UIWindow(frame: UIScreen.main.bounds)
                 let storyBoard = UIStoryboard(name: "iPhoneX", bundle: nil)
-                let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+                let viewController = storyBoard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
                 self.window?.rootViewController = viewController
                 self.window?.makeKeyAndVisible()
-
+                
             } else {
                 self.window = UIWindow(frame: UIScreen.main.bounds)
                 let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-                let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+                let viewController = storyBoard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
                 self.window?.rootViewController = viewController
                 self.window?.makeKeyAndVisible()
             }
-
+            
         } else {
             self.window = UIWindow(frame: UIScreen.main.bounds)
             let storyBoard = UIStoryboard(name: "iPad", bundle: nil)
-            let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+            let viewController = storyBoard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
             self.window?.rootViewController = viewController
             self.window?.makeKeyAndVisible()
         }
+        
+//        if UIDevice().userInterfaceIdiom == .phone {
+//            if UIScreen.main.nativeBounds.height == 2436 {
+//                self.window = UIWindow(frame: UIScreen.main.bounds)
+//                let storyBoard = UIStoryboard(name: "iPhoneX", bundle: nil)
+//                let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+//                self.window?.rootViewController = viewController
+//                self.window?.makeKeyAndVisible()
+//
+//            } else {
+//                self.window = UIWindow(frame: UIScreen.main.bounds)
+//                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+//                let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+//                self.window?.rootViewController = viewController
+//                self.window?.makeKeyAndVisible()
+//            }
+//
+//        } else {
+//            self.window = UIWindow(frame: UIScreen.main.bounds)
+//            let storyBoard = UIStoryboard(name: "iPad", bundle: nil)
+//            let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
+//            self.window?.rootViewController = viewController
+//            self.window?.makeKeyAndVisible()
+//        }
         return true
     }
 

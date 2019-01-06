@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yHh-FE-2bU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BDF-Qs-OFl">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -60,6 +60,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qet-f4-TkF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1901.5999999999999" y="-186.20689655172416"/>
+        </scene>
+        <!--Test Tapsell View Controller-->
+        <scene sceneID="DKD-gf-7vt">
+            <objects>
+                <viewController restorationIdentifier="testTapsellViewController" storyboardIdentifier="testTapsellViewController" id="BDF-Qs-OFl" customClass="testTapsellViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ag2-36-iB9">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hda-kF-VsL">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="yHh-FE-2bU" kind="embed" id="YeP-hc-6Yp"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="hda-kF-VsL" firstAttribute="trailing" secondItem="iUD-bs-0RS" secondAttribute="trailing" id="6Z6-YF-W6P"/>
+                            <constraint firstItem="hda-kF-VsL" firstAttribute="top" secondItem="Ag2-36-iB9" secondAttribute="top" id="Gbf-hk-g3V"/>
+                            <constraint firstItem="hda-kF-VsL" firstAttribute="leading" secondItem="iUD-bs-0RS" secondAttribute="leading" id="UyB-kJ-Xvb"/>
+                            <constraint firstItem="iUD-bs-0RS" firstAttribute="bottom" secondItem="hda-kF-VsL" secondAttribute="bottom" id="cy5-yn-FXi"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="iUD-bs-0RS"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="L8u-Bb-6bM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-914.49275362318849" y="155.70652173913044"/>
         </scene>
         <!--Loading View Controller-->
         <scene sceneID="rmS-Tz-1KA">
@@ -148,21 +178,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="64N-uN-n4Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="80.799999999999997" y="160.34482758620689"/>
-        </scene>
-        <!--Test Tapsell View Controller-->
-        <scene sceneID="H7S-vl-qOb">
-            <objects>
-                <viewController storyboardIdentifier="testTapsellViewController" modalPresentationStyle="overFullScreen" id="ury-st-lZr" customClass="testTapsellViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Ixn-a8-X0D">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="siW-OM-gor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0Z7-O0-5lX" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-765.21739130434787" y="677.44565217391312"/>
         </scene>
         <!--Main Page View Controller-->
         <scene sceneID="yTo-Ux-ea1">
@@ -1810,7 +1825,6 @@
                         <segue destination="tgK-rF-cIf" kind="presentation" identifier="tutorialHelp" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="8Zf-Y3-3ch"/>
                         <segue destination="mvf-lk-0kw" kind="presentation" identifier="showTutorial" modalPresentationStyle="overCurrentContext" modalTransitionStyle="crossDissolve" id="3FJ-vl-BOW"/>
                         <segue destination="ibv-tv-HwV" kind="presentation" identifier="showUpgrade" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="254-gE-KV2"/>
-                        <segue destination="ury-st-lZr" kind="presentation" identifier="showAds" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="sBL-bE-4RS"/>
                         <segue destination="mrO-ce-19g" kind="presentation" identifier="showPublicMassagesNoKeys" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="7wS-8F-jE9"/>
                         <segue destination="yHh-FE-2bU" kind="show" identifier="loading" id="w49-Mn-Ufi"/>
                     </connections>
@@ -3448,7 +3462,7 @@
         <!--No Internet View Controller-->
         <scene sceneID="Az9-4v-0yU">
             <objects>
-                <viewController restorationIdentifier="noInternetViewController" storyboardIdentifier="noInternetViewController" id="UnS-W2-etw" customClass="noInternetViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="noInternetViewController" storyboardIdentifier="noInternetViewController" modalTransitionStyle="crossDissolve" id="UnS-W2-etw" customClass="noInternetViewController" customModule="footbalika" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="txO-fa-R0o">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -3492,7 +3506,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PW8-lB-MfF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-765.21739130434787" y="-104.34782608695653"/>
+            <point key="canvasLocation" x="80" y="-570"/>
         </scene>
         <!--Massage View Controller-->
         <scene sceneID="ywP-gK-str">
@@ -9503,7 +9517,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="txG-4V-0F5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-697" y="1380"/>
+            <point key="canvasLocation" x="-696" y="1494"/>
         </scene>
         <!--Send Chat View Controller-->
         <scene sceneID="EUT-5n-P0q">
@@ -10518,12 +10532,13 @@
         <segue reference="qfX-oJ-sWu"/>
         <segue reference="g8B-Ay-vU8"/>
         <segue reference="uc8-hl-oU7"/>
-        <segue reference="uy9-ug-KDx"/>
-        <segue reference="8Zf-Y3-3ch"/>
+        <segue reference="l2J-5r-H8i"/>
+        <segue reference="5V0-Wb-Tgp"/>
         <segue reference="wU6-MG-i6J"/>
         <segue reference="254-gE-KV2"/>
         <segue reference="Ke5-Nx-c39"/>
         <segue reference="wQ3-Xg-ofI"/>
         <segue reference="N21-7O-RH3"/>
+        <segue reference="YeP-hc-6Yp"/>
     </inferredMetricsTieBreakers>
 </document>
