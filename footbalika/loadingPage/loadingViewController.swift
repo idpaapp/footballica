@@ -12,6 +12,7 @@ import Foundation
 
 class loadingViewController: UIViewController {
     
+    @IBOutlet weak var mainPageContainer: UIView!
     @IBOutlet weak var loadingProgress: UIProgressView!
     @IBOutlet weak var loadingProgressLabel: UILabel!
     @IBOutlet weak var ProgressBackGroundView: UIView!
@@ -21,12 +22,12 @@ class loadingViewController: UIViewController {
     var currentProgress = Float()
     var AppVersion = Int()
     
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
     
     let defaults = UserDefaults.standard
-    
     func versionCheck() {
         if let version = Bundle.main.infoDictionary?["CFBundleVersion"] as? String {
             print("version : \(version)")
@@ -180,6 +181,7 @@ class loadingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.mainPageContainer.isHidden = true
         versionCheck()
         
         print(UIDevice().localizedModel.description)
@@ -189,11 +191,6 @@ class loadingViewController: UIViewController {
         
         
         checkLaunchBefore()
-        
-       
-        
-        
-        
         
         //        timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(progressing), userInfo: nil, repeats: true)
         
@@ -225,7 +222,11 @@ class loadingViewController: UIViewController {
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                         self.timer.invalidate()
-                        self.performSegue(withIdentifier: "showMainMenu", sender: self)
+//                        self.performSegue(withIdentifier: "showMainMenu", sender: self)
+                        self.mainPageContainer.isHidden = false
+                        self.mpV?.playingMenuMusic()
+                        let nc = NotificationCenter.default
+                        nc.post(name: Notification.Name("changingUserPassNotification"), object: nil , userInfo : nil)
                         PubProc.isSplash = false
                     })
                 } else {
@@ -244,6 +245,9 @@ class loadingViewController: UIViewController {
             }
         }
     }
+    
+    var mpV: mainPageViewController?
+
     
     @objc func updateProgress() {
         self.endProgress = self.endProgress + 0.1
@@ -265,6 +269,10 @@ class loadingViewController: UIViewController {
             vc.alertState = "forceUpdate"
             vc.alertBody = "فوتبالیکا برای اجرا نیاز به به روز رسانی دارد"
             vc.alertTitle = "فوتبالیکا"
+        }
+        
+        if segue.identifier == "mainPage" {
+            self.mpV = segue.destination as? mainPageViewController
         }
     }
 

@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class mainPageViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout {
+class mainPageViewController: UIViewController , UICollectionViewDelegate , UICollectionViewDataSource , UICollectionViewDelegateFlowLayout  {
     
     var menuTitles = ["لیست بازی ها" ,
                       "چالش" ,
@@ -17,11 +17,10 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
                       "گروه" ,
                       "فروشگاه"]
     
-    
+
     var menuImages = ["log" , "challenges" , "ball" , "groups" , "shop"]
     
     @IBOutlet weak var menuButtonsCV: UICollectionView!
-    
     @objc func scrollFunction(notification: Notification){
         if let index = notification.userInfo?["button"] as? Int {
             selectedItem = index
@@ -48,13 +47,16 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+    }
+    
+    
+    func playingMenuMusic() {
         if playMenuMusic {
             musicPlay().playMenuMusic()
         } else {
             
         }
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,6 +129,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
             }
         }
     }
+
 }
 
 

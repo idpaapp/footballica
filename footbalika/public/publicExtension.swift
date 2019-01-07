@@ -131,6 +131,15 @@ extension UIImageView {
         animation.toValue = NSValue(cgPoint: CGPoint(x: self.center.x, y: self.center.y + 10))
         self.layer.add(animation, forKey: "position")
     }
+    
+    func rotate() {
+        let rotation: CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotation.toValue = Double.pi * 2
+        rotation.duration = 10 // or however long you want ...
+        rotation.isCumulative = true
+        rotation.repeatCount = Float.greatestFiniteMagnitude
+        self.layer.add(rotation, forKey: "rotationAnimation")
+    }
 }
 
 extension UILabel {

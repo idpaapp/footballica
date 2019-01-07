@@ -8,8 +8,10 @@
 import UIKit
 import TapsellSDKv3
 
+
 class testTapsellViewController: UIViewController {
     
+    @IBOutlet weak var loadingContainer: UIView!
     weak var tapsellAd : TapsellAd?
     func tapsellInitialize() {
         let config = TSConfiguration()
@@ -20,6 +22,7 @@ class testTapsellViewController: UIViewController {
         Tapsell.setAdShowFinishedCallback { (ad, completed) in
             
             print(completed);
+            
         }
     }
     
@@ -30,22 +33,16 @@ class testTapsellViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tapsellInitialize()
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        if matchViewController.allowShowAds {
-//            self.view.backgroundColor = .white
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 20.0) {
 //            self.gettingAds()
 //        }
-//        } else {
-//            self.view.backgroundColor = .clear
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-        //                self.changeRootV @objc func dismissing() {
-//                self.dismissing()
-//            }
-//        }
+
     }
     
     @objc func gettingAds() {
@@ -79,30 +76,25 @@ class testTapsellViewController: UIViewController {
         {
             let showOptions = TSAdShowOptions()
             showOptions.setOrientation(OrientationUnlocked)
-            showOptions.setBackDisabled(true)
+            showOptions.setBackDisabled(false)
             showOptions.setShowDialoge(true)
             self.tapsellAd?.show(with: showOptions, andOpenedCallback: { (tapsellAd) in
+                DispatchQueue.main.async {
+                    PubProc.wb.hideWaiting()
+                }
+                self.view.isUserInteractionEnabled = true
                 print("Open Shod");
             }, andClosedCallback: { (tapsellAd) in
                 print("Close Shod");
+                musicPlay().playMenuMusic()
                 self.dismissing()
             })
         }
     }
     
     @objc func dismissing() {
+        self.view.isUserInteractionEnabled = true
         self.dismiss(animated: false, completion: nil)
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(false)
-//        self.changeRootVC()
-    }
-    
-    func changeRootVC() {
-        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "mainPageViewController") as! mainPageViewController
-        UIApplication.shared.keyWindow?.rootViewController = viewController
-    }
-    
+
 }

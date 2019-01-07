@@ -11,11 +11,12 @@ import UIKit
 class noInternetViewController: UIViewController {
     
     @IBOutlet weak var restartApplication: RoundButton!
-    var lv = loadingViewController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         restartApplication.addTarget(self, action: #selector(restartingApp), for: UIControlEvents.touchDown)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,18 +35,18 @@ class noInternetViewController: UIViewController {
         if UIDevice().userInterfaceIdiom == .phone {
             if UIScreen.main.nativeBounds.height == 2436 {
                 let mainStoryboard: UIStoryboard = UIStoryboard(name: "iPhoneX", bundle: nil)
-                let viewController = mainStoryboard.instantiateViewController(withIdentifier: "loadingViewController")
+                let viewController = mainStoryboard.instantiateViewController(withIdentifier: "testTapsellViewController")
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.window?.rootViewController = viewController
             } else {
                 let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let viewController = mainStoryboard.instantiateViewController(withIdentifier: "loadingViewController")
+                let viewController = mainStoryboard.instantiateViewController(withIdentifier: "testTapsellViewController")
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                 appDelegate.window?.rootViewController = viewController
             }
         } else {
             let mainStoryboard: UIStoryboard = UIStoryboard(name: "iPad", bundle: nil)
-            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "loadingViewController")
+            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "testTapsellViewController")
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.window?.rootViewController = viewController     
         }

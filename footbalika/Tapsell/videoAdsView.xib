@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="videoAdsView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="udV-Op-2dv"/>
+                <outlet property="shineImg" destination="uyM-GD-Ujs" id="Mw6-9E-eiN"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="action_back_btn_height" translatesAutoresizingMaskIntoConstraints="NO" id="NCK-0s-53w">
+                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_sunbrust" translatesAutoresizingMaskIntoConstraints="NO" id="uyM-GD-Ujs">
+                    <rect key="frame" x="10.5" y="10.5" width="129" height="129"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="image" keyPath="maskImage" value="action_back_btn"/>
+                    </userDefinedRuntimeAttributes>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_gift_blue" translatesAutoresizingMaskIntoConstraints="NO" id="Aj0-xL-OOx">
+                    <rect key="frame" x="30" y="30" width="90" height="90"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="Aj0-xL-OOx" secondAttribute="height" multiplier="1:1" id="7GW-k1-KN4"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="uyM-GD-Ujs" firstAttribute="width" secondItem="NCK-0s-53w" secondAttribute="width" multiplier="6:7" id="46G-BM-Wro"/>
+                <constraint firstItem="NCK-0s-53w" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="HEh-eW-BvD"/>
+                <constraint firstItem="Aj0-xL-OOx" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="JHN-hy-Zlu"/>
+                <constraint firstItem="Aj0-xL-OOx" firstAttribute="width" secondItem="NCK-0s-53w" secondAttribute="width" multiplier="3:5" id="JID-IK-Hbb"/>
+                <constraint firstItem="uyM-GD-Ujs" firstAttribute="height" secondItem="NCK-0s-53w" secondAttribute="height" multiplier="6:7" id="Sx2-xm-zfz"/>
+                <constraint firstItem="uyM-GD-Ujs" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="YtJ-pz-WCQ"/>
+                <constraint firstItem="uyM-GD-Ujs" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="haD-62-IU4"/>
+                <constraint firstItem="Aj0-xL-OOx" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="tdX-Dh-Zyo"/>
+                <constraint firstItem="NCK-0s-53w" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="vhr-Ol-NrB"/>
+                <constraint firstItem="NCK-0s-53w" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="vjo-Kq-vve"/>
+                <constraint firstItem="NCK-0s-53w" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="y29-N3-3F5"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-147.19999999999999" y="110.64467766116942"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="action_back_btn" width="194" height="114"/>
+        <image name="action_back_btn_height" width="194" height="142"/>
+        <image name="ic_gift_blue" width="159" height="159"/>
+        <image name="ic_sunbrust" width="120" height="120"/>
+    </resources>
+</document>

@@ -36,30 +36,34 @@ protocol menuViewControllerDelegate2 : NSObjectProtocol {
 
 class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , giftsAndChargesViewControllerDelegate , menuViewControllerDelegate2 {
     
+    @IBOutlet weak var showAdsOutlet: RoundButton!
     let ts = testTapsellViewController()
     static var showingPublicMassages = true
     public static var OnlineTime = Int64()
     static var userid = String()
-    var tapsell = tapsellView()
-    @IBAction func tapsellAction(_ sender: Any) {
-
-        tapsell.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        UIApplication.shared.keyWindow!.addSubview(tapsell)
-        UIApplication.shared.keyWindow!.bringSubview(toFront: tapsell)
-        self.view.bringSubview(toFront: self.tapsell)
-        self.tapsell.tapsellInitialize()
+    var tapsell = testTapsellViewController()
+    
+    @IBAction func showAdsAction(_ sender: RoundButton) {
+        musicPlay().playMenuMusic()
         self.tapsell.gettingAds()
-//        DispatchQueue.main.async {
-//            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
-//            UIApplication.shared.keyWindow?.rootViewController = viewController
-       
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc = storyboard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
-//        UIApplication.shared.keyWindow?.rootViewController?.present(vc, animated: true, completion: nil)
-//        self.performSegue(withIdentifier: "showAds", sender: self)
-//            self.performSegue(withIdentifier: "loading", sender: self)
-//        }
+        self.view.isUserInteractionEnabled = false
+        DispatchQueue.main.async {
+            PubProc.wb.showWaiting()
+        }
+    }
+    
+    let adsView = videoAdsView()
+    func adsOutlet() {
+        self.adsView.frame = CGRect(x: 0, y: 0, width: self.showAdsOutlet.frame.size.width, height: self.showAdsOutlet.frame.size.height)
+        self.showAdsOutlet.addSubview(adsView)
+        self.showAdsOutlet.sendSubview(toBack: self.adsView)
+        self.view.bringSubview(toFront: showAdsOutlet)
+        self.adsView.isUserInteractionEnabled = false
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        adsOutlet()
     }
         
     func openGameChargePage() {
@@ -153,6 +157,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var alertAcceptLabel = String()
     
     @objc func fillData() {
+        self.view.isUserInteractionEnabled = true
         if (login.res?.response?.mainInfo?.status) != nil {
             level.text = (login.res?.response?.mainInfo?.level)!
             money.text = (login.res?.response?.mainInfo?.cashs)!
@@ -172,6 +177,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
             mainCupImage.setImageWithKingFisher(url: "\((gameDataModel.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
+        notificationsView()
         gameChargeSet()
     }
     
@@ -340,7 +346,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         self.gameChargeTimerBox.isHidden = true
         notificationsView()
         if wholeMainPageButtons != nil {
-            if UIScreen.main.bounds.height < 568 {
+            if UIScreen.main.bounds.height < 667 {
                 wholeMainPageButtons.constant = 20
             } else {
                 wholeMainPageButtons.constant = 50
