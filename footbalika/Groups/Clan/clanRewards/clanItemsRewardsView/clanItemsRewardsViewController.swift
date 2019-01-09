@@ -20,7 +20,11 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
         let cell = tableView.dequeueReusableCell(withIdentifier: "clanRewardsCell", for: indexPath) as! clanRewardsCell
         
         cell.rewardImage.image = list[indexPath.row]
+        if amounts[indexPath.row] != 0 {
         cell.rewardTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(amounts[indexPath.row])", strokeWidth: -3.0)
+        } else {
+            cell.rewardTitle.text = ""
+        }
         
         return cell
     }
@@ -36,8 +40,10 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
     }
     
     var rewardsItems : warRewards.reward? = nil
+    var adsReward : AdsPrizeModel.reward_data? = nil
     var list = [UIImage]()
     var amounts = [Int]()
+    var isMenuAds = false
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,9 +51,12 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
         self.itemView.rewardsTV.register(UINib(nibName: "clanRewardsCell", bundle: nil), forCellReuseIdentifier: "clanRewardsCell")
         self.itemView.rewardsTV.delegate = self
         self.itemView.rewardsTV.dataSource = self
-        
-        setOutlets()
         checkRewards()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setOutlets()
     }
     
     @objc func updateAlpha() {
@@ -83,6 +92,28 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
             DispatchQueue.main.async {
                 self.itemView.rewardsTV.reloadData()
             }
+        } else {
+            self.list.append(UIImage())
+            self.amounts.append(0)
+            if self.isMenuAds {
+                self.list.append(publicImages().coin!)
+                self.amounts.append(Int((gameDataModel.loadGameData?.response?.giftRewards?.video!)!))
+            } else {
+                if self.adsReward != nil {
+                    if let gold = self.adsReward?.gold {
+                        if gold != "0" {
+                            self.list.append(publicImages().coin!)
+                            self.amounts.append(Int(gold)!)
+                        }
+                    }
+                    if let money = self.adsReward?.money {
+                        if money != "0" {
+                            self.list.append(publicImages().money!)
+                            self.amounts.append(Int(money)!)
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -100,5 +131,7 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
     
     @objc func dismissing() {
         self.dismiss(animated: true, completion: nil)
+        self.rewardsItems = nil
+        self.adsReward = nil
     }
 }

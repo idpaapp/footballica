@@ -188,6 +188,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
                         
                         self.activeWarRes = try JSONDecoder().decode(getActiveWar.Response.self, from: data!)
                         var startButtonState = Bool()
+                        
                         if ((login.res?.response?.calnData?.member_roll!)!) == "1" {
                             startButtonState = false
                             self.setStartGroupGameButton()

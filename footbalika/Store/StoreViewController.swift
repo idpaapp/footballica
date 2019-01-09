@@ -69,9 +69,12 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             self.noPackage = true
         }
         }
-        
-        level.text = (login.res?.response?.mainInfo?.level)!
-        money.text = (login.res?.response?.mainInfo?.cashs)!
+        if let l = login.res?.response?.mainInfo?.level {
+            level.text = l
+        }
+        if let m = login.res?.response?.mainInfo?.cashs {
+            money.text = m
+        }
         xp.text = "\((login.res?.response?.mainInfo?.max_points_gain)!)/\((gameDataModel.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)"
         coins.text = (login.res?.response?.mainInfo?.coins)!
         xpProgress.progress = Float((login.res?.response?.mainInfo?.max_points_gain)!)! / Float((gameDataModel.loadGameData?.response?.userXps[Int((login.res?.response?.mainInfo?.level)!)! - 1].xp!)!)!

@@ -426,6 +426,9 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     
     @objc func joinGroup() {
         if (self.res?.response?.clan_type!)! == "1" {
+            if (self.res?.response?.clanMembers?.count)! == 11 {
+                self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+            } else {
         PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_CLAN' , 'user_id' : '\(matchViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
             
             if data != nil {
@@ -484,6 +487,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
             }
             }.resume()
             
+        }
             
         } else {
             

@@ -73,6 +73,8 @@ public class publicImages {
     public var emptyAvatar = UIImage(named: "ic_avatar_large")
     public var cup = UIImage(named: "ic_cup")
     public var badge = UIImage(named: "ic_grade_badge")
+    public var yellowButton = UIImage(named: "action_back_btn_height")
+    public var giftImage = UIImage(named: "ic_gift_blue")
 }
 
 public class fonts {
@@ -138,6 +140,7 @@ extension UIImageView {
         rotation.duration = 10 // or however long you want ...
         rotation.isCumulative = true
         rotation.repeatCount = Float.greatestFiniteMagnitude
+        rotation.isRemovedOnCompletion = false
         self.layer.add(rotation, forKey: "rotationAnimation")
     }
 }

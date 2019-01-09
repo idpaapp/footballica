@@ -16,6 +16,7 @@ public class loginStructure {
     public struct response : Decodable {
         var mainInfo : loginMainInfo.response?
         let favoriteteams : [loginFavoriteteams.response]?
+        let reward_data : AdsPrizeModel.reward_data?
         let calnData : loginClanData.response?
         let nots_achv : loginnots_achv.response?
     }

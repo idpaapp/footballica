@@ -15,12 +15,15 @@ public class  giftRewards {
     }
     
     public struct response : Decodable {
-        let invite_friend : Int?
-        let sign_up : Int?
-        let google_sign_in : Int?
-        let report_bug : Int?
-        let comment : Int?
-        let invited_user : Int?
-        let change_name : Int?
+       let instagram : Int?
+       let video : Int?
+       let video_install : Int?
+       let invite_friend : Int?
+       let sign_up : Int?
+       let google_sign_in : Int?
+       let report_bug : Int?
+       let comment : Int?
+       let invited_user : Int?
+       let change_name : Int?
     }
 }

@@ -374,6 +374,25 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                 reportingProblem()
             case "ic_comment" :
                 suggestions()
+            case "video" :
+                print("video")
+                print((login.res?.response?.mainInfo?.next_watch_video!)!)
+                print((login.res?.response?.mainInfo?.next_video_prize!)!)
+                print((login.res?.response?.mainInfo?.video!)!)
+                if let videoCount = login.res?.response?.mainInfo?.video {
+                    if videoCount == "0" {
+                        self.alertTitle = "اخطار"
+                        self.alertBody = "مشاهده ی تبلیغ شما از حد مجاز مجاز گذشته است!"
+                        self.alertAcceptLabel = "تأیید"
+                        self.performSegue(withIdentifier: "giftAlert", sender: self)
+                    } else {
+                        self.dismissing()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self.delegate?.showMenuAds()
+                        }
+                    }
+                }
+                
             default :
                 print("other")
             }
@@ -494,7 +513,6 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                             self.alertAcceptLabel = "تأیید"
                             self.performSegue(withIdentifier: "giftAlert", sender: self)
                         }
-                        
                         PubProc.wb.hideWaiting()
                     } catch {
                         print(error)

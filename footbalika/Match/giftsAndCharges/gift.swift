@@ -28,6 +28,11 @@ public class gift : menuView {
         giftsTitles.append("حمایت از ما")
         giftsNumbers.append("\((gameDataModel.loadGameData?.response?.giftRewards?.invited_user!)!)")
         
+        giftsImages.append("video")
+        giftsTitles.append("مشاهده تبلیغ")
+        giftsNumbers.append("\((gameDataModel.loadGameData?.response?.giftRewards?.video!)!)")
+        
+        
         giftsImages.append("invite_friend")
         giftsTitles.append("دعوت دوستان")
         giftsNumbers.append("\((gameDataModel.loadGameData?.response?.giftRewards?.invite_friend!)!)")

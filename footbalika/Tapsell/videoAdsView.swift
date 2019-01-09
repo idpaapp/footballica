@@ -15,6 +15,12 @@ class videoAdsView: UIView {
     
     @IBOutlet weak var shineImg: UIImageView!
     
+    @IBOutlet weak var backGroundImage: UIImageView!
+    
+    @IBOutlet weak var giftImage: UIImageView!
+    
+    @IBOutlet weak var timerView: smallTimerView!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -36,7 +42,6 @@ class videoAdsView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         shineTimer = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(rotating), userInfo: nil, repeats: true)
-
     }
     
     

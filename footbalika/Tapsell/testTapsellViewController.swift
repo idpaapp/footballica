@@ -22,7 +22,9 @@ class testTapsellViewController: UIViewController {
         Tapsell.setAdShowFinishedCallback { (ad, completed) in
             
             print(completed);
-            
+
+            self.isSeen = completed
+            matchViewController.adsState = "\(self.isSeen)"
         }
     }
     
@@ -30,6 +32,8 @@ class testTapsellViewController: UIViewController {
         return true
     }
     
+    var isSeen : Bool = false
+    let mv = matchViewController()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tapsellInitialize()
@@ -39,10 +43,6 @@ class testTapsellViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 20.0) {
-//            self.gettingAds()
-//        }
-
     }
     
     @objc func gettingAds() {
@@ -55,18 +55,23 @@ class testTapsellViewController: UIViewController {
                 NSLog("Ad Available")
                 self.tapsellAd = tapsellAd
                 self.showingAds()
-                
             }, onNoAdAvailable: {
                 NSLog("No Ad Available")
                 self.dismissing()
-                
+//                self.mv.adsState(state: "No Ad Available", isSeen: false)
+                matchViewController.adsState = "تبلیغی جهت نمایش یافت نشد!"
+
             }, onError: { (error) in
                 NSLog("onError:"+error!)
                 self.dismissing()
-                
+//                self.mv.adsState(state: "onError", isSeen: false)
+                matchViewController.adsState = "تبلیغی جهت نمایش یافت نشد!"
             }, onExpiring: { (ad) in
                 NSLog("Expiring")
                 self.dismissing()
+//                self.mv.adsState(state: "Expiring", isSeen: false)
+                matchViewController.adsState = "تبلیغی جهت نمایش یافت نشد!"
+
             })
         }
     }
@@ -86,6 +91,9 @@ class testTapsellViewController: UIViewController {
                 print("Open Shod");
             }, andClosedCallback: { (tapsellAd) in
                 print("Close Shod");
+//                self.mv.adsState(state: "close ad", isSeen: self.isSeen)
+                matchViewController.adsState = "\(self.isSeen)"
+
                 musicPlay().playMenuMusic()
                 self.dismissing()
             })

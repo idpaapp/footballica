@@ -22,7 +22,6 @@ class loadingViewController: UIViewController {
     var currentProgress = Float()
     var AppVersion = Int()
     
-    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -98,16 +97,19 @@ class loadingViewController: UIViewController {
                             
                             self.endProgress = 0.1
                             self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
-                            if matchViewController.userid != "0" {
-                                login.init().loging(userid: matchViewController.userid, rest: true, completionHandler: {
-                                })
-                                
+                            print(matchViewController.userid)
+                            if matchViewController.userid != "" {
+                                if matchViewController.userid != "0" {
+                                    login.init().loging(userid: matchViewController.userid, rest: true, completionHandler: {
+                                    })
+                                } else {
+                                    self.performSegue(withIdentifier: "loginUser", sender: self)
+                                }
                             } else {
                                 self.performSegue(withIdentifier: "loginUser", sender: self)
                             }
+                          }
                         }
-                        }
-                        
                     } catch {
                         self.gameData()
                         print(error)
@@ -140,7 +142,7 @@ class loadingViewController: UIViewController {
     
     var realm : Realm!
     
-    var launchedBefore = Bool()
+    var launchedBefore = false
     var playMenuMusic = Bool()
     var playgameSounds = Bool()
     var alerts = Bool()
@@ -150,9 +152,10 @@ class loadingViewController: UIViewController {
 
     func checkLaunchBefore() {
         
-        launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
+        print(UserDefaults.standard.bool(forKey: "launchedBefore"))
+        self.launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         
-        
+        print(self.launchedBefore)
         if self.launchedBefore  {
             
             playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
@@ -172,25 +175,23 @@ class loadingViewController: UIViewController {
             defaults.set("", forKey: "gameLeft")
             defaults.set(true , forKey: "tutorial")
             defaults.set(["0"], forKey: "publicMassagesIDS")
-            matchViewController.userid = defaults.string(forKey: "userid") ?? String()
+            matchViewController.userid = "0"
             self.gameData()
-        }
-        
-        
+        }        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mainPageContainer.isHidden = true
         versionCheck()
-        
+        checkLaunchBefore()
+
         print(UIDevice().localizedModel.description)
         nc.addObserver(self, selector: #selector(updateProgress), name: Notification.Name("updateProgress"), object: nil)
         
         realm = try! Realm()
         
         
-        checkLaunchBefore()
         
         //        timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(progressing), userInfo: nil, repeats: true)
         

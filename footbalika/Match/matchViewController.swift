@@ -27,6 +27,7 @@ protocol giftsAndChargesViewControllerDelegate : NSObjectProtocol {
     func fillData()
     func showGift(image : String , title : String)
     func showGoogleGift(image : String , title : String)
+    func showMenuAds()
 }
 
 protocol menuViewControllerDelegate2 : NSObjectProtocol {
@@ -37,30 +38,128 @@ protocol menuViewControllerDelegate2 : NSObjectProtocol {
 class matchViewController: UIViewController , GameChargeDelegate , TutorialDelegate , publicMassageNoKeysViewControllerDelegate , giftsAndChargesViewControllerDelegate , menuViewControllerDelegate2 {
     
     @IBOutlet weak var showAdsOutlet: RoundButton!
-    let ts = testTapsellViewController()
     static var showingPublicMassages = true
     public static var OnlineTime = Int64()
     static var userid = String()
-    var tapsell = testTapsellViewController()
     
+    var isMenuAds = false
+    func showMenuAds() {
+        self.isMenuAds = true
+        showAds()
+    }
     @IBAction func showAdsAction(_ sender: RoundButton) {
-        musicPlay().playMenuMusic()
-        self.tapsell.gettingAds()
-        self.view.isUserInteractionEnabled = false
+        self.isMenuAds = false
+        showAds()
+    }
+    
+    
+    @objc func showAds() {
         DispatchQueue.main.async {
+            musicPlay().playMenuMusic()
+            let tapsell = testTapsellViewController()
+            tapsell.gettingAds()
+            self.view.isUserInteractionEnabled = false
             PubProc.wb.showWaiting()
         }
     }
     
     let adsView = videoAdsView()
     func adsOutlet() {
-        self.adsView.frame = CGRect(x: 0, y: 0, width: self.showAdsOutlet.frame.size.width, height: self.showAdsOutlet.frame.size.height)
-        self.showAdsOutlet.addSubview(adsView)
-        self.showAdsOutlet.sendSubview(toBack: self.adsView)
-        self.view.bringSubview(toFront: showAdsOutlet)
-        self.adsView.isUserInteractionEnabled = false
+        DispatchQueue.main.async {
+            self.adsView.frame = CGRect(x: 0, y: 0, width: self.showAdsOutlet.frame.size.width, height: self.showAdsOutlet.frame.size.height)
+            self.showAdsOutlet.addSubview(self.adsView)
+            self.showAdsOutlet.sendSubview(toBack: self.adsView)
+            self.view.bringSubview(toFront: self.showAdsOutlet)
+            self.adsView.isUserInteractionEnabled = false
+        }
     }
     
+    var adsTimer: Timer!
+    @objc func updateAdsShowBox() {
+        if let adstime = login.res?.response?.mainInfo?.next_video_prize {
+            let onlineTime = matchViewController.OnlineTime.convertTime()
+            if onlineTime > adstime.convertDate() {
+                enableOrDisablePrize(isEnable: true)
+           } else {
+                self.adsView.shineImg.isHidden = true
+                self.adsView.timerView.isHidden = false
+                self.adsView.backGroundImage.image = publicImages().yellowButton?.noir()
+                self.adsView.giftImage.image = publicImages().giftImage?.noir()
+                adsTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateAdsTimerBox), userInfo: nil, repeats: true)
+                self.showAdsOutlet.isUserInteractionEnabled = false
+            }
+        }
+    }
+    
+    
+    @objc func updateAdsTimerBox () {
+         if let adstime = login.res?.response?.mainInfo?.next_video_prize {
+        let onlineTime = matchViewController.OnlineTime.convertTime()
+        let components = Set<Calendar.Component>([.second, .minute, .hour, .day, .month, .year])
+        let differenceOfDate = Calendar.current.dateComponents(components, from: adstime.convertDate() , to: onlineTime)
+//            print("\(abs(differenceOfDate.hour!)) : \(abs(differenceOfDate.minute!)) : \(abs(differenceOfDate.second!))")
+            self.adsView.timerView.timeLabel.text = "\(abs(differenceOfDate.hour!)):\(abs(differenceOfDate.minute!)):\(abs(differenceOfDate.second!))"
+            if abs(differenceOfDate.hour!) == 0 && abs(differenceOfDate.minute!) == 0 && abs(differenceOfDate.second!) == 0 {
+                enableOrDisablePrize(isEnable: true)
+            }
+        }
+    }
+    
+    @objc func enableOrDisablePrize(isEnable : Bool) {
+        if isEnable {
+            self.adsView.backGroundImage.image = publicImages().yellowButton
+            self.adsView.giftImage.image = publicImages().giftImage
+            self.adsView.shineImg.isHidden = false
+            self.adsView.timerView.isHidden = true
+            if adsTimer != nil {
+                self.adsTimer.invalidate()
+                self.adsTimer = nil
+            }
+            self.showAdsOutlet.isUserInteractionEnabled = true
+        } else {
+            
+        }
+    }
+    
+    
+    @objc func adsAlert(title : String) {
+            switch matchViewController.adsState {
+            case "true" :
+                self.showAdsOutlet.isUserInteractionEnabled = false
+                if self.isMenuAds {
+                    let m = ["VIDEO_CLICKED" , "VIDEO_VIEW"]
+                    getAdsPrize().getMenuReward(userid: matchViewController.userid, mode: "\(m[Int(arc4random_uniform(2))])", completionHandler: {
+                            DispatchQueue.main.async {
+                                matchViewController.adsState = ""
+                                PubProc.wb.hideWaiting()
+                                self.performSegue(withIdentifier: "adsReward", sender: self)
+                            }
+                        })
+                } else {
+                    let p = ["PRIZE_CLICKED" , "PRIZE_VIEW"]
+                    getAdsPrize().getReward(userid: matchViewController.userid, type: "\(p[Int(arc4random_uniform(2))])", completionHandler: {
+                        DispatchQueue.main.async {
+                            self.updateAdsShowBox()
+                            matchViewController.adsState = ""
+                        PubProc.wb.hideWaiting()
+                            self.performSegue(withIdentifier: "adsReward", sender: self)
+                        }
+                    })
+                }
+            case "false" :
+                break
+            case "" :
+                break
+            default :
+                self.alertTitle = "اخطار"
+                self.alertBody = title
+                self.alertAcceptLabel = "تأیید"
+                matchViewController.adsState = ""
+                self.performSegue(withIdentifier: "alert", sender: self)
+            }
+    }
+    
+    static var adsState : String = ""
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         adsOutlet()
@@ -179,6 +278,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         }
         notificationsView()
         gameChargeSet()
+        updateAdsShowBox()
     }
     
     @objc func updateGameChargeBox() {
@@ -223,31 +323,33 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var canShowGameChargeBox = false
     @objc func gameChargeSet() {
         if login.res != nil {
-        let finishTime = (login.res?.response?.mainInfo?.finish_extra_time!)!.convertDate()
-        let onlineTime = matchViewController.OnlineTime.convertTime()
-        let components = Set<Calendar.Component>([.second, .minute, .hour, .day, .month, .year])
-        let difference = Calendar.current.dateComponents(components, from: onlineTime , to: finishTime)
-        self.gameChargeTime = finishTime
-        if difference.second! < 0 {
-            normalGameChargeUI()
-        } else {
-            switch (login.res?.response?.mainInfo?.extra_type!)! {
-            case "0":
-                normalGameChargeUI()
-            case "1":
-                setGameChargeUI(imageNumber: 0, canShowChargeBox: true)
-                gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
-            case "2":
-                setGameChargeUI(imageNumber: 1, canShowChargeBox: true)
-                gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
-            case "3":
-                setGameChargeUI(imageNumber: 2, canShowChargeBox: false)
-            case "4":
-                setGameChargeUI(imageNumber: 3, canShowChargeBox: false)
-            default:
-                normalGameChargeUI()
+            if let fTime = login.res?.response?.mainInfo?.finish_extra_time {
+                let finishTime = fTime.convertDate()
+                let onlineTime = matchViewController.OnlineTime.convertTime()
+                let components = Set<Calendar.Component>([.second, .minute, .hour, .day, .month, .year])
+                let difference = Calendar.current.dateComponents(components, from: onlineTime , to: finishTime)
+                self.gameChargeTime = finishTime
+                if difference.second! < 0 {
+                    normalGameChargeUI()
+                } else {
+                    switch (login.res?.response?.mainInfo?.extra_type!)! {
+                    case "0":
+                        normalGameChargeUI()
+                    case "1":
+                        setGameChargeUI(imageNumber: 0, canShowChargeBox: true)
+                        gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
+                    case "2":
+                        setGameChargeUI(imageNumber: 1, canShowChargeBox: true)
+                        gameChargeTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateGameChargeBox), userInfo: nil, repeats: true)
+                    case "3":
+                        setGameChargeUI(imageNumber: 2, canShowChargeBox: false)
+                    case "4":
+                        setGameChargeUI(imageNumber: 3, canShowChargeBox: false)
+                    default:
+                        normalGameChargeUI()
+                    }
+                }
             }
-        }
         }
     }
     
@@ -295,21 +397,23 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             PubProc.isSplash = true
         }
         if login.res != nil {
-        let lastLevel = (Int((login.res?.response?.mainInfo?.level)!)!)
-        login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
-            if (Int((login.res?.response?.mainInfo?.level)!)!) != lastLevel {
-                self.upgradeImage = "ic_grade_badge"
-                self.upgradeTitle = "ارتقاء سطح به \(lastLevel+1)"
-                self.upgradeText = "\(lastLevel+1)"
-                self.isGift = false
-                self.performSegue(withIdentifier: "showUpgrade", sender: self)
-            } else {}
-            self.fillData()
-            DispatchQueue.main.async {
-                PubProc.wb.hideWaiting()
-                PubProc.isSplash = false
+            if let lLevel = login.res?.response?.mainInfo?.level {
+                let lastLevel = Int(lLevel)!
+                login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
+                    if (Int((login.res?.response?.mainInfo?.level)!)!) != lastLevel {
+                        self.upgradeImage = "ic_grade_badge"
+                        self.upgradeTitle = "ارتقاء سطح به \(lastLevel+1)"
+                        self.upgradeText = "\(lastLevel+1)"
+                        self.isGift = false
+                        self.performSegue(withIdentifier: "showUpgrade", sender: self)
+                    } else {}
+                    self.fillData()
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                        PubProc.isSplash = false
+                    }
+                })
             }
-        })
         }
     }
     
@@ -341,7 +445,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.adsView.rotating()
         self.view.addSubview(self.gameChargeTimerBox)
         self.gameChargeTimerBox.isHidden = true
         notificationsView()
@@ -393,7 +497,11 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     func notificationsView() {
         self.alertCounterView.makeCircular()
         if login.res != nil {
-        let alertCounts = (login.res?.response?.nots_achv?.not_count!)!
+            var alertCounts = ""
+            if let counts = login.res?.response?.nots_achv?.not_count {
+                alertCounts = counts
+            }
+        
         if alertCounts != "0" {
             self.alertCounterView.isHidden = false
             if alertCounts.count > 2 {
@@ -497,26 +605,28 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var publicMassageIndex = Int()
     
     @objc func checkNoKeysMassages() {
-        var publicIDS : [String] = UserDefaults.standard.array(forKey: "publicMassagesIDS") as! [String]
-        
-        if self.publicMassagesResponse?.response != nil {
-            for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
-                if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE_FULL_NO_KEYS"))! {
-                    if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
-                        if i == (self.publicMassagesResponse?.response!.count)! - 1 {
-                            self.checkPublicMassagesFull()
+        if UserDefaults.standard.array(forKey: "publicMassagesIDS") as? [String] != nil {
+            var publicIDS = UserDefaults.standard.array(forKey: "publicMassagesIDS") as! [String]
+            
+            if self.publicMassagesResponse?.response != nil {
+                for i in 0...(self.publicMassagesResponse?.response!.count)! - 1 {
+                    if (self.publicMassagesResponse?.response?[i].option_field?.contains("PUBLIC_MESSAGE_FULL_NO_KEYS"))! {
+                        if publicIDS.contains((self.publicMassagesResponse?.response?[i].id!)!) {
+                            if i == (self.publicMassagesResponse?.response!.count)! - 1 {
+                                self.checkPublicMassagesFull()
+                            }
+                        } else {
+                            publicIDS.append((self.publicMassagesResponse?.response?[i].id!)!)
+                            UserDefaults.standard.set(publicIDS, forKey: "publicMassagesIDS")
+                            self.publicMassageIndex = i
+                            self.massageImage = (self.publicMassagesResponse?.response?[i].image_path!)!
+                            self.publicMassageAspectRatio = (self.publicMassagesResponse?.response?[i].option_field_2!)!
+                            DispatchQueue.main.async {
+                                self.publicMassageState = "PUBLIC_MESSAGE_FULL_NO_KEYS"
+                                self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
+                            }
+                            break
                         }
-                    } else {
-                        publicIDS.append((self.publicMassagesResponse?.response?[i].id!)!)
-                        UserDefaults.standard.set(publicIDS, forKey: "publicMassagesIDS")
-                        self.publicMassageIndex = i
-                        self.massageImage = (self.publicMassagesResponse?.response?[i].image_path!)!
-                        self.publicMassageAspectRatio = (self.publicMassagesResponse?.response?[i].option_field_2!)!
-                        DispatchQueue.main.async {
-                            self.publicMassageState = "PUBLIC_MESSAGE_FULL_NO_KEYS"
-                            self.performSegue(withIdentifier: "showPublicMassagesNoKeys", sender: self)
-                        }
-                        break
                     }
                 }
             }
@@ -579,6 +689,8 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        
+        adsAlert(title: matchViewController.adsState)
         
         if !matchViewController.isTutorial {
             if matchViewController.showingPublicMassages  {
@@ -746,6 +858,11 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             vc.publicMassageState = self.publicMassageState
             vc.massageSubject = self.publicMassageSubject
             vc.massageContent = self.publicMassageContent
+        }
+        
+        if let vc = segue.destination as? clanItemsRewardsViewController {
+            vc.adsReward = login.res?.response?.reward_data
+            vc.isMenuAds = self.isMenuAds
         }
     }
     
