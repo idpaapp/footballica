@@ -49,7 +49,6 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
         super.viewDidAppear(true)
     }
     
-    
     func playingMenuMusic() {
         if playMenuMusic {
             musicPlay().playMenuMusic()
@@ -64,7 +63,6 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollFunction(notification:)), name: Notification.Name("selectButtonPage"), object: nil)
         
         self.menuButtonsCV.selectItem(at: IndexPath(item: 2, section: 0), animated: true, scrollPosition: UICollectionViewScrollPosition.centeredVertically)
-        // Do any additional setup after loading the view.
     }
     
     

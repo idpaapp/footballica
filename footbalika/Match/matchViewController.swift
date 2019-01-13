@@ -276,9 +276,11 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
             mainCupImage.setImageWithKingFisher(url: "\((gameDataModel.loadGameData?.response?.gameLeagues[Int((login.res?.response?.mainInfo?.league_id)!)!].img_logo!)!)")
         }
+        showingTutorial()
         notificationsView()
         gameChargeSet()
         updateAdsShowBox()
+        showPulicMassages()
     }
     
     @objc func updateGameChargeBox() {
@@ -457,25 +459,6 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
         }
         
-        if matchViewController.isTutorial {
-            
-            getHelp().gettingHelp(mode: "WELCOME", completionHandler: {
-                for i in 0...(helpViewController.helpRes?.response?.count)! - 1 {
-                    if helpViewController.helpRes?.response?[i].desc_text != nil {
-                        self.helpDescs.append((helpViewController.helpRes?.response?[i].desc_text!)!)
-                    } else {
-                        self.helpDescs.append("")
-                    }
-                    if helpViewController.helpRes?.response?[i].key_title != nil {
-                        self.acceptTitles.append((helpViewController.helpRes?.response?[i].key_title!)!)
-                    } else {
-                        self.acceptTitles.append("")
-                    }
-                }
-                self.performSegue(withIdentifier : "tutorialHelp" , sender : self)
-            })
-        }
-        
         
         self.shakeTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.shakeFunstion), userInfo: nil, repeats: true)
         
@@ -493,6 +476,27 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
         fillData()
     }
     
+    
+    @objc func showingTutorial() {
+       matchViewController.isTutorial = UserDefaults.standard.bool(forKey: "tutorial")
+        if matchViewController.isTutorial {
+            getHelp().gettingHelp(mode: "WELCOME", completionHandler: {
+                for i in 0...(helpViewController.helpRes?.response?.count)! - 1 {
+                    if helpViewController.helpRes?.response?[i].desc_text != nil {
+                        self.helpDescs.append((helpViewController.helpRes?.response?[i].desc_text!)!)
+                    } else {
+                        self.helpDescs.append("")
+                    }
+                    if helpViewController.helpRes?.response?[i].key_title != nil {
+                        self.acceptTitles.append((helpViewController.helpRes?.response?[i].key_title!)!)
+                    } else {
+                        self.acceptTitles.append("")
+                    }
+                }
+                self.performSegue(withIdentifier : "tutorialHelp" , sender : self)
+            })
+        }
+    }
     
     func notificationsView() {
         self.alertCounterView.makeCircular()
@@ -519,50 +523,52 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     var publicMassagesResponse : showPublicMassages.Response? = nil
     func showPulicMassages() {
         if login.res != nil {
-        PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'READ_PUBLIC_MESSAGE_BY_USER' , 'userid' : '\(matchViewController.userid)'}") { data, error in
-            
-            if data != nil {
+            if !matchViewController.isTutorial {
+            PubProc.HandleDataBase.readJson(wsName: "ws_HandleMessages", JSONStr: "{'mode' : 'READ_PUBLIC_MESSAGE_BY_USER' , 'userid' : '\(matchViewController.userid)'}") { data, error in
                 
-                DispatchQueue.main.async {
-                    PubProc.cV.hideWarning()
-                }
-                
-                //                print(data ?? "")
-                
-                do {
+                if data != nil {
                     
-                    self.publicMassagesResponse = try JSONDecoder().decode(showPublicMassages.Response.self, from: data!)
-                    
-                    self.checkNoKeysMassages()
-                } catch {
-                    print(error)
-                }
-                
-                DispatchQueue.main.async {
-                    PubProc.wb.hideWaiting()
-                }
-                PubProc.countRetry = 0
-            } else {
-                PubProc.countRetry = PubProc.countRetry + 1
-                if PubProc.countRetry == 10 {
                     DispatchQueue.main.async {
-                        PubProc.wb.hideWaiting()
                         PubProc.cV.hideWarning()
                     }
-                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
-                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                    appDelegate.window?.rootViewController = viewController
+                    
+                    //                print(data ?? "")
+                    
+                    do {
+                        
+                        self.publicMassagesResponse = try JSONDecoder().decode(showPublicMassages.Response.self, from: data!)
+                        
+                        self.checkNoKeysMassages()
+                    } catch {
+                        print(error)
+                    }
+                    
+                    DispatchQueue.main.async {
+                        PubProc.wb.hideWaiting()
+                    }
+                    PubProc.countRetry = 0
                 } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-                        self.showPulicMassages()
-                    })
+                    PubProc.countRetry = PubProc.countRetry + 1
+                    if PubProc.countRetry == 10 {
+                        DispatchQueue.main.async {
+                            PubProc.wb.hideWaiting()
+                            PubProc.cV.hideWarning()
+                        }
+                        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let viewController = mainStoryboard.instantiateViewController(withIdentifier: "noInternetViewController")
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.window?.rootViewController = viewController
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                            self.showPulicMassages()
+                        })
+                    }
+                    print("Error Connection")
+                    print(error as Any)
+                    // handle error
                 }
-                print("Error Connection")
-                print(error as Any)
-                // handle error
+                }.resume()
             }
-            }.resume()
         }
     }
     
@@ -701,7 +707,6 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
             }
         }
         
-        UserDefaults.standard.set(true, forKey: "launchedBefore")
         let pageIndexDict:[String: Int] = ["button": 2]
         NotificationCenter.default.post(name: Notification.Name("selectButtonPage"), object: nil, userInfo: pageIndexDict)
         NotificationCenter.default.post(name: Notification.Name("scrollToPage"), object: nil, userInfo: pageIndexDict)

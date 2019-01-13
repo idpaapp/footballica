@@ -97,7 +97,6 @@ class loadingViewController: UIViewController {
                             
                             self.endProgress = 0.1
                             self.timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(self.progressing), userInfo: nil, repeats: true)
-                            print(matchViewController.userid)
                             if matchViewController.userid != "" {
                                 if matchViewController.userid != "0" {
                                     login.init().loging(userid: matchViewController.userid, rest: true, completionHandler: {
@@ -152,10 +151,8 @@ class loadingViewController: UIViewController {
 
     func checkLaunchBefore() {
         
-        print(UserDefaults.standard.bool(forKey: "launchedBefore"))
         self.launchedBefore = UserDefaults.standard.bool(forKey: "launchedBefore")
         
-        print(self.launchedBefore)
         if self.launchedBefore  {
             
             playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
