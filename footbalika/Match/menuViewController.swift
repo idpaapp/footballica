@@ -81,7 +81,7 @@ class menuViewController: UIViewController , achievementsViewControllerDelegate 
             self.mainTitleForeGround.text = "رتبه بندی"
             if UIDevice().userInterfaceIdiom == .phone {
                 self.mainTitleForeGround.font = fonts().iPhonefonts
-                if UIScreen.main.nativeBounds.height == 2436 {
+                if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 self.menuHeight.constant = UIScreen.main.bounds.height - 90
                 self.menuWidth.constant = UIScreen.main.bounds.width - 10
                 maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "رتبه بندی", strokeWidth: 8.0)
@@ -120,7 +120,7 @@ class menuViewController: UIViewController , achievementsViewControllerDelegate 
 //                    stadium = oPStadium
 //                }
                 let stadium = (profileResponse?.response?.mainInfo?.stadium)!
-                if UIScreen.main.nativeBounds.height == 2436 && stadium == "empty_std.jpg"{
+                if (UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792) && stadium == "empty_std.jpg"{
                      if (profileResponse?.response?.mainInfo?.status!)! != "2" {
                      self.menuHeight.constant = UIScreen.main.bounds.height - 115
                      } else {
@@ -164,7 +164,7 @@ class menuViewController: UIViewController , achievementsViewControllerDelegate 
             self.mainTitleForeGround.text = "دوستان"
             if UIDevice().userInterfaceIdiom == .phone {
                 self.mainTitleForeGround.font = fonts().iPhonefonts
-                if UIScreen.main.nativeBounds.height == 2436 {
+                if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                     self.menuHeight.constant = UIScreen.main.bounds.height - 90
                     self.menuWidth.constant = UIScreen.main.bounds.width - 10
                     maintitle.AttributesOutLine(font: fonts().iPhonefonts, title: "دوستان", strokeWidth: 8.0)

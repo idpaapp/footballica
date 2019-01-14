@@ -51,7 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if UIDevice().userInterfaceIdiom == .phone {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 self.window = UIWindow(frame: UIScreen.main.bounds)
                 let storyBoard = UIStoryboard(name: "iPhoneX", bundle: nil)
                 let viewController = storyBoard.instantiateViewController(withIdentifier: "testTapsellViewController") as! testTapsellViewController
@@ -73,30 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = viewController
             self.window?.makeKeyAndVisible()
         }
-        
-//        if UIDevice().userInterfaceIdiom == .phone {
-//            if UIScreen.main.nativeBounds.height == 2436 {
-//                self.window = UIWindow(frame: UIScreen.main.bounds)
-//                let storyBoard = UIStoryboard(name: "iPhoneX", bundle: nil)
-//                let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
-//                self.window?.rootViewController = viewController
-//                self.window?.makeKeyAndVisible()
-//
-//            } else {
-//                self.window = UIWindow(frame: UIScreen.main.bounds)
-//                let storyBoard = UIStoryboard(name: "Main", bundle: nil)
-//                let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
-//                self.window?.rootViewController = viewController
-//                self.window?.makeKeyAndVisible()
-//            }
-//
-//        } else {
-//            self.window = UIWindow(frame: UIScreen.main.bounds)
-//            let storyBoard = UIStoryboard(name: "iPad", bundle: nil)
-//            let viewController = storyBoard.instantiateViewController(withIdentifier: "loadingViewController") as! loadingViewController
-//            self.window?.rootViewController = viewController
-//            self.window?.makeKeyAndVisible()
-//        }
         return true
     }
 

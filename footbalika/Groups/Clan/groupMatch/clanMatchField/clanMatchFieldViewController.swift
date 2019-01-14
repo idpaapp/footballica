@@ -497,7 +497,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
                 self.checkBombandFreeze()
             }
             if UIDevice().userInterfaceIdiom == .phone {
-                if UIScreen.main.nativeBounds.height == 2436 {
+                if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                     //iPhone X
                     self.questionTitleConstraint.constant = UIScreen.main.bounds.height / 8 + 70
                     self.answer1Constraint.constant = UIScreen.main.bounds.width / 10 - 5
@@ -657,7 +657,7 @@ class clanMatchFieldViewController: UIViewController , UICollectionViewDataSourc
         if UIDevice().userInterfaceIdiom == .phone {
             topViewTopConstraint.constant = -300
             bottomViewBottomConstraint.constant = 300
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 
                 //iPhone X
                 questionsTopConstraint.constant = 450

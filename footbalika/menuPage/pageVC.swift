@@ -25,7 +25,7 @@ class pageVC: UIPageViewController, UIPageViewControllerDataSource , UIPageViewC
     private func VCInstance(name : String) -> UIViewController {
         
         if UIDevice().userInterfaceIdiom == .phone {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 //iPhone X
                 return UIStoryboard(name : "iPhoneX" , bundle : nil).instantiateViewController(withIdentifier: name)
             } else {

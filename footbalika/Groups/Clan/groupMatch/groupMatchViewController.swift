@@ -624,7 +624,7 @@ class groupMatchViewController: UIViewController , groupMembersViewControllerDel
             if !self.updateSearch {
                 var heightOfButtomMenu = CGFloat()
                 if UIDevice().userInterfaceIdiom == .phone {
-                    if UIScreen.main.nativeBounds.height == 2436 {
+                    if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                         heightOfButtomMenu = 135
                     } else {
                         heightOfButtomMenu = 85

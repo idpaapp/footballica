@@ -281,7 +281,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
                 //4 inch iPhones or smaller
                 watchTimerConstraint.constant = 6
             } else {
-                if UIScreen.main.nativeBounds.height == 2436 {
+                if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                     //iPhonex
                     watchTimerConstraint.constant = 8
                 } else {
@@ -303,7 +303,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
         if UIDevice().userInterfaceIdiom == .phone {
             topViewTopConstraint.constant = -300
             bottomViewBottomConstraint.constant = 300
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 
                 //iPhone X
                 questionsTopConstraint.constant = 450
@@ -577,7 +577,7 @@ class tutorialViewController: UIViewController , TutorialsDelegate {
             self.bomb.isEnabled = true
             self.checkBombAndFreez()
             if UIDevice().userInterfaceIdiom == .phone {
-                if UIScreen.main.nativeBounds.height == 2436 {
+                if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                     //iPhone X
                     self.questionTitleConstraint.constant = UIScreen.main.bounds.height / 8 + 70
                     self.answer1Constraint.constant = UIScreen.main.bounds.width / 10 - 5

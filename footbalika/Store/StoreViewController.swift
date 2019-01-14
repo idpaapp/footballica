@@ -390,7 +390,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
         
         if self.noPackage {
             if UIDevice().userInterfaceIdiom == .phone  {
-                if UIScreen.main.nativeBounds.height == 2436 {
+                if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                     //iPhone X
                     return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
                 } else {
@@ -405,7 +405,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             
             var packageScreenSize = CGSize()
             if UIDevice().userInterfaceIdiom == .phone  {
-                if UIScreen.main.nativeBounds.height == 2436 {
+                if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                     //iphone X
                     packageScreenSize = CGSize(width: UIScreen.main.bounds.width - 30 , height: 0.57 * (UIScreen.main.bounds.width - 30))
                 } else {
@@ -419,7 +419,7 @@ class StoreViewController: UIViewController , UICollectionViewDataSource , UICol
             
             if indexPath.item >= (loadShop.res?.response?[self.packageIndex].items?.count)!  {
                 if UIDevice().userInterfaceIdiom == .phone  {
-                    if UIScreen.main.nativeBounds.height == 2436 {
+                    if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                         //iPhone X
                         return CGSize(width: UIScreen.main.bounds.width / 3 - 17 , height: 130)
                     } else {

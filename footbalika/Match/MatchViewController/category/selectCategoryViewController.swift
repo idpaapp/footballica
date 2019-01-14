@@ -159,7 +159,7 @@ class selectCategoryViewController: UIViewController , UITableViewDataSource , U
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if UIDevice().userInterfaceIdiom == .phone {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 return (((5 * (UIScreen.main.bounds.height / 11)) - 65 ) / 3)
             } else {
                 return (((5 * (UIScreen.main.bounds.height / 9)) - 65 ) / 3)

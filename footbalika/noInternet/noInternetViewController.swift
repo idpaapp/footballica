@@ -33,7 +33,7 @@ class noInternetViewController: UIViewController {
         PubProc.isSplash = true
         PubProc.countRetry = 0
         if UIDevice().userInterfaceIdiom == .phone {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 let mainStoryboard: UIStoryboard = UIStoryboard(name: "iPhoneX", bundle: nil)
                 let viewController = mainStoryboard.instantiateViewController(withIdentifier: "testTapsellViewController")
                 let appDelegate = UIApplication.shared.delegate as! AppDelegate

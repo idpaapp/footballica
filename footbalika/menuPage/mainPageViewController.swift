@@ -105,7 +105,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.item == selectedItem {
             if UIDevice().userInterfaceIdiom == .phone  {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 //iPhone X
                 return CGSize(width: UIScreen.main.bounds.width / 3.4 , height: 130)
                  } else {
@@ -116,7 +116,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
               }
         } else {
             if UIDevice().userInterfaceIdiom == .phone  {
-                if UIScreen.main.nativeBounds.height == 2436 {
+                if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 //iPhone X
                 return CGSize(width: UIScreen.main.bounds.width / 5.7  , height: 130)
                 } else {

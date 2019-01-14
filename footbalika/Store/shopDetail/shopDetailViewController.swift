@@ -174,7 +174,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         }
         
         if UIDevice().userInterfaceIdiom == .phone {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 shopDetailWidth.constant = UIScreen.main.bounds.width - 10
                 var height = 53 + ((roundCellCount * 130) + (roundCellCount * 10))
                 if height >= (UIScreen.main.bounds.height - 70) {
@@ -332,7 +332,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         }
         
         if UIDevice().userInterfaceIdiom == .phone {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 //iPhone X
                 cell.shopDetailPrice.AttributesOutLine(font: fonts().iPadfonts, title: "\(price)", strokeWidth: 8.0)
                 cell.shopDetailTitle.AttributesOutLine(font: fonts().iPadfonts, title: "\(title)", strokeWidth: 8.0)
@@ -455,7 +455,7 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if UIDevice().userInterfaceIdiom == .phone  {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 //iPhone X
                 return CGSize(width: shopDetailWidth.constant / 3 - 20 , height: 130)
             } else {

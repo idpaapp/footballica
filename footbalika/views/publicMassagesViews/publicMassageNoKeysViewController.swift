@@ -77,7 +77,7 @@ class publicMassageNoKeysViewController: UIViewController {
             self.publicMassageView.massageOkButtonHeight.constant = 60
             self.publicMassageView.massageOkButtonWidth.constant = 150
         } else {
-            if UIScreen.main.nativeBounds.height == 2436 {
+            if UIScreen.main.nativeBounds.height >= 2436 || UIScreen.main.nativeBounds.height == 1792 {
                 self.publicMassageWidth.constant = UIScreen.main.bounds.width * 4/5
                 publicMassageHeight.constant = (UIScreen.main.bounds.width * 4/5) * (CGFloat((massageAspectRatio as NSString).floatValue))
                 self.publicMassageView.massageOkButtonHeight.constant = 40
