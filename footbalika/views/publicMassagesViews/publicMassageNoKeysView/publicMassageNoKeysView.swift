@@ -27,6 +27,7 @@ class publicMassageNoKeysView: UIView {
         super.awakeFromNib()
         massageOkButton.setTitles(actionTitle: "خب", action1Title: "", action2Title: "", action3Title: "")
         massageOkButton.setButtons(hideAction: false, hideAction1: true, hideAction2: true, hideAction3: true)
+        self.massageImage.layer.cornerRadius = 10
     }
     override init(frame: CGRect) {
         super.init(frame: frame)

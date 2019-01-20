@@ -475,7 +475,9 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             vc.mainTitle = "\((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].title)!)"
             let intID = Int((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].id!)!)
             let realmID = self.realm.objects(tblShop.self).filter("id == \(intID!)")
+            if realmID.first?.img_base64 != nil {
             vc.mainImage = (realmID.first?.img_base64)!
+            }
             if (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].type)! == "2" || (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].type)! == "1" {
                 vc.subTitle = (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[selectedItem].qty)!
             }

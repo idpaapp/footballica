@@ -35,8 +35,6 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     
     
     var rotateTimer : Timer!
-    let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -50,6 +48,7 @@ class mainPageViewController: UIViewController , UICollectionViewDelegate , UICo
     }
     
     func playingMenuMusic() {
+        let playMenuMusic = UserDefaults.standard.bool(forKey: "menuMusic")
         if playMenuMusic {
             musicPlay().playMenuMusic()
         } else {

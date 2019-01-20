@@ -135,7 +135,7 @@ class menuAlertViewController: UIViewController {
                 })
             }
         } else {
-            if let requestUrl = NSURL(string: "https://new.sibapp.com/applications/tehranalef") {
+            if let requestUrl = NSURL(string: "https://new.sibapp.com/applications/footbalika") {
                 UIApplication.shared.openURL(requestUrl as URL)
             }
         }

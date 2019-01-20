@@ -213,7 +213,7 @@ class loadingViewController: UIViewController {
                     self.loadingProgress.progress = self.currentProgress
                     if UIDevice().userInterfaceIdiom == .phone {
                         print("self.currentProgress\(self.currentProgress)")
-                        self.loadingProgressLabel.AttributesOutLine(font: fonts().iPhonefonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -5.0)
+                        self.loadingProgressLabel.AttributesOutLine(font: fonts().iPhonefonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -2.5)
                     } else {
                         self.loadingProgressLabel.AttributesOutLine(font: fonts().large35 , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -5.0)
                     }
@@ -234,7 +234,7 @@ class loadingViewController: UIViewController {
                         self.currentProgress = self.currentProgress + 0.01
                         self.loadingProgress.progress = self.currentProgress
                         if UIDevice().userInterfaceIdiom == .phone {
-                            self.loadingProgressLabel.AttributesOutLine(font: fonts().iPhonefonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -5.0)
+                            self.loadingProgressLabel.AttributesOutLine(font: fonts().iPhonefonts , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -2.5)
                         } else {
                             self.loadingProgressLabel.AttributesOutLine(font: fonts().large35 , title: "\(Int(self.currentProgress * 100))%", strokeWidth: -5.0)
                         }

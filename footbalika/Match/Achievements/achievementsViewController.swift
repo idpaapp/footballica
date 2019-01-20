@@ -653,8 +653,8 @@
                 
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "مشخصات بازیکن", strokeWidth: 8.0)
-                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: 4.0)
-                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: 4.0)
+                    cell.profileName.AttributesOutLine(font: fonts().iPhonefonts18, title: "\((self.profileResponse?.response?.mainInfo?.username!)!)", strokeWidth: -4.0)
+                    cell.profileId.AttributesOutLine(font: fonts().iPhonefonts, title: "\((self.profileResponse?.response?.mainInfo?.ref_id!)!)", strokeWidth: -4.0)
                     cell.firstProfileTitleForeGround.font = fonts().iPhonefonts
                 } else {
                     cell.firstProfileTitle.AttributesOutLine(font: fonts().iPadfonts, title: "مشخصات بازیکن", strokeWidth: 8.0)

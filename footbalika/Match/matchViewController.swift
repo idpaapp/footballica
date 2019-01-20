@@ -368,7 +368,6 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        
         notificationsView()
         
         if UIDevice().userInterfaceIdiom == .phone  {
@@ -589,7 +588,7 @@ class matchViewController: UIViewController , GameChargeDelegate , TutorialDeleg
     }
     
     @objc func showInstagramPage() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0
             , execute: {
                 let appURL = NSURL(string: "instagram://user?screen_name=footballica.ir")!
                 if UIApplication.shared.canOpenURL(appURL as URL) {
