@@ -33,9 +33,9 @@
                                     <constraint firstAttribute="width" secondItem="dEK-Qv-ua3" secondAttribute="height" multiplier="1:1" id="b0c-dS-XxZ"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yJo-aH-JBF">
-                                <rect key="frame" x="79.5" y="10" width="69.5" height="50"/>
-                                <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="80" translatesAutoresizingMaskIntoConstraints="NO" id="yJo-aH-JBF">
+                                <rect key="frame" x="79.5" y="0.0" width="69.5" height="69.5"/>
+                                <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="100"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -45,8 +45,10 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="qLE-ow-rBe" secondAttribute="bottom" id="R6d-Ly-gwy"/>
                     <constraint firstItem="qLE-ow-rBe" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="UoZ-sG-rcu"/>
                     <constraint firstItem="qLE-ow-rBe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="ccU-nn-8Qf"/>
+                    <constraint firstItem="qLE-ow-rBe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="rmE-qd-vab"/>
                     <constraint firstItem="qLE-ow-rBe" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" id="z3A-4c-bcF"/>
                 </constraints>
             </tableViewCellContentView>

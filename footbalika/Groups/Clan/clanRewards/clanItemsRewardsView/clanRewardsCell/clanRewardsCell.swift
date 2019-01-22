@@ -17,6 +17,13 @@ class clanRewardsCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        if UIDevice().userInterfaceIdiom == .pad {
+            
+        } else {
+            self.rewardTitle.adjustsFontSizeToFitWidth = true
+            self.rewardTitle.minimumScaleFactor = 0.5
+        }
         // Initialization code
     }
 

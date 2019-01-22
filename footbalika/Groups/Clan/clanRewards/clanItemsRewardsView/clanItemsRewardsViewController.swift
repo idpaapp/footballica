@@ -21,7 +21,7 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
         
         cell.rewardImage.image = list[indexPath.row]
         if amounts[indexPath.row] != 0 {
-        cell.rewardTitle.AttributesOutLine(font: fonts().iPhonefonts, title: "\(amounts[indexPath.row])", strokeWidth: -3.0)
+        cell.rewardTitle.AttributesOutLine(font: fonts().large50, title: "\(amounts[indexPath.row])", strokeWidth: -3.0)
         } else {
             cell.rewardTitle.text = ""
         }
@@ -51,6 +51,9 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
         self.itemView.rewardsTV.register(UINib(nibName: "clanRewardsCell", bundle: nil), forCellReuseIdentifier: "clanRewardsCell")
         self.itemView.rewardsTV.delegate = self
         self.itemView.rewardsTV.dataSource = self
+        if UIDevice().userInterfaceIdiom == .pad {
+            self.itemView.transform = CGAffineTransform.identity.scaledBy(x: 1.5, y: 1.5)
+        }
         checkRewards()
     }
     

@@ -52,7 +52,7 @@ class ItemViewController: UIViewController {
             }
         } else {
             soundPlay().playSpecialSound(name : "level_up")
-            upgradeTitle.AttributesOutLine(font: fonts().large200, title: "\(self.upgradeText)", strokeWidth: 5.0)
+            upgradeTitle.AttributesOutLine(font: fonts().large200, title: "\(self.upgradeText)", strokeWidth: -3.0)
             itemImage.image = UIImage(named: "\(ImageItem)")
         }
         } else {
