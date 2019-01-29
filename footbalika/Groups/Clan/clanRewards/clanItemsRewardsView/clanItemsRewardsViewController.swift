@@ -21,7 +21,7 @@ class clanItemsRewardsViewController: UIViewController , UITableViewDelegate , U
         
         cell.rewardImage.image = list[indexPath.row]
         if amounts[indexPath.row] != 0 {
-        cell.rewardTitle.AttributesOutLine(font: fonts().large50, title: "\(amounts[indexPath.row])", strokeWidth: -3.0)
+        cell.rewardTitle.AttributesOutLine(font: fonts().large35, title: "\(amounts[indexPath.row])", strokeWidth: -3.0)
         } else {
             cell.rewardTitle.text = ""
         }

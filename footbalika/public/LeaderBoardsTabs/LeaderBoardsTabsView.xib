@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LeaderBoardsTabsView" customModule="footbalika" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="iN0-l3-epB" id="DoH-Za-c1Y"/>
+                <outlet property="leftButton" destination="qhg-z2-Lqn" id="CKr-Xh-uY3"/>
+                <outlet property="leftButtonTitle" destination="eJj-Mm-50B" id="hdR-Ru-WFf"/>
+                <outlet property="leftButtonTitleForeGround" destination="TFl-fV-42z" id="Mns-eN-ThS"/>
+                <outlet property="rightButton" destination="WSR-9Z-782" id="U9R-8i-gmw"/>
+                <outlet property="rightButtonTitle" destination="uUH-DN-Ocd" id="8S7-7a-o6e"/>
+                <outlet property="rightButtonTitleForeGround" destination="eaE-OE-xDA" id="ucY-l6-GWb"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="454" height="72"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="3ZM-1E-HWc">
+                    <rect key="frame" x="0.0" y="0.0" width="454" height="72"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qhg-z2-Lqn" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="219.5" height="72"/>
+                            <state key="normal" image="inactive_tab_btn"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WSR-9Z-782" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                            <rect key="frame" x="234.5" y="0.0" width="219.5" height="72"/>
+                            <state key="normal" image="inactive_tab_btn"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                    </subviews>
+                </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eJj-Mm-50B">
+                    <rect key="frame" x="0.0" y="0.0" width="219.5" height="72"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TFl-fV-42z">
+                    <rect key="frame" x="0.0" y="0.0" width="219.5" height="72"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="uUH-DN-Ocd">
+                    <rect key="frame" x="234.5" y="0.0" width="219.5" height="72"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eaE-OE-xDA">
+                    <rect key="frame" x="234.5" y="0.0" width="219.5" height="72"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="uUH-DN-Ocd" firstAttribute="height" secondItem="WSR-9Z-782" secondAttribute="height" id="1fC-QX-9Zk"/>
+                <constraint firstItem="uUH-DN-Ocd" firstAttribute="width" secondItem="WSR-9Z-782" secondAttribute="width" id="2KA-RL-DpG"/>
+                <constraint firstItem="eaE-OE-xDA" firstAttribute="width" secondItem="uUH-DN-Ocd" secondAttribute="width" id="5Tw-7h-RbJ"/>
+                <constraint firstItem="3ZM-1E-HWc" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="5my-aC-vXc"/>
+                <constraint firstItem="eaE-OE-xDA" firstAttribute="centerY" secondItem="uUH-DN-Ocd" secondAttribute="centerY" id="6kU-2s-UBi"/>
+                <constraint firstItem="eJj-Mm-50B" firstAttribute="centerX" secondItem="qhg-z2-Lqn" secondAttribute="centerX" id="7ts-D6-rGC"/>
+                <constraint firstItem="uUH-DN-Ocd" firstAttribute="centerX" secondItem="WSR-9Z-782" secondAttribute="centerX" id="Cfz-vz-aPO"/>
+                <constraint firstItem="eJj-Mm-50B" firstAttribute="width" secondItem="qhg-z2-Lqn" secondAttribute="width" id="EEm-iF-P8P"/>
+                <constraint firstItem="eJj-Mm-50B" firstAttribute="centerY" secondItem="qhg-z2-Lqn" secondAttribute="centerY" id="IYA-o3-LHV"/>
+                <constraint firstItem="eJj-Mm-50B" firstAttribute="height" secondItem="qhg-z2-Lqn" secondAttribute="height" id="R2m-9k-k1M"/>
+                <constraint firstItem="TFl-fV-42z" firstAttribute="height" secondItem="eJj-Mm-50B" secondAttribute="height" id="Ubf-Yl-aLw"/>
+                <constraint firstItem="TFl-fV-42z" firstAttribute="centerY" secondItem="eJj-Mm-50B" secondAttribute="centerY" id="WEa-fQ-6SL"/>
+                <constraint firstItem="eaE-OE-xDA" firstAttribute="centerX" secondItem="uUH-DN-Ocd" secondAttribute="centerX" id="Wcf-hM-iU7"/>
+                <constraint firstItem="3ZM-1E-HWc" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="cuD-rD-Ooc"/>
+                <constraint firstItem="TFl-fV-42z" firstAttribute="centerX" secondItem="eJj-Mm-50B" secondAttribute="centerX" id="eA1-KE-RKC"/>
+                <constraint firstItem="TFl-fV-42z" firstAttribute="width" secondItem="eJj-Mm-50B" secondAttribute="width" id="jmC-Kq-Pyk"/>
+                <constraint firstItem="eaE-OE-xDA" firstAttribute="height" secondItem="uUH-DN-Ocd" secondAttribute="height" id="moO-Tk-Szp"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="3ZM-1E-HWc" secondAttribute="bottom" id="t5z-HR-0QP"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="3ZM-1E-HWc" secondAttribute="trailing" id="xoc-3F-2PS"/>
+                <constraint firstItem="uUH-DN-Ocd" firstAttribute="centerY" secondItem="WSR-9Z-782" secondAttribute="centerY" id="yy6-J4-uTt"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-38.399999999999999" y="93.553223388305852"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="inactive_tab_btn" width="397" height="77"/>
+    </resources>
+</document>

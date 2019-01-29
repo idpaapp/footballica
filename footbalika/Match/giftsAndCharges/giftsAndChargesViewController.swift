@@ -485,22 +485,26 @@ class giftsAndChargesViewController: UIViewController , UITableViewDataSource , 
                         
                         if ((String(data: data!, encoding: String.Encoding.utf8) as String?)!.contains("USER_SUPPORTS_US")) {
                             
-                            let appURL = NSURL(string: "sibapp://")!
-                            if UIApplication.shared.canOpenURL(appURL as URL) {
-                                if #available(iOS 10.0 , *) {
-                                    UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
+                            
+                            login().loging(userid: matchViewController.userid, rest: false, completionHandler: {
+                                let appURL = NSURL(string: "sibapp://")!
+                                if UIApplication.shared.canOpenURL(appURL as URL) {
+                                    if #available(iOS 10.0 , *) {
+                                        UIApplication.shared.open(appURL as URL, options: [:], completionHandler: nil)
+                                    } else {
+                                        UIApplication.shared.openURL(appURL as URL)
+                                    }
+                                    
                                 } else {
-                                    UIApplication.shared.openURL(appURL as URL)
+                                    //redirect to safari because the user doesn't have SibApp
+                                    if let url = URL(string: "https://new.sibapp.com/applications/footbalika") {
+                                        let svc = SFSafariViewController(url: url)
+                                        self.present(svc, animated: true, completion: nil)
+                                        svc.delegate = self
+                                    }
                                 }
-                                
-                            } else {
-                                //redirect to safari because the user doesn't have SibApp
-                                if let url = URL(string: "https://new.sibapp.com/applications/footbalika") {
-                                    let svc = SFSafariViewController(url: url)
-                                    self.present(svc, animated: true, completion: nil)
-                                    svc.delegate = self
-                                }
-                            }
+                                })
+                           
                             
                         } else if ((String(data: data!, encoding: String.Encoding.utf8) as String?)!.contains("USER_SUPPORTS_BEFORE")) {
                             self.alertBody = "شما قبلاً از ما حمایت کرده اید!"

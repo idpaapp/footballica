@@ -740,3 +740,10 @@ extension UIPageViewController {
         }
     }
 }
+
+
+extension UIColor {
+    static let shopDetailPriceColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
+    static let lightColor = UIColor.init(red: 240/255, green: 236/255, blue: 220/255, alpha: 1.0)
+    static let grayColor = UIColor.init(red: 98/255, green: 105/255, blue: 122/255, alpha: 1.0)
+}

@@ -358,6 +358,9 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
         cell.shopDetailTitleForeGround.text = "\(title)"
         let intID = Int((loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].id!)!)
         cell.shopDetailImage.setImageWithRealmId(id: intID!)
+        if cell.shopDetailImage.image == UIImage() {
+            cell.shopDetailImage.setImageWithKingFisher(url: (loadShop.res?.response?[self.mainShopIndex].items?[shopIndex].package_awards?[indexPath.item].image_path!)!)
+        }
         cell.selectShopDetail.tag = indexPath.item
         cell.selectShopDetail.addTarget(self, action: #selector(showItem), for: UIControlEvents.touchUpInside)
         
@@ -377,8 +380,8 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
             cell.shopDetailTypeImage.isHidden = false
                 let intPrice = Int(price)
                 if intPrice! > intCoin {
-                    cell.shopDetailPrice.textColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
-                    cell.shopDetailPriceForeGround.textColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
+                    cell.shopDetailPrice.textColor = .shopDetailPriceColor
+                    cell.shopDetailPriceForeGround.textColor = .shopDetailPriceColor
                     } else {
                     cell.shopDetailPrice.textColor = UIColor.white
                     cell.shopDetailPriceForeGround.textColor = UIColor.white
@@ -396,8 +399,8 @@ class shopDetailViewController: UIViewController , UICollectionViewDataSource , 
                 let intPrice = Int(price)
                 
                 if intPrice! > intCash {
-                    cell.shopDetailPrice.textColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
-                    cell.shopDetailPriceForeGround.textColor = UIColor.init(red: 251/255, green: 31/255, blue: 102/255, alpha: 1.0)
+                    cell.shopDetailPrice.textColor = .shopDetailPriceColor
+                    cell.shopDetailPriceForeGround.textColor = .shopDetailPriceColor
                 } else {
                     cell.shopDetailPrice.textColor = UIColor.white
                     cell.shopDetailPriceForeGround.textColor = UIColor.white

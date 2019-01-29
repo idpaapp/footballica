@@ -34,6 +34,12 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
             cell.memberAvatar.setImageWithKingFisher(url: url)
         }
         
+        if (self.activeWarRes?.response?.members?[indexPath.row].user_id!)! == matchViewController.userid {
+            cell.mainView.backgroundColor = UIColor.init(red: 162/255, green: 206/255, blue: 182/255, alpha: 1.0)
+        } else {
+            cell.mainView.backgroundColor = UIColor.init(red: 244/255, green: 244/255, blue: 241/255, alpha: 1.0)
+        }
+        
         let url2 = "\(urls().badge)\((self.activeWarRes?.response?.members?[indexPath.row].badge_name!)!)"
         let realmID2 = self.realm.objects(tblShop.self).filter("image_path == '\(url2)'")
         if realmID2.count != 0 {
@@ -122,7 +128,6 @@ class groupMembersViewController: UIViewController , UITableViewDataSource , UIT
                         // handle error
                     }
                     }.resume()
-            
         }
         
     }

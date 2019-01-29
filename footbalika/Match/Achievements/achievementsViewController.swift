@@ -238,10 +238,6 @@
             }.resume()
     }
     
-    let lightColor = UIColor.init(red: 240/255, green: 236/255, blue: 220/255, alpha: 1.0)
-    let grayColor = UIColor.init(red: 98/255, green: 105/255, blue: 122/255, alpha: 1.0)
-    
-    
     
     @objc func leaguesSelect() {
         self.leagues.backgroundColor = UIColor.white
@@ -317,6 +313,7 @@
         self.achievementsTV.register(UINib(nibName: "NoFriendInListCell", bundle: nil), forCellReuseIdentifier: "NoFriendInListCell")
         }
         if pageState == "LeaderBoard" {
+            self.achievementsTV.register(UINib(nibName: "clanGroupsCell", bundle: nil), forCellReuseIdentifier: "clanGroupsCell")
             leaderBoardJson()
             self.leaderBoardState = "MAIN_LEADERBORAD"
             leaguesSelect()
@@ -343,27 +340,27 @@
         case "Achievements":
             self.achievementsTV.bounces = true
             self.achievementsTV.isScrollEnabled = true
-            self.achievementsTV.backgroundColor = lightColor
+            self.achievementsTV.backgroundColor = .lightColor
         case "LeaderBoard":
             self.achievementsTV.bounces = true
             self.achievementsTV.isScrollEnabled = true
-            self.achievementsTV.backgroundColor = lightColor
+            self.achievementsTV.backgroundColor = .lightColor
         case "alerts":
             self.achievementsTV.bounces = true
             self.achievementsTV.isScrollEnabled = true
-            self.achievementsTV.backgroundColor = lightColor
+            self.achievementsTV.backgroundColor = .lightColor
         case "profile":
             self.achievementsTV.bounces = false
             self.achievementsTV.isScrollEnabled = true
-            self.achievementsTV.backgroundColor = grayColor
+            self.achievementsTV.backgroundColor = .grayColor
         case "friendsList" :
             self.achievementsTV.bounces = true
             self.achievementsTV.isScrollEnabled = true
-            self.achievementsTV.backgroundColor = lightColor
+            self.achievementsTV.backgroundColor = .lightColor
         default:
             self.achievementsTV.bounces = false
             self.achievementsTV.isScrollEnabled = false
-            self.achievementsTV.backgroundColor = lightColor
+            self.achievementsTV.backgroundColor = .lightColor
         }
     }
     
@@ -619,7 +616,7 @@
             case 0 :
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile1Cell", for: indexPath) as! profile1Cell
-                cell.contentView.backgroundColor = grayColor
+                cell.contentView.backgroundColor = .grayColor
                 cell.firstProfileTitleForeGround.text = "مشخصات بازیکن"
                 
                 let url =  "\(urlClass.avatar)\((self.profileResponse?.response?.mainInfo?.avatar!)!)"
@@ -671,7 +668,7 @@
             case 1 :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profileButtonsCell", for: indexPath) as! profileButtonsCell
                 
-                cell.contentView.backgroundColor = grayColor
+                cell.contentView.backgroundColor = .grayColor
                 
                 if (self.profileResponse?.response?.mainInfo?.id!)! == UserDefaults.standard.string(forKey: "userid") ?? String() {
                     
@@ -794,7 +791,7 @@
                     cell.secondProfileTitle.AttributesOutLine(font: fonts().iPadfonts25, title: "آمار و نتایج بازی ها", strokeWidth: 8.0)
                     cell.secondProfileTitleForeGround.font = fonts().iPadfonts25
                 }
-                cell.contentView.backgroundColor = grayColor
+                cell.contentView.backgroundColor = .grayColor
                 cell.drawCount.text = "\((self.profileResponse?.response?.mainInfo?.draw_count!)!)"
                 cell.winCount.text = "\((self.profileResponse?.response?.mainInfo?.win_count!)!)"
                 cell.loseCount.text = "\((self.profileResponse?.response?.mainInfo?.lose_count!)!)"
@@ -804,7 +801,7 @@
                 
             case 4 :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile3Cell", for: indexPath) as! profile3Cell
-                cell.contentView.backgroundColor = grayColor
+                cell.contentView.backgroundColor = .grayColor
                 cell.maximumScores.text = "\((self.profileResponse?.response?.mainInfo?.max_point!)!)"
                 cell.maximumWinCount.text = "\((self.profileResponse?.response?.mainInfo?.max_wins_count!)!)"
                 cell.thirdProfileTitleForeGround.text = "آمار و نتایج جام های حذفی"
@@ -819,7 +816,7 @@
                 
             default :
                 let cell = tableView.dequeueReusableCell(withIdentifier: "profile4Cell", for: indexPath) as! profile4Cell
-                cell.contentView.backgroundColor = grayColor
+                cell.contentView.backgroundColor = .grayColor
                 cell.fourthProfileTitleForeGround.text = "استادیوم"
                 if UIDevice().userInterfaceIdiom == .phone {
                     cell.fourthProfileTitle.AttributesOutLine(font: fonts().iPhonefonts18, title: "استادیوم", strokeWidth: 8.0)
@@ -846,6 +843,7 @@
             
         default:
             if indexPath.row == 0 {
+                
                 
                 if (login.res?.response?.mainInfo?.email!)!.contains("@gmail.com") {
                     
