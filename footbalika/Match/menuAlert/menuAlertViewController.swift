@@ -137,6 +137,9 @@ class menuAlertViewController: UIViewController {
         } else {
             if let requestUrl = NSURL(string: "https://new.sibapp.com/applications/footbalika") {
                 UIApplication.shared.openURL(requestUrl as URL)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    exit(0)
+                }
             }
         }
 }

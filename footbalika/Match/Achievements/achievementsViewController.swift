@@ -252,7 +252,7 @@
         self.tournament.backgroundColor = UIColor.white
         self.leagues.backgroundColor = colors().lightBrownBackGroundColor
         self.predict3Month.backgroundColor = colors().lightBrownBackGroundColor
-        self.leaderBoardState = "TOURNAMENT"
+        self.leaderBoardState = "PREDICTION_CLANSCORES"
         leaderBoardJson()
     }
     
@@ -407,6 +407,8 @@
                 cell.moneyImage.isHidden = false
             }
             
+            
+            
             cell.acievementTitleForeGround.text = "\((loadingAchievements.res?.response?[indexPath.row].title!)!)"
             
             let intProgress = Int((loadingAchievements.res?.response?[indexPath.row].progress)!)!
@@ -455,6 +457,33 @@
             return cell
             
         case "LeaderBoard":
+            
+            if self.leaderBoardState == "PREDICTION_CLANSCORES" {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "clanGroupsCell", for: indexPath) as! clanGroupsCell
+
+                cell.cupImage.image = publicImages().clanCup
+                if let url = self.res?.response?[indexPath.row].avatar {
+                    cell.clanImage.setImageWithKingFisher(url: urls().clan + "\(url)")
+                }
+                
+                if let clanName = self.res?.response?[indexPath.row].username {
+                    cell.clanName.text = clanName
+                }
+                
+                if let clanCups = self.res?.response?[indexPath.row].cups {
+                    cell.clanCup.text = clanCups
+                }
+                
+                if let clanMembers = self.res?.response?[indexPath.row].score {
+                    cell.clanMembers.text = "\(clanMembers) / 11"
+                }
+                
+                cell.clanSelect.isHidden = false
+                cell.clanSelect.tag = indexPath.row
+                cell.clanSelect.addTarget(self, action: #selector(selectClan), for: UIControlEvents.touchUpInside)
+                
+                return cell
+            } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "leaderBoardCell", for: indexPath) as! leaderBoardCell
             
             cell.number.text = "\(indexPath.row + 1)"
@@ -491,7 +520,7 @@
                 cell.cupImage.image = UIImage(named: "ic_cup")
                 cell.playerCup.textAlignment = .center
                 cell.playerCup.text = "\((self.res?.response?[indexPath.row].cups!)!)"
-            } else if self.leaderBoardState == "TOURNAMENT" {
+            } else if self.leaderBoardState == "PREDICTION_CLANSCORES" {
                 cell.cupImage.image = UIImage(named: "ic_gem")
                 cell.playerCup.textAlignment = .center
                 if self.res?.response?[indexPath.row].gem != nil {
@@ -505,7 +534,7 @@
             
             return cell
             
-            
+            }
         case "friendsList" :
             
             if achievementCount == 0 {
@@ -909,7 +938,20 @@
         
     }
     
+    @objc func selectClan(_ sender : UIButton!) {
+        if pageState == "LeaderBoard" {
+            if self.leaderBoardState == "PREDICTION_CLANSCORES" {
+                if let id = self.res?.response?[sender.tag].id {
+                    self.clanId = id
+                    self.isComeFromGropPage = false
+                    self.performSegue(withIdentifier: "showProfileGroup", sender: self)
+                }
+            }
+        }
+    }
+    
     @objc func showGroup() {
+        self.clanId = (self.profileResponse?.response?.calnData?.clanid!)!
         self.performSegue(withIdentifier: "showProfileGroup", sender: self)
     }
     
@@ -1359,8 +1401,8 @@
             if UIDevice().userInterfaceIdiom == .phone {
                 if self.leaderBoardState == "MAIN_LEADERBORAD" {
                     return 70
-                } else if self.leaderBoardState == "TOURNAMENT" {
-                    return 100
+                } else if self.leaderBoardState == "PREDICTION_CLANSCORES" {
+                    return 70
                 } else {
                     return 70
                 }
@@ -1633,11 +1675,14 @@
         }
         
         if let vc = segue.destination as? groupDetailViewController {
-            vc.id = (self.profileResponse?.response?.calnData?.clanid!)!
+            vc.id = self.clanId
             vc.isComeFromProfile = true
+            vc.isComeFromGropPage = self.isComeFromGropPage
         }
     }
     
+    var isComeFromGropPage = true
+    var clanId = String()
     var isSignUp = Bool()
     @objc func signUp() {
         self.isSignUp = true

@@ -14,6 +14,8 @@ class googleSignOutCell: UITableViewCell {
     @IBOutlet weak var userEmailForeGround: UILabel!
     @IBOutlet weak var signOut: RoundButton!
     
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

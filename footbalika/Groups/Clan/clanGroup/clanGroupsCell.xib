@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,28 +28,28 @@
                         <rect key="frame" x="5" y="5" width="362" height="61.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="challenges" translatesAutoresizingMaskIntoConstraints="NO" id="Bdl-Si-dTN">
-                                <rect key="frame" x="307.5" y="6.5" width="49.5" height="49.5"/>
+                                <rect key="frame" x="308" y="6" width="49" height="49.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Bdl-Si-dTN" secondAttribute="height" multiplier="1:1" id="9qC-i1-J7l"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="نام کلن" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l2T-cq-2G8">
-                                <rect key="frame" x="174" y="19.5" width="128.5" height="23.5"/>
+                                <rect key="frame" x="172.5" y="19" width="130.5" height="23.5"/>
                                 <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F4a-GS-RNv" customClass="DesignableView" customModule="footbalika" customModuleProvider="target">
-                                <rect key="frame" x="10" y="6.5" width="74.5" height="49.5"/>
+                                <rect key="frame" x="10" y="6" width="74" height="49.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cup" translatesAutoresizingMaskIntoConstraints="NO" id="5xm-U8-XJG">
-                                        <rect key="frame" x="3" y="14" width="23" height="22.5"/>
+                                        <rect key="frame" x="3" y="13.5" width="22.5" height="22.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="5xm-U8-XJG" secondAttribute="height" multiplier="1:1" id="sXU-H7-Wjy"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSA-wG-NZ2">
-                                        <rect key="frame" x="27.5" y="13" width="44" height="23.5"/>
+                                        <rect key="frame" x="27" y="13" width="44" height="23.5"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="15"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -92,22 +90,28 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="UMr-4B-10a">
-                                <rect key="frame" x="94.5" y="6" width="74.5" height="49.5"/>
+                                <rect key="frame" x="94" y="6" width="73.5" height="49.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="تعداد اعضاء" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8E-jW-emz">
-                                        <rect key="frame" x="0.0" y="0.0" width="74.5" height="25"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="73.5" height="25"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                         <color key="textColor" red="0.63137254899999995" green="0.66666666669999997" blue="0.69019607839999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11/0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYn-EE-xqP">
-                                        <rect key="frame" x="0.0" y="25" width="74.5" height="24.5"/>
+                                        <rect key="frame" x="0.0" y="25" width="73.5" height="24.5"/>
                                         <fontDescription key="fontDescription" name="DPA_Game-DPA_Game" family="DPA_Game" pointSize="14"/>
                                         <color key="textColor" red="0.094117647058823528" green="0.097542226314544678" blue="0.10609935224056244" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="btB-5F-yZZ" customClass="RoundButton" customModule="footbalika" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="362" height="61.5"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="cornerEdgesAllow" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.95686274509803926" green="0.96078431372549022" blue="0.94509803921568625" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -115,10 +119,14 @@
                             <constraint firstItem="l2T-cq-2G8" firstAttribute="leading" secondItem="UMr-4B-10a" secondAttribute="trailing" constant="5" id="4yM-x2-F9N"/>
                             <constraint firstItem="l2T-cq-2G8" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="6He-CV-fTA"/>
                             <constraint firstItem="Bdl-Si-dTN" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="JDk-jE-65x"/>
+                            <constraint firstItem="btB-5F-yZZ" firstAttribute="height" secondItem="8eS-g2-KZu" secondAttribute="height" id="LKE-BU-bRq"/>
                             <constraint firstItem="UMr-4B-10a" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="NHK-2a-KNG"/>
                             <constraint firstItem="UMr-4B-10a" firstAttribute="width" secondItem="F4a-GS-RNv" secondAttribute="width" id="NKe-TR-f6N"/>
+                            <constraint firstItem="btB-5F-yZZ" firstAttribute="width" secondItem="8eS-g2-KZu" secondAttribute="width" id="PwG-4C-fD5"/>
                             <constraint firstItem="Bdl-Si-dTN" firstAttribute="leading" secondItem="l2T-cq-2G8" secondAttribute="trailing" constant="5" id="QP7-rq-DZy"/>
                             <constraint firstItem="UMr-4B-10a" firstAttribute="height" secondItem="F4a-GS-RNv" secondAttribute="height" id="TBx-iI-nlx"/>
+                            <constraint firstItem="btB-5F-yZZ" firstAttribute="centerX" secondItem="8eS-g2-KZu" secondAttribute="centerX" id="UNs-Hv-UCc"/>
+                            <constraint firstItem="btB-5F-yZZ" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="ZfB-vr-Zvn"/>
                             <constraint firstItem="UMr-4B-10a" firstAttribute="leading" secondItem="F4a-GS-RNv" secondAttribute="trailing" constant="10" id="fDF-Uk-Ecs"/>
                             <constraint firstItem="F4a-GS-RNv" firstAttribute="centerY" secondItem="8eS-g2-KZu" secondAttribute="centerY" id="h4L-AT-kMo"/>
                             <constraint firstItem="F4a-GS-RNv" firstAttribute="leading" secondItem="8eS-g2-KZu" secondAttribute="leading" constant="10" id="jVY-KM-maT"/>
@@ -167,8 +175,10 @@
                 <outlet property="clanImage" destination="Bdl-Si-dTN" id="PSY-62-8xV"/>
                 <outlet property="clanMembers" destination="RYn-EE-xqP" id="dNp-mi-rfo"/>
                 <outlet property="clanName" destination="l2T-cq-2G8" id="k3t-MV-rqG"/>
+                <outlet property="clanSelect" destination="btB-5F-yZZ" id="JoE-fl-9hu"/>
+                <outlet property="cupImage" destination="5xm-U8-XJG" id="0hE-Hl-JQ6"/>
             </connections>
-            <point key="canvasLocation" x="111" y="114"/>
+            <point key="canvasLocation" x="110.40000000000001" y="113.3433283358321"/>
         </tableViewCell>
     </objects>
     <resources>

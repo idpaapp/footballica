@@ -75,6 +75,7 @@ public class publicImages {
     public var badge = UIImage(named: "ic_grade_badge")
     public var yellowButton = UIImage(named: "action_back_btn_height")
     public var giftImage = UIImage(named: "ic_gift_blue")
+    public var clanCup = UIImage(named : "clan_cup")
 }
 
 public class fonts {

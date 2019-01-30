@@ -30,7 +30,6 @@ class achievementsCell: UITableViewCell {
     @IBOutlet weak var achievementImage: UIImageView!
     
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -50,6 +49,7 @@ class achievementsCell: UITableViewCell {
         self.progressTitle.adjustsFontSizeToFitWidth = true
         self.progressTitleForeGround.minimumScaleFactor = 0.5
         self.progressTitleForeGround.adjustsFontSizeToFitWidth = true
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -36,6 +36,7 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
     let urlClass = urls()
     var menuState = String()
     var isComeFromProfile = Bool()
+    var isComeFromGropPage = true
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -448,17 +449,36 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                             self.delegate?.joinOrLeaveGroup(state : "join" , clan_id : self.id)
                         })
                     } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
-                        self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
+                        if self.isComeFromGropPage {
+                            self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
+                        } else {
+                            self.alertBody = "شما کاپ مورد نیاز را ندارید!"
+                            self.performSegue(withIdentifier: "clanAlert", sender: self)
+                        }
 
                     } else if ((Res)!).contains("USER_HAS_CLAN") {
-                        
+                        if self.isComeFromGropPage {
                         self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+                        } else {
+                            self.alertBody = "شما عضو یک گروه هستید!"
+                            self.performSegue(withIdentifier: "clanAlert", sender: self)
+                        }
    
                     }  else if ((Res)!).contains("CLAN_IS_FULL") {
+                        if self.isComeFromGropPage {
                         self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+                        } else {
+                            self.alertBody = "ظرفیت گروه تکمیل است!"
+                            self.performSegue(withIdentifier: "clanAlert", sender: self)
+                        }
                         
                     } else {
+                        if self.isComeFromGropPage {
                         self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
+                        } else {
+                            self.alertBody = "شما مجاز به انجام این کار نیستید!"
+                            self.performSegue(withIdentifier: "clanAlert", sender: self)
+                        }
 
                     }
                     
@@ -492,7 +512,9 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
         } else {
             
             if (self.res?.response?.clanMembers?.count)! == 11 {
-                self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+//                self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+                self.alertBody = "ظرفیت گروه تکمیل است!"
+                self.performSegue(withIdentifier: "clanAlert", sender: self)
             } else {
             PubProc.HandleDataBase.readJson(wsName: "ws_handleClan", JSONStr: "{'mode' : 'JOIN_REQUEST_CLAN' , 'user_id' : '\(matchViewController.userid)' , 'clan_id' : '\(id)' }") { data, error in
                 
@@ -514,24 +536,52 @@ class groupDetailViewController: UIViewController , UICollectionViewDelegate , U
                                 self.delegate?.joinOrLeaveGroup(state : "join" , clan_id : self.id)
                             })
                         } else if ((Res)!).contains("NO_REQUIRE_TROPHY") {
-                            self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
+                            if self.isComeFromGropPage {
+                                self.delegate?.joinOrLeaveGroup(state : "NO_REQUIRE_TROPHY" , clan_id : self.id)
+                            } else {
+                                self.alertBody = "شما کاپ مورد نیاز را ندارید!"
+                                self.performSegue(withIdentifier: "clanAlert", sender: self)
+                            }
 
                         } else if ((Res)!).contains("USER_HAS_CLAN") {
-                            
-                            self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+                            if self.isComeFromGropPage {
+                                self.delegate?.joinOrLeaveGroup(state : "USER_HAS_CLAN" , clan_id : self.id)
+                            } else {
+                                self.alertBody = "شما عضو یک گروه هستید!"
+                                self.performSegue(withIdentifier: "clanAlert", sender: self)
+                            }
 
                             
                         }  else if ((Res)!).contains("CLAN_IS_FULL") {
-                            self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+                            if self.isComeFromGropPage {
+                                self.delegate?.joinOrLeaveGroup(state : "CLAN_IS_FULL" , clan_id : self.id)
+                            } else {
+                                self.alertBody = "ظرفیت گروه تکمیل است!"
+                                self.performSegue(withIdentifier: "clanAlert", sender: self)
+                            }
                             
                         } else if ((Res)!).contains("REQUEST_SENT") {
+                            if self.isComeFromGropPage {
                                 self.delegate?.joinOrLeaveGroup(state : "REQUEST_SENT" , clan_id : self.id)
+                            } else {
+                                self.alertBody = "درخواست عضویت ارسال شد!"
+                                self.performSegue(withIdentifier: "clanAlert", sender: self)
+                            }
                             
                         } else if ((Res)!).contains("REQUEST_SENT_BEFORE") {
-                            self.delegate?.joinOrLeaveGroup(state : "REQUEST_SENT_BEFORE" , clan_id : self.id)
-                            
+                            if self.isComeFromGropPage {
+                                self.delegate?.joinOrLeaveGroup(state : "REQUEST_SENT_BEFORE" , clan_id : self.id)
+                            } else {
+                                self.alertBody = "درخواست عضویت قبلاً ارسال شده است!"
+                                self.performSegue(withIdentifier: "clanAlert", sender: self)
+                            }
                         } else {
-                            self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
+                            if self.isComeFromGropPage {
+                                self.delegate?.joinOrLeaveGroup(state : "REQUEST_EXPIRED" , clan_id : self.id)
+                            } else {
+                                self.alertBody = "شما مجاز به انجام این کار نیستید!"
+                                self.performSegue(withIdentifier: "clanAlert", sender: self)
+                            }
 
                         }
                         

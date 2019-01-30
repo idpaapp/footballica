@@ -14,10 +14,12 @@ class clanGroupsCell: UITableViewCell {
     @IBOutlet weak var clanName: UILabel!
     @IBOutlet weak var clanMembers: UILabel!
     @IBOutlet weak var clanCup: UILabel!
+    @IBOutlet weak var cupImage: UIImageView!
+    @IBOutlet weak var clanSelect: RoundButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.clanSelect.isHidden = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
