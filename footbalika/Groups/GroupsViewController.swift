@@ -293,13 +293,9 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     }
     
     @objc func checkIsClanSelected() {
-        if login.res?.response?.calnData != nil {
-            if login.res?.response?.calnData?.clanid != nil {
+        if let clanID = login.res?.response?.calnData?.clanid {
+            self.clanId = clanID
             self.isSelectedClan = true
-            self.clanId = ((login.res?.response?.calnData?.clanid!)!)
-            } else {
-                self.isSelectedClan = false
-            }
         } else {
             self.isSelectedClan = false
         }
@@ -468,15 +464,17 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 }
                 let cell = tableView.dequeueReusableCell(withIdentifier: "friendCell", for: indexPath) as! friendCell
                 
-                let url = "\(urlClass.avatar)\((self.resUser?.response?[indexPath.row - 1].avatar!)!)"
-                
-                let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
-                if realmID.count != 0 {
-                    let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                    cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
-                } else {
-                    cell.friendAvatar.setImageWithKingFisher(url: url)
+                if let avatarUrl = self.resUser?.response?[indexPath.row - 1].avatar {
+                    let url = "\(urlClass.avatar)\(avatarUrl)"
+                    let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+                    if realmID.count != 0 {
+                        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                        cell.friendAvatar.image = UIImage(data: dataDecoded as Data)
+                    } else {
+                        cell.friendAvatar.setImageWithKingFisher(url: url)
+                    }
                 }
+                
                
                 if self.resUser?.response?[indexPath.row - 1].badge_name != nil {
                     let url2 = "\(urlClass.badge)\((self.resUser?.response?[indexPath.row - 1].badge_name!)!)"
@@ -494,8 +492,13 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                     }
                 }
                 
-                cell.friendCup.text = "\((self.resUser?.response?[indexPath.row - 1].cups!)!)"
-                cell.friendName.text = "\((self.resUser?.response?[indexPath.row - 1].username!)!)"
+                if let friendCup = self.resUser?.response?[indexPath.row - 1].cups {
+                    cell.friendCup.text = friendCup
+                }
+                if let userName = self.resUser?.response?[indexPath.row - 1].username {
+                    cell.friendName.text = userName
+                }
+                
                 cell.selectFriend.tag = indexPath.row
                 cell.selectFriend.addTarget(self, action: #selector(selectingProfile), for: UIControlEvents.touchUpInside)
                 cell.selectFriendName.tag = indexPath.row
@@ -534,9 +537,13 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
                 }
             }
         }
-            print("\((GroupsViewController.friendsRes?.response?[indexPath.row].id!)!)")
-        cell.friendCup.text = "\((GroupsViewController.friendsRes?.response?[indexPath.row].cups!)!)"
-        cell.friendName.text = "\((GroupsViewController.friendsRes?.response?[indexPath.row].username!)!)"
+            if let cups = GroupsViewController.friendsRes?.response?[indexPath.row].cups {
+                cell.friendCup.text = cups
+            }
+            
+            if let userName = GroupsViewController.friendsRes?.response?[indexPath.row].username {
+                cell.friendName.text = userName
+            }
         cell.selectFriend.tag = indexPath.row
         cell.selectFriend.addTarget(self, action: #selector(selectingProfile), for: UIControlEvents.touchUpInside)
         cell.selectFriendName.tag = indexPath.row
@@ -595,10 +602,14 @@ class GroupsViewController: UIViewController , UITableViewDelegate , UITableView
     @objc func selectingProfile(_ sender : UIButton!) {
             self.selectedProfile = sender.tag
             if self.state == "searchList" {
-                self.self.getProfile(userid: ((self.resUser?.response?[self.selectedProfile - 1].id!)!), isGroupDetail: false, completionHandler: {})
+                if let ID = self.resUser?.response?[self.selectedProfile - 1].id {
+                    self.self.getProfile(userid: ID, isGroupDetail: false, completionHandler: {})
+                }
 //        self.performSegue(withIdentifier: "showUserProfile", sender: self)
             } else {
-                self.getProfile(userid: (GroupsViewController.friendsRes?.response?[self.selectedProfile].friend_id!)!, isGroupDetail: false, completionHandler: {})
+                if let friendId = GroupsViewController.friendsRes?.response?[self.selectedProfile].friend_id {
+                    self.getProfile(userid: friendId, isGroupDetail: false, completionHandler: {})
+                }
         }
     }
     

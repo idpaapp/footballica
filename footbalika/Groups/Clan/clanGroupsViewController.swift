@@ -31,7 +31,9 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     @objc func enterCreatedGroup() {
         login().loging(userid : "\(matchViewController.userid)", rest: false, completionHandler: {
             DispatchQueue.main.async {
-                self.clanID = "\((login.res?.response?.calnData?.clanid!)!)"
+                if let clanId = login.res?.response?.calnData?.clanid {
+                    self.clanID = clanId
+                }
                 self.getChatroomData(isChatSend: false, completionHandler: {})
                 self.ChangeclanState()
             }
@@ -39,7 +41,7 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
     }
     
     @IBAction func selectGroup(_ sender: RoundButton) {
-        if login.res?.response?.calnData?.clanid != nil {
+        if (login.res?.response?.calnData?.clanid) != nil {
             self.delegate?.showGroupInfo(id : "\(self.clanID)")
         }
     }
@@ -127,9 +129,15 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     self.clansTV.reloadData()
                 }
             }
-            self.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\((login.res?.response?.calnData?.caln_logo!)!)")
-            self.clanTitle.text = "\((login.res?.response?.calnData?.clan_title!)!)"
-            self.clanCup.text = "\((login.res?.response?.calnData?.clan_point!)!)"
+            if let clanLogo = login.res?.response?.calnData?.caln_logo {
+                self.clanImage.setImageWithKingFisher(url: "\(urlClass.clan)\(clanLogo)")
+            }
+            if let clanTitle = login.res?.response?.calnData?.clan_title {
+                self.clanTitle.text = clanTitle
+            }
+            if let clanCup = login.res?.response?.calnData?.clan_point {
+                self.clanCup.text = clanCup
+            }
         }
     }
     
@@ -180,14 +188,16 @@ class clanGroupsViewController: UIViewController , UITextFieldDelegate , clanDet
                     let cell = tableView.dequeueReusableCell(withIdentifier: "currentUserCell", for: indexPath) as! currentUserCell
                     
                     //                    let url = "\(urlClass.avatar)\((login.res?.response?.mainInfo?.avatar!)!)"
-                    let url = "\(urlClass.avatar)\((self.chatRes?.response?[indexPath.row].avatar!)!)"
-                    
-                    let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
-                    if realmID.count != 0 {
-                        let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
-                        cell.currentUserButton.setImage(UIImage(data: dataDecoded as Data), for: .normal)
-                    } else {
-                        cell.currentUserButton.setImageWithKingFisher(url: url)
+                    if let avatarUrl = self.chatRes?.response?[indexPath.row].avatar {
+                        let url = "\(urlClass.avatar)\(avatarUrl)"
+                        
+                        let realmID = self.realm.objects(tblShop.self).filter("image_path == '\(url)'")
+                        if realmID.count != 0 {
+                            let dataDecoded:NSData = NSData(base64Encoded: (realmID.first?.img_base64)!, options: NSData.Base64DecodingOptions(rawValue: 0))!
+                            cell.currentUserButton.setImage(UIImage(data: dataDecoded as Data), for: .normal)
+                        } else {
+                            cell.currentUserButton.setImageWithKingFisher(url: url)
+                        }
                     }
                     
                     let date = "\((self.chatRes?.response?[indexPath.row].p_due_date!)!)"
